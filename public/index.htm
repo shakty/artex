@@ -1,93 +1,115 @@
 <!doctype html>
 <title>Art Exhibition Game</title>
-<!-- <link rel="stylesheet" type="text/css" href="http://localhost:8080/stylesheets/reset.css"> -->
-<link rel="stylesheet" type="text/css" href="/stylesheets/player.css"> 
-<link rel="stylesheet" type="text/css" href="/PR3/html/css/main.css"> 
-<!-- JQUERY UI STARTS -->
-<link type="text/css" href="/PR3/lib/jqueryui/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />
-<script src="/PR3/lib/jqueryui/js/jquery-1.7.2.min.js" charset="utf-8"></script>
-<script src="/PR3/lib/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
-<!-- JQUERY UI ENDS -->
-
-<!-- Shelf.JS STARTS -->
-<!--  <script src="/PR/lib/cycle.js" charset="utf-8"></script>  -->
-<!--  <script src="/PR/lib/shelf.js" charset="utf-8"></script> -->
-<!-- <script src="/javascripts/shelf-browser.js " charset="utf-8"></script> --> 
-<!-- Shelf.JS ENDS -->
-
-<!-- nodeGame starts -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- Loading  nodeGame libraries and CSS -->
 <script src="/socket.io/socket.io.js"></script>
 <script src="/javascripts/nodegame-full.js" charset="utf-8"></script>
-<!-- <script src="/javascripts/nodegame-jsus.min.js" charset="utf-8"></script>
-<script src="/javascripts/nodegame-nddb.min.js" charset="utf-8"></script>
-<script src="/javascripts/nodegame-bare.min.js" charset="utf-8"></script>
-<script src="/javascripts/nodegame-addons.min.js" charset="utf-8"></script>
-<script src="/javascripts/nodegame-window.min.js" charset="utf-8"></script>
-<script src="/javascripts/nodegame-widgets.min.js" charset="utf-8"></script> -->
-<!-- nodeGame ends -->
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap.min.css" />
+<link rel='stylesheet' href='/stylesheets/nodegame.css'></link>
+<link rel='stylesheet' href='/stylesheets/fullheight.css'></link>
+<link rel='stylesheet' href='/stylesheets/noscript.css'></link>
+<link rel='stylesheet' href='css/index.css'></link>
+<!-- end -->
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/player.css"> 
+<link rel="stylesheet" type="text/css" href="html/css/main.css"> 
+
+<!-- JQUERY UI STARTS -->
+<link type="text/css" href="/PR3/lib/jqueryui/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />
+<script src="lib/jqueryui/js/jquery-1.7.2.min.js" charset="utf-8"></script>
+<script src="lib/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
+<!-- JQUERY UI ENDS -->
 
 
 
 <!-- PR starts -->
-<script src="/PR3/pr.client.js" charset="utf-8"></script>
+<!-- <script src="/PR3/pr.client.js" charset="utf-8"></script> -->
 <!-- PR ends -->
-<!-- <iframe id="mainframe" name="mainframe"></iframe> -->
 <body>
 <script>
-  	window.onload = function(){
-	
-  		var pc = JSUS.getQueryString('n');
-  		
-  		if (!pc || pc < 2 || pc > 10) {
-  			alert('Oopps! Something went wrong. Please contact the experimenter.');
-  			throw new Exception();
-  		}
-  		
-  		var color = (pc < 5) ? "green" : (pc < 8) ? "red" : "black"; 
-  		
-  		var names = ['Johnson', 
-  		             'Jackson',
-  		             'Kerry',
-  		             'Michaelson',
-  		             'McCotton',
-  		             'Bradbury',
-  		             'Howard',
-  		             'Walbright',
-  		             'Chestner',
-  		            ];
-  		
-  		var name = names[pc-2];
-  		
-			// Create the Client		
-			var conf = {
-				url: "/pr",
-				//verbosity: 10,
-				io: {				 
-		  	  reconnect: false,
-				},
-				window: {
-					promptOnleave: false,
-				},
-				player: {
-					pc: pc,
-					color: color,
-					name: name, //"P_" + Math.floor(Math.random()*1000),
-				},
-				env: {
-					auto: false,
-					debug: true,
-					review_select: true,
-					review_random: false,
-					coo: false,
-					com: true,
-				},
-				events: {
-					history: false,
-				}
-			};
-	
-	    node.play(conf, new PeerReviewGame()); 
+ window.onload = function () {
+    // Configuring nodegame.
+    // All these properties can get overwritten by remoteSetup from server.
+    node.setup('nodegame', {
+      // HOST needs to be specified only
+      // if this file is located in another server
+      // host: http://myserver.com,
+      verbosity: 10,
+      window: {
+        promptOnleave: false,
+        noEscape: true // Defaults TRUE
+      },
+      env: {
+        auto: false,
+        debug: false
+      },
+      events: {
+        dumpEvents: false, // output to console all fired events
+        history: false // keep a record of all fired events
+      },
+      socket: {
+        type: 'SocketIo', // for remote connections
+        reconnect: false
+      }
+    });
+
+    // Connecting to waiting room.
+    node.connect("/artex");
     
-	}
+  }
+//   	window.onload = function(){
+// 	
+//   		var pc = JSUS.getQueryString('n');
+//   		
+//   		if (!pc || pc < 2 || pc > 10) {
+//   			alert('Oopps! Something went wrong. Please contact the experimenter.');
+//   			throw new Exception();
+//   		}
+//   		
+//   		var color = (pc < 5) ? "green" : (pc < 8) ? "red" : "black"; 
+//   		
+//   		var names = ['Johnson', 
+//   		             'Jackson',
+//   		             'Kerry',
+//   		             'Michaelson',
+//   		             'McCotton',
+//   		             'Bradbury',
+//   		             'Howard',
+//   		             'Walbright',
+//   		             'Chestner',
+//   		            ];
+//   		
+//   		var name = names[pc-2];
+//   		
+// 			// Create the Client		
+// 			var conf = {
+// 				url: "/pr",
+// 				//verbosity: 10,
+// 				io: {				 
+// 		  	  reconnect: false,
+// 				},
+// 				window: {
+// 					promptOnleave: false,
+// 				},
+// 				player: {
+// 					pc: pc,
+// 					color: color,
+// 					name: name, //"P_" + Math.floor(Math.random()*1000),
+// 				},
+// 				env: {
+// 					auto: false,
+// 					debug: true,
+// 					review_select: true,
+// 					review_random: false,
+// 					coo: false,
+// 					com: true,
+// 				},
+// 				events: {
+// 					history: false,
+// 				}
+// 			};
+// 	
+// 	    node.play(conf, new PeerReviewGame());    
+//	}
 </script>
 </body>

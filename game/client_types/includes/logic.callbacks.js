@@ -9,18 +9,19 @@
 var ngc = require('nodegame-client');
 var GameStage = ngc.GameStage;
 var J = ngc.JSUS;
-var path = require('path');
 var fs = require('fs');
-
-var DUMP_DIR, DUMP_DIR_JSON, DUMP_DIR_CSV;
+var RMatcher = require('./server/RMatcher');
 
 module.exports = {
     init: init,
     gameover: gameover,
-    doMatch: doMatch,
+    instructions: instructions,
+    quiz: quiz,
+    creation: creation,
+    evaluation: evaluation,
+    dissemination: dissemination,
+    questionnaire: questionnaire,
     endgame: endgame,
-    feedback: feedback,
-    totalpayoff: totalpayoff,
     notEnoughPlayers: notEnoughPlayers
 };
 
@@ -36,80 +37,28 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 
 function init() {
-    DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
-    
-//     DUMP_DIR_JSON = DUMP_DIR + 'json/';
-//     DUMP_DIR_CSV = DUMP_DIR + 'csv/';
-// 
-//     // Recursively create directories, sub-trees and all.
-//     J.mkdirSyncRecursive(DUMP_DIR_JSON, 0777);
-//     J.mkdirSyncRecursive(DUMP_DIR_CSV, 0777);
 
-    J.mkdirSyncRecursive(DUMP_DIR, 0777);
+    this.threshold = 5;
+    this.reviewers = 3;
 
-    console.log('********************** artex room ' + counter++ +
-                ' **********************');
-
-    var COINS = settings.COINS;
-
-    node.game.lastStage = node.game.getCurrentGameStage();
-
-    node.game.gameTerminated = false;
-
-    // If players disconnects and then re-connects within the same round
-    // we need to take into account only the final bids within that round.
-    node.game.lastBids = {};
-
-    // "STEPPING" is the last event emitted before the stage is updated.
-    node.on('STEPPING', function() {
-        var currentStage, db, p, gain, prefix;
-
-        currentStage = node.game.getCurrentGameStage();
-
-        // We do not save stage 0.0.0.
-        // Morever, If the last stage is equal to the current one, we are
-        // re-playing the same stage cause of a reconnection. In this
-        // case we do not update the database, or save files.
-        if (!GameStage.compare(currentStage, new GameStage())) {// ||
-            //!GameStage.compare(currentStage, node.game.lastStage)) {
-            return;
-        }
-        // Update last stage reference.
-        node.game.lastStage = currentStage;
-
-        for (p in node.game.lastBids) {
-            if (node.game.lastBids.hasOwnProperty(p)) {
-
-                // Respondent payoff.
-                code = channel.registry.getClient(p);
-                
-                gain = node.game.lastBids[p];
-                if (gain) {
-                    code.win = !code.win ? gain : code.win + gain;
-                    console.log('Added to ' + p + ' ' + gain + ' ECU');
-                }
-            }
-        }
-
-        db = node.game.memory.stage[currentStage];
-
-        if (db && db.size()) {
-            // Saving results to FS.
-            // node.fs.saveMemory('csv', DUMP_DIR + 'memory_' + currentStage +
-            //                   '.csv', { flags: 'w' }, db);
-            // node.fs.saveMemory('json', DUMP_DIR + 'memory_' + currentStage +
-            //                   '.nddb', null, db);
-
-            prefix = DUMP_DIR + 'memory_' + currentStage;
-            db.save(prefix + '.csv', { flags: 'w' }); 
-            db.save(prefix + '.nddb', { flags: 'w' }); 
-
-            console.log('Round data saved ', currentStage);
-        }
-
-        // Resets last bids;
-        node.game.lastBids = {};
+    node.env('com', function() {
+	node.game.payoff = 3;
     });
+
+    node.env('coo', function() {
+	node.game.payoff = 2;
+    });
+
+    this.exhibitions = {
+	A: 0,
+	B: 1,
+	C: 2,
+    };
+
+    this.last_reviews;
+    this.last_submissions;
+    this.nextround_reviewers;
+    this.plids = [];
 
     // Add session name to data in DB.
     node.game.memory.on('insert', function(o) {
@@ -162,13 +111,7 @@ function init() {
         node.remoteSetup('plot', p.id, client.plot);
         node.remoteSetup('env', p.id, client.env);
 
-        if (code.lang.name !== 'English') {
-            // If lang is different from Eng, remote setup it.
-            // TRUE: sets also the URI prefix.
-            console.log('CODE LANG SENT');
-            node.remoteSetup('lang', p.id, [code.lang, true]);
-        }
-        
+
         // Start the game on the reconnecting client.
         // Need to give step: false, because otherwise pre-caching will
         // call done() on reconnecting stage.
@@ -203,91 +146,16 @@ function init() {
         // node.remoteCommand('resume', 'ALL');
     });
 
-    // Update the Payoffs
-    node.on.data('response', function(msg) {
-        var resWin, bidWin, code, response;
-        response = msg.data;
-
-        if (response.response === 'ACCEPT') {
-            resWin = parseInt(response.value, 10);
-            bidWin = COINS - resWin;
-
-            // Save the results in a temporary variables. If the round
-            // finishes without a disconnection we will add them to the
-            // database.
-            node.game.lastBids[msg.from] = resWin;
-            node.game.lastBids[response.from] = bidWin;
-        }
-    });
 
     console.log('init');
 }
 
-function feedback() {
-    var previousStage; 
-    previousStage = node.game.plot.previous(node.game.getCurrentGameStage());
-    
-    node.game.memory.stage[previousStage].each(function(item) {
-
-        var other = item.other;
-       
-        var otherOfferItem = node.game.memory.stage[previousStage].select('player', '=', other).first();
-        var otherOffer1 =  otherOfferItem.offer1;
-        var otherOffer2 =  otherOfferItem.offer2;
-
-        node.say('OTHER_OFFER', item.player,  {offer1: otherOffer1, offer2: otherOffer2});
-    });   
+function instructions() {
+    node.game.pl.save('./out/PL.nddb');
+    node.game.plids = node.game.pl.keep('id').fetch();
+    console.log('Instructions');
 }
 
-
-function totalpayoff() {
-    var playerId, payoffs;
-    var i, len, round, other, otherOffer1, otherOffer2;
-    var out;
-    for (playerId in node.game.memory.player) {
-        payoffs = node.game.memory.player[playerId].select('offer1').fetch();
-        i = -1, len = payoffs.length;
-        out = new Array(len);
-        for ( ; ++i < len ; ) {
-            other = payoffs[i].other;
-            round = payoffs[i].stage.round;
-            other = node.game.memory.player[other]
-                .select('offer1')
-                .and('stage.round', '=', round)
-                .last();
-
-            if (!other) {
-                console.log('other not found, put def value');
-                otherOffer1 = 1;
-                otherOffer2 = 1;
-            }
-            else {
-                otherOffer1 = other.offer1;
-                otherOffer2 = other.offer2;
-            }
-
-            out[i] = {
-                myoffer1: payoffs[i].offer1,
-                myoffer2: payoffs[i].offer2,
-                otherOffer1: otherOffer1,
-                otherOffer2: otherOffer2
-            };
-        }
-        node.say('PAYOFFS', playerId, out);
-    }   
-}
-
-/*
-function totalpayoff() {
-    var playerId, payoffs;
-    for (playerId in node.game.memory.player) {
-        payoffs = node.game.memory.player[playerId].select('offer1').fetchSubObj(['offer1', 'offer2']);
-        // payoffs is an array of objects like: [{offer1: x, offer2: y}, {offer1: z, offer2, w}];
-        node.say('PAYOFFS', playerId, payoffs);
-    }
-   
-}
-*/
 
 function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' ****************');
@@ -304,46 +172,245 @@ function gameover() {
     // channel.destroyGameRoom(gameRoom.name);
 }
 
-function doMatch() {
-    var g, i, bidder, respondent, data_b, data_r;
 
-    if (node.game.pl.size() < 2) {
-        if (!this.countdown) notEnoughPlayers();
-        return;
+function quiz() {
+    console.log('Quiz');
+}
+
+function creation() {
+    console.log('creation');
+}
+
+function evaluation() {
+    var that = this;
+
+    var R =  (this.pl.length > 3) ? this.reviewers
+	: (this.pl.length > 2) ? 2 : 1;
+
+
+    var dataRound = this.memory.select('state', '=', this.previous())
+	.join('player', 'player', 'CF', 'value')
+	.select('key', '=', 'SUB');
+
+
+    var subByEx = dataRound.groupBy('value');
+
+    this.last_submissions = [[], [], []];
+    var idEx;
+    J.each(subByEx, function(e) {
+	e.each(function(s) {
+	    idEx = that.exhibitions[s.value];
+	    node.game.last_submissions[idEx].push(s.player);
+	});
+    });
+
+    var matches;
+    node.env('review_random', function(){
+	faces = dataRound.fetch();
+	matches = J.latinSquareNoSelf(faces.length, R);
+
+	for (var i=0; i < faces.length; i++) {
+	    var data = {};
+	    for (var j=0; j < matches.length; j++) {
+		var face = faces[matches[j][i]];
+
+		if (!data[face.value]) data[face.value] = [];
+
+		data[face.value].push({
+		    face: face.CF.value,
+		    from: face.player,
+		    ex: face.value,
+		});
+	    }
+
+	    // Sort by exhibition and send them
+	    J.each(['A','B','C'], function(ex){
+		if (!data[ex]) return;
+		for (var z = 0; z < data[ex].length; z++) {
+		    node.say(data[ex][z], 'CF', faces[i].player);
+		}
+	    });
+	}
+
+    });
+
+    node.env('review_select', function() {
+
+	var pool = that.nextround_reviewers;
+	var elements = that.last_submissions;
+
+	// First round.
+	if (!pool) {
+	    pool = J.map(elements, function(ex) { return [ex]; });
+        }
+
+	var rm = new RMatcher();
+	rm.init(elements, pool);
+
+	var matches = rm.match();
+
+	var data = {};
+	for (var i = 0; i < elements.length; i++) {
+	    for (var j = 0; j < elements[i].length; j++) {
+
+		for (var h = 0; h < matches[i][j].length; h++) {
+
+		    var face = dataRound.select('player', '=', elements[i][j]).first();
+		    if (!data[face.value]) data[face.value] = [];
+
+		    data = {
+			face: face.CF.value,
+			from: face.player,
+			ex: face.value,
+		    };
+		    node.say(data, 'CF', matches[i][j][h]);
+		}
+
+	    }
+
+	}
+    });
+
+    this.last_reviews = {};
+    // Build reviews index
+    node.on.data('EVA', function(msg) {
+	if (!that.last_reviews[msg.data.for]) {
+	    that.last_reviews[msg.data.for] = [];
+	}
+	that.last_reviews[msg.data.for].push(msg.data.eva);
+    });
+
+    console.log('evaluation');
+}
+
+function dissemination() {
+    var exids = ['A', 'B', 'C'];
+    var submissionRound = this.previous(2);
+
+    this.nextround_reviewers = [ [[], []], [[], []], [[], []] ];
+
+
+    // array of all the selected works (by exhibition);
+    var selected = [];
+
+    // results of the round (by author)
+    var player_results = [];
+
+    var ex, author, cf, mean, player, works, nPubs, nextRoundReviewer, player_result;
+
+    var subRound = this.memory.select('state', '=', submissionRound);
+
+    for (var i=0; i < this.last_submissions.length; i++) {
+	// Groups all the reviews for an artist
+	works = this.last_submissions[i];
+
+	// Evaluations Loop
+	for (var j=0; j < works.length; j++) {
+	    player = works[j];
+	    author = this.pl.select('id', '=', player).first();
+
+	    if (!author) {
+		node.err('No author found. This should not happen. Some results are missing.');
+		continue;
+	    }
+
+	    if (!this.last_reviews[player]) {
+		node.err('No reviews for player: ' + player + '. This should not happen. Some results are missing.');
+		continue;
+	    }
+
+	    mean = 0;
+	    J.each(this.last_reviews[player], function(r) {
+		mean+= r;
+	    });
+
+	    mean = mean / this.last_reviews[player].length;
+
+
+
+	    cf = subRound.select('player', '=', player)
+		.select('key', '=', 'CF')
+		.first().value;
+
+	    ex = exids[i];
+
+	    nextRoundReviewer = 1; // player is a submitter: second choice reviewer
+
+	    player_result = {
+		player: player,
+		author: author.name,
+		mean: mean.toFixed(2),
+		scores: this.last_reviews[player],
+		ex: ex,
+		round: submissionRound,
+		payoff: 0, // will be updated later
+	    };
+
+
+	    // Threshold
+	    if (mean > this.threshold) {
+
+		J.mixin(player_result, {
+		    cf: cf,
+		    id: author.name,
+		    round: node.game.state.toHash('S.r'),
+		    pc: author.pc,
+		    published: true,
+		});
+
+		selected.push(player_result);
+
+		// Player will be first choice as a reviewer
+		// in exhibition i
+		nextRoundReviewer = 0;
+	    }
+
+	    // Add player to the list of next reviewers for the
+	    // exhibition where he submitted / published
+	    this.nextround_reviewers[i][nextRoundReviewer].push(player);
+
+	    //console.log('Color ' + author.color + ' submitted to ' + ex + '(' + i + ') ' + 'round: ' + node.game.state.round);
+
+	    // Add results for single player
+	    player_results.push(player_result);
+	}
     }
 
-    // Method shuffle accepts one parameter to update the db, as well as
-    // returning a shuffled copy.
-    g = node.game.pl.shuffle();
+    // Dispatch exhibition results to ALL
+    node.say(selected, 'WIN_CF', 'ALL');
+    // Dispatch detailed individual results to each single player
+    J.each(player_results, function(r) {
+	node.env('com', function(){
+	    if (r.published) {
+		idEx = node.game.exhibitions[r.ex];
+		nPubs = node.game.nextround_reviewers[idEx][0].length;
+		r.payoff = (node.game.payoff / nPubs).toFixed(2);
+	    }
+	});
+	node.env('coo', function(){
+	    if (r.published) {
+		r.payoff = node.game.payoff;
+	    }
+	});
+	node.say(r, 'PLAYER_RESULT', r.player);
+    });
 
-    for (i = 0 ; i < node.game.pl.size() ; i = i + 2) {
-        bidder = g.db[i];
-        respondent = g.db[i+1];
-
-        data_b = {
-            //role: 'bidder',
-            other: respondent.id
-        };
-        data_r = {
-            //role: 'respondent',
-            other: bidder.id
-        };
-
-        console.log('Group ' + i + ': ', bidder.id, respondent.id);
-
-        // Send a message to each player with their role
-        // and the id of the other player.
-        console.log('==================== LOGIC: BIDDER is', bidder.id, 
-                    '; RESPONDENT IS', respondent.id);
-    
-        console.log(node.game.pl.size());
-        console.log(node.nodename);
-
-        node.say('BIDDER', bidder.id, data_b);
-        node.say('BIDDER', respondent.id, data_r);
-        //node.say('RESPONDENT', respondent.id, data_r);
+    // Save to file
+    var filename;
+    try {
+	filename = './out/pr_' + node.game.state.toHash('S.s.r') + '.nddb';
+	node.game.memory.save(filename);
     }
-    console.log('Matching completed.');
+    catch(e){
+	console.log(e.msg);
+    }
+
+
+    console.log('dissemination');
+}
+
+function questionnaire() {
+    console.log('Postgame');
 }
 
 function notEnoughPlayers() {
@@ -411,7 +478,7 @@ function endgame() {
     });
     bonusFile.write(["access", "exit", "bonus", "terminated"].join(', ') + '\n');
     bonus.forEach(function(v) {
-        bonusFile.write(v.join(', ') + '\n'); 
+        bonusFile.write(v.join(', ') + '\n');
     });
     bonusFile.end();
 

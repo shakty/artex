@@ -31,8 +31,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Increment counter.
     counter = counter ? ++counter : settings.SESSION_ID;
 
-    delete require.cache[require.resolve(__dirname + '/includes/logic.callbacks.js')]
-
     // Import other functions used in the game.
     // Some objects are shared.
     var cbs = channel.require(__dirname + '/includes/logic.callbacks.js', {
@@ -56,42 +54,18 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cbs.notEnoughPlayers
     ]);
 
-    stager.setDefaultCallback(function() {});
-
-    stager.extendStep('selectLanguage', {
-        cb: function() {
-            // Storing the language setting.
-            node.on.data('mylang', function(msg) {
-                if (msg.data && msg.data.name !== 'English') {
-                    channel.registry.updateClient(msg.from, { lang: msg.data });
-                }
-            });
-        }
+    stager.extendStep('creation', {
+        cb: cbs.creation
     });
 
-    stager.extendStep('artex1', {
-        cb: function() {
-            this.node.log('Ultimatum');
-            cbs.doMatch();
-        }
+    stager.extendStep('evaluation', {
+        cb: cbs.evaluation
+    });
+
+    stager.extendStep('dissemination', {
+        cb: cbs.dissemination
     });
     
-    stager.extendStep('feedback', {
-        cb: function() {
-            this.node.log('Feedback');
-            cbs.feedback();
-        }
-    });
-
-    stager.extendStep('totalpayoff', {
-        cb: function() {
-            this.node.log('Total Payoffs');
-            cbs.totalpayoff();
-        }
-        //minPlayers: undefined,
-        //steprule: stepRules.SOLO
-    });
-
     stager.extendStep('endgame', {
         cb: cbs.endgame,
         minPlayers: undefined,

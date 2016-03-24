@@ -9,20 +9,18 @@
 module.exports = function(stager, settings) {
 
     stager
-        .next('precache')
-        .next('selectLanguage')
         .next('instructions')
         .next('quiz')
         .repeat('artex', settings.REPEAT)
         .next('questionnaire')
-        .next('totalpayoff')
         .next('endgame')
         .gameover();
-
-        stager.skip('instructions');
-        stager.skip('selectLanguage');
-        stager.skip('questionnaire');
-        stager.skip('quiz');
         
-        stager.extendStage('artex', {steps: ['artex1', 'feedback']});
+        stager.extendStage('artex', {
+            steps: [
+                'creation',
+                'evaluation',
+                'dissemination'
+            ]
+        });
 };
