@@ -153,7 +153,6 @@ function init() {
 }
 
 function instructions() {
-    node.game.pl.save('./out/PL.nddb');
     node.game.plids = node.game.pl.keep('id').fetch();
     console.log('Instructions');
 }
