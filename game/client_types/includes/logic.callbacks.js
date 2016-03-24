@@ -10,7 +10,7 @@ var ngc = require('nodegame-client');
 var GameStage = ngc.GameStage;
 var J = ngc.JSUS;
 var fs = require('fs');
-var RMatcher = require('./server/RMatcher');
+var RMatcher = require('./rmatcher');
 
 module.exports = {
     init: init,
