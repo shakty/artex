@@ -90,7 +90,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // and printed to screen, and the game will continue.
         debug: settings.DEBUG,
         // Controls the amount of information printed to screen.
-        verbosity: 1000,
+        verbosity: 0,
         // nodeGame enviroment variables.
         env: {
             auto: settings.AUTO

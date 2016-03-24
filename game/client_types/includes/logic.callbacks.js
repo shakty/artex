@@ -10,7 +10,10 @@ var ngc = require('nodegame-client');
 var GameStage = ngc.GameStage;
 var J = ngc.JSUS;
 var fs = require('fs');
+var path = require('path');
 var RMatcher = require('./rmatcher');
+
+var DUMP_DIR;
 
 module.exports = {
     init: init,
@@ -37,8 +40,7 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 
 function init() {
-
-    console.log('AAAAAAAAAAAh');
+    DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
 
     this.threshold = 5;
     this.reviewers = 3;
@@ -157,13 +159,8 @@ function instructions() {
     console.log('Instructions');
 }
 
-
 function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' ****************');
-
-    // Saving all indexes.
-    // node.fs.saveMemoryIndexes('csv', DUMP_DIR_CSV);
-    // node.fs.saveMemoryIndexes('json', DUMP_DIR_JSON);
 
     // Dump all memory.
     // node.fs.saveMemory('json', DUMP_DIR + 'memory_all.json');

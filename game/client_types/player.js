@@ -99,12 +99,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination
     });
 
-    stager.extendStep('endgame', {
-        cb: cbs.endgame
-    });
-
     stager.extendStep('questionnaire', {
-        cb: cbs.postgame,
+        cb: cbs.questionnaire,
         timer: 90000,
         // `done` is a callback function that is executed as soon as a
         // _DONE_ event is emitted. It can perform clean-up operations (such
@@ -145,18 +141,29 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    stager.extendStep('endgame', {
+        cb: cbs.endgame
+    });
+
     // We serialize the game sequence before sending it.
     game.plot = stager.getState();
 
-    // Other settings, optional.
-   
+    // Other settings, optional.   
+    
+    //auto: true = automatic run, auto: false = user input
     game.env = {
         auto: settings.AUTO,
-        treatment: treatmentName
+        review_select: !!settings.review_select,
+        review_random: !!settings.review_random,
+        com: !!settings.com,
+        coo: !!settings.coo
     };
-    game.verbosity = 0;
 
-    game.debug = settings.DEBUG;
+
+
+    game.verbosity = setup.verbosity;
+    game.debug = setup.debug;
+
     game.nodename = 'player';
 
     return game;

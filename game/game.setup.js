@@ -13,12 +13,16 @@ module.exports = function(settings, stages) {
 
     //auto: true = automatic run, auto: false = user input
     game.env = {
-        auto: false
+        auto: false,
+        review_select: !!settings.review_select,
+        review_random: !!settings.review_random,
+        com: !!settings.com,
+        coo: !!settings.coo
     };
 
-    game.debug = true;
+    game.debug = settings.DEBUG;
 
-    game.verbosity = 1;
+    game.verbosity = 0;
 
     game.window = {
         promptOnleave: !game.debug,

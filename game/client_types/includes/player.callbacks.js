@@ -13,6 +13,7 @@ module.exports = {
     creation: creation,
     evaluation: evaluation,
     dissemination: dissemination,
+    questionnaire: questionnaire,
     endgame: endgame
 };
 
@@ -61,11 +62,11 @@ function init() {
 	
 	node.game.html.creation = 'creation_SEL.html';
 	
-	node.env('coo', function(){ 
+	node.env('coo', function() { 
 	    node.game.html.q = 'questionnaire_SEL_COO.html';
 	    node.game.html.instructions = 'instructions_SEL_COO.html';
 	});
-	node.env('com', function(){ 
+	node.env('com', function() { 
 	    node.game.html.q = 'questionnaire_SEL_COM.html';
 	    node.game.html.instructions = 'instructions_SEL_COM.html';
 	});

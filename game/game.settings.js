@@ -34,22 +34,43 @@ module.exports = {
     // AUTHORIZATION.
     AUTH: 'NO', // MTURK, LOCAL, NO.
 
+    // Wait time to reconnect.
+    WAIT_TIME: 60,
+
     // Available treatments:
     // (there is also the "standard" treatment, using the options above)
     treatments: {
         
-        standard: {
-            fullName: "Standard",
+        review_select_com: {
+            fullName: "Competitive Select Reviewer",
             description:
-                "More time to wait and no peer pressure.",
-            WAIT_TIME: 60
+                "Competition.",
+            review_select: true,
+            com: true,
         },
 
-        pp: {
-            fullName: "Peer Pressure",
+        review_select_coo: {
+            fullName: "Non-Competitive Select Reviewer",
             description:
-                "Introduces peer pressure to players to not disconnect.",
-            WAIT_TIME: 30
+                "No competition.",
+            review_select: true,
+            com: false,
+        },
+
+        review_random_com: {
+            fullName: "Competitive Random Reviewer",
+            description:
+                "Competition.",
+            review_random: true,
+            com: true
+        },
+
+        review_random_coo: {
+            fullName: "Non-Competitive Random Reviewer",
+            description:
+                "No competition.",
+            review_random: true,
+            com: false
         }
     }
 
