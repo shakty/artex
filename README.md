@@ -1,2 +1,2 @@
-PR
-==
+# Art Exhibition Game
+
