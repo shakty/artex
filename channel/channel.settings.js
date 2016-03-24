@@ -1,6 +1,6 @@
 /**
- * # Channels definition file for Ultimatum Game
- * Copyright(c) 2015 Stefano Balietti
+ * # Channels definition file for Art Exhibition Game
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
  * Configurations options for channel.
@@ -12,9 +12,9 @@ module.exports = {
 
     // alias: 'game',
 
-    playerServer: 'artex',
+    // playerServer: 'artex',
 
-    adminServer: 'artex/admin',
+    // adminServer: 'artex/admin',
 
     verbosity: 100,
 
