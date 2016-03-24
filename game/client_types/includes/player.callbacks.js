@@ -59,28 +59,28 @@ function init() {
     
     node.env('review_select', function(){
 	
-	node.game.html.creation = 'html/creation_SEL.html';
+	node.game.html.creation = 'creation_SEL.html';
 	
 	node.env('coo', function(){ 
-	    node.game.html.q = 'html/questionnaire_SEL_COO.html';
-	    node.game.html.instructions = 'html/instructions_SEL_COO.html';
+	    node.game.html.q = 'questionnaire_SEL_COO.html';
+	    node.game.html.instructions = 'instructions_SEL_COO.html';
 	});
 	node.env('com', function(){ 
-	    node.game.html.q = 'html/questionnaire_SEL_COM.html';
-	    node.game.html.instructions = 'html/instructions_SEL_COM.html';
+	    node.game.html.q = 'questionnaire_SEL_COM.html';
+	    node.game.html.instructions = 'instructions_SEL_COM.html';
 	});
     });
     node.env('review_random', function(){
 	
-	node.game.html.creation = 'html/creation_RND.html';
+	node.game.html.creation = 'creation_RND.html';
 	
 	node.env('coo', function(){ 
-	    node.game.html.q = 'html/questionnaire_RND_COO.html'; // won't be played now
-	    node.game.html.instructions = 'html/instructions_RND_COO.html';
+	    node.game.html.q = 'questionnaire_RND_COO.html'; // won't be played now
+	    node.game.html.instructions = 'instructions_RND_COO.html';
 	});
 	node.env('com', function(){ 
-	    node.game.html.q = 'html/questionnaire_RND_COM.html';
-	    node.game.html.instructions = 'html/instructions_RND_COM.html';
+	    node.game.html.q = 'questionnaire_RND_COM.html';
+	    node.game.html.instructions = 'instructions_RND_COM.html';
 	});
     });
     
@@ -228,7 +228,7 @@ function instructions() {
 
 function quiz() {
     var that = this;
-    W.loadFrame('html/quiz.html', function() {
+    W.loadFrame('quiz.html', function() {
         var b, QUIZ;
         node.env('auto', function() {
             node.timer.randomExec(function() {
@@ -251,7 +251,7 @@ function creation() {
 
 
 function evaluation() {
-    W.loadFrame('html/evaluation.html');
+    W.loadFrame('evaluation.html');
     console.log('Evaluation');
 }
 
@@ -271,7 +271,7 @@ function dissemination() {
     
     table.setHeader(['A','B','C']);
     
-    W.loadFrame('html/dissemination.html', function() {
+    W.loadFrame('dissemination.html', function() {
 	
 	node.game.timer.stop();
 	
@@ -348,7 +348,7 @@ function questionnaire() {
 }
 
 function endgame() {
-    W.loadFrame('html/ended.html');    
+    W.loadFrame('ended.html');    
     console.log('Game ended');
 }
 
