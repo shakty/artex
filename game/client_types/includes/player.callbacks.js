@@ -12,7 +12,7 @@ module.exports = {
     selectLanguage: selectLanguage,
     instructions: instructions,
     quiz: quiz,
-    ultimatum: ultimatum,
+    artex: artex,
     feedback: feedback,
     totalpayoff: totalpayoff,
     postgame: postgame,
@@ -290,7 +290,7 @@ function quiz() {
     console.log('Quiz');
 }
 
-function ultimatum() {
+function artex() {
 
     //////////////////////////////////////////////
     // nodeGame hint:

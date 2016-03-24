@@ -69,7 +69,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
-    stager.extendStep('ultimatum1', {
+    stager.extendStep('artex1', {
         cb: function() {
             this.node.log('Ultimatum');
             cbs.doMatch();

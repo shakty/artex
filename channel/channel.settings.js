@@ -10,11 +10,11 @@
  */
 module.exports = {
 
-    // alias: 'u1',
+    // alias: 'game',
 
-    playerServer: 'svo',
+    playerServer: 'artex',
 
-    adminServer: 'svo/admin',
+    adminServer: 'artex/admin',
 
     verbosity: 100,
 
@@ -23,7 +23,7 @@ module.exports = {
 
     // Unauthorized clients will be redirected here.
     // (defaults: "/pages/accessdenied.htm")
-    accessDeniedUrl: '/svo/unauth.htm',
+    accessDeniedUrl: '/artex/unauth.htm',
 
     enableReconnections: true
 };

@@ -13,7 +13,7 @@ module.exports = function(stager, settings) {
         .next('selectLanguage')
         .next('instructions')
         .next('quiz')
-        .repeat('ultimatum', settings.REPEAT)
+        .repeat('artex', settings.REPEAT)
         .next('questionnaire')
         .next('totalpayoff')
         .next('endgame')
@@ -24,5 +24,5 @@ module.exports = function(stager, settings) {
         stager.skip('questionnaire');
         stager.skip('quiz');
         
-        stager.extendStage('ultimatum', {steps: ['ultimatum1', 'feedback']});
+        stager.extendStage('artex', {steps: ['artex1', 'feedback']});
 };

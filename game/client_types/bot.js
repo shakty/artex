@@ -3,7 +3,7 @@
  * Copyright(c) 2014 Stefano Balietti
  * MIT Licensed
  *
- * Code for a bot playing the ultimatum game randomly.
+ * Code for a bot playing the artex game randomly.
  * 
  * http://www.nodegame.org
  */
@@ -35,8 +35,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Set the default step rule for all the stages.
     stager.setDefaultStepRule(stepRules.WAIT);
 
-    stager.extendStep('ultimatum', {
-        cb: cbs.ultimatum
+    stager.extendStep('artex', {
+        cb: cbs.artex
     });
 
     // Prepare the game object to return.
@@ -49,9 +49,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Let's add the metadata information.
     game.metadata = {
-        name: 'ultimatum_bot',
+        name: 'artex_bot',
         version: '0.4.0',
-        description: 'Bot randomly playing the ultimatum game'
+        description: 'Bot randomly playing the artex game'
     };
 
     // Other settings, optional.

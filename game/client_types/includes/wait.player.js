@@ -53,7 +53,7 @@ function waiting2start() {
     // acquired.
     //
     /////////////////////////////////////////////
-    node.getJSON(['/ultimatum/data_example.json'], function(data) {
+    node.getJSON(['/artex/data_example.json'], function(data) {
         var root;
 
         root = W.getElementById('waitingForPlayers');

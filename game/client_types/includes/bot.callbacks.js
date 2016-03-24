@@ -9,7 +9,7 @@
 module.exports = {
 
     init: init,
-    ultimatum: ultimatum,
+    artex: artex,
 
 };
 
@@ -52,7 +52,7 @@ function init() {
     };
 }
 
-function ultimatum() {
+function artex() {
     var that, node, other;
 
     that = this;

@@ -47,7 +47,7 @@ function init() {
 
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
 
-    console.log('********************** ultimatum room ' + counter++ +
+    console.log('********************** artex room ' + counter++ +
                 ' **********************');
 
     var COINS = settings.COINS;

@@ -147,8 +147,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
-    stager.extendStep('ultimatum1', {
-        cb: cbs.ultimatum,
+    stager.extendStep('artex1', {
+        cb: cbs.artex,
         minPlayers: MIN_PLAYERS,
         // `syncOnLoaded` forces the clients to wait for all the others to be
         // fully loaded before releasing the control of the screen to the
