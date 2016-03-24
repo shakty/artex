@@ -471,7 +471,7 @@ function simulateMatch(N) {
 		
 }
 	
-simulateMatch(1000000000);
+// simulateMatch(1000000000);
 
 //var myElements = [ [ 1, 5], [ 6, 9 ], [ 2, 3, 4, 7, 8 ] ];
 //var myPools = [ [ [ ], [ 1,  5, 6, 7] ], [ [4], [ 3, 9] ], [ [], [ 2, 8] ] ];

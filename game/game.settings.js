@@ -1,6 +1,6 @@
 /**
- * # Game settings: Ultimatum Game
- * Copyright(c) 2014 Stefano Balietti
+ * # Game settings: Art Exhibition Game
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org

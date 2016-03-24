@@ -38,6 +38,8 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 function init() {
 
+    console.log('AAAAAAAAAAAh');
+
     this.threshold = 5;
     this.reviewers = 3;
 

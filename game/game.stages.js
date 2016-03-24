@@ -1,6 +1,6 @@
 /**
- * # Stages of the Ultimatum Game
- * Copyright(c) 2015 Stefano Balietti
+ * # Stages of the Art Exhibition Game
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org

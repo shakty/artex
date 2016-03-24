@@ -49,10 +49,19 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Extending default stages.
 
+
     stager.setDefaultProperty('minPlayers', [
         settings.MIN_PLAYERS,
         cbs.notEnoughPlayers
     ]);
+
+    stager.extendStep('instructions', {
+        cb: cbs.instructions
+    });
+
+    stager.extendStep('quiz', {
+        cb: cbs.quiz
+    });
 
     stager.extendStep('creation', {
         cb: cbs.creation
@@ -81,7 +90,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // and printed to screen, and the game will continue.
         debug: settings.DEBUG,
         // Controls the amount of information printed to screen.
-        verbosity: 0,
+        verbosity: 1000,
         // nodeGame enviroment variables.
         env: {
             auto: settings.AUTO
