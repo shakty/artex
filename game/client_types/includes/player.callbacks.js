@@ -35,22 +35,13 @@ function init() {
             stageOffset: 1
         });
 
-        node.game.timer = node.widgets.append('VisualTimer', header);
-        
-        W.setHeaderPosition('top');
+        node.game.timer = node.widgets.append('VisualTimer', header);                
     }
 
     // Add the main frame where the pages will be loaded.
     if (!W.getFrame()) {
         W.generateFrame();
     }
-
-    // Add default CSS.
-    if (node.conf.host) {
-        W.addCSS(W.getFrameRoot(), node.conf.host +
-                 'stylesheets/nodegame.css');
-    }
-
 
     // node.widgets.append('MoneyTalks', W.header, {
     //   currency: 'CHF', money: 10
