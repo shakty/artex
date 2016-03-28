@@ -23,4 +23,6 @@ module.exports = function(stager, settings) {
                 'dissemination'
             ]
         });
+
+    stager.skip('quiz');
 };
