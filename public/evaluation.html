@@ -58,7 +58,8 @@
       node.game.evasChanged = {}; // reset change monitor
       
       node.on.data('CF', function(msg) {
-          
+          console.log('RECEIVED CF ********************');
+
           headers.push('Review for Exhibition: ' + msg.data.ex);
           
           var cf_options = {
@@ -72,7 +73,8 @@
               controls: false
           };
           
-          var cf = node.widgets.get('ChernoffFacesSimple', cf_options);
+          //var cf = node.widgets.get('ChernoffFacesSimple', cf_options);
+          var cf = node.widgets.get('ChernoffFaces', cf_options);
           
           var evaId = 'eva_' + msg.data.from;
           var diplayEvaId = 'display_' + msg.data.from;
@@ -108,7 +110,8 @@
           });
           $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) ); 
           
-          
+          table.parse();
+
           //AUTOPLAY
           node.env('auto', function(){
               node.timer.randomExec(function() {

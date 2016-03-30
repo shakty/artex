@@ -233,8 +233,16 @@ function quiz() {
 }
 
 function creation() {
-    W.loadFrame(this.html.creation, function(){
-	node.on('CLICKED_DONE', function(){
+    W.loadFrame(this.html.creation, function() {
+        node.on('sub_done', function(ex) {
+            node.game.last_cf = node.game.cf.getAllValues();
+            node.game.last_ex = node.game.last_ex = ex;
+            node.done({
+                ex: ex,
+                cf: node.game.last_cf
+            });
+        });
+	node.on('CLICKED_DONE', function() {
 	    $( ".copyorclose" ).dialog('close');
 	    $( ".copyorclose" ).dialog('destroy');
 	});
@@ -271,7 +279,7 @@ function dissemination() {
 	node.on.data('WIN_CF', function(msg) {
 
 	    if (msg.data.length) {
-		var db = new node.NDDB(null,msg.data);
+		var db = new node.NDDB(null, msg.data);
 
 		for (var j=0; j < this.exs.length; j++) {
 		    var winners = db.select('ex', '=', this.exs[j])

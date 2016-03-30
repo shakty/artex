@@ -122,27 +122,6 @@ $(document).ready(function() {
     ////////////////////////////
     addJQuerySliders(init_sc);
 
-    
-    // NDDBBrowser commands
-    ///////////////////////
-    
-    //       var ph = node.game.personal_history = node.window.getWidget('NDDBBrowser', {id: 'ph'});
-    //       $('#cf_controls').after(ph.commandsDiv);
-    //       $('#cf_controls').after($('<span>Undo/redo changes</span>'));
-    
-    //       //Adding to history
-    //       node.on(node.game.cf.change, function() {
-    //         node.game.personal_history.add(node.game.cf.getAllValues());
-    //       });
-    
-    //       //Pulling back from history
-    //       node.on(node.game.personal_history.id + '_GOT', function(face) {
-    //         node.game.cf.draw(face);
-    //       });
-    
-    
-    //      node.game.personal_history.add(node.game.cf.getAllValues());
-    
     // History of previous exhibits
     ///////////////////////////////
     

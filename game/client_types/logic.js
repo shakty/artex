@@ -93,8 +93,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         verbosity: 0,
         // nodeGame enviroment variables.
         env: {
-            auto: settings.AUTO
+            auto: settings.AUTO,
+            review_select: !!settings.review_select,
+            review_random: !!settings.review_random,
+            com: !!settings.com,
+            coo: !!settings.coo
         }
     };
-
 };

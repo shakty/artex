@@ -41,22 +41,23 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 function init() {
     DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
+    J.mkdirSyncRecursive(DUMP_DIR, 0777);
 
     this.threshold = 5;
     this.reviewers = 3;
 
     node.env('com', function() {
-	node.game.payoff = 3;
+        node.game.payoff = 3;
     });
 
     node.env('coo', function() {
-	node.game.payoff = 2;
+        node.game.payoff = 2;
     });
 
     this.exhibitions = {
-	A: 0,
-	B: 1,
-	C: 2,
+        A: 0,
+        B: 1,
+        C: 2,
     };
 
     this.last_reviews;
@@ -163,7 +164,6 @@ function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' ****************');
 
     // Dump all memory.
-    // node.fs.saveMemory('json', DUMP_DIR + 'memory_all.json');
     node.game.memory.save(DUMP_DIR + 'memory_all.json');
 
     // TODO: fix this.
@@ -182,104 +182,110 @@ function creation() {
 function evaluation() {
     var that = this;
 
-    var R =  (this.pl.length > 3) ? this.reviewers
-	: (this.pl.length > 2) ? 2 : 1;
+    var idEx;
+    var matches;
+    var subByEx;
 
+    this.last_submissions = [[], [], []];
+
+
+    var R =  (this.pl.length > 3) ? this.reviewers
+        : (this.pl.length > 2) ? 2 : 1;
 
     var curStep = this.getCurrentGameStage();
     var prevStep = this.plot.previous(curStep);
 
-    var dataRound = this.memory
-        .select('state', '=', prevStep)
-	.join('player', 'player', 'CF', 'value')
-	.select('key', '=', 'SUB');
+    var dataRound = this.memory.stage[prevStep];
+
+//      .join('player', 'player', 'CF', 'value')
+//      .select('key', '=', 'SUB');
 
 
-    var subByEx = dataRound.groupBy('value');
 
-    this.last_submissions = [[], [], []];
-    var idEx;
+    subByEx = dataRound.groupBy('ex');
+
+
     J.each(subByEx, function(e) {
-	e.each(function(s) {
-	    idEx = that.exhibitions[s.value];
-	    node.game.last_submissions[idEx].push(s.player);
-	});
+        e.each(function(s) {
+            idEx = that.exhibitions[s.ex];
+            node.game.last_submissions[idEx].push(s.player);
+        });
     });
 
-    var matches;
-    node.env('review_random', function(){
-	faces = dataRound.fetch();
-	matches = J.latinSquareNoSelf(faces.length, R);
+    node.env('review_random', function() {
+        debugger
+        faces = dataRound.fetch();
+        matches = J.latinSquareNoSelf(faces.length, R);
 
-	for (var i=0; i < faces.length; i++) {
-	    var data = {};
-	    for (var j=0; j < matches.length; j++) {
-		var face = faces[matches[j][i]];
+        for (var i=0; i < faces.length; i++) {
+            var data = {};
+            for (var j=0; j < matches.length; j++) {
+                var face = faces[matches[j][i]];
 
-		if (!data[face.value]) data[face.value] = [];
+                if (!data[face.ex]) data[face.ex] = [];
 
-		data[face.value].push({
-		    face: face.CF.value,
-		    from: face.player,
-		    ex: face.value,
-		});
-	    }
+                data[face.ex].push({
+                    face: face.cf,
+                    from: face.player,
+                    ex: face.ex
+                });
+            }
 
-	    // Sort by exhibition and send them
-	    J.each(['A','B','C'], function(ex){
-		if (!data[ex]) return;
-		for (var z = 0; z < data[ex].length; z++) {
-		    node.say(data[ex][z], 'CF', faces[i].player);
-		}
-	    });
-	}
+            // Sort by exhibition and send them
+            J.each(['A','B','C'], function(ex){
+                if (!data[ex]) return;
+                for (var z = 0; z < data[ex].length; z++) {
+                    node.say('CF', faces[i].player, data[ex][z]);
+                }
+            });
+        }
 
     });
 
     node.env('review_select', function() {
+        debugger;
+        var pool = that.nextround_reviewers;
+        var elements = that.last_submissions;
 
-	var pool = that.nextround_reviewers;
-	var elements = that.last_submissions;
-
-	// First round.
-	if (!pool) {
-	    pool = J.map(elements, function(ex) { return [ex]; });
+        // First round.
+        if (!pool) {
+            pool = J.map(elements, function(ex) { return [ex]; });
         }
 
-	var rm = new RMatcher();
-	rm.init(elements, pool);
+        var rm = new RMatcher();
+        rm.init(elements, pool);
 
-	var matches = rm.match();
+        var matches = rm.match();
 
-	var data = {};
-	for (var i = 0; i < elements.length; i++) {
-	    for (var j = 0; j < elements[i].length; j++) {
+        var data = {};
+        for (var i = 0; i < elements.length; i++) {
+            for (var j = 0; j < elements[i].length; j++) {
 
-		for (var h = 0; h < matches[i][j].length; h++) {
+                for (var h = 0; h < matches[i][j].length; h++) {
 
-		    var face = dataRound.select('player', '=', elements[i][j]).first();
-		    if (!data[face.value]) data[face.value] = [];
+                    var face = dataRound.select('player', '=', elements[i][j]).first();
+                    if (!data[face.value]) data[face.value] = [];
 
-		    data = {
-			face: face.CF.value,
-			from: face.player,
-			ex: face.value,
-		    };
-		    node.say(data, 'CF', matches[i][j][h]);
-		}
+                    data = {
+                        face: face.CF.value,
+                        from: face.player,
+                        ex: face.value,
+                    };
+                    node.say('CF', matches[i][j][h], data);
+                }
 
-	    }
+            }
 
-	}
+        }
     });
 
     this.last_reviews = {};
     // Build reviews index
     node.on.data('EVA', function(msg) {
-	if (!that.last_reviews[msg.data.for]) {
-	    that.last_reviews[msg.data.for] = [];
-	}
-	that.last_reviews[msg.data.for].push(msg.data.eva);
+        if (!that.last_reviews[msg.data.for]) {
+            that.last_reviews[msg.data.for] = [];
+        }
+        that.last_reviews[msg.data.for].push(msg.data.eva);
     });
 
     console.log('evaluation');
@@ -300,82 +306,80 @@ function dissemination() {
 
     var ex, author, cf, mean, player, works, nPubs, nextRoundReviewer, player_result;
 
-    var subRound = this.memory.select('state', '=', submissionRound);
+    var subRound = this.memory.select('stage', '=', submissionRound);
 
     for (var i=0; i < this.last_submissions.length; i++) {
-	// Groups all the reviews for an artist
-	works = this.last_submissions[i];
+        // Groups all the reviews for an artist
+        works = this.last_submissions[i];
 
-	// Evaluations Loop
-	for (var j=0; j < works.length; j++) {
-	    player = works[j];
-	    author = this.pl.select('id', '=', player).first();
+        // Evaluations Loop
+        for (var j=0; j < works.length; j++) {
+            player = works[j];
+            author = this.pl.select('id', '=', player).first();
 
-	    if (!author) {
-		node.err('No author found. This should not happen. Some results are missing.');
-		continue;
-	    }
+            if (!author) {
+                node.err('No author found. This should not happen. Some results are missing.');
+                continue;
+            }
 
-	    if (!this.last_reviews[player]) {
-		node.err('No reviews for player: ' + player + '. This should not happen. Some results are missing.');
-		continue;
-	    }
+            if (!this.last_reviews[player]) {
+                node.err('No reviews for player: ' + player + '. This should not happen. Some results are missing.');
+                continue;
+            }
 
-	    mean = 0;
-	    J.each(this.last_reviews[player], function(r) {
-		mean+= r;
-	    });
+            mean = 0;
+            J.each(this.last_reviews[player], function(r) {
+                mean+= r;
+            });
 
-	    mean = mean / this.last_reviews[player].length;
-
-
-
-	    cf = subRound.select('player', '=', player)
-		.select('key', '=', 'CF')
-		.first().value;
-
-	    ex = exids[i];
-
-	    nextRoundReviewer = 1; // player is a submitter: second choice reviewer
-
-	    player_result = {
-		player: player,
-		author: author.name,
-		mean: mean.toFixed(2),
-		scores: this.last_reviews[player],
-		ex: ex,
-		round: submissionRound,
-		payoff: 0, // will be updated later
-	    };
+            mean = mean / this.last_reviews[player].length;
 
 
-	    // Threshold
-	    if (mean > this.threshold) {
 
-		J.mixin(player_result, {
-		    cf: cf,
-		    id: author.name,
-		    round: node.game.state.toHash('S.r'),
-		    pc: author.pc,
-		    published: true,
-		});
+            cf = subRound.select('player', '=', player)
+                .select('key', '=', 'CF')
+                .first().value;
 
-		selected.push(player_result);
+            ex = exids[i];
 
-		// Player will be first choice as a reviewer
-		// in exhibition i
-		nextRoundReviewer = 0;
-	    }
+            nextRoundReviewer = 1; // player is a submitter: second choice reviewer
 
-	    // Add player to the list of next reviewers for the
-	    // exhibition where he submitted / published
-	    this.nextround_reviewers[i][nextRoundReviewer].push(player);
+            player_result = {
+                player: player,
+                author: author.name,
+                mean: mean.toFixed(2),
+                scores: this.last_reviews[player],
+                ex: ex,
+                round: submissionRound,
+                payoff: 0, // will be updated later
+            };
 
-	    //console.log('Color ' + author.color + ' submitted to ' + ex + '(' + i + ') ' + 'round: ' + node.game.state.round);
 
-	    // Add results for single player
-	    player_results.push(player_result);
-	}
+            // Threshold
+            if (mean > this.threshold) {
+
+                J.mixin(player_result, {
+                    cf: cf,
+                    id: author.name,
+                    round: node.game.getCurrentGameStage().toHash('S.r'),
+                    pc: author.pc,
+                    published: true,
+                });
+
+                selected.push(player_result);
+
+                // Player will be first choice as a reviewer
+                // in exhibition i
+                nextRoundReviewer = 0;
+            }
+
+            // Add player to the list of next reviewers for the
+            // exhibition where he submitted / published
+            this.nextround_reviewers[i][nextRoundReviewer].push(player);
+
+            // Add results for single player
+            player_results.push(player_result);
+        }
     }
 
     // Dispatch exhibition results to ALL.
@@ -383,29 +387,29 @@ function dissemination() {
 
     // Dispatch detailed individual results to each single player.
     J.each(player_results, function(r) {
-	node.env('com', function(){
-	    if (r.published) {
-		idEx = node.game.exhibitions[r.ex];
-		nPubs = node.game.nextround_reviewers[idEx][0].length;
-		r.payoff = (node.game.payoff / nPubs).toFixed(2);
-	    }
-	});
-	node.env('coo', function(){
-	    if (r.published) {
-		r.payoff = node.game.payoff;
-	    }
-	});
-	node.say(r, 'PLAYER_RESULT', r.player);
+        node.env('com', function(){
+            if (r.published) {
+                idEx = node.game.exhibitions[r.ex];
+                nPubs = node.game.nextround_reviewers[idEx][0].length;
+                r.payoff = (node.game.payoff / nPubs).toFixed(2);
+            }
+        });
+        node.env('coo', function(){
+            if (r.published) {
+                r.payoff = node.game.payoff;
+            }
+        });
+        node.say('PLAYER_RESULT', r.player, r);
     });
 
     // Save to file
     var filename;
     try {
-	filename = './out/pr_' + node.game.state.toHash('S.s.r') + '.nddb';
-	node.game.memory.save(filename);
+        filename = './out/pr_' + node.game.getCurrentGameStage().toHash('S.s.r') + '.nddb';
+        node.game.memory.save(filename);
     }
     catch(e){
-	console.log(e.msg);
+        console.log(e.msg);
     }
 
 
