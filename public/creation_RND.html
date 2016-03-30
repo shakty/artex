@@ -40,9 +40,9 @@
   <div id="submission" style="visibility: hidden;">
     <dl id="sub_list">
       <span id="text_sub_list">Select the exhibition you want to submit your painting to:</span><br/> <br />
-      <dt><button id="ex_A" onclick="javascript:parent.node.emit('sub_done', 'A');">A</button></dt>
-      <dt><button id="ex_B" onclick="javascript:parent.node.emit('sub_done', 'B');">B</button></dt>
-      <dt><button id="ex_C" onclick="javascript:parent.node.done('sub_done', 'C');">C</button></dt>
+      <dt><button id="ex_A" onclick="javascript:parent.node.done('A');">A</button></dt>
+      <dt><button id="ex_B" onclick="javascript:parent.node.done('B');">B</button></dt>
+      <dt><button id="ex_C" onclick="javascript:parent.node.done('C');">C</button></dt>
       <br/>
       <span id="warn_sub_list">After 20 seconds an automatic submission will be done for you.</span>
     </dl>

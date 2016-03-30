@@ -1,6 +1,5 @@
-CF-evaluate
+data
 
-lib-cov
 *.seed
 *.log
 *.csv
@@ -9,10 +8,6 @@ lib-cov
 *.pid
 *.gz
 
-pids
-logs
-results
-
 node_modules
 npm-debug.log
 
@@ -20,14 +15,6 @@ npm-debug.log
 *~
 
 .tmp_*
-
-
-/analysis/data/
-/analysis/out/
-/analysis/faces/
-#/analysis/csv/
-/analysis/csv/img/*
-
 *.nddb
 *.jpg
 

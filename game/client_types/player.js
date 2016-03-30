@@ -88,11 +88,45 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('creation', {
-        cb: cbs.creation
+        cb: cbs.creation,
+	timer: {
+	    milliseconds: function() {
+		if ( node.player.stage.round < 2) return 80000;
+		if ( node.player.stage.round < 3) return 60000;
+		return 50000;
+	    },
+	    timeup: function() {
+		$('#mainframe').contents().find('#done_box button').click();
+	    }
+	},
+        done: function(ex) {
+            // TODO: Check ex?
+            $( ".copyorclose" ).dialog('close');
+            node.game.last_cf = node.game.cf.getAllValues();
+            node.game.last_ex = node.game.last_ex = ex;
+            return {
+                ex: ex,
+                cf: node.game.last_cf
+            };
+        }
     });
     
     stager.extendStep('evaluation', {
-        cb: cbs.evaluation
+        cb: cbs.evaluation,
+        done: function() {
+            var out = [];
+	    for (var i in this.evas) {
+		if (this.evas.hasOwnProperty(i)) {
+		    out.push({
+			ex: i,
+			eva: Number(this.evas[i].value),
+			hasChanged: this.evasChanged[i], 
+		    });
+		}
+	    }
+            // Making it an object, so that is is sent as a single parameter.
+	    return { reviews: out };
+        }
     });
     
     stager.extendStep('dissemination', {
@@ -108,36 +142,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // client will enter the _DONE_ stage level, and the step rule
         // will be evaluated.
         done: function() {
-            var q1, q2, q2checked, i, isTimeup;
-            q1 = W.getElementById('comment').value;
-            q2 = W.getElementById('disconnect_form');
-            q2checked = -1;
 
-            for (i = 0; i < q2.length; i++) {
-                if (q2[i].checked) {
-                    q2checked = i;
-                    break;
-                }
-            }
-
-            isTimeup = node.game.timer.isTimeup();
-
-            // If there is still some time left, let's ask the player
-            // to complete at least the second question.
-            if (q2checked === -1 && !isTimeup) {
-                alert('Please answer Question 2');
-                return false;
-            }
-
-            node.set({
-                questionnaire: true,
-                q1: q1 || '',
-                q2: q2checked
-            });
+            // TODO: do checkings, check if timeup.
 
             node.emit('INPUT_DISABLE');
-
-            return true;
         }
     });
 

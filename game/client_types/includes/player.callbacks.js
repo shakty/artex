@@ -114,7 +114,7 @@ function init() {
 	var w = 200;
 	var h = 200;
 
-	if (node.game.gameLoop.getName() == 'Creation') {
+	if (node.game.getCurrentStepObj().id == 'creation') {
 	    w = 100;
 	    h = 100;
 	}
@@ -130,16 +130,18 @@ function init() {
 		var that = this;
 		var f = that.getAllValues();
 
-		var cf_options = { id: 'cf',
-				   width: 400,
-				   height: 400,
-				   features: f,
-				   controls: false,
-				 };
+		var cf_options = {
+                    id: 'cf',
+		    width: 400,
+		    height: 400,
+		    features: f,
+		    controls: false,
+		};
 
-		var cf = node.widgets.get('ChernoffFacesSimple',
-                                          cf_options);
+		// var cf = node.widgets.get('ChernoffFacesSimple',
+                //                          cf_options);
 
+                var cf = node.widgets.get('ChernoffFaces', cf_options);
 
 		var div = $('<div class="copyorclose">');
 		$(cf.canvas).css('background', 'white');
@@ -149,7 +151,8 @@ function init() {
 		div.append(cf.canvas);
 
 		var buttons = [];
-		if (node.game.gameLoop.getName() !== 'Exhibition') {
+		if (node.game.getCurrentStepObj().id !== 'dissemination') {
+
 		    buttons.push({
 			text: 'copy',
 			click: function() {
@@ -184,7 +187,11 @@ function init() {
 
 	var container = document.createElement('div');
 
-	var cf = node.widgets.append('ChernoffFacesSimple',
+// 	var cf = node.widgets.append('ChernoffFacesSimple',
+//                                      container,
+//                                      cf_options);
+
+	var cf = node.widgets.append('ChernoffFaces',
                                      container,
                                      cf_options);
 
@@ -234,14 +241,16 @@ function quiz() {
 
 function creation() {
     W.loadFrame(this.html.creation, function() {
-        node.on('sub_done', function(ex) {
-            node.game.last_cf = node.game.cf.getAllValues();
-            node.game.last_ex = node.game.last_ex = ex;
-            node.done({
-                ex: ex,
-                cf: node.game.last_cf
-            });
-        });
+//         node.on('sub_done', function(ex) {
+//             // TODO: Check ex?
+// 	    $( ".copyorclose" ).dialog('close');
+//             node.game.last_cf = node.game.cf.getAllValues();
+//             node.game.last_ex = node.game.last_ex = ex;
+//             node.done({
+//                 ex: ex,
+//                 cf: node.game.last_cf
+//             });
+//         });
 	node.on('CLICKED_DONE', function() {
 	    $( ".copyorclose" ).dialog('close');
 	    $( ".copyorclose" ).dialog('destroy');
@@ -252,6 +261,8 @@ function creation() {
 
 
 function evaluation() {
+    // Reset evaluations.
+    this.evas = {};
     W.loadFrame('evaluation.html');
     console.log('Evaluation');
 }

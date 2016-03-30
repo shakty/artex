@@ -75,6 +75,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination
     });
     
+    stager.extendStep('questionnaire', {
+        cb: cbs.questionnaire
+    });
+
     stager.extendStep('endgame', {
         cb: cbs.endgame,
         minPlayers: undefined,

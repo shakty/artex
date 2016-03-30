@@ -43,7 +43,6 @@ function init() {
     DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
 
-    this.threshold = 5;
     this.reviewers = 3;
 
     node.env('com', function() {
@@ -213,7 +212,6 @@ function evaluation() {
     });
 
     node.env('review_random', function() {
-        debugger
         faces = dataRound.fetch();
         matches = J.latinSquareNoSelf(faces.length, R);
 
@@ -221,7 +219,6 @@ function evaluation() {
             var data = {};
             for (var j=0; j < matches.length; j++) {
                 var face = faces[matches[j][i]];
-
                 if (!data[face.ex]) data[face.ex] = [];
 
                 data[face.ex].push({
@@ -230,9 +227,8 @@ function evaluation() {
                     ex: face.ex
                 });
             }
-
             // Sort by exhibition and send them
-            J.each(['A','B','C'], function(ex){
+            J.each(['A','B','C'], function(ex) {
                 if (!data[ex]) return;
                 for (var z = 0; z < data[ex].length; z++) {
                     node.say('CF', faces[i].player, data[ex][z]);
@@ -243,7 +239,6 @@ function evaluation() {
     });
 
     node.env('review_select', function() {
-        debugger;
         var pool = that.nextround_reviewers;
         var elements = that.last_submissions;
 
@@ -280,12 +275,23 @@ function evaluation() {
     });
 
     this.last_reviews = {};
-    // Build reviews index
-    node.on.data('EVA', function(msg) {
-        if (!that.last_reviews[msg.data.for]) {
-            that.last_reviews[msg.data.for] = [];
+
+    // Build reviews index.
+    node.on.data('done', function(msg) {
+        var i, len, reviews;
+        if (!msg.data || !msg.data.reviews || !msg.data.reviews.length) {
+            console.log('Error: no reviews received.', msg);
+            return;
         }
-        that.last_reviews[msg.data.for].push(msg.data.eva);
+        reviews = msg.data.reviews;
+        // Loop through all the reviews of the subject.
+        i = -1, len = reviews.length;
+        for ( ; ++i < len ; ) {
+            if (!that.last_reviews[reviews[i].ex]) {
+                that.last_reviews[reviews[i].ex] = [];
+            }
+            that.last_reviews[reviews[i].ex].push(reviews[i].eva);
+        }
     });
 
     console.log('evaluation');
@@ -305,9 +311,7 @@ function dissemination() {
     var player_results = [];
 
     var ex, author, cf, mean, player, works, nPubs, nextRoundReviewer, player_result;
-
-    var subRound = this.memory.select('stage', '=', submissionRound);
-
+    var subRound = this.memory.stage[submissionRound];
     for (var i=0; i < this.last_submissions.length; i++) {
         // Groups all the reviews for an artist
         works = this.last_submissions[i];
@@ -315,30 +319,26 @@ function dissemination() {
         // Evaluations Loop
         for (var j=0; j < works.length; j++) {
             player = works[j];
-            author = this.pl.select('id', '=', player).first();
-
-            if (!author) {
-                node.err('No author found. This should not happen. Some results are missing.');
-                continue;
-            }
-
             if (!this.last_reviews[player]) {
                 node.err('No reviews for player: ' + player + '. This should not happen. Some results are missing.');
                 continue;
             }
+	    author = this.pl.id.get(player);				
+	    if (!author) {
+		node.err('No author found. This should not happen. ' +
+                         'Some results are missing.');
+		continue;
+	    }
 
             mean = 0;
             J.each(this.last_reviews[player], function(r) {
-                mean+= r;
+                mean += r;
             });
-
             mean = mean / this.last_reviews[player].length;
-
-
-
-            cf = subRound.select('player', '=', player)
-                .select('key', '=', 'CF')
-                .first().value;
+debugger
+            cf = subRound
+                .select('player', '=', player)        
+                .first().cf;
 
             ex = exids[i];
 
@@ -355,8 +355,8 @@ function dissemination() {
             };
 
 
-            // Threshold
-            if (mean > this.threshold) {
+            // Threshold.
+            if (mean > settings.threshold) {
 
                 J.mixin(player_result, {
                     cf: cf,
@@ -482,5 +482,6 @@ function endgame() {
     //     headers: ["access", "exit", "bonus", "terminated"]
     // });
 
-    node.done();
+    // TODO: do we need this? It triggers gameover.
+    // node.done();
 }

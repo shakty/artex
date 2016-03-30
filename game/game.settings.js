@@ -37,6 +37,9 @@ module.exports = {
     // Wait time to reconnect.
     WAIT_TIME: 60,
 
+    // Threshold for publication.
+    threshold: -1,
+
     // Available treatments:
     // (there is also the "standard" treatment, using the options above)
     treatments: {
