@@ -60,7 +60,7 @@ $(document).ready(function() {
         $('#sub_list').dialog(dialog_options);
     }
     
-    
+    // TODO: do we need as an emit? Can we do it inside the jQuery dialog?
     node.on('COPIED', function(f) {
         //node.game.personal_history.add(f);
         node.game.cf.draw(f);
@@ -69,6 +69,7 @@ $(document).ready(function() {
     
     // Initialize Chernoff Face
     ////////////////////////////
+
     
     // If we play the first round we start
     // with a random face, otherwise with 
@@ -105,17 +106,22 @@ $(document).ready(function() {
         height: 500,
         features: init_cf,
         controls: cfc,
+        title: false
     };
     
     var creationDiv = document.getElementById('creation');
 
-    // debugger
-    // node.game.cf = node.widgets.append('ChernoffFacesSimple', creationDiv, cf_options);
-    node.game.cf = node.widgets.append('ChernoffFaces', creationDiv, cf_options);
+    debugger
+    node.game.cf = node.widgets.append('ChernoffFaces',
+                                       creationDiv,
+                                       cf_options);
     
     // Copy face_0
     if (GameStage.compare(node.game.state, '3.1.1') === 0) {
-    	node.set('CF_0', node.game.cf.getAllValues());
+    	node.set({
+            t0: true,
+            cf: node.game.cf.getAllValues()
+        });
     }
     
     // Adding the jQuery sliders

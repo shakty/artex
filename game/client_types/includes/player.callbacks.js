@@ -27,6 +27,8 @@ function init() {
     if (!W.getHeader()) {
         header = W.generateHeader();
 
+        // W.setHeaderPosition('top');
+
         // Uncomment to visualize the name of the stages.
         //node.game.visualStage = node.widgets.append('VisualStage', header);
 
@@ -50,7 +52,7 @@ function init() {
 
     this.html = {};
 
-    node.env('review_select', function(){
+    node.env('review_select', function() {
 
 	node.game.html.creation = 'creation_SEL.html';
 
@@ -63,15 +65,15 @@ function init() {
 	    node.game.html.instructions = 'instructions_SEL_COM.html';
 	});
     });
-    node.env('review_random', function(){
+    node.env('review_random', function() {
 
 	node.game.html.creation = 'creation_RND.html';
 
-	node.env('coo', function(){
+	node.env('coo', function() {
 	    node.game.html.q = 'questionnaire_RND_COO.html'; // won't be played now
 	    node.game.html.instructions = 'instructions_RND_COO.html';
 	});
-	node.env('com', function(){
+	node.env('com', function() {
 	    node.game.html.q = 'questionnaire_RND_COM.html';
 	    node.game.html.instructions = 'instructions_RND_COM.html';
 	});
@@ -81,10 +83,6 @@ function init() {
     this.cf = null;
     this.outlet = null;
     this.exs = ['A','B','C'];
-    this.donetxt = 'Done!';
-    this.milli = 1000;
-    this.milli_short = 1000;
-
 
     this.evaAttr = {
 	min: 1,
@@ -96,30 +94,32 @@ function init() {
     this.evas = {};
     this.evasChanged = {};
 
-    this.all_ex = new W.List({ id: 'all_ex',
-			       lifo: true,
-		             });
+    this.all_ex = new W.List({
+        id: 'all_ex',
+	lifo: true,
+    });
 
     this.personal_history = null;
 
     this.last_cf = null;
 
+    // Function that renders a chernoff face (plus metadata)
+    // inside a Table.
     this.renderCF = function(cell) {
-
-	// Check if it is really CF obj
-	if (!cell.content || !cell.content.cf) {
-	    return;
-	}
-
-	var w = 200;
-	var h = 200;
-
+        var w, h;
+        var cfOptions;
+        var container, cfDetailsTable;
+	
 	if (node.game.getCurrentStepObj().id == 'creation') {
 	    w = 100;
 	    h = 100;
 	}
+        else {
+            w = 200;
+	    h = 200;
+        }
 
-	var cf_options = {
+	cfOptions = {
             id: 'cf_' + cell.x,
 	    width: w,
 	    height: h,
@@ -127,10 +127,14 @@ function init() {
 	    controls: false,
 	    change: false,
 	    onclick: function() {
-		var that = this;
-		var f = that.getAllValues();
+                var that;
+                var f, cf, popupOptions;
+                var div, buttons;
 
-		var cf_options = {
+		that = this;
+		f = that.getAllValues();
+
+		popupOptions = {
                     id: 'cf',
 		    width: 400,
 		    height: 400,
@@ -138,26 +142,26 @@ function init() {
 		    controls: false,
 		};
 
-		// var cf = node.widgets.get('ChernoffFacesSimple',
-                //                          cf_options);
+                cf = node.widgets.get('ChernoffFaces', popupOptions);
 
-                var cf = node.widgets.get('ChernoffFaces', cf_options);
-
-		var div = $('<div class="copyorclose">');
+		div = $('<div class="copyorclose">');
 		$(cf.canvas).css('background', 'white');
 		$(cf.canvas).css('border', '3px solid #CCC');
 		$(cf.canvas).css('padding', '5px');
 
 		div.append(cf.canvas);
 
-		var buttons = [];
-		if (node.game.getCurrentStepObj().id !== 'dissemination') {
+		buttons = [];
 
+                // If we are not in dissemination,
+                // we can copy the image.
+		if (node.game.getCurrentStepObj().id !== 'dissemination') {
 		    buttons.push({
 			text: 'copy',
 			click: function() {
 			    node.emit('COPIED', f);
-			    node.set('COPIED', {
+			    node.set({
+                                copied: true,
 				author: cell.content.author,
 				ex: cell.content.ex,
 				mean: cell.content.mean,
@@ -185,24 +189,20 @@ function init() {
 	    }
 	};
 
-	var container = document.createElement('div');
+        // Creating HTML.
+	container = document.createElement('div');
+	cf = node.widgets.append('ChernoffFaces',
+                                 container,
+                                 cfOptions);
 
-// 	var cf = node.widgets.append('ChernoffFacesSimple',
-//                                      container,
-//                                      cf_options);
-
-	var cf = node.widgets.append('ChernoffFaces',
-                                     container,
-                                     cf_options);
-
-	var details_tbl = new W.Table();
-	details_tbl.addColumn(['Author: ' + cell.content.author,
-			       'Score: ' + cell.content.mean
-			      ]);
-	container.appendChild(details_tbl.parse());
+	cfDetailsTable = new W.Table();
+	cfDetailsTable.addColumn([
+            'Author: ' + cell.content.author,
+	    'Score: ' + cell.content.mean
+	]);
+	container.appendChild(cfDetailsTable.parse());
 
 	return container;
-
     };
 }
 
@@ -327,7 +327,7 @@ function dissemination() {
 	    });
 	});
 
-	node.on.data('PLAYER_RESULT', function(msg){
+	node.on.data('PLAYER_RESULT', function(msg) {
 	    if (!msg.data) return;
 	    var str = '';
 	    if (msg.data.published) {
@@ -359,7 +359,7 @@ function questionnaire() {
     console.log('Postgame');
 
     // Auto play.
-    node.env('auto', function(){
+    node.env('auto', function() {
 	node.timer.randomExec(function() {
             node.done();
         }, 5000);
