@@ -1,5 +1,5 @@
 /**
- * # Functions used by the client of Ultimatum Game
+ * # Functions used by logic.
  * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
@@ -401,17 +401,6 @@ function dissemination() {
         });
         node.say('PLAYER_RESULT', r.player, r);
     });
-
-    // Save to file
-    var filename;
-    try {
-        filename = './out/pr_' + node.game.getCurrentGameStage().toHash('S.s.r') + '.nddb';
-        node.game.memory.save(filename);
-    }
-    catch(e){
-        console.log(e.msg);
-    }
-
 
     console.log('dissemination');
 }
