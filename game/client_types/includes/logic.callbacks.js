@@ -1,6 +1,6 @@
 /**
  * # Functions used by the client of Ultimatum Game
- * Copyright(c) 2014 Stefano Balietti
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
@@ -186,7 +186,11 @@ function evaluation() {
 	: (this.pl.length > 2) ? 2 : 1;
 
 
-    var dataRound = this.memory.select('state', '=', this.previous())
+    var curStep = this.getCurrentGameStage();
+    var prevStep = this.plot.previous(curStep);
+
+    var dataRound = this.memory
+        .select('state', '=', prevStep)
 	.join('player', 'player', 'CF', 'value')
 	.select('key', '=', 'SUB');
 
@@ -283,10 +287,10 @@ function evaluation() {
 
 function dissemination() {
     var exids = ['A', 'B', 'C'];
-    var submissionRound = this.previous(2);
+    var curStep = this.getCurrentGameStage();
+    var submissionRound = this.plot.jump(curStep, -2);
 
     this.nextround_reviewers = [ [[], []], [[], []], [[], []] ];
-
 
     // array of all the selected works (by exhibition);
     var selected = [];
@@ -374,9 +378,10 @@ function dissemination() {
 	}
     }
 
-    // Dispatch exhibition results to ALL
-    node.say(selected, 'WIN_CF', 'ALL');
-    // Dispatch detailed individual results to each single player
+    // Dispatch exhibition results to ALL.
+    node.say('WIN_CF', 'ALL', selected);
+
+    // Dispatch detailed individual results to each single player.
     J.each(player_results, function(r) {
 	node.env('com', function(){
 	    if (r.published) {

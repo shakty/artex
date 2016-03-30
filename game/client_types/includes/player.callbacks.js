@@ -250,7 +250,7 @@ function evaluation() {
 
 function dissemination() {
 
-    var dt_header = 'Round: ' + node.state.round;
+    var dt_header = 'Round: ' + node.player.stage.round;
 
     this.all_ex.addDT(dt_header);
 

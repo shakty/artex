@@ -47,12 +47,12 @@ $(document).ready(function() {
             timeup: function() {
         	// submit to the last one, if any
                 if (node.game.last_ex) {
-                    node.DONE(node.game.last_ex);
+                    node.done(node.game.last_ex);
                 }
                 else {
                     var exs = ['A','B','C'];
                     var ex = exs[node.JSUS.randomInt(3)-1];
-                    node.DONE(ex);
+                    node.done(ex);
                 }
             }
         })
@@ -136,7 +136,7 @@ $(document).ready(function() {
     //       });
     
     //       //Pulling back from history
-    //       node.on(node.game.personal_history.id + '_GOT', function (face) {
+    //       node.on(node.game.personal_history.id + '_GOT', function(face) {
     //         node.game.cf.draw(face);
     //       });
     
@@ -170,16 +170,16 @@ $(document).ready(function() {
 
             // If time is up reopen the dialog immediately
             // if it gets closed
-            $( "#sub_list" ).bind( "dialogclose", function(event, ui) {
-                $( "#sub_list" ).dialog('destroy');
+            $("#sub_list").bind("dialogclose", function(event, ui) {
+                $("#sub_list").dialog('destroy');
                 if (!node.game.timer.gameTimer.timeLeft) {
                     initSubmitDialog();
-                    $( "#sub_list" ).dialog('open');
+                    $("#sub_list").dialog('open');
                 }
             });
 
             initSubmitDialog();
-            $( "#sub_list" ).dialog('open');
+            $("#sub_list").dialog('open');
             
         });
     });
@@ -190,27 +190,29 @@ $(document).ready(function() {
     //////////////////////////////////////
     
     $('#all_ex canvas').hover(
-        function (e) {
-            var enlarge = $("<span id='enlarge'>Click to enlarge, and decide if copying it</span>");
+        function(e) {
+            var txt = "<span id='enlarge'>Click to enlarge, " +
+                "and decide if copying it</span>";
+            var enlarge = $(txt);
             var pos = $(this).position();
             enlarge.addClass('tooltip');
             enlarge.css({"left": (5 + e.pageX) + "px","top":e.pageY + "px" });
             $(this).before(enlarge);
             $(this).mousemove(function(e){
-                $('span#enlarge').css({"left": (5 + e.pageX)  + "px","top":e.pageY + "px" });
+                $('span#enlarge').css(
+                    {"left": (5 + e.pageX)  +
+                     "px","top":e.pageY + "px"
+                    });
             }); 
         }, 
-        function () {
+        function() {
             $(this).parent().find("span#enlarge").remove();
             $(this).unbind('mousemove');
         });
-
-    
-    
     
     // AUTOPLAY
     ////////////
-    node.env('auto', function(){
+    node.env('auto', function() {
     	node.random.exec(function() {
     	    var ex, button;
     	    
