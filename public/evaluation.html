@@ -111,7 +111,7 @@
           
           //AUTOPLAY
           node.env('auto', function(){
-              node.random.exec(function() {
+              node.timer.randomExec(function() {
                   $( "#" + evaId ).slider( "value",  Math.random()*10);
                   $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) );
               }, 4000);

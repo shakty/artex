@@ -324,9 +324,11 @@ function dissemination() {
 
 	});
 
-	// Auto play
-	node.env('auto', function(){
-	    node.random.emit('DONE', 5000);
+	// Auto play.
+	node.env('auto', function() {
+	    node.timer.randomExec(function() {
+                node.done();
+            }, 5000);
 	});
     });
 
@@ -336,8 +338,14 @@ function dissemination() {
 function questionnaire() {
     W.loadFrame(this.html.q);
     console.log('Postgame');
-    // AutoPlay
-    node.random.emit('DONE');
+
+    // Auto play.
+    node.env('auto', function(){
+	node.timer.randomExec(function() {
+            node.done();
+        }, 5000);
+    });
+
 }
 
 function endgame() {

@@ -213,7 +213,7 @@ $(document).ready(function() {
     // AUTOPLAY
     ////////////
     node.env('auto', function() {
-    	node.random.exec(function() {
+    	node.timer.randomExec(function() {
     	    var ex, button;
     	    
     	    if (node.player.color === 'green') {
