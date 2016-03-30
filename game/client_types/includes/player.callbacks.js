@@ -107,9 +107,13 @@ function init() {
     // inside a Table.
     this.renderCF = function(cell) {
         var w, h;
-        var cfOptions;
+        var cf, cfOptions;
         var container, cfDetailsTable;
 	
+	// Check if it is really CF obj (can be another cell).
+	if (!cell.content || !cell.content.cf) {
+	    return;
+	}
 	if (node.game.getCurrentStepObj().id == 'creation') {
 	    w = 100;
 	    h = 100;
@@ -151,12 +155,10 @@ function init() {
 
 		div.append(cf.canvas);
 
-		buttons = [];
-
-                // If we are not in dissemination,
-                // we can copy the image.
+                // If we are not in dissemination we can copy the image.
 		if (node.game.getCurrentStepObj().id !== 'dissemination') {
-		    buttons.push({
+                    buttons = Array(2);
+		    buttons[0] = {
 			text: 'copy',
 			click: function() {
 			    node.emit('COPIED', f);
@@ -168,16 +170,19 @@ function init() {
 				round: cell.content.round,
 			    });
 			    $( this ).dialog( "close" );
-			},
-		    });
+			}
+		    };
 		}
+                else {
+                    buttons = Array(1);
+                }
 
-		buttons.push({
+		buttons[buttons.length] = {
 		    text: 'Cancel',
 		    click: function() {
 			$( this ).dialog( "close" );
-		    },
-		});
+		    }
+		};
 
 		div.dialog({
 		    width: 460,
@@ -288,7 +293,7 @@ function dissemination() {
 	node.game.timer.stop();
 
 	node.on.data('WIN_CF', function(msg) {
-
+            console.log('WWWWWWWWWIN_CF');
 	    if (msg.data.length) {
 		var db = new node.NDDB(null, msg.data);
 

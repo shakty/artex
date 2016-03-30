@@ -111,7 +111,7 @@ $(document).ready(function() {
     
     var creationDiv = document.getElementById('creation');
 
-    debugger
+    // debugger
     node.game.cf = node.widgets.append('ChernoffFaces',
                                        creationDiv,
                                        cf_options);
