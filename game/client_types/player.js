@@ -89,16 +89,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('creation', {
         cb: cbs.creation,
-	timer: {
-	    milliseconds: function() {
-		if ( node.player.stage.round < 2) return 80000;
-		if ( node.player.stage.round < 3) return 60000;
-		return 50000;
-	    },
-	    timeup: function() {
-		$('#mainframe').contents().find('#done_box button').click();
-	    }
-	},
+        timer: {
+            milliseconds: function() {
+                if ( node.player.stage.round < 2) return 80000;
+                if ( node.player.stage.round < 3) return 60000;
+                return 50000;
+            },
+            timeup: function() {
+                $('#mainframe').contents().find('#done_box button').click();
+            }
+        },
         done: function(ex) {
             // TODO: Check ex?
             $( ".copyorclose" ).dialog('close');
@@ -115,17 +115,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.evaluation,
         done: function() {
             var out = [];
-	    for (var i in this.evas) {
-		if (this.evas.hasOwnProperty(i)) {
-		    out.push({
-			ex: i,
-			eva: Number(this.evas[i].value),
-			hasChanged: this.evasChanged[i], 
-		    });
-		}
-	    }
+            for (var i in this.evas) {
+                if (this.evas.hasOwnProperty(i)) {
+                    out.push({
+                        ex: i,
+                        eva: Number(this.evas[i].value),
+                        hasChanged: this.evasChanged[i]
+                    });
+                }
+            }
             // Making it an object, so that is is sent as a single parameter.
-	    return { reviews: out };
+            return { reviews: out };
         }
     });
     

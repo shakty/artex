@@ -56,13 +56,13 @@ function init() {
     this.exhibitions = {
         A: 0,
         B: 1,
-        C: 2,
+        C: 2
     };
 
-    this.last_reviews;
-    this.last_submissions;
-    this.nextround_reviewers;
     this.plids = [];
+    this.last_reviews = null;
+    this.last_submissions = null;
+    this.nextround_reviewers = null;
 
     // Add session name to data in DB.
     node.game.memory.on('insert', function(o) {
@@ -179,14 +179,11 @@ function creation() {
 }
 
 function evaluation() {
-    var that = this;
-
-    var idEx;
+    var that;
     var matches;
     var subByEx;
 
     this.last_submissions = [[], [], []];
-
 
     var R =  (this.pl.length > 3) ? this.reviewers
         : (this.pl.length > 2) ? 2 : 1;
@@ -195,24 +192,18 @@ function evaluation() {
     var prevStep = this.plot.previous(curStep);
 
     var dataRound = this.memory.stage[prevStep];
-
-//      .join('player', 'player', 'CF', 'value')
-//      .select('key', '=', 'SUB');
-
-
-
     subByEx = dataRound.groupBy('ex');
 
-
+    that = this;
     J.each(subByEx, function(e) {
         e.each(function(s) {
-            idEx = that.exhibitions[s.ex];
+            var idEx = that.exhibitions[s.ex];
             node.game.last_submissions[idEx].push(s.player);
         });
     });
 
     node.env('review_random', function() {
-        faces = dataRound.fetch();
+        var faces = dataRound.fetch();
         matches = J.latinSquareNoSelf(faces.length, R);
 
         for (var i=0; i < faces.length; i++) {
@@ -264,7 +255,7 @@ function evaluation() {
                     data = {
                         face: face.CF.value,
                         from: face.player,
-                        ex: face.value,
+                        ex: face.value
                     };
                     node.say('CF', matches[i][j][h], data);
                 }
@@ -310,7 +301,8 @@ function dissemination() {
     // results of the round (by author)
     var player_results = [];
 
-    var ex, author, cf, mean, player, works, nPubs, nextRoundReviewer, player_result;
+    var ex, author, cf, mean, player, works;
+    var nextRoundReviewer, player_result;
     var subRound = this.memory.stage[submissionRound];
     for (var i=0; i < this.last_submissions.length; i++) {
         // Groups all the reviews for an artist
@@ -320,29 +312,31 @@ function dissemination() {
         for (var j=0; j < works.length; j++) {
             player = works[j];
             if (!this.last_reviews[player]) {
-                node.err('No reviews for player: ' + player + '. This should not happen. Some results are missing.');
+                node.err('No reviews for player: ' + player + 
+                         '. This should not happen. Some results are missing.');
                 continue;
             }
-	    author = this.pl.id.get(player);				
-	    if (!author) {
-		node.err('No author found. This should not happen. ' +
+            author = this.pl.id.get(player);                            
+            if (!author) {
+                node.err('No author found. This should not happen. ' +
                          'Some results are missing.');
-		continue;
-	    }
+                continue;
+            }
 
             mean = 0;
             J.each(this.last_reviews[player], function(r) {
                 mean += r;
             });
             mean = mean / this.last_reviews[player].length;
-debugger
+
             cf = subRound
                 .select('player', '=', player)        
                 .first().cf;
 
             ex = exids[i];
 
-            nextRoundReviewer = 1; // player is a submitter: second choice reviewer
+            // Player is a submitter: second choice reviewer.
+            nextRoundReviewer = 1;
 
             player_result = {
                 player: player,
@@ -351,7 +345,7 @@ debugger
                 scores: this.last_reviews[player],
                 ex: ex,
                 round: submissionRound,
-                payoff: 0, // will be updated later
+                payoff: 0 // will be updated later
             };
 
 
@@ -363,7 +357,7 @@ debugger
                     id: author.name,
                     round: node.game.getCurrentGameStage().toHash('S.r'),
                     pc: author.pc,
-                    published: true,
+                    published: true
                 });
 
                 selected.push(player_result);
@@ -388,6 +382,7 @@ debugger
     // Dispatch detailed individual results to each single player.
     J.each(player_results, function(r) {
         node.env('com', function(){
+            var idEx, nPubs;
             if (r.published) {
                 idEx = node.game.exhibitions[r.ex];
                 nPubs = node.game.nextround_reviewers[idEx][0].length;
@@ -428,7 +423,7 @@ function endgame() {
     var filename, bonusFile, bonus;
     var EXCHANGE_RATE;
 
-    EXCHANGE_RATE = settings.EXCHANGE_RATE_INSTRUCTIONS / settings.COINS;;
+    EXCHANGE_RATE = settings.EXCHANGE_RATE_INSTRUCTIONS / settings.COINS;
 
     console.log('FINAL PAYOFF PER PLAYER');
     console.log('***********************');
