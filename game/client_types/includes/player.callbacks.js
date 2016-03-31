@@ -58,8 +58,9 @@ function init() {
     // Reference to the values of the last created Chernoff face.
     this.last_cf = null;
 
-    // Exhibition names.
+    // Exhibition names and total number.
     this.exhibitNames = ['A','B','C'];
+    this.nExhibits = this.exhibitNames.length;
 
     // Current rounds of evalutions (review delivered by subject).
     this.evas = {};
@@ -97,7 +98,8 @@ function init() {
             height: h,
             features: cell.content.cf,
             controls: false,
-            change: false,
+            onChange: false,
+            title: false,
             onclick: function() {
                 var f, cf, cfOptions;
                 var div, buttons;
@@ -110,7 +112,7 @@ function init() {
                     height: 400,
                     features: f,
                     controls: false,
-                    change: false,
+                    onChange: false,
                     title: false
                 };
 
@@ -252,7 +254,7 @@ function dissemination() {
             if (msg.data.length) {
                 db = new node.NDDB(null, msg.data);
 
-                for (j = 0; j < this.exhibitNames.length; j++) {
+                for (j = 0; j < this.nExhibits; j++) {
                     winners = db.select('ex', '=', this.exhibitNames[j])
                         .sort('mean')
                         .reverse()

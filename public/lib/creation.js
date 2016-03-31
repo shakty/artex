@@ -2,6 +2,7 @@
 $(document).ready(function() {
 
     var node = parent.node;
+    var J = node.JSUS;
     var GameStage = node.GameStage;
 
     node.window.noEscape(window);
@@ -51,7 +52,8 @@ $(document).ready(function() {
                     ex = node.game.last_ex;
                 }
                 else {
-                    ex = node.game.exhibitNames[node.JSUS.randomInt(3)-1];
+                    ex = node.game.exhibitNames[
+                        J.randomInt(node.game.nExhibits)-1];
                 }
                 node.done(ex);
             }
@@ -79,6 +81,11 @@ $(document).ready(function() {
         init_cf = node.widgets.widgets.ChernoffFaces.FaceVector.random();
         // Some features are fixed in the simplified version
         init_cf = CFControls.pinDownFeatures(init_cf);
+
+// TODO: store somewhere the initial random face.
+// 	node.set({
+//             cf0: init_cf
+//         });
     }
      else {
          init_cf = node.game.last_cf;
@@ -108,14 +115,6 @@ $(document).ready(function() {
                                        creationDiv,
                                        cf_options);
 
-    // Copy face_0
-    if (GameStage.compare(node.game.state, '3.1.1') === 0) {
-    	node.set({
-            t0: true,
-            cf: node.game.cf.getAllValues()
-        });
-    }
-
     // Adding the jQuery sliders
     ////////////////////////////
     addJQuerySliders(init_sc);
@@ -130,13 +129,13 @@ $(document).ready(function() {
         historyDiv.appendChild(node.game.all_ex.getRoot());
     }
     else {
-        historyDiv.appendChild(document.createTextNode('No past exhibitions yet.'));
+        historyDiv.appendChild(
+            document.createTextNode('No past exhibitions yet.'));
     }
 
 
     // Submission
     //////////////
-
 
     $('#done_box button').click(function() {
         $(function() {
