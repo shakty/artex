@@ -50,38 +50,6 @@ function init() {
         W.generateFrame();
     }
 
-    // Holds path to different html pages, depending on the treatment.
-    // Constant throughout the game.
-    this.html = {};
-
-    node.env('review_select', function() {
-
-        node.game.html.creation = 'creation_SEL.html';
-
-        node.env('coo', function() {
-            node.game.html.q = 'questionnaire_SEL_COO.html';
-            node.game.html.instructions = 'instructions_SEL_COO.html';
-        });
-        node.env('com', function() {
-            node.game.html.q = 'questionnaire_SEL_COM.html';
-            node.game.html.instructions = 'instructions_SEL_COM.html';
-        });
-    });
-    node.env('review_random', function() {
-
-        node.game.html.creation = 'creation_RND.html';
-
-        node.env('coo', function() {
-            node.game.html.q = 'questionnaire_RND_COO.html'; // won't be played now
-            node.game.html.instructions = 'instructions_RND_COO.html';
-        });
-        node.env('com', function() {
-            node.game.html.q = 'questionnaire_RND_COM.html';
-            node.game.html.instructions = 'instructions_RND_COM.html';
-        });
-    });
-
-
     // Holds references to copied images in current round.
     // Gets cleared every step.
     this.copies = [];
@@ -219,7 +187,7 @@ function init() {
 
 function instructions() {
 
-    W.loadFrame(node.game.html.instructions, function() {
+    W.loadFrame(node.game.settings.instrPage, function() {
 
         // TODO: html pages have own button and js handler.
         var b = W.getElementById('read');
@@ -248,7 +216,7 @@ function quiz() {
 }
 
 function creation() {
-    W.loadFrame(this.html.creation, function() {
+    W.loadFrame('creation_RND.html', function() {
         node.on('CLICKED_DONE', function() {
             $( ".copyorclose" ).dialog('close');
             $( ".copyorclose" ).dialog('destroy');
@@ -256,7 +224,6 @@ function creation() {
     });
     console.log('Creation');
 }
-
 
 function evaluation() {
     W.loadFrame('evaluation.html');
@@ -317,7 +284,8 @@ function dissemination() {
             }
 
             else {
-                str = 'No painting was considered good enough to be put on display.';
+                str = 'No painting was considered good enough ' +
+                    'to be put on display.';
                 W.write(str, W.getElementById("container_exhibition"));
                 this.all_ex.addDD(str);
             }
@@ -331,17 +299,22 @@ function dissemination() {
         node.on.data('PLAYER_RESULT', function(msg) {
             if (!msg.data) return;
             var str = '';
+            // Create string.
             if (msg.data.published) {
-                str += 'Congratulations! You published in exhibition: <strong>' + msg.data.ex + '</strong>. ';
-                str += 'You earned <strong>' + msg.data.payoff  + ' CHF</strong>. ';
+                str += 'Congratulations! You published in exhibition: ';
+                str += '<strong>' + msg.data.ex + '</strong>. ';
+                str += 'You earned <strong>' + msg.data.payoff;
+                str += ' CHF</strong>. ';
                 node.emit('MONEYTALKS', parseFloat(msg.data.payoff));
             }
             else {
-                str += 'Sorry, you got rejected by exhibition: <strong>' + msg.data.ex + '</strong>. ';
+                str += 'Sorry, you got rejected by exhibition: ' +
+                    '<strong>' + msg.data.ex + '</strong>. ';
             }
-            str += 'Your average review score was: <strong>' + msg.data.mean + '</strong>.</br></br>';
+            str += 'Your average review score was: <strong>' +
+                msg.data.mean + '</strong>.</br></br>';
+            // Assign string.
             W.getElementById('results').innerHTML = str;
-
         });
 
         // Auto play.
@@ -356,7 +329,7 @@ function dissemination() {
 }
 
 function questionnaire() {
-    W.loadFrame(this.html.q);
+    W.loadFrame(node.game.settings.questPage);
     console.log('Postgame');
 
     // Auto play.

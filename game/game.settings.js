@@ -50,6 +50,8 @@ module.exports = {
                 "Competition.",
             review_select: true,
             com: true,
+            questPage: 'questionnaire_SEL_COM.html',
+            instrPage: 'questionnaire_SEL_COM.html'
         },
 
         review_select_coo: {
@@ -58,6 +60,8 @@ module.exports = {
                 "No competition.",
             review_select: true,
             com: false,
+            questPage: 'questionnaire_SEL_COO.html',
+            instrPage: 'questionnaire_SEL_COO.html'
         },
 
         review_random_com: {
@@ -65,7 +69,9 @@ module.exports = {
             description:
                 "Competition.",
             review_random: true,
-            com: true
+            com: true,
+            questPage: 'questionnaire_RND_COM.html',
+            instrPage: 'questionnaire_RND_COM.html'
         },
 
         review_random_coo: {
@@ -73,7 +79,9 @@ module.exports = {
             description:
                 "No competition.",
             review_random: true,
-            com: false
+            com: false,
+            questPage: 'questionnaire_RND_COO.html',
+            instrPage: 'questionnaire_RND_COO.html'
         }
     }
 
