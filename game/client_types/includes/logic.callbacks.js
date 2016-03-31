@@ -217,6 +217,16 @@ function evaluation() {
                     from: face.player,
                     ex: face.ex
                 });
+                data[face.ex].push({
+                    face: face.cf,
+                    from: face.player,
+                    ex: face.ex
+                });
+                data[face.ex].push({
+                    face: face.cf,
+                    from: face.player,
+                    ex: face.ex
+                });
             }
             // Sort by exhibition and send them
             J.each(['A','B','C'], function(ex) {
