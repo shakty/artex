@@ -29,7 +29,7 @@ div#container_creation {
 
 div#creation {
     width: 790px;
-    //height: 550px;
+    /* height: 550px; */
 }
 
 table#cf_table td {
@@ -92,7 +92,6 @@ dl#sub_list dt{
     background: inherit;	
 }
 
-
 /* Right Part */
 
 div#container_history {
@@ -112,7 +111,6 @@ div#history {
 }
 
 /* Exhibitions */
-
 
 dl#all_ex  {
     margin: 0;
@@ -138,8 +136,7 @@ dl#all_ex dd {
     
 }
 
-
-dl#all_ex dt canvas{
+dl#all_ex dt canvas {
     margin: 0;
 }
 
@@ -152,7 +149,6 @@ table.exhibition td {
     margin-bottom: 5px;
 }
 
-
 table.exhibition tr {
     padding: 0;
     margin: 0;
@@ -160,6 +156,5 @@ table.exhibition tr {
     padding: 0;
     margin: 0;
     border-right: 3px solid #CCC;
-    border-bottom: 1px solid #CCC;
-    
+    border-bottom: 1px solid #CCC;    
 }
