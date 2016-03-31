@@ -110,11 +110,11 @@ function init() {
         var cf, cfOptions;
         var container, cfDetailsTable;
         
-        // Check if it is really CF obj (can be another cell).
-        if (!cell.content || !cell.content.cf) {
-            return;
-        }
-        if (node.game.getCurrentStepObj().id == 'creation') {
+        // Check if it is really CF obj (can be another cell, e.g. header).
+        if (!cell.content || !cell.content.cf) return;
+
+        // Adjust dimensions depending on the step.
+        if (node.game.getCurrentStepObj().id === 'creation') {
             w = 100;
             h = 100;
         }
@@ -156,7 +156,7 @@ function init() {
 
                 // If we are not in dissemination we can copy the image.
                 if (node.game.getCurrentStepObj().id !== 'dissemination') {
-                    buttons = Array(2);
+                    buttons = new Array(2);
                     buttons[0] = {
                         text: 'copy',
                         click: function() {
@@ -173,10 +173,10 @@ function init() {
                     };
                 }
                 else {
-                    buttons = Array(1);
+                    buttons = new Array(1);
                 }
 
-                buttons[buttons.length] = {
+                buttons[buttons.length-1] = {
                     text: 'Cancel',
                     click: function() {
                         $( this ).dialog( "close" );

@@ -133,7 +133,7 @@ $(document).ready(function() {
     
     var historyDiv = document.getElementById('history');
 
-    if (node.game.all_ex.length > 0) {
+    if (node.game.all_ex.size() > 0) {
         node.game.all_ex.parse();
         historyDiv.appendChild(node.game.all_ex.getRoot());  
     }
