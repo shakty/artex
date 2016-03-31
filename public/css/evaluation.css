@@ -1,22 +1,31 @@
 ul {
-	margin: 10px;
+    margin: 10px;
 }
 
 div#container_evaluation {
-	float: left;
-  width: auto;
+    float: left;
+    width: auto;
 }
 
 div#container_done {
-  float: right;
-  height: 100px;
-  width: 400px;
-  border: 0;
-  padding:0;
-  padding-top: 300px;
-  background: white;
+    float: right;
+    height: 100px;
+    width: 400px;
+    border: 0;
+    padding:0;
+    padding-top: 300px;
+    background: white;
 }
 
 table.reviewBox {
-	float: left;
+    float: left;
+}
+
+input.curr-eva-input {
+    border: 0;
+    color: #f6931f;
+    font-weight: bold;
+    background: white;
+    width: 50px;
+    text-align:center;
 }

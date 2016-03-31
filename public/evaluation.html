@@ -14,15 +14,15 @@
 
 <body>
   <h2>Evaluation</h2>
-  Express a quality judgement on the paintings just made by other players. Move the slider on a scale from 0 to 10,  where 
+  Express a quality judgement on the paintings just made by other players. Move the slider on a scale from 0 to 10,  where
   <ul>
     <li> 0 (zero) means <em>complete dislike</em> </li>
     <li> 5 (five) means that you are <em>indifferent</em> </li>
     <li> 10 (ten) means <em>complete like</em> </li>
   </ul>
   <p>
-    The same paintings will be reviewed also by other players, and each painting that 
-    will receive an average evaluation greater than <strong>5.00 (five)</strong> 
+    The same paintings will be reviewed also by other players, and each painting that
+    will receive an average evaluation greater than <strong>5.00 (five)</strong>
     will be put on display.
   </p>
   <div id="container_evaluation"></div>
@@ -31,71 +31,76 @@
       <button onclick='javascript:parent.node.done();'>Click here when you are done</button>
     </div>
   </div>
-  
+
 </body>
 
 <script type="text/javascript">
     <!--
-  
+
   window.onload = function(){
-      
-      
+
       var node = parent.node,
       JSUS = parent.JSUS,
       W = parent.W,
       Table = W.Table;
-      
-      // Avoid ESC to break the connection  
+
+      // Avoid ESC to break the connection
       W.noEscape(window);
-      
+
       var table = new Table({
           auto_update: true,
           id: 'tbl_evaluation',
-      });   
-      
+      });
+
       var headers = [];
-      
+
       node.on.data('CF', function(msg) {
+          var cf_options, cf;
+          var display, display_container, sl;
+          var labelText;
+
           console.log('RECEIVED CF ********************');
-          
-          headers.push('Review for Exhibition: ' + msg.data.ex);
-          
-          var cf_options = {
-              id: 'cf',
+
+          cf_options = {
               width: 300,
               height: 300,
               scaleX: 1,
               scaleY: 1,
               features: msg.data.face,
+              id: false,
               change: false,
               controls: false
           };
-          
-          //var cf = node.widgets.get('ChernoffFacesSimple', cf_options);
-          var cf = node.widgets.get('ChernoffFaces', cf_options);
-          
+          cf = node.widgets.get('ChernoffFaces', cf_options);
+
           var evaId = 'eva_' + msg.data.from;
           var diplayEvaId = 'display_' + msg.data.from;
           var displayContId = 'display_cont_' + msg.data.from;
-          
+
           // Add the slider to the container
-          
-          var sl = node.window.getDiv(evaId, {'style': 'border: 0; background: white; width:300px'});
-          var display_container = node.window.getDiv(displayContId);
-          var display = node.window.addTextInput(display_container, diplayEvaId, {
+
+// Slider.
+//          , {
+//              'style': 'border: 0; background: white; width:300px'
+//          }
+
+          sl = W.getDiv(evaId);
+          display_container = W.getDiv(displayContId);
+          display = W.addTextInput(display_container, diplayEvaId, {
               disabled: "disabled",
-              style: "border:0; color:#f6931f; font-weight:bold; background: white; width: 50px",
+              className: 'curr-eva-input'
           });
-          
-          var labelText = 'Your current evaluation: ';
-          node.window.addLabel(display_container, display, null, labelText);  
-          
-          this.evas[msg.data.from] = display; 
-          
+
+          labelText = 'Your current evaluation: ';
+          W.addLabel(display_container, display, null, labelText);
+
+          this.evas[msg.data.from] = display;
+
+          headers.push('Review for Exhibition: ' + msg.data.ex);
           table.setHeader(headers);
           table.addColumn([sl, display_container, cf.getCanvas()]);
-          // How to add jquery slider   
-          
+
+          // Add jquery slider.
           $( "#" + evaId).slider({
               value: 5,
               min: 0,
@@ -106,20 +111,20 @@
                   node.game.evasChanged[msg.data.from] = true;
               }
           });
-          $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) ); 
-          
+          $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) );
+
           table.parse();
-          
-          //AUTOPLAY
+
+          // AUTOPLAY.
           node.env('auto', function(){
               node.timer.randomExec(function() {
                   $( "#" + evaId ).slider( "value",  Math.random()*10);
                   $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) );
               }, 4000);
           });
-          
+
       });
-      //$('#done_box').before(table.table);
+
       document.getElementById('container_evaluation').appendChild(table.table);
       node.env('auto', function(){
           node.timer.randomExec(function() {
@@ -127,6 +132,6 @@
           }, 10000);
       });
   }
-  
+
   //-->
 </script>
