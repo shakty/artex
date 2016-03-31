@@ -59,7 +59,7 @@ function init() {
     this.last_cf = null;
 
     // Exhibition names.
-    this.exs = ['A','B','C'];
+    this.exhibitNames = ['A','B','C'];
 
     // Current rounds of evalutions (review delivered by subject).
     this.evas = {};
@@ -99,21 +99,22 @@ function init() {
             controls: false,
             change: false,
             onclick: function() {
-                var f, cf, popupOptions;
+                var f, cf, cfOptions;
                 var div, buttons;
 
                 f = this.getAllValues();
 
-                popupOptions = {
-                    id: 'cf',
+                cfOptions = {
+                    id: false,
                     width: 400,
                     height: 400,
                     features: f,
                     controls: false,
-                    change: false
+                    change: false,
+                    title: false
                 };
 
-                cf = node.widgets.get('ChernoffFaces', popupOptions);
+                cf = node.widgets.get('ChernoffFaces', cfOptions);
 
                 div = $('<div class="copyorclose">');
                 $(cf.canvas).css('background', 'white');
@@ -148,9 +149,7 @@ function init() {
 
                 buttons[buttons.length-1] = {
                     text: 'Cancel',
-                    click: function() {
-                        $( this ).dialog( "close" );
-                    }
+                    click: function() { $(this).dialog("close"); }
                 };
 
                 div.dialog({
@@ -239,7 +238,7 @@ function dissemination() {
         }
     });
 
-    table.setHeader(['A','B','C']);
+    table.setHeader(this.exhibitNames);
 
     W.loadFrame('dissemination.html', function() {
 
@@ -253,8 +252,8 @@ function dissemination() {
             if (msg.data.length) {
                 db = new node.NDDB(null, msg.data);
 
-                for (j = 0; j < this.exs.length; j++) {
-                    winners = db.select('ex', '=', this.exs[j])
+                for (j = 0; j < this.exhibitNames.length; j++) {
+                    winners = db.select('ex', '=', this.exhibitNames[j])
                         .sort('mean')
                         .reverse()
                         .fetch();

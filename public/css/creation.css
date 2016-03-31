@@ -32,12 +32,12 @@ div#creation {
     /* height: 550px; */
 }
 
-table#cf_table td {
+table.cf_table td {
     vertical-align: top;
     padding: 5px;
 }
 
-table#cf_table td div {
+table.cf_table td div {
     border: 0;
 }
 
@@ -56,17 +56,11 @@ dl#cf_controls {
 
 /* Sliders */
 
-table#cf_table td div div {
+table.cf_table td div div {
     width: 180px;
     height: 3px;
     margin-top: 3px;
     margin-bottom: 5px;
-}
-
-/* Undo/Redo */
-
-table#cf_table div#undoredo {
-    padding: 3px;
 }
 
 /* Submission */

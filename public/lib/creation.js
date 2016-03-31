@@ -45,15 +45,15 @@ $(document).ready(function() {
         node.game.timer.gameTimer.restart({
             milliseconds: 20000,
             timeup: function() {
-        	// submit to the last one, if any
+                var ex;
+        	// Submit to the last one, if any.
                 if (node.game.last_ex) {
-                    node.done(node.game.last_ex);
+                    ex = node.game.last_ex;
                 }
                 else {
-                    var exs = ['A','B','C'];
-                    var ex = exs[node.JSUS.randomInt(3)-1];
-                    node.done(ex);
+                    ex = node.game.exhibitNames[node.JSUS.randomInt(3)-1];
                 }
+                node.done(ex);
             }
         })
 
@@ -71,8 +71,7 @@ $(document).ready(function() {
 
     var creationDiv;
     var cf_options, init_cf;
-    var init_sc, sc_options;
-    var cfc;
+    var init_sc, cfc;
 
     // If we play the first round we start with a random face,
     // otherwise with the last one created
@@ -89,26 +88,25 @@ $(document).ready(function() {
     // init_cf.color = node.player.color;
 
     init_sc = CFControls.normalizeFeatures(init_cf);
-    sc_options = {
+    cfc = new CFControls({
         id: 'cf_controls',
-        features: init_sc,
-        change: 'CF_CHANGE',
-    };
-    cfc = new CFControls(sc_options);
+        features: init_sc
+    });
 
 
     creationDiv = document.getElementById('creation');
 
     cf_options = {
-        id: 'cf',
+        id: 'cf_creation',
         width: 500,
         height: 500,
         features: init_cf,
         controls: cfc,
         title: false
     };
-    node.game.cf = node.widgets.append('ChernoffFaces', creationDiv,cf_options);
-
+    node.game.cf = node.widgets.append('ChernoffFaces',
+                                       creationDiv,
+                                       cf_options);
 
     // Copy face_0
     if (GameStage.compare(node.game.state, '3.1.1') === 0) {
@@ -140,7 +138,7 @@ $(document).ready(function() {
     //////////////
 
 
-    $('#done_box button').click(function(){
+    $('#done_box button').click(function() {
         $(function() {
             // Notify the game engine that the button has been
             // clicked. This way any other jQuery dialog can
@@ -163,15 +161,13 @@ $(document).ready(function() {
         });
     });
 
-
-
     // Tooltip for enlarge and copy canvas
     //////////////////////////////////////
 
     $('#all_ex canvas').hover(
         function(e) {
             var txt = "<span id='enlarge'>Click to enlarge, " +
-                "and decide if copying it</span>";
+                "and decide if you want to copy it.</span>";
             var enlarge = $(txt);
             var pos = $(this).position();
             enlarge.addClass('tooltip');
@@ -193,67 +189,28 @@ $(document).ready(function() {
     ////////////
     node.env('auto', function() {
     	node.timer.randomExec(function() {
-    	    var ex, button;
+    	    var choice, odd, ex;
 
+            // Round/color dependent.
+            odd = node.game.stage.round % 2 === 1;
     	    if (node.player.color === 'green') {
-
-    		if (node.game.state.round % 2 === 1) {
-    		    ex = 'ex_A';
-    		}
-    		else {
-    		    ex = 'ex_B';
-    		}
+    		ex =  odd ? 'ex_A' : 'ex_B';
     	    }
-
-    	    if (node.player.color === 'red') {
-
-    		if (node.game.state.round % 2 === 1) {
-    		    ex = 'ex_B';
-    		}
-    		else {
-    		    ex = 'ex_C';
-    		}
-    	    }
-
-    	    if (node.player.color === 'black') {
-
-    		if (node.game.state.round % 2 === 1) {
-    		    ex = 'ex_C';
-                }
-    		else {
-    		    ex = 'ex_A';
-    		}
-    	    }
-
-            //    		  var choice = Math.random();
-            //
-            //
-            //    		  if (choice < 0.33) {
-            //    			  ex = 'ex_A';
-            //    		  }
-            //    		  else if (choice < 0.66) {
-            //    			  ex = 'ex_B';
-            //    		  }
-            //    		  else {
-            //    			  ex = 'ex_C';
-            //    		  }
-
-    	    button = node.window.getElementById(ex);
-
-    	    if (button) {
-    		button.click();
+            else if (node.player.color === 'red') {
+                ex =  odd ? 'ex_B' : 'ex_C';    		
     	    }
     	    else {
-    		setTimeout(function(){
-    		    button = node.window.getElementById(ex);
-    		    if (!button) {
-    			setTimeout(this, 1000);
-    		    }
-    		    else {
-    			button.click();
-    		    }
-    		}, 1000);
+                ex =  odd ? 'ex_C' : 'ex_A';    		
+    		
     	    }
+
+//             // Completely random.
+//             choice = Math.random();                     
+//             if (choice < 0.33) ex = 'ex_A';
+//             else if (choice < 0.66) ex = 'ex_B';            
+//             else ex = 'ex_C';            
+
+    	    node.window.getElementById(ex).click();
 
 	}, 4000);
     });
