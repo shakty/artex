@@ -62,7 +62,6 @@ $(document).ready(function() {
     
     // TODO: do we need as an emit? Can we do it inside the jQuery dialog?
     node.on('COPIED', function(f) {
-        //node.game.personal_history.add(f);
         node.game.cf.draw(f);
         addJQuerySliders(CFControls.normalizeFeatures(f));
     });

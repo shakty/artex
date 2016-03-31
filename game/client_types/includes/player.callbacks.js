@@ -50,7 +50,15 @@ function init() {
         W.generateFrame();
     }
 
+    // Holds path to different html pages, depending on the treatment.
+    // Constant throughout the game.
     this.html = {};
+
+    // Holds references to copied images in current round.
+    // Gets cleared every step.
+    this.copies = [];
+
+
 
     node.env('review_select', function() {
 
@@ -81,7 +89,6 @@ function init() {
 
 
     this.cf = null;
-    this.outlet = null;
     this.exs = ['A','B','C'];
 
     this.evaAttr = {
@@ -160,15 +167,17 @@ function init() {
                     buttons[0] = {
                         text: 'copy',
                         click: function() {
+                            // Triggers the update of the image and sliders.
                             node.emit('COPIED', f);
-                            node.set({
-                                copied: true,
+                            // Keep track of copying.
+                            node.game.copies.push({
+                                time: node.timer.getTimeSince('step'),
                                 author: cell.content.author,
                                 ex: cell.content.ex,
                                 mean: cell.content.mean,
                                 round: cell.content.round
                             });
-                            $( this ).dialog( "close" );
+                            $(this).dialog("close");
                         }
                     };
                 }

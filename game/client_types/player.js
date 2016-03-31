@@ -88,6 +88,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('creation', {
+        init: function() {
+            node.game.copies = [];
+        },
         cb: cbs.creation,
         timer: {
             milliseconds: function() {
@@ -106,7 +109,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.last_ex = node.game.last_ex = ex;
             return {
                 ex: ex,
-                cf: node.game.last_cf
+                cf: node.game.last_cf,
+                copies: node.game.copies
             };
         }
     });
