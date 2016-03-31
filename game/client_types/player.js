@@ -87,6 +87,19 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    // Adjust to displaying rounds in main stage.
+    stager.extendStage('artex', {
+        init: function() {
+            node.game.rounds.setDisplayMode([
+                'COUNT_UP_STAGES_TO_TOTAL',
+                'COUNT_UP_ROUNDS_TO_TOTAL'
+            ]);
+        },
+        exit: function() {
+            node.game.rounds.setDisplayMode([ 'COUNT_UP_STAGES_TO_TOTAL' ]);
+        }
+    });
+
     stager.extendStep('creation', {
         init: function() {
             node.game.copies = [];

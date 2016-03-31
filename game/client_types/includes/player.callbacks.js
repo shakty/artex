@@ -212,7 +212,7 @@ function quiz() {
 }
 
 function creation() {
-    W.loadFrame('creation_RND.html', function() {
+    W.loadFrame('creation.html', function() {
         node.on('CLICKED_DONE', function() {
             $( ".copyorclose" ).dialog('close');
             $( ".copyorclose" ).dialog('destroy');
