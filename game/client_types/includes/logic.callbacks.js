@@ -340,7 +340,7 @@ function dissemination() {
 
             player_result = {
                 player: player,
-                author: author.name,
+                author: author.name || player.substr(player.length -5),
                 mean: mean.toFixed(2),
                 scores: this.last_reviews[player],
                 ex: ex,
