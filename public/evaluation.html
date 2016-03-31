@@ -44,88 +44,115 @@
       W = parent.W,
       Table = W.Table;
 
+      var table;
+
       // Avoid ESC to break the connection
       W.noEscape(window);
 
-      var table = new Table({
-          auto_update: true,
+      table = new Table({
           id: 'tbl_evaluation',
       });
-
-      var headers = [];
+      
+      document.getElementById('container_evaluation').appendChild(table.table);
 
       node.on.data('CF', function(msg) {
           var cf_options, cf;
           var display, display_container, sl;
+          var author, evaId, displayEvaId, displayContId;
+          var jQuerySlider;
           var labelText;
 
+          var headers;          
+          var ex, i, len;
+
           console.log('RECEIVED CF ********************');
+
+          if (!msg.data) {
+              node.err('Error: No data received on CF.');
+              return;
+          }
+
+          headers = [];
 
           cf_options = {
               width: 300,
               height: 300,
               scaleX: 1,
               scaleY: 1,
-              features: msg.data.face,
               id: false,
               change: false,
               controls: false
           };
-          cf = node.widgets.get('ChernoffFaces', cf_options);
 
-          var evaId = 'eva_' + msg.data.from;
-          var diplayEvaId = 'display_' + msg.data.from;
-          var displayContId = 'display_cont_' + msg.data.from;
+          i = -1, len = node.game.nExhibits;
 
-          // Add the slider to the container
+          // TODO: each exhibit can have multiple image
+          // so we need a nested for, or we access A, B, C directly.
 
-// Slider.
-//          , {
-//              'style': 'border: 0; background: white; width:300px'
-//          }
+          for ( ; ++i < len ; ) {
 
-          sl = W.getDiv(evaId);
-          display_container = W.getDiv(displayContId);
-          display = W.addTextInput(display_container, diplayEvaId, {
-              disabled: "disabled",
-              className: 'curr-eva-input'
-          });
+              ex = node.game.exhibitNames[i];
+              data = msg.data[ex];
+              
+              // Add image if any is found.
+              if (!data || !data.length) continue;
 
-          labelText = 'Your current evaluation: ';
-          W.addLabel(display_container, display, null, labelText);
+              // Create Chernoff face.
+              cf_options.features = data.face;
+              cf = node.widgets.get('ChernoffFaces', cf_options);
+              
+              // Create Evaluation interface.
+              author = data.author;
+              evaId = 'eva_' + author;
+              diplayEvaId = 'display_' + author;
+              displayContId = 'display_cont_' + author;
+              
+              // Add the slider to the container.
+              sl = W.getDiv(evaId);
+              display_container = W.getDiv(displayContId);
+              display = W.addTextInput(display_container, diplayEvaId, {
+                  disabled: "disabled",
+                  className: 'curr-eva-input'
+              });
+              
+              labelText = 'Your current evaluation: ';
+              W.addLabel(display_container, display, null, labelText);
+              
+              node.game.evas[author] = display;
+              
+              headers.push('Review for Exhibition: ' + ex);
+            
+              table.addColumn([sl, display_container, cf.getCanvas()]);
+                            
+              // Add jquery slider.
+              jQuerySlider = $("#" + evaId);
+              
+              jQuerySlider.slider({
+                  value: 5,
+                  min: 0,
+                  max: 10,
+                  step: 0.1,
+                  slide: function( event, ui ) {
+                      $("#" + diplayEvaId ).val( ui.value );
+                      node.game.evasChanged[author] = true;
+                  }
+              });
+              $("#" + diplayEvaId).val($("#" + evaId).slider("value"));
+              
+              // AUTOPLAY.
+              node.env('auto', function() {
+                  node.timer.randomExec(function() {
+                      $("#" + evaId).slider("value", Math.random() * 10);
+                      $("#" + diplayEvaId ).val($("#" + evaId).slider("value"));
+                  }, 4000);
+              });
+          }
 
-          this.evas[msg.data.from] = display;
-
-          headers.push('Review for Exhibition: ' + msg.data.ex);
           table.setHeader(headers);
-          table.addColumn([sl, display_container, cf.getCanvas()]);
-
-          // Add jquery slider.
-          $( "#" + evaId).slider({
-              value: 5,
-              min: 0,
-              max: 10,
-              step: 0.1,
-              slide: function( event, ui ) {
-                  $( "#" + diplayEvaId ).val( ui.value );
-                  node.game.evasChanged[msg.data.from] = true;
-              }
-          });
-          $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) );
-
           table.parse();
-
-          // AUTOPLAY.
-          node.env('auto', function(){
-              node.timer.randomExec(function() {
-                  $( "#" + evaId ).slider( "value",  Math.random()*10);
-                  $( "#" + diplayEvaId ).val( $( "#" + evaId ).slider( "value" ) );
-              }, 4000);
-          });
-
       });
 
-      document.getElementById('container_evaluation').appendChild(table.table);
+
       node.env('auto', function(){
           node.timer.randomExec(function() {
               node.done();

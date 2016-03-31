@@ -160,7 +160,7 @@ function instructions() {
 }
 
 function gameover() {
-    console.log('************** GAMEOVER ' + gameRoom.name + ' ****************');
+    console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
 
     // Dump all memory.
     node.game.memory.save(DUMP_DIR + 'memory_all.json');
@@ -183,8 +183,6 @@ function evaluation() {
     var matches;
     var subByEx;
 
-    this.last_submissions = [[], [], []];
-
     var R =  (this.pl.length > 3) ? this.reviewers
         : (this.pl.length > 2) ? 2 : 1;
 
@@ -203,38 +201,31 @@ function evaluation() {
     });
 
     node.env('review_random', function() {
-        var faces = dataRound.fetch();
+        var faces, face, data;
+        var i, j;
+
+        faces = dataRound.fetch();
+        // Generates a latin square array where:
+        // - array-id of items to review,
+        // - column are reviewers id.
         matches = J.latinSquareNoSelf(faces.length, R);
 
-        for (var i=0; i < faces.length; i++) {
-            var data = {};
-            for (var j=0; j < matches.length; j++) {
-                var face = faces[matches[j][i]];
-                if (!data[face.ex]) data[face.ex] = [];
-
+        // Loop across reviewers.
+        for (i = 0 ; i < faces.length; i++) {
+            data = { A: [], B: [], C: []};
+            // Loop across all items to review.
+            for (j = 0 ; j < matches.length; j++) {
+                // Get item to review.
+                face = faces[matches[j][i]];
+                // Add it to an exhibition.
                 data[face.ex].push({
                     face: face.cf,
-                    from: face.player,
-                    ex: face.ex
-                });
-                data[face.ex].push({
-                    face: face.cf,
-                    from: face.player,
-                    ex: face.ex
-                });
-                data[face.ex].push({
-                    face: face.cf,
-                    from: face.player,
+                    author: face.player,
                     ex: face.ex
                 });
             }
-            // Sort by exhibition and send them
-            J.each(['A','B','C'], function(ex) {
-                if (!data[ex]) return;
-                for (var z = 0; z < data[ex].length; z++) {
-                    node.say('CF', faces[i].player, data[ex][z]);
-                }
-            });
+            // Send them.            
+            node.say('CF', faces[i].player, data);
         }
 
     });
@@ -258,13 +249,14 @@ function evaluation() {
             for (var j = 0; j < elements[i].length; j++) {
 
                 for (var h = 0; h < matches[i][j].length; h++) {
+                    var face = dataRound
+                        .select('player', '=', elements[i][j]).first();
 
-                    var face = dataRound.select('player', '=', elements[i][j]).first();
                     if (!data[face.value]) data[face.value] = [];
 
                     data = {
                         face: face.CF.value,
-                        from: face.player,
+                        author: face.player,
                         ex: face.value
                     };
                     node.say('CF', matches[i][j][h], data);
@@ -275,23 +267,28 @@ function evaluation() {
         }
     });
 
-    this.last_reviews = {};
-
     // Build reviews index.
     node.on.data('done', function(msg) {
-        var i, len, reviews;
+        var i, len, reviews, ex;
         if (!msg.data || !msg.data.reviews || !msg.data.reviews.length) {
             console.log('Error: no reviews received.', msg);
             return;
         }
+        else {
+            console.log('Received reviews', msg.data);
+        }
         reviews = msg.data.reviews;
-        // Loop through all the reviews of the subject.
+        // Loop through all the reviews of the subject,
+        // and group them by exhibition.
         i = -1, len = reviews.length;
         for ( ; ++i < len ; ) {
-            if (!that.last_reviews[reviews[i].ex]) {
-                that.last_reviews[reviews[i].ex] = [];
+            ex = reviews[i].ex;
+            if (this.last_reviews[ex]) {            
+                that.last_reviews[ex].push(reviews[i].eva);
             }
-            that.last_reviews[reviews[i].ex].push(reviews[i].eva);
+            else {
+                node.err('Error: review for unknown exhibition: ' + ex);
+            }
         }
     });
 
@@ -322,11 +319,11 @@ function dissemination() {
         for (var j=0; j < works.length; j++) {
             player = works[j];
             if (!this.last_reviews[player]) {
-                node.err('No reviews for player: ' + player + 
+                node.err('No reviews for player: ' + player +
                          '. This should not happen. Some results are missing.');
                 continue;
             }
-            author = this.pl.id.get(player);                            
+            author = this.pl.id.get(player);
             if (!author) {
                 node.err('No author found. This should not happen. ' +
                          'Some results are missing.');
@@ -340,7 +337,7 @@ function dissemination() {
             mean = mean / this.last_reviews[player].length;
 
             cf = subRound
-                .select('player', '=', player)        
+                .select('player', '=', player)
                 .first().cf;
 
             ex = exids[i];
