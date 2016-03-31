@@ -46,9 +46,7 @@ function init() {
     }
 
     // Add the main frame where the pages will be loaded.
-    if (!W.getFrame()) {
-        W.generateFrame();
-    }
+    if (!W.getFrame()) W.generateFrame();    
 
     // Holds references to copied images in current round.
     // Gets cleared every step.
@@ -57,27 +55,24 @@ function init() {
     // Reference to the main drawing ChernoffFaces widget
     this.cf = null;
 
+    // Reference to the values of the last created Chernoff face.
+    this.last_cf = null;
+
+    // Exhibition names.
     this.exs = ['A','B','C'];
 
-    this.evaAttr = {
-        min: 1,
-        max: 9,
-        step: 0.5,
-        value: 4.5
-    };
-
+    // Current rounds of evalutions (review delivered by subject).
     this.evas = {};
+    // Marks if the review slider was moved at all.
     this.evasChanged = {};
 
+    // List of all past exhibitions.
     this.all_ex = new W.List({
         id: 'all_ex',
         lifo: true
     });
 
-    this.last_cf = null;
-
-    // Function that renders a chernoff face (plus metadata)
-    // inside a Table.
+    // Renders a chernoff face (plus metadata) inside a table's cell.
     this.renderCF = function(cell) {
         var w, h;
         var cf, cfOptions;
