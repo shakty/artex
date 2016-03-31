@@ -54,12 +54,6 @@ function init() {
     // Constant throughout the game.
     this.html = {};
 
-    // Holds references to copied images in current round.
-    // Gets cleared every step.
-    this.copies = [];
-
-
-
     node.env('review_select', function() {
 
         node.game.html.creation = 'creation_SEL.html';
@@ -88,7 +82,13 @@ function init() {
     });
 
 
+    // Holds references to copied images in current round.
+    // Gets cleared every step.
+    this.copies = [];
+
+    // Reference to the main drawing ChernoffFaces widget
     this.cf = null;
+
     this.exs = ['A','B','C'];
 
     this.evaAttr = {
@@ -105,8 +105,6 @@ function init() {
         id: 'all_ex',
         lifo: true
     });
-
-    this.personal_history = null;
 
     this.last_cf = null;
 
@@ -251,16 +249,6 @@ function quiz() {
 
 function creation() {
     W.loadFrame(this.html.creation, function() {
-//         node.on('sub_done', function(ex) {
-//             // TODO: Check ex?
-//          $( ".copyorclose" ).dialog('close');
-//             node.game.last_cf = node.game.cf.getAllValues();
-//             node.game.last_ex = node.game.last_ex = ex;
-//             node.done({
-//                 ex: ex,
-//                 cf: node.game.last_cf
-//             });
-//         });
         node.on('CLICKED_DONE', function() {
             $( ".copyorclose" ).dialog('close');
             $( ".copyorclose" ).dialog('destroy');
@@ -271,8 +259,6 @@ function creation() {
 
 
 function evaluation() {
-    // Reset evaluations.
-    this.evas = {};
     W.loadFrame('evaluation.html');
     console.log('Evaluation');
 }
@@ -298,12 +284,15 @@ function dissemination() {
         node.game.timer.stop();
 
         node.on.data('WIN_CF', function(msg) {
+            var str, db;
+            var j, winners;
+
             console.log('WWWWWWWWWIN_CF');
             if (msg.data.length) {
-                var db = new node.NDDB(null, msg.data);
+                db = new node.NDDB(null, msg.data);
 
-                for (var j=0; j < this.exs.length; j++) {
-                    var winners = db.select('ex', '=', this.exs[j])
+                for (j = 0; j < this.exs.length; j++) {
+                    winners = db.select('ex', '=', this.exs[j])
                         .sort('mean')
                         .reverse()
                         .fetch();
@@ -317,16 +306,18 @@ function dissemination() {
                     }
                 }
 
-                //$('#mainframe').contents().find('#done_box').before(table.parse());
+                // $('#mainframe').contents()
+                //   .find('#done_box').before(table.parse());
 
-                W.getElementById('container_exhibition').appendChild(table.parse());
+                W.getElementById('container_exhibition')
+                    .appendChild(table.parse());
 
                 this.all_ex.addDD(table);
 
             }
 
             else {
-                var str = 'No painting was considered good enough to be put on display';
+                str = 'No painting was considered good enough to be put on display.';
                 W.write(str, W.getElementById("container_exhibition"));
                 this.all_ex.addDD(str);
             }

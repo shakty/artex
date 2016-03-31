@@ -117,8 +117,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     
     stager.extendStep('evaluation', {
         init: function() {
-            // Reset change monitor.
+            // Reset evaluations.
             node.game.evasChanged = {};
+            node.game.evas = {};
         },
         cb: cbs.evaluation,
         done: function() {
