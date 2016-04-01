@@ -78,7 +78,7 @@
       
       function makeReviewUI(exData) {
           var cf_options, cf;
-          var display, display_container, sl;
+          var display, display_container, sl, head;
           var ex, author, evaId, displayEvaId, displayContId;
           var jQuerySlider;
           var labelText;
@@ -128,8 +128,10 @@
               node.game.evas[author].ex = ex;
 
               // Table (need to be parsed, otherwise jQuery slider fails.
-              table.addColumn(['Review for Exhibition: ' + ex,
-                               sl, display_container, cf.getCanvas()]);
+              head = document.createElement('span');
+              head.innerHTML = 'Review for Exhibition: ' + ex;
+              head.className = 'ex-header';
+              table.addColumn([head, sl, display_container, cf.getCanvas()]);
               table.parse();
               
               // Add jquery slider.
