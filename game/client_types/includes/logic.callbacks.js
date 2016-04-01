@@ -58,13 +58,15 @@ function init() {
     // Player ids.
     this.plids = [];
 
-    // 
+    // Object containing the reviews received by every player.
     this.last_reviews = null;
 
-    // 
+    // Array containing the id the players
+    // that have submitted to an exhibition.
     this.last_submissions = null;
 
-    //
+    // In case the review assignment is not random,
+    // but based on current round actions, this object contains them.
     this.nextround_reviewers = null;
 
     // Decorate every object inserted in database with session and treatment.
@@ -77,7 +79,7 @@ function init() {
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
         var idEx = node.game.exhibitions[i.ex];
-        node.game.last_submissions[idEx].push(i.player);
+        node.game.last_submissions[idEx].push({ player: i.player, cf: i.cf });
     };
 
     // Register player disconnection, and wait for him...
@@ -191,18 +193,20 @@ function creation() {
 
 function evaluation() {
     var that;
-    var matches;
-    var subByEx;
+    var nReviewers, matches;
+    var dataRound;
+    var curStep, prevStep;
 
     that = this;
 
-    var nReviewers = this.pl.size() > 3 ? 
+    nReviewers = this.pl.size() > 3 ? 
         this.reviewers : this.pl.size() > 2 ? 2 : 1;
 
-    var curStep = this.getCurrentGameStage();
-    var prevStep = this.plot.previous(curStep);
+    
+    curStep = this.getCurrentGameStage();
+    prevStep = this.plot.previous(curStep);
 
-    var dataRound = this.memory.stage[prevStep];
+    dataRound = this.memory.stage[prevStep];
 
     node.env('review_random', function() {
         var faces, face, data;
@@ -270,17 +274,6 @@ function evaluation() {
         }
     });
 
-
-    // TODO: does this need to be done here?
-    // Some exh might not have submissions.
-//     subByEx = dataRound.groupBy('ex');
-//     J.each(subByEx, function(e) {
-//         e.each(function(s) {
-//             var idEx = that.exhibitions[s.ex];
-//             node.game.last_submissions[idEx].push(s.player);
-//         });
-//     });
-
     // Build reviews index.
     node.on.data('done', function(msg) {
         var i, len, reviews, creator;
@@ -316,17 +309,20 @@ function dissemination() {
     var ex, author, cf, mean, player, works;
     var nextRoundReviewer, player_result;
     var subRound;
-    var i, j;
+    var i, j, k, len;
 
     subRound = this.memory.stage[submissionRound];
 debugger
     for (i = 0; i < this.last_submissions.length; i++) {
+
         // Groups all the reviews for an artist.
         works = this.last_submissions[i];
+        // Exhibition.
+        ex = exids[i];
 
-        // Evaluations Loop
+        // Collect all reviews and compute mean.
         for (j = 0; j < works.length; j++) {
-            player = works[j];
+            player = works[j].player;
             if (!this.last_reviews[player]) {
                 node.err('No reviews for player: ' + player +
                          '. This should not happen. Some results are missing.');
@@ -338,18 +334,17 @@ debugger
                          'Some results are missing.');
                 continue;
             }
-
+            
+            // Compute average review score.
             mean = 0;
-            J.each(this.last_reviews[player], function(r) {
-                mean += r;
-            });
+            k = -1, len = this.last_reviews[player].length;
+            for ( ; ++k < len ; ) {
+                mean += this.last_reviews[player][k]
+            }
             mean = mean / this.last_reviews[player].length;
 
-            cf = subRound
-                .select('player', '=', player)
-                .first().cf;
-
-            ex = exids[i];
+            // Cf.
+            cf = works[j].cf;
 
             // Player is a submitter: second choice reviewer.
             nextRoundReviewer = 1;
@@ -358,7 +353,6 @@ debugger
                 player: player,
                 author: author.name || player.substr(player.length -5),
                 mean: mean.toFixed(2),
-                scores: this.last_reviews[player],
                 ex: ex,
                 round: submissionRound,
                 payoff: 0 // will be updated later
@@ -397,7 +391,7 @@ debugger
 
     // Dispatch detailed individual results to each single player.
     J.each(player_results, function(r) {
-        node.env('com', function(){
+        node.env('com', function() {
             var idEx, nPubs;
             if (r.published) {
                 idEx = node.game.exhibitions[r.ex];
