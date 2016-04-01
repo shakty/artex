@@ -64,12 +64,18 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('creation', {
-        cb: cbs.creation
+        init: function() {
+            this.last_submissions = [[], [], []];
+            this.memory.on('insert', this.assignSubToEx);
+        },
+        cb: cbs.creation,
+        exit: function() {
+            this.memory.off('insert', this.assignSubToEx);
+        }
     });
 
     stager.extendStep('evaluation', {
         init: function() {
-            this.last_submissions = [[], [], []];
             this.last_reviews = {};           
         },
         cb: cbs.evaluation

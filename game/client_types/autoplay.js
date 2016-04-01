@@ -1,6 +1,6 @@
 /**
- * # Autoplay code for Ultimatum Game
- * Copyright(c) 2014 Stefano Balietti
+ * # Autoplay code for Art Exhibition Game
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
  *
  * Handles bidding, and responds between two players automatically.

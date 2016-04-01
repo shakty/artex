@@ -45,14 +45,6 @@ function init() {
 
     this.reviewers = 3;
 
-    node.env('com', function() {
-        node.game.payoff = 3;
-    });
-
-    node.env('coo', function() {
-        node.game.payoff = 2;
-    });
-
     this.exhibitions = {
         A: 0,
         B: 1,
@@ -64,10 +56,17 @@ function init() {
     this.last_submissions = null;
     this.nextround_reviewers = null;
 
-    // Add session name to data in DB.
-    node.game.memory.on('insert', function(o) {
+    this.memory.on('insert', function(o) {
         o.session = node.nodename;
+        o.treatment = gameRoom.treatmentName;
     });
+
+    // Function used in creation step 
+    // for every newly inserted item in db.
+    this.assignSubToEx = function(i) {
+        var idEx = node.game.exhibitions[i.ex];
+        node.game.last_submissions[idEx].push(i.player);
+    };
 
     // Register player disconnection, and wait for him...
     node.on.pdisconnect(function(p) {
@@ -183,6 +182,8 @@ function evaluation() {
     var matches;
     var subByEx;
 
+    that = this;
+
     var R =  (this.pl.length > 3) ? this.reviewers
         : (this.pl.length > 2) ? 2 : 1;
 
@@ -190,17 +191,6 @@ function evaluation() {
     var prevStep = this.plot.previous(curStep);
 
     var dataRound = this.memory.stage[prevStep];
-
-    // TODO: does this need to be done here?
-    // Some exh might not have submissions.
-    subByEx = dataRound.groupBy('ex');
-    that = this;
-    J.each(subByEx, function(e) {
-        e.each(function(s) {
-            var idEx = that.exhibitions[s.ex];
-            node.game.last_submissions[idEx].push(s.player);
-        });
-    });
 
     node.env('review_random', function() {
         var faces, face, data;
@@ -229,7 +219,6 @@ function evaluation() {
             // Send them.            
             node.say('CF', faces[i].player, data);
         }
-
     });
 
     node.env('review_select', function() {
@@ -269,6 +258,17 @@ function evaluation() {
         }
     });
 
+
+    // TODO: does this need to be done here?
+    // Some exh might not have submissions.
+//     subByEx = dataRound.groupBy('ex');
+//     J.each(subByEx, function(e) {
+//         e.each(function(s) {
+//             var idEx = that.exhibitions[s.ex];
+//             node.game.last_submissions[idEx].push(s.player);
+//         });
+//     });
+
     // Build reviews index.
     node.on.data('done', function(msg) {
         var i, len, reviews, creator;
@@ -282,7 +282,7 @@ function evaluation() {
         i = -1, len = reviews.length;
         for ( ; ++i < len ; ) {
             creator = reviews[i].creator;
-            if (!this.last_reviews[creator]) this.last_reviews[creator] = [];
+            if (!that.last_reviews[creator]) that.last_reviews[creator] = [];
             that.last_reviews[creator].push(reviews[i].eva);
         }
     });
@@ -295,10 +295,10 @@ function dissemination() {
     var curStep = this.getCurrentGameStage();
     var submissionRound = this.plot.jump(curStep, -2);
 
-    // array of all the selected works (by exhibition);
+    // Array of all the selected works (by exhibition);
     var selected = [];
 
-    // results of the round (by author)
+    // Results of the round (by author)
     var player_results = [];
 
     var ex, author, cf, mean, player, works;
@@ -307,9 +307,9 @@ function dissemination() {
     var i, j;
 
     subRound = this.memory.stage[submissionRound];
-
+debugger
     for (i = 0; i < this.last_submissions.length; i++) {
-        // Groups all the reviews for an artist
+        // Groups all the reviews for an artist.
         works = this.last_submissions[i];
 
         // Evaluations Loop
@@ -390,12 +390,12 @@ function dissemination() {
             if (r.published) {
                 idEx = node.game.exhibitions[r.ex];
                 nPubs = node.game.nextround_reviewers[idEx][0].length;
-                r.payoff = (node.game.payoff / nPubs).toFixed(2);
+                r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
             }
         });
         node.env('coo', function(){
             if (r.published) {
-                r.payoff = node.game.payoff;
+                r.payoff = node.game.settings.payoff;
             }
         });
         node.say('PLAYER_RESULT', r.player, r);

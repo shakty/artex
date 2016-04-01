@@ -38,7 +38,7 @@ module.exports = {
     WAIT_TIME: 60,
 
     // Threshold for publication.
-    threshold: -1,
+    threshold: 5,
 
     // Available treatments:
     // (there is also the "standard" treatment, using the options above)
@@ -51,7 +51,8 @@ module.exports = {
             review_select: true,
             com: true,
             questPage: 'questionnaire_SEL_COM.html',
-            instrPage: 'questionnaire_SEL_COM.html'
+            instrPage: 'questionnaire_SEL_COM.html',
+            payoff: 3
         },
 
         review_select_coo: {
@@ -61,7 +62,8 @@ module.exports = {
             review_select: true,
             com: false,
             questPage: 'questionnaire_SEL_COO.html',
-            instrPage: 'questionnaire_SEL_COO.html'
+            instrPage: 'questionnaire_SEL_COO.html',
+            payoff: 2
         },
 
         review_random_com: {
@@ -71,7 +73,8 @@ module.exports = {
             review_random: true,
             com: true,
             questPage: 'questionnaire_RND_COM.html',
-            instrPage: 'questionnaire_RND_COM.html'
+            instrPage: 'questionnaire_RND_COM.html',
+            payoff: 3
         },
 
         review_random_coo: {
@@ -81,7 +84,8 @@ module.exports = {
             review_random: true,
             com: false,
             questPage: 'questionnaire_RND_COO.html',
-            instrPage: 'questionnaire_RND_COO.html'
+            instrPage: 'questionnaire_RND_COO.html',
+            payoff: 2
         }
     }
 
