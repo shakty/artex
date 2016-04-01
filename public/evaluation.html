@@ -37,7 +37,7 @@
 <script type="text/javascript">
     <!--
 
-  window.onload = function(){
+  window.onload = function() {
 
       var node = parent.node,
       JSUS = parent.JSUS,
@@ -49,21 +49,11 @@
       // Avoid ESC to break the connection
       W.noEscape(window);
 
-      table = new Table({
-          id: 'tbl_evaluation',
-      });
-      
+      table = new Table({ id: 'tbl_evaluation' });
+
       document.getElementById('container_evaluation').appendChild(table.table);
 
       node.on.data('CF', function(msg) {
-          var cf_options, cf;
-          var display, display_container, sl;
-          var author, evaId, displayEvaId, displayContId;
-          var jQuerySlider;
-          var labelText;
-
-          var headers;          
-          var ex, i, len;
 
           console.log('RECEIVED CF ********************');
 
@@ -72,8 +62,27 @@
               return;
           }
 
-          headers = [];
+          if (msg.data.A && msg.data.A.length) makeReviewUI(msg.data.A);
+          if (msg.data.B && msg.data.B.length) makeReviewUI(msg.data.B);
+          if (msg.data.C && msg.data.C.length) makeReviewUI(msg.data.C);
 
+          // table.setHeader(headers);
+          // table.parse();
+      });
+
+      node.env('auto', function(){
+          node.timer.randomExec(function() {
+              node.done();
+          }, 10000);
+      });
+      
+      function makeReviewUI(exData) {
+          var cf_options, cf;
+          var display, display_container, sl;
+          var ex, author, evaId, displayEvaId, displayContId;
+          var jQuerySlider;
+          var labelText;
+          var i, len;
           cf_options = {
               width: 300,
               height: 300,
@@ -83,19 +92,13 @@
               change: false,
               controls: false
           };
-
-          i = -1, len = node.game.nExhibits;
-
-          // TODO: each exhibit can have multiple image
-          // so we need a nested for, or we access A, B, C directly.
-
+          i = -1, len = exData.length;
           for ( ; ++i < len ; ) {
-
-              ex = node.game.exhibitNames[i];
-              data = msg.data[ex];
               
-              // Add image if any is found.
-              if (!data || !data.length) continue;
+              data = exData[i];
+
+              // Exhibition.
+              ex = data.ex;
 
               // Create Chernoff face.
               cf_options.features = data.face;
@@ -120,10 +123,13 @@
               
               node.game.evas[author] = display;
               
-              headers.push('Review for Exhibition: ' + ex);
-            
-              table.addColumn([sl, display_container, cf.getCanvas()]);
-                            
+              //headers.push();
+              
+              table.addColumn(['Review for Exhibition: ' + ex,
+                               sl, display_container, cf.getCanvas()]);
+
+              table.parse();
+              
               // Add jquery slider.
               jQuerySlider = $("#" + evaId);
               
@@ -132,8 +138,8 @@
                   min: 0,
                   max: 10,
                   step: 0.1,
-                  slide: function( event, ui ) {
-                      $("#" + diplayEvaId ).val( ui.value );
+                  slide: function(event, ui) {
+                      $("#" + diplayEvaId).val(ui.value);
                       node.game.evasChanged[author] = true;
                   }
               });
@@ -143,22 +149,14 @@
               node.env('auto', function() {
                   node.timer.randomExec(function() {
                       $("#" + evaId).slider("value", Math.random() * 10);
-                      $("#" + diplayEvaId ).val($("#" + evaId).slider("value"));
+                      $("#" + diplayEvaId).val($("#" + evaId).slider("value"));
                   }, 4000);
               });
           }
-
-          table.setHeader(headers);
-          table.parse();
-      });
-
-
-      node.env('auto', function(){
-          node.timer.randomExec(function() {
-              node.done();
-          }, 10000);
-      });
+      }
   }
+
+ 
 
   //-->
 </script>
