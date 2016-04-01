@@ -40,22 +40,34 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 
 function init() {
+
+    // Create data dir. TODO: do it automatically?
     DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
 
+    // Number of reviewers per image.
     this.reviewers = 3;
 
+    // Exhibition names and their id.
     this.exhibitions = {
         A: 0,
         B: 1,
         C: 2
     };
 
+    // Player ids.
     this.plids = [];
+
+    // 
     this.last_reviews = null;
+
+    // 
     this.last_submissions = null;
+
+    //
     this.nextround_reviewers = null;
 
+    // Decorate every object inserted in database with session and treatment.
     this.memory.on('insert', function(o) {
         o.session = node.nodename;
         o.treatment = gameRoom.treatmentName;
@@ -184,8 +196,8 @@ function evaluation() {
 
     that = this;
 
-    var R =  (this.pl.length > 3) ? this.reviewers
-        : (this.pl.length > 2) ? 2 : 1;
+    var nReviewers = this.pl.size() > 3 ? 
+        this.reviewers : this.pl.size() > 2 ? 2 : 1;
 
     var curStep = this.getCurrentGameStage();
     var prevStep = this.plot.previous(curStep);
@@ -200,13 +212,13 @@ function evaluation() {
         // Generates a latin square array where:
         // - array-id of items to review,
         // - column are reviewers id.
-        matches = J.latinSquareNoSelf(faces.length, R);
+        matches = J.latinSquareNoSelf(faces.length, nReviewers);
 
         // Loop across reviewers.
         for (i = 0 ; i < faces.length; i++) {
             data = { A: [], B: [], C: []};
             // Loop across all items to review.
-            for (j = 0 ; j < matches.length; j++) {
+            for (j = 0 ; j < nReviewers ; j++) {
                 // Get item to review.
                 face = faces[matches[j][i]];
                 // Add it to an exhibition.
