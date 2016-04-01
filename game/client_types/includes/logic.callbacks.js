@@ -311,8 +311,11 @@ function dissemination() {
     var subRound;
     var i, j, k, len;
 
+    var idEx, nPubs;
+
+    // Submission round data.
     subRound = this.memory.stage[submissionRound];
-debugger
+
     for (i = 0; i < this.last_submissions.length; i++) {
 
         // Groups all the reviews for an artist.
@@ -389,23 +392,25 @@ debugger
     // Dispatch exhibition results to ALL.
     node.say('WIN_CF', 'ALL', selected);
 
-    // Dispatch detailed individual results to each single player.
-    J.each(player_results, function(r) {
-        node.env('com', function() {
-            var idEx, nPubs;
-            if (r.published) {
+    
+    // Compute individual payoffs and send them to each player.
+    i = -1, len = player_results.length;
+    for ( ; ++i < len ; ) {
+        r = player_results[i];
+
+        if (r.published) {
+            if (node.game.settings.com) {
                 idEx = node.game.exhibitions[r.ex];
                 nPubs = node.game.nextround_reviewers[idEx][0].length;
                 r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
+            }            
+            else {
+                r.payoff = node.game.settings.payoff;            
             }
-        });
-        node.env('coo', function(){
-            if (r.published) {
-                r.payoff = node.game.settings.payoff;
-            }
-        });
+        }
+
         node.say('PLAYER_RESULT', r.player, r);
-    });
+    }
 
     console.log('dissemination');
 }
