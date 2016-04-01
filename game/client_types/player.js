@@ -131,18 +131,20 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('evaluation', {
         init: function() {
             // Reset evaluations.
-            node.game.evasChanged = {};
             node.game.evas = {};
         },
         cb: cbs.evaluation,
         done: function() {
-            var out = [];
-            for (var i in this.evas) {
+            var i, out, eva;
+            out = [];
+            for (i in this.evas) {
                 if (this.evas.hasOwnProperty(i)) {
+                    eva = this.evas[i];
                     out.push({
-                        ex: i,
-                        eva: Number(this.evas[i].value),
-                        hasChanged: this.evasChanged[i]
+                        creator: i,
+                        ex: eva.ex,
+                        eva: parseFloat(eva.display.value, 10),
+                        hasChanged: !!eva.changed
                     });
                 }
             }

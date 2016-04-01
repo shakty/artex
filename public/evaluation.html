@@ -97,15 +97,15 @@
               
               data = exData[i];
 
-              // Exhibition.
-              ex = data.ex;
-
               // Create Chernoff face.
               cf_options.features = data.face;
               cf = node.widgets.get('ChernoffFaces', cf_options);
               
               // Create Evaluation interface.
               author = data.author;
+              // Create object that will store all info about this review.
+              node.game.evas[author] = {};
+
               evaId = 'eva_' + author;
               diplayEvaId = 'display_' + author;
               displayContId = 'display_cont_' + author;
@@ -121,13 +121,15 @@
               labelText = 'Your current evaluation: ';
               W.addLabel(display_container, display, null, labelText);
               
-              node.game.evas[author] = display;
-              
-              //headers.push();
-              
+              node.game.evas[author].display = display;
+             
+              // Exhibition.
+              ex = data.ex;
+              node.game.evas[author].ex = ex;
+
+              // Table (need to be parsed, otherwise jQuery slider fails.
               table.addColumn(['Review for Exhibition: ' + ex,
                                sl, display_container, cf.getCanvas()]);
-
               table.parse();
               
               // Add jquery slider.
@@ -140,7 +142,7 @@
                   step: 0.1,
                   slide: function(event, ui) {
                       $("#" + diplayEvaId).val(ui.value);
-                      node.game.evasChanged[author] = true;
+                      node.game.evas[author].changed = true;
                   }
               });
               $("#" + diplayEvaId).val($("#" + evaId).slider("value"));

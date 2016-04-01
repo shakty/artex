@@ -70,16 +70,15 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('evaluation', {
         init: function() {
             this.last_submissions = [[], [], []];
-            this.last_reviews = {
-                A: [],
-                B: [],
-                C: []
-            };           
+            this.last_reviews = {};           
         },
         cb: cbs.evaluation
     });
 
     stager.extendStep('dissemination', {
+        init: function() {            
+            this.nextround_reviewers = [ [[], []], [[], []], [[], []] ];
+        },
         cb: cbs.dissemination
     });
     

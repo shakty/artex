@@ -190,8 +190,10 @@ function evaluation() {
     var prevStep = this.plot.previous(curStep);
 
     var dataRound = this.memory.stage[prevStep];
-    subByEx = dataRound.groupBy('ex');
 
+    // TODO: does this need to be done here?
+    // Some exh might not have submissions.
+    subByEx = dataRound.groupBy('ex');
     that = this;
     J.each(subByEx, function(e) {
         e.each(function(s) {
@@ -269,26 +271,19 @@ function evaluation() {
 
     // Build reviews index.
     node.on.data('done', function(msg) {
-        var i, len, reviews, ex;
+        var i, len, reviews, creator;
         if (!msg.data || !msg.data.reviews || !msg.data.reviews.length) {
             console.log('Error: no reviews received.', msg);
             return;
         }
-        else {
-            console.log('Received reviews', msg.data);
-        }
         reviews = msg.data.reviews;
         // Loop through all the reviews of the subject,
-        // and group them by exhibition.
+        // and group them by item reviewed.
         i = -1, len = reviews.length;
         for ( ; ++i < len ; ) {
-            ex = reviews[i].ex;
-            if (this.last_reviews[ex]) {            
-                that.last_reviews[ex].push(reviews[i].eva);
-            }
-            else {
-                node.err('Error: review for unknown exhibition: ' + ex);
-            }
+            creator = reviews[i].creator;
+            if (!this.last_reviews[creator]) this.last_reviews[creator] = [];
+            that.last_reviews[creator].push(reviews[i].eva);
         }
     });
 
@@ -300,8 +295,6 @@ function dissemination() {
     var curStep = this.getCurrentGameStage();
     var submissionRound = this.plot.jump(curStep, -2);
 
-    this.nextround_reviewers = [ [[], []], [[], []], [[], []] ];
-
     // array of all the selected works (by exhibition);
     var selected = [];
 
@@ -310,13 +303,17 @@ function dissemination() {
 
     var ex, author, cf, mean, player, works;
     var nextRoundReviewer, player_result;
-    var subRound = this.memory.stage[submissionRound];
-    for (var i=0; i < this.last_submissions.length; i++) {
+    var subRound;
+    var i, j;
+
+    subRound = this.memory.stage[submissionRound];
+
+    for (i = 0; i < this.last_submissions.length; i++) {
         // Groups all the reviews for an artist
         works = this.last_submissions[i];
 
         // Evaluations Loop
-        for (var j=0; j < works.length; j++) {
+        for (j = 0; j < works.length; j++) {
             player = works[j];
             if (!this.last_reviews[player]) {
                 node.err('No reviews for player: ' + player +
