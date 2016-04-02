@@ -51,7 +51,7 @@ module.exports = {
             review_select: true,
             com: true,
             questPage: 'questionnaire_SEL_COM.html',
-            instrPage: 'questionnaire_SEL_COM.html',
+            instrPage: 'instructions_SEL_COM.html',
             payoff: 3
         },
 
@@ -62,7 +62,7 @@ module.exports = {
             review_select: true,
             com: false,
             questPage: 'questionnaire_SEL_COO.html',
-            instrPage: 'questionnaire_SEL_COO.html',
+            instrPage: 'instructions_SEL_COO.html',
             payoff: 2
         },
 
@@ -73,7 +73,7 @@ module.exports = {
             review_random: true,
             com: true,
             questPage: 'questionnaire_RND_COM.html',
-            instrPage: 'questionnaire_RND_COM.html',
+            instrPage: 'instructions_RND_COM.html',
             payoff: 3
         },
 
@@ -84,7 +84,7 @@ module.exports = {
             review_random: true,
             com: false,
             questPage: 'questionnaire_RND_COO.html',
-            instrPage: 'questionnaire_RND_COO.html',
+            instrPage: 'instructions_RND_COO.html',
             payoff: 2
         }
     }

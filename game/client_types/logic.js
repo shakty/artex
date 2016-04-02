@@ -47,28 +47,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Event handler registered in the init function are always valid.
     stager.setOnGameOver(cbs.gameover);
 
-    // Extending default stages.
-
-
+    // Extending all stages.
     stager.setDefaultProperty('minPlayers', [
         settings.MIN_PLAYERS,
         cbs.notEnoughPlayers
     ]);
-
-    stager.extendStep('instructions', {
-        cb: cbs.instructions
-    });
-
-    stager.extendStep('quiz', {
-        cb: cbs.quiz
-    });
 
     stager.extendStep('creation', {
         init: function() {
             this.last_submissions = [[], [], []];
             this.memory.on('insert', this.assignSubToEx);
         },
-        cb: cbs.creation,
         exit: function() {
             this.memory.off('insert', this.assignSubToEx);
         }
@@ -88,10 +77,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination
     });
     
-    stager.extendStep('questionnaire', {
-        cb: cbs.questionnaire
-    });
-
     stager.extendStep('endgame', {
         cb: cbs.endgame,
         minPlayers: undefined,
