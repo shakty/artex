@@ -62,142 +62,14 @@
         </dd>
       </dl>
       <div id="done_box">
-        <button onclick='javascript:checkAnswers();' id="submitQuiz">Click here to check your answers, and start the game. <br>Correct answers <span id="answers_counter">0 / 3</span></button>
+        <button onclick='javascript:parent.node.emit("check-quiz");' id="submitQuiz">
+          Click here to check your answers, and start the game.
+          <br>Correct answers <span id="answers_counter">0 / 3</span>
+        </button>
       </div>
     </div>
   </div>
   
 </div>
 </body>
-<script>
-  var node =  parent.node,
-  J = parent.JSUS,
-  W = parent.W;
-  
-  
-  node.window.noEscape(window);
-  
-  var results = {};
-  
-  var answers;
-  
-  node.env('com', function(){
-  
-  node.env('review_select', function(){
-  answers = {
-  coocom: 3,
-  reviewSelect: 2,
-  reviewRange: 0
-  };	
-  });
-  node.env('review_random', function(){
-  answers = {
-  coocom: 3,
-  reviewSelect: 3,
-  reviewRange: 0
-  };
-  });
-  
-  });
-  
-  node.env('coo', function(){
-  
-  node.env('review_select', function(){
-  answers = {
-  coocom: 2,
-  reviewSelect: 2,
-  reviewRange: 0
-  };
-  });
-  node.env('review_random', function(){
-  answers = {
-  coocom: 2,
-  reviewSelect: 3,
-  reviewRange: 0
-  }; 
-  });
-  });
-  
-  node.env('auto', function(){
-  node.set('QUIZ', results);
-  node.timer.randomEmit('DONE', 2000);
-  });
-  
-  function checkAnswer(a) {
-  if (!a || !answers) return;
-  
-  var checked = getCheckedValue(a);  
-  return checked != answers[a.name];
-  }
-  
-  function checkAnswers () {
-  var reviewRange = document.getElementById('reviewRange');
-  var reviewSelect = document.getElementById('reviewSelect');
-  var coocom = document.getElementById('coocom');
-  /* console.log(reviewRange);	
-  console.log(document.forms['coocom']) */
-  
-  var correct, counter = 0;
-  J.each(document.forms, function(a){
-  if (!results[a.name]) results[a.name] = [];
-  correct = checkAnswer(a);
-  
-  if (correct) {
-  W.highlight(a, 'ERR');
-  document.getElementById(a.id + '_result').innerHTML = 'Wrong, try again';
-  results[a.name].push(0);	 
-  }
-  else {  
-  W.highlight(a, 'OK');
-  document.getElementById(a.id + '_result').innerHTML = 'Correct!';
-  results[a.name].push(1);
-  counter++;
-  }
-  });
-  
-  document.getElementById('answers_counter').innerHTML = counter + ' / ' + document.forms.length;
-  
-  if (counter === document.forms.length) {
-  node.set('QUIZ', results);
-  node.timer.randomEmit('DONE', 2000);
-  }
-  
-  }
-  
-  
-  function getCheckedValue(radioObj) {
-  if (!radioObj) return;
-  
-  if (radioObj.length) {
-  for (var i = 0; i < radioObj.length; i++) {
-		      if (radioObj[i].checked) {
-		      return radioObj[i].value;
-		      }
-		      }
-	              }
-	              
-	              return radioObj.checked;
-	              }
-                      
-	              // set the radio button with the given value as being checked
-	              // do nothing if there are no radio buttons
-	              // if the given value does not exist, all the radio buttons
-	              // are reset to unchecked
-	              function setCheckedValue(radioObj, newValue) {
-	              if (!radioObj)
-	              return;
-	              var radioLength = radioObj.length;
-	              if(radioLength == undefined) {
-	              radioObj.checked = (radioObj.value == newValue.toString());
-	              return;
-	              }
-	              for(var i = 0; i < radioLength; i++) {
-	                                 radioObj[i].checked = false;
-	                                 if(radioObj[i].value == newValue.toString()) {
-	                                 radioObj[i].checked = true;
-	                                 }
-	                                 }
-	                                 }
-                                         
-                                         
-                                         </script>
+<script src="lib/quiz.js" charset="utf-8"></script>

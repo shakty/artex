@@ -37,7 +37,7 @@ function init() {
             totStageOffset: 1
         });
 
-        node.game.timer = node.widgets.append('VisualTimer', header);
+        node.game.visualTimer = node.widgets.append('VisualTimer', header);
 
         node.game.money = node.widgets.append('MoneyTalks', header, {
             currency: 'CHF', money: 10
@@ -202,6 +202,22 @@ function instructions() {
 
 function quiz() {
     W.loadFrame('quiz.html', function() {
+        var button, QUIZ;
+
+        QUIZ = W.getFrameWindow().QUIZ;
+        button = W.getElementById('submitQuiz');
+
+        node.on('check-quiz', function() {
+            var answers;
+            answers = QUIZ.checkAnswers(button);
+            if (answers.correct || node.game.visualTimer.isTimeup()) {
+                node.emit('INPUT_DISABLE');
+                // On Timeup there are no answers.
+                node.done(answers);
+            }
+        });
+
+
         node.env('auto', function() {
             node.timer.randomExec(function() {
                 node.game.timer.doTimeUp();

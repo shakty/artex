@@ -41,50 +41,38 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Add all the stages into the stager.
 
-
     stager.setDefaultProperty('done', cbs.clearFrame);
 
     stager.extendStep('instructions', {
         cb: cbs.instructions,
         minPlayers: MIN_PLAYERS,
-        // syncOnLoaded: true,
-        timer: 90000
+        timer: settings.timer.instructions
     });
 
     stager.extendStep('quiz', {
         cb: cbs.quiz,
-        minPlayers: MIN_PLAYERS,
-        // syncOnLoaded: true,
-        // `timer` starts automatically the timer managed by the widget
-        // VisualTimer if the widget is loaded. When the time is up it fires
-        // the DONE event.
-        // It accepts as parameter:
-        //  - a number (in milliseconds),
-        //  - an object containing properties _milliseconds_, and _timeup_
-        //     the latter being the name of the event to fire (default DONE)
-        // - or a function returning the number of milliseconds.
-        timer: 60000,
-        done: function() {
-            var b, QUIZ, answers, isTimeup;
-            QUIZ = W.getFrameWindow().QUIZ;
-            b = W.getElementById('submitQuiz');
-
-            answers = QUIZ.checkAnswers(b);
-            isTimeup = node.game.timer.isTimeup();
-
-            if (!answers.__correct__ && !isTimeup) {
-                return false;
-            }
-
-            answers.timeUp = isTimeup;
-            answers.quiz = true;
-
-            // On TimeUp there are no answers
-            node.set(answers);
-            node.emit('INPUT_DISABLE');
-            
-            return true;
-        }
+        timer: settings.timer.quiz,
+//        done: function() {
+//            var b, QUIZ, answers, isTimeup;
+//            QUIZ = W.getFrameWindow().QUIZ;
+//            b = W.getElementById('submitQuiz');
+//
+//            answers = QUIZ.checkAnswers(b);
+//            isTimeup = node.game.timer.isTimeup();
+//
+//            if (!answers.__correct__ && !isTimeup) {
+//                return false;
+//            }
+//
+//            answers.timeUp = isTimeup;
+//            answers.quiz = true;
+//
+//            // On TimeUp there are no answers
+//            node.set(answers);
+//            node.emit('INPUT_DISABLE');
+//            
+//            return true;
+//        }
     });
 
     // Adjust to displaying rounds in main stage.
@@ -105,16 +93,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.copies = [];
         },
         cb: cbs.creation,
-        timer: {
-            milliseconds: function() {
-                if ( node.player.stage.round < 2) return 80000;
-                if ( node.player.stage.round < 3) return 60000;
-                return 50000;
-            },
-            timeup: function() {
-                $('#mainframe').contents().find('#done_box button').click();
-            }
-        },
+        timer: settings.timer.creation,
         done: function(ex) {
             // TODO: Check ex?
             $( ".copyorclose" ).dialog('close');
@@ -134,6 +113,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.evas = {};
         },
         cb: cbs.evaluation,
+        timer: settings.timer.evaluation,
         done: function() {
             var i, out, eva;
             out = [];
@@ -154,7 +134,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
     
     stager.extendStep('dissemination', {
-        cb: cbs.dissemination
+        cb: cbs.dissemination,
+        timer: settings.timer.dissemination,
     });
 
     stager.extendStep('questionnaire', {

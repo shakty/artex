@@ -40,6 +40,25 @@ module.exports = {
     // Threshold for publication.
     threshold: 5,
 
+    // Timer values.
+    timer: {
+
+        instructions: 90000,
+        quiz: 60000,
+        creation: {
+            milliseconds: function() {
+                if (node.player.stage.round < 2) return 80000;
+                if (node.player.stage.round < 3) return 60000;
+                return 50000;
+            },
+            timeup: function() {
+                $('#mainframe').contents().find('#done_box button').click();
+            }
+        },
+        evaluation: 20000,
+        dissemination: 15000
+    },
+
     // Available treatments:
     // (there is also the "standard" treatment, using the options above)
     treatments: {
