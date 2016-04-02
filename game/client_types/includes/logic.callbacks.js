@@ -73,7 +73,7 @@ function init() {
         o.treatment = gameRoom.treatmentName;
     });
 
-    // Function used in creation step 
+    // Function used in creation step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
         var idEx = node.game.exhibitions[i.ex];
@@ -91,7 +91,7 @@ function init() {
         var code;
 
         console.log('Oh...somebody reconnected!', p);
-     
+
         // Delete countdown to terminate the game.
         // TODO: clearTimeout does not exist.
         clearTimeout(this.countdown);
@@ -151,9 +151,9 @@ function evaluation() {
 
     that = this;
 
-    nReviewers = this.pl.size() > 3 ? 
+    nReviewers = this.pl.size() > 3 ?
         this.reviewers : this.pl.size() > 2 ? 2 : 1;
-    
+
     curStep = this.getCurrentGameStage();
     prevStep = this.plot.previous(curStep);
 
@@ -183,7 +183,7 @@ function evaluation() {
                     ex: face.ex
                 });
             }
-            // Send them.            
+            // Send them.
             node.say('CF', faces[i].player, data);
         }
     });
@@ -288,7 +288,7 @@ function dissemination() {
                          'Some results are missing.');
                 continue;
             }
-            
+
             // Compute average review score.
             mean = 0;
             k = -1, len = this.last_reviews[player].length;
@@ -311,7 +311,6 @@ function dissemination() {
                 round: submissionRound,
                 payoff: 0 // will be updated later
             };
-
 
             // Threshold.
             if (mean > settings.threshold) {
@@ -343,7 +342,7 @@ function dissemination() {
     // Dispatch exhibition results to ALL.
     node.say('WIN_CF', 'ALL', selected);
 
-    
+
     // Compute individual payoffs and send them to each player.
     i = -1, len = player_results.length;
     for ( ; ++i < len ; ) {
@@ -354,9 +353,9 @@ function dissemination() {
                 idEx = node.game.exhibitions[r.ex];
                 nPubs = node.game.nextround_reviewers[idEx][0].length;
                 r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
-            }            
+            }
             else {
-                r.payoff = node.game.settings.payoff;            
+                r.payoff = node.game.settings.payoff;
             }
             // Update global payoff.
             code = channel.registry.getClient(r.player);
@@ -366,6 +365,41 @@ function dissemination() {
     }
 
     console.log('dissemination');
+}
+
+function endgame() {
+    var payoffs, payoff;
+
+    // Save database.
+    node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
+
+    console.log('FINAL PAYOFF PER PLAYER');
+    console.log('***********************');
+
+    // Compute final bonuses and send them to each player.
+    payoffs = node.game.pl.map(doCheckout);
+
+    // Only with Descil.
+    // postPayoffs(payoffs);
+
+    console.log('***********************');
+    console.log('Game ended');
+
+    // Write bonus file.
+    writeBonusFile(payoffs);
+
+    // TODO: do we need this? It triggers gameover.
+    // node.done();
+}
+
+function gameover() {
+    console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
+
+    // Dump all memory.
+    node.game.memory.save(DUMP_DIR + 'memory_all.json');
+
+    // TODO: fix this.
+    // channel.destroyGameRoom(gameRoom.name);
 }
 
 function notEnoughPlayers() {
@@ -382,74 +416,6 @@ function notEnoughPlayers() {
     }, 30000);
 }
 
-function endgame() {
-    var code, exitcode, accesscode;
-    var filename, bonusFile, bonus;
-    var EXCHANGE_RATE;
-
-    EXCHANGE_RATE = settings.EXCHANGE_RATE_INSTRUCTIONS / settings.COINS;
-
-    console.log('FINAL PAYOFF PER PLAYER');
-    console.log('***********************');
-
-    var payoffs, payoff;
-    payoffs = node.game.pl.map(doCheckout);
-
-    node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
-
-    // Only with Descil.
-    // postPayoffs(payoffs);
-
-    bonus = node.game.pl.map(function(p) {
-
-        code = channel.registry.getClient(p.id);
-
-        accesscode = code.AccessCode;
-        exitcode = code.ExitCode;
-
-        code.win = Number((code.win || 0) * (EXCHANGE_RATE)).toFixed(2);
-        code.win = parseFloat(code.win, 10);
-
-        channel.registry.checkOut(p.id);
-
-        node.say('WIN', p.id, {
-            win: code.bonus,
-            exitcode: code.ExitCode
-        });
-
-        console.log(p.id, ': ',  code.bonus, code.ExitCode);
-        return [p.id, code.ExitCode || 'na', code.bonus,
-                node.game.gameTerminated];
-    });
-
-    console.log('***********************');
-    console.log('Game ended');
-
-    // Write down bonus file.
-    filename = DUMP_DIR + 'bonus.csv';
-    bonusFile = fs.createWriteStream(filename);
-    bonusFile.on('error', function(err) {
-        console.log('Error while saving bonus file: ', err);
-    });
-    bonusFile.write(["access", "exit", "bonus", "terminated"].join(', ') + '\n');
-    bonus.forEach(function(v) {
-        bonusFile.write(v.join(', ') + '\n');
-    });
-    bonusFile.end();
-
-    // TODO: do we need this? It triggers gameover.
-    // node.done();
-}
-
-function gameover() {
-    console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
-
-    // Dump all memory.
-    node.game.memory.save(DUMP_DIR + 'memory_all.json');
-
-    // TODO: fix this.
-    // channel.destroyGameRoom(gameRoom.name);
-}
 
 /**
  * ## doCheckout
@@ -472,28 +438,42 @@ function doCheckout(p) {
     // Computing payoff and USD.
     code.checkout = true;
 
-    // Must have played at least half of the rounds.
-    if ((code.rounds || 0) < Math.floor(settings.REPEAT / 2)) {
-        code.fail = true;
-    }
-    else {
-        code.payoff = code.payoff || 0;
-        code.usd = parseFloat(
-            ((code.payoff * settings.exchangeRate).toFixed(2)),
-            10);
-    }
+    code.bonus = code.bonus || 0;
+    code.usd = parseFloat(
+        ((code.bonus * settings.EXCHANGE_RATE).toFixed(2)),
+        10);
 
     // Sending info to player.
     node.say('win', p.id, {
         ExitCode: code.ExitCode,
         fail: code.fail,
-        payoff: code.payoff,
+        bonus: code.bonus,
         usd: code.usd
     });
 
     return {
         AccessCode: p.id,
         Bonus: code.usd,
+        ExitCode: code.ExitCode,
         BonusReason: 'Full bonus.'
     };
+}
+
+function writeBonusFile(data) {
+    var bonusFile;
+    var i, len;
+    // Create stream and write.
+    bonusFile = fs.createWriteStream(DUMP_DIR + 'bonus.csv');
+    bonusFile.on('error', function(err) {
+        console.log('Error while saving bonus file: ', err);
+    });
+    bonusFile.write('access, exit, bonus, terminated\n');
+    i = -1, len = data.length;
+    for ( ; ++i < len ; ) {
+        bonusFile.write(data[i].AccessCode + ',' +
+                        (data[i].ExitCode || 'NA') + ',' +
+                        data[i].Bonus + ',' +
+                        (!!!data[i].Fail ? '1' : '0') + '\n');
+    }
+    bonusFile.end();
 }
