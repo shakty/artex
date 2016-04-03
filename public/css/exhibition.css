@@ -1,15 +1,15 @@
 table.exhibition {
-	border: 0;
-	padding: 0;
-	margin: 0 auto;
-	text-align: center;
+    border: 0;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
 }
 
 table.exhibition th {
-  font-weight: bold;
-  text-align: center;
-  height: 30px;
-  font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    height: 30px;
+    font-size: 20px;
 }
 
 /* table.exhibition tr { */
@@ -17,28 +17,35 @@ table.exhibition th {
 /* } */
 
 table.exhibition td {
-  width: 280px;
-  margin: 0;
-  padding: 0;
-  margin-bottom: 10px;
-  border-right: 3px solid #CCC;
+    width: 280px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 10px;
+    border-right: 3px solid #CCC;
 
 }
 
 table.exhibition td:last-child {
-  border-right: 0;
+    border-right: 0;
 }
 
-table.exhibition div {
-  border: 0;
-}
-
-table.exhibition table div {
-  border: 0;
+table.exhibition div, table.exhibition div div, table.cf_table div, table.cf_table {
+    border: 0;
 }
 
 table.exhibition table {
-	border: 0;
+    border: 0;
+}
+
+
+table.exhibition canvas:hover {
+    cursor: pointer;
+    cursor: hand;
+}
+
+div.ng_widget, div.panel-heading, div.panel-body {
+    border: 0;
+    padding: 0;
 }
 
 /* table.exhibition td:first-child { */
@@ -64,4 +71,3 @@ table.exhibition table {
 /* table.exhibition .other { */
 /*   background: #CCC;  */
 /* } */
-

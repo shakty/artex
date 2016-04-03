@@ -26,10 +26,7 @@ $(document).ready(function() {
         
         if (msg.data.A && msg.data.A.length) makeReviewUI(msg.data.A);
         if (msg.data.B && msg.data.B.length) makeReviewUI(msg.data.B);
-        if (msg.data.C && msg.data.C.length) makeReviewUI(msg.data.C);
-        
-        // table.setHeader(headers);
-        // table.parse();
+        if (msg.data.C && msg.data.C.length) makeReviewUI(msg.data.C);        
     });
     
     node.env('auto', function(){
@@ -120,5 +117,4 @@ $(document).ready(function() {
             });
         }
     }
-
 });

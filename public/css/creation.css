@@ -13,6 +13,7 @@ h2 {
 
 div.ng_widget, div.panel-heading, div.panel-body {
     border: 0;
+    padding: 0;
 }
 
 div#cf {

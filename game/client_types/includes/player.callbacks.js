@@ -93,10 +93,10 @@ function init() {
         }
 
         cfOptions = {
-            id: 'cf_' + cell.x,
             width: w,
             height: h,
             features: cell.content.cf,
+            id: false,
             controls: false,
             onChange: false,
             title: false,
@@ -123,7 +123,7 @@ function init() {
                 $(cf.canvas).css('border', '3px solid #CCC');
                 $(cf.canvas).css('padding', '5px');
 
-                div.append(cf.canvas);
+                div.append(cf.getCanvas());
 
                 // If we are not in dissemination we can copy the image.
                 if (node.game.getCurrentStepObj().id !== 'dissemination') {
@@ -166,6 +166,12 @@ function init() {
 
         // Creating HTML.
         container = document.createElement('div');
+
+        // Just canvas.
+        // cf = node.widgets.get('ChernoffFaces', cfOptions);
+        // container.appendChild(cf.getCanvas());
+
+        // Whole widget.
         cf = node.widgets.append('ChernoffFaces',
                                  container,
                                  cfOptions);
