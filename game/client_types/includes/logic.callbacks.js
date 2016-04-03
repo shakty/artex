@@ -125,7 +125,7 @@ function init() {
         setTimeout(function() {
             // Pause the game on the reconnecting client, will be resumed later.
             // node.remoteCommand('pause', p.id);
-            // Unpause ALL players
+            // Unpause ROOM players
             // TODO: add it automatically if we return TRUE? It must be done
             // both in the alias and the real event handler
             node.game.pl.each(function(player) {
@@ -135,8 +135,8 @@ function init() {
             });
             // The logic is also reset to the same game stage.
         }, 100);
-        // Unpause ALL players
-        // node.remoteCommand('resume', 'ALL');
+        // Unpause ROOM players
+        // node.remoteCommand('resume', 'ROOM');
     });
 
 
@@ -339,8 +339,8 @@ function dissemination() {
         }
     }
 
-    // Dispatch exhibition results to ALL.
-    node.say('WIN_CF', 'ALL', selected);
+    // Dispatch exhibition results to ROOM.
+    node.say('WIN_CF', 'ROOM', selected);
 
 
     // Compute individual payoffs and send them to each player.
