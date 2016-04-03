@@ -21,7 +21,9 @@ $(document).ready(function() {
     };
 
     function initSubmitDialog() {
-        var dialog_options = {
+        var dialog_options;
+
+        dialog_options = {
             autoOpen: false,
             resizable: false,
             width: 550,
@@ -34,13 +36,12 @@ $(document).ready(function() {
             },
         };
 
-        if (node.game.timer.gameTimer.timeLeft) {
-            var left = node.game.timer.gameTimer.timeLeft;
+        if (!node.game.timer.isTimeup()) {
             dialog_options.buttons = {
                 Cancel: function() {
                     $(this).dialog('close');
-                }};
-
+                }
+            };
         }
 
         node.game.timer.gameTimer.restart({

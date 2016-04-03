@@ -37,7 +37,7 @@ function init() {
             totStageOffset: 1
         });
 
-        node.game.visualTimer = node.widgets.append('VisualTimer', header);
+        node.game.timer = node.widgets.append('VisualTimer', header);
 
         node.game.money = node.widgets.append('MoneyTalks', header, {
             currency: 'CHF', money: 10
@@ -210,7 +210,7 @@ function quiz() {
         node.on('check-quiz', function() {
             var answers;
             answers = QUIZ.checkAnswers(button);
-            if (answers.correct || node.game.visualTimer.isTimeup()) {
+            if (answers.correct || node.game.timer.isTimeup()) {
                 node.emit('INPUT_DISABLE');
                 // On Timeup there are no answers.
                 node.done(answers);
