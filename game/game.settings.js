@@ -40,6 +40,9 @@ module.exports = {
     // Threshold for publication.
     threshold: 5,
 
+    // Exhibition names.
+    exhibitNames: ['A','B','C'],
+
     // Timer values.
     timer: {
 

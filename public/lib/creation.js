@@ -93,9 +93,18 @@ $(document).ready(function() {
      }
 
     // Important: set the player color.
-    // init_cf.color = node.player.color;
+    init_cf.color = 'black';
+
+    // TODO: to remove.
+    console.log('init_cf');
+    console.log(init_cf);
+    window.aa = J.clone(init_cf);
 
     init_sc = CFControls.normalizeFeatures(init_cf);
+
+    console.log('init_sc');
+    console.log(init_sc);
+
     cfc = new CFControls({
         id: 'cf_controls',
         features: init_sc

@@ -59,7 +59,7 @@ function init() {
     this.last_cf = null;
 
     // Exhibition names and total number.
-    this.exhibitNames = ['A','B','C'];
+    this.exhibitNames = this.settings.exhibitNames;
     this.nExhibits = this.exhibitNames.length;
 
     // Current rounds of evalutions (review delivered by subject).

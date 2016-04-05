@@ -147,17 +147,13 @@ function evaluation() {
     var that;
     var nReviewers, matches;
     var dataRound;
-    var curStep, prevStep;
 
     that = this;
 
     nReviewers = this.pl.size() > 3 ?
         this.reviewers : this.pl.size() > 2 ? 2 : 1;
 
-    curStep = this.getCurrentGameStage();
-    prevStep = this.plot.previous(curStep);
-
-    dataRound = this.memory.stage[prevStep];
+    dataRound = this.memory.stage[this.getPreviousStep()];
 
     node.env('review_random', function() {
         var faces, face, data;
@@ -247,32 +243,27 @@ function evaluation() {
 }
 
 function dissemination() {
-    var exids = ['A', 'B', 'C'];
-    var curStep = this.getCurrentGameStage();
-    var submissionRound = this.plot.jump(curStep, -2);
-
-    // Array of all the selected works (by exhibition);
-    var selected = [];
-
-    // Results of the round (by author)
-    var player_results = [];
-
     var ex, author, cf, mean, player, works;
     var nextRoundReviewer, player_result;
-    var subRound;
     var i, j, k, len;
-
     var idEx, nPubs;
+    var submissionRound;
 
-    // Submission round data.
-    subRound = this.memory.stage[submissionRound];
+    // Array of all the selected works (by exhibition);
+    var selected;
+    // Results of the round (by author)
+    var player_results;
 
+    // Prepare result arrays.
+    selected = [];
+    player_results = [];
+    submissionRound = this.getPreviousStep(2);
     for (i = 0; i < this.last_submissions.length; i++) {
 
         // Groups all the reviews for an artist.
         works = this.last_submissions[i];
         // Exhibition.
-        ex = exids[i];
+        ex = this.settings.exhibitNames[i];
 
         // Collect all reviews and compute mean.
         for (j = 0; j < works.length; j++) {

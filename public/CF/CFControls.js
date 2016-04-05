@@ -639,8 +639,10 @@ CFControls.prototype.getAllValues = function() {
     }
     
     // Face color
-    out.color = node.player.color;
-    
+    // out.color = node.player.color;
+    out.color = "black";
+
+
     out['eye_radius'] = 5;
     out['pupil_radius'] = 1;
     out['pupil_scale_y'] = 1;
@@ -655,6 +657,13 @@ CFControls.prototype.getAllValues = function() {
     //out['mouth_height'] = 0.75;
     //out['mouth_width'] = 20;
     
+    // Added later.
+    out.mouth_height = 0;
+    out.mouth_width = 0;
+    out.lineWidth = 1;
+    out.scaleX = 1;
+    out.scaleY = 1;
+
     
     return out;
 };
