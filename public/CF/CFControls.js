@@ -46,12 +46,13 @@ Controls.prototype.getItem = function(id, attributes) {
 Controls.prototype.init = function(options) {
 
     this.hasChanged = false; // TODO: should this be inherited?
-    if ('undefined' !== typeof options.change) {
-        if (!options.change){
+
+    if ('undefined' !== typeof options.onChange) {
+        if (!options.change) {
             this.changeEvent = false;
         }
         else {
-            this.changeEvent = options.change;
+            this.changeEvent = options.onChange;
         }
     }
     this.list = new node.window.List(options);
@@ -182,7 +183,7 @@ Controls.prototype.populate = function() {
 Controls.prototype.listeners = function() {     
     var that = this;
     // TODO: should this be inherited?
-    node.on(this.changeEvent, function(){
+    node.once(this.changeEvent, function() {
         that.hasChanged = true;
     });
     
@@ -207,19 +208,14 @@ Controls.prototype.refresh = function() {
 };
 
 Controls.prototype.getAllValues = function() {
-    var out = {};
-    for (var key in this.features) {    
+    var out, key, el;
+    out = {};
+    for (key in this.features) {    
         if (this.features.hasOwnProperty(key)) {
-            var el = node.window.getElementById(key);
-            if (el) {
-                // node.log('KEY: ' + key, 'DEBUG');
-                // node.log('VALUE: ' + el.value, 'DEBUG');
-                out[key] = Number(el.value);
-            }
-            
+            el = W.getElementById(key);
+            if (el) out[key] = Number(el.value);
         }
-    }
-    
+    }    
     return out;
 };
 
@@ -525,7 +521,7 @@ CFControls.fixed = {
 
 
 
-function CFControls (options) {
+function CFControls(options) {
     jQuerySliderControls.call(this, options);
 };
 
@@ -658,11 +654,11 @@ CFControls.prototype.getAllValues = function() {
     //out['mouth_width'] = 20;
     
     // Added later.
-//     out.mouth_height = 0;
-//     out.mouth_width = 0;
-     out.lineWidth = 1;
-//     out.scaleX = 1;
-//     out.scaleY = 1;
+    //     out.mouth_height = 0;
+    //     out.mouth_width = 0;
+    out.lineWidth = 1;
+    //     out.scaleX = 1;
+    //     out.scaleY = 1;
 
     
     return out;
