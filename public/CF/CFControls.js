@@ -658,11 +658,11 @@ CFControls.prototype.getAllValues = function() {
     //out['mouth_width'] = 20;
     
     // Added later.
-    out.mouth_height = 0;
-    out.mouth_width = 0;
-    out.lineWidth = 1;
-    out.scaleX = 1;
-    out.scaleY = 1;
+//     out.mouth_height = 0;
+//     out.mouth_width = 0;
+     out.lineWidth = 1;
+//     out.scaleX = 1;
+//     out.scaleY = 1;
 
     
     return out;
