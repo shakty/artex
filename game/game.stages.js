@@ -19,6 +19,7 @@ module.exports = function(stager, settings) {
         stager.extendStage('artex', {
             steps: [
                 'creation',
+                'submission',
                 'evaluation',
                 'dissemination'
             ]
@@ -26,4 +27,5 @@ module.exports = function(stager, settings) {
 
     stager.skip('instructions');
     stager.skip('quiz');
+    stager.skip('artex', 'creation');
 };

@@ -1,0 +1,71 @@
+/* Submission */
+
+table#table-decision {
+    border-spacing: 40px;
+    border-collapse: separate;
+    margin-top: 20px;
+    margin: 0 auto;
+}
+
+table#table-decision td {
+    width: 350px;
+    padding: 5px;
+    text-align: center;
+    vertical-align: top;
+    padding: 20px;
+    cursor: pointer;
+}
+
+table#table-decision td:hover {
+    background: #FFE;
+}
+
+/*
+table#table-decision img {
+    width: 200px;
+    height: 150px;
+}
+*/
+
+/*
+div#car-departure-div {
+    margin-top: 15px;
+    font-size: 15px;
+}
+
+span#car-departure {
+    font-weight: bold;
+}
+*/
+
+div.ex-rules {
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+div.ex-rules ul li {
+    list-style: none;    
+}
+
+div#div-button {
+    clear: both;
+    margin-top: 10px;
+    text-align: center;
+    border: 10px;
+}
+
+td.td-selected {
+    background: #FFC;
+    border: 5px solid #111;
+}
+
+td.td-not-selected {
+    border: 5px solid #CCC;
+}
+
+span.td-title {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}

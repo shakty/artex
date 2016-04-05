@@ -1,0 +1,76 @@
+<!doctype html>
+<title>Submission</title>
+<link rel="stylesheet" href="/lib/bootstrap/bootstrap.min.css" />
+<!-- JQUERY UI STARTS -->
+<link type="text/css" href="lib/jqueryui/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />
+<script src="lib/jqueryui/js/jquery-1.7.2.min.js" charset="utf-8"></script>
+<script src="lib/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
+<!-- JQUERY UI ENDS -->
+
+
+<link rel="stylesheet" type="text/css" href="css/iframe.css">
+<link rel="stylesheet" type="text/css" href="css/submission.css">
+
+<body>
+  <h2>Submission</h2>
+  
+  <div id="container">
+    Submit your work to the exhibition that you think is most appropriate.<br/>
+    <table id="table-decision">
+      <tr id="tr-decision">
+        <td id="td-A" class="td-not-selected" onclick="parent.node.game.submissionMade('A')">
+          <a href="#" alt="Exhibition A">
+            <img src="images/a.png" alt="Exhibition A" />
+          </a>
+          <br/>
+          <br/>
+          <span class="td-title">Reward points for A</span>
+          <div class="ex-rules">
+            <ul>
+              <li>Position 1: 500</li>            
+              <li>Other positions: 0</li>
+            </ul>
+          </div>
+        </td>
+        
+        <td id="td-B" class="td-not-selected" onclick="parent.node.game.submissionMade('B')">
+          <a href="#" alt="Exhibition B">
+            <img src="images/b.png" alt="Exhibition B" />
+          </a>
+          <br/>
+          <br/>
+          <span class="td-title">Reward points for B</span>          
+          <div class="ex-rules">
+            <ul>
+              <li>First ranked: 300</li>
+              <li>Second ranked: 200</li>
+              <li>All others: 0</li>
+            </ul>
+          </div>
+        </td>
+        
+        
+        <td id="td-C" class="td-not-selected" onclick="parent.node.game.submissionMade('C')">
+          <a href="#" alt="Exhibition C">
+            <img src="images/c.png" alt="Exhibition C" />
+          </a>
+          <br/>
+          <br/>
+          <span class="td-title">Reward points for C</span>          
+          <div class="ex-rules">
+            <ul>
+              <li>First to fifth ranked: 100</li>
+              <li>All others: 0</li>
+            </ul>
+          </div>
+        </td>
+        
+      </tr>
+    </table>
+    Confirm your decision by clicking the button below<br/>
+    <div id="div-button">
+      <input onclick='javascript:parent.node.done();' type="button" id="decision" value="Select an option" disabled="disabled" class="btn btn-lg btn-primary"/>      
+    </div>
+  </div>
+</body>
+<script src="lib/submission.js" type="text/javascript" charset="utf-8"></script>

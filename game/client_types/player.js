@@ -106,7 +106,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             };
         }
     });
-    
+
+    stager.extendStep('submission', {    
+        cb: cbs.submission,
+        timer: settings.timer.submission
+    });
+
     stager.extendStep('evaluation', {
         init: function() {
             // Reset evaluations.

@@ -11,6 +11,7 @@ module.exports = {
     instructions: instructions,
     quiz: quiz,
     creation: creation,
+    submission: submission,
     evaluation: evaluation,
     dissemination: dissemination,
     questionnaire: questionnaire,
@@ -62,10 +63,55 @@ function init() {
     this.exhibitNames = this.settings.exhibitNames;
     this.nExhibits = this.exhibitNames.length;
 
+    this.submissionMade = function(decision) {
+        var td, otherTd, otherTd2, button;
+
+        if (decision === 'A') {
+            td = W.getElementById('td-A');
+            otherTd = W.getElementById('td-B');
+            otherTd2 = W.getElementById('td-C');
+        }
+        else if (decision === 'B') {
+            td = W.getElementById('td-B');
+            otherTd = W.getElementById('td-A');
+            otherTd2 = W.getElementById('td-C');
+        }
+        else if (decision === 'C') {
+            td = W.getElementById('td-C');
+            otherTd = W.getElementById('td-A');
+            otherTd2 = W.getElementById('td-B');
+        }
+        else {
+            node.err('unknown exhibition selected: ' + decision);
+            return;
+        }
+
+        node.game.last_ex = decision;
+
+        // Departure time is changed by the slider for car.
+        td.className = 'td-selected';
+        otherTd.className = 'td-not-selected';
+        otherTd2.className = 'td-not-selected';
+
+        button = W.getElementById('decision');
+        this.updateSubmissionButton();
+    };
+
+    this.updateSubmissionButton = function(decision) {
+        var button;        
+        decision = decision || node.game.last_ex;
+        if (decision) {
+            button = W.getElementById('decision');
+            button.disabled = false;
+            button.value = 'I am going to submit my work to exhibition: ' +
+                decision;
+        }
+    };
+
     // Current rounds of evalutions (review delivered by subject).
+    // For each item it contains if the slider was moved, a reference
+    // to the input containing the current value, and the exhibition.
     this.evas = {};
-    // Marks if the review slider was moved at all.
-    this.evasChanged = {};
 
     // List of all past exhibitions.
     this.all_ex = new W.List({
@@ -245,6 +291,11 @@ function creation() {
 
 function evaluation() {
     W.loadFrame('evaluation.html');
+    console.log('Evaluation');
+}
+
+function submission() {
+    W.loadFrame('submission.html');
     console.log('Evaluation');
 }
 
