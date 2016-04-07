@@ -153,7 +153,7 @@ function evaluation() {
     nReviewers = this.pl.size() > 3 ?
         this.reviewers : this.pl.size() > 2 ? 2 : 1;
 
-    dataRound = this.memory.stage[this.getPreviousStep()];
+    dataRound = this.memory.stage[this.getPreviousStep(2)];
 
     node.env('review_random', function() {
         var faces, face, data;

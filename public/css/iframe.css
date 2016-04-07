@@ -7,8 +7,6 @@ body {
 /*   overflow: hidden; */
 }
 
-/* Car-sharing game CSS */
-
 div#container {
     text-align: center;
     font-size: 20px;
@@ -19,8 +17,7 @@ div#container {
     font-style: italics;
 }
 
-
-/*
+/* Have to keep it in, otherwise no sliders... */
 div {
     background: #DADCCB;
     color: black;
@@ -28,7 +25,6 @@ div {
     padding: 5px;
     text-align: center;
 }
-*/
 
 canvas {
     border: 3px solid #CCC;

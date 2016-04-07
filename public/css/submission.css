@@ -1,4 +1,51 @@
-/* Submission */
+/* Submission CSS */
+/* ************** */
+
+/* Creation */
+
+div#creation {
+    border: 0;
+    padding: 0;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 600px;
+    text-align: center;
+}
+
+div#creation div.chernofffaces {
+    text-align: center;
+    text-align: center;
+}
+
+div#creation div.chernofffaces canvas {
+    margin: 0 auto;
+}
+
+table.cf_table {
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* History */
+
+div#history {
+    border: 0;
+    padding: 0;
+    margin: 0 auto;
+    width: 600px;
+    text-align: center;
+    max-height: 483px;
+    vertical-align: top;
+    margin-bottom: 10px;
+    overflow-y: auto;
+}
+
+table#table-decision input {
+    width: 98%;
+    height: 98%;
+}
+
+/* Main table */
 
 table#table-decision {
     border-spacing: 40px;
@@ -10,34 +57,24 @@ table#table-decision {
 table#table-decision td {
     width: 350px;
     text-align: center;
-    vertical-align: top;
-    padding: 20px;
+    /*vertical-align: top;
+    padding: 20px; 
     cursor: pointer;
+    background: #FFE; */
 }
 
+/*
 table#table-decision td:hover {
     background: #FFE;
 }
-
 
 table#table-decision img {
     width: 50px;
 }
 
 
-/*
-div#car-departure-div {
-    margin-top: 15px;
-    font-size: 15px;
-}
-
-span#car-departure {
-    font-weight: bold;
-}
-*/
-
 div.ex-rules {
-    margin-top: 5px;
+    margin-top: 0;
     margin-bottom: 15px;
 }
 
@@ -58,6 +95,7 @@ table.table-rules td {
     padding: 0px;
     margin: 0;
 }
+*/
 
 div#div-button {
     clear: both;

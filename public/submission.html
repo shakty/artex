@@ -9,23 +9,30 @@
 
 
 <link rel="stylesheet" type="text/css" href="css/iframe.css">
+<link rel="stylesheet" type="text/css" href="css/creation.css">
+<link rel="stylesheet" type="text/css" href="css/exhibition.css">
 <link rel="stylesheet" type="text/css" href="css/submission.css">
 
 <body>  
   <div id="container">
     <h2>Submit your work to the exhibition that you think is most appropriate</h2>
+         
+    <div id="creation"></div>
     
-    <div id="container_creation">
-      <h2>Create your painting</h2>
-      <div id="creation"></div>
-    </div>
-    
-    <div id="container_history">
-      <h2>History of past exhibitions</h2>
-      <div id="history"></div> 
-    </div>
-
     <table id="table-decision">
+      <tr>
+        <td>
+          <input onclick="parent.node.game.submissionMade('A')" type="button" id="td-A" value="A" class="btn btn-lg btn-primary"/>
+        </td>
+        <td>
+          <input onclick="parent.node.game.submissionMade('B')" type="button" id="td-B" value="B" class="btn btn-lg btn-primary"/>
+        </td>
+        <td>
+          <input onclick="parent.node.game.submissionMade('C')" type="button" id="td-C" value="C" class="btn btn-lg btn-primary"/>
+        </td>
+    </table>
+
+    <table style="display:none">
       <tr id="tr-decision">
         <td id="td-A" class="td-not-selected" onclick="parent.node.game.submissionMade('A')">
           <a href="#"><img src="images/a.png" alt="Exhibition A" /></a>
@@ -73,17 +80,19 @@
           <div class="ex-rules">
             <table class="table-rules">
               <tr>
-                <td>From 1<sup>st</sup> to 5<sup>th</sup> position</td><td>300</td>
+                <td>From 1<sup>st</sup> to 5<sup>th</sup> position</td><td>100</td>
               </tr>            
               <tr>
                 <td>All others:</td><td>0</td>
               </tr>
             </table>
           </div>
-        </td>
-        
+        </td>        
       </tr>
     </table>
+
+    <div id="history"></div>
+
     Confirm your decision by clicking the button below<br/>
     <div id="div-button">
       <input onclick='javascript:parent.node.done();' type="button" id="decision" value="Select an option" disabled="disabled" class="btn btn-lg btn-primary"/>      

@@ -89,9 +89,9 @@ function init() {
         node.game.last_ex = decision;
 
         // Departure time is changed by the slider for car.
-        td.className = 'td-selected';
-        otherTd.className = 'td-not-selected';
-        otherTd2.className = 'td-not-selected';
+        JSUS.addClass(td, 'active');
+        JSUS.removeClass(otherTd, 'active');
+        JSUS.removeClass(otherTd2, 'active');
 
         button = W.getElementById('decision');
         this.updateSubmissionButton();
@@ -295,7 +295,36 @@ function evaluation() {
 }
 
 function submission() {
-    W.loadFrame('submission.html');
+    W.loadFrame('submission.html', function() {
+        var creaDiv, f, options;
+        var hisDiv;
+
+        creaDiv = W.getElementById("creation");
+        f = node.game.cf.getAllValues();
+
+        options = {
+            id: false,
+            width: 200,
+            height: 200,
+            features: f,
+            controls: false,
+            onChange: false,
+            title: false
+        };
+
+        node.widgets.append('ChernoffFaces', creaDiv, options);
+
+        hisDiv = W.getElementById("history")        
+
+        // Append history, if there is any.
+        if (this.getCurrentGameStage().round !== 1) {
+            hisDiv.appendChild(node.game.all_ex.getRoot())
+        }
+        else {
+            hisDiv.style.display = 'none';
+        }
+
+    });
     console.log('Evaluation');
 }
 
