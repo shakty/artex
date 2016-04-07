@@ -25,6 +25,19 @@ table.cf_table {
     margin: 0 auto;
     text-align: center;
 }
+able.cf_table td {
+    vertical-align: top;
+    padding: 5px;
+}
+
+table.cf_table td div {
+    border: 0;
+}
+
+div.ng_widget, div.panel-heading, div.panel-body {
+    border: 0;
+    padding: 0;
+}
 
 /* History */
 
@@ -40,16 +53,11 @@ div#history {
     overflow-y: auto;
 }
 
-table#table-decision input {
-    width: 98%;
-    height: 98%;
-}
-
 /* Main table */
 
 table#table-decision {
-    border-spacing: 40px;
-    border-collapse: separate;
+    border-spacing: 0px;
+    border-collapse: collapse;
     margin-top: 20px;
     margin: 0 auto;
 }
@@ -57,11 +65,18 @@ table#table-decision {
 table#table-decision td {
     width: 350px;
     text-align: center;
+    height: 50px;
     /*vertical-align: top;
     padding: 20px; 
     cursor: pointer;
     background: #FFE; */
 }
+
+table#table-decision input {
+    width: 98%;
+    height: 98%;
+}
+
 
 /*
 table#table-decision td:hover {

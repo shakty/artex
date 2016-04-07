@@ -94,22 +94,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         cb: cbs.creation,
         timer: settings.timer.creation,
-        done: function(ex) {
-            // TODO: Check ex?
-            $(".copyorclose").dialog('close');
+        done: function() {
             node.game.last_cf = node.game.cf.getAllValues();
-            node.game.last_ex = node.game.last_ex = ex;
-            return {
-                ex: ex,
-                cf: node.game.last_cf,
-                copies: node.game.copies
-            };
         }
     });
 
     stager.extendStep('submission', {    
         cb: cbs.submission,
-        timer: settings.timer.submission
+        timer: settings.timer.submission,
+        done: function() {
+            return {
+                ex: node.game.last_ex,
+                cf: node.game.last_cf,
+                copies: node.game.copies
+            };
+        }
     });
 
     stager.extendStep('evaluation', {

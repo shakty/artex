@@ -53,7 +53,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cbs.notEnoughPlayers
     ]);
 
-    stager.extendStep('creation', {
+    stager.extendStep('submission', {
         init: function() {
             this.last_submissions = [[], [], []];
             this.memory.on('insert', this.assignSubToEx);

@@ -73,7 +73,7 @@ function init() {
         o.treatment = gameRoom.treatmentName;
     });
 
-    // Function used in creation step
+    // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
         var idEx = node.game.exhibitions[i.ex];
@@ -153,7 +153,7 @@ function evaluation() {
     nReviewers = this.pl.size() > 3 ?
         this.reviewers : this.pl.size() > 2 ? 2 : 1;
 
-    dataRound = this.memory.stage[this.getPreviousStep(2)];
+    dataRound = this.memory.stage[this.getPreviousStep()];
 
     node.env('review_random', function() {
         var faces, face, data;
@@ -255,7 +255,9 @@ function dissemination() {
     var player_results;
 
     // Prepare result arrays.
-    selected = [];
+    // Contains the selected images by exhibitions.
+    selected = { A: [], B: [], C: [] };
+    // Contains the individual result for every player.
     player_results = [];
     submissionRound = this.getPreviousStep(2);
     for (i = 0; i < this.last_submissions.length; i++) {
@@ -305,6 +307,8 @@ function dissemination() {
 
             // Threshold.
             if (mean > settings.threshold) {
+                // Mark that there is at least one winner.
+                selected.winners = true;
 
                 J.mixin(player_result, {
                     cf: cf,
@@ -314,7 +318,7 @@ function dissemination() {
                     published: true
                 });
 
-                selected.push(player_result);
+                selected[ex].push(player_result);
 
                 // Player will be first choice as a reviewer
                 // in exhibition i
@@ -332,7 +336,6 @@ function dissemination() {
 
     // Dispatch exhibition results to ROOM.
     node.say('WIN_CF', 'ROOM', selected);
-
 
     // Compute individual payoffs and send them to each player.
     i = -1, len = player_results.length;

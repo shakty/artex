@@ -47,7 +47,7 @@ function init() {
     }
 
     // Add the main frame where the pages will be loaded.
-    if (!W.getFrame()) W.generateFrame();    
+    if (!W.getFrame()) W.generateFrame();
 
     // Holds references to copied images in current round.
     // Gets cleared every step.
@@ -62,6 +62,9 @@ function init() {
     // Exhibition names and total number.
     this.exhibitNames = this.settings.exhibitNames;
     this.nExhibits = this.exhibitNames.length;
+
+    // Winners.
+    this.winners = { A: [], B: [], C: [] };
 
     this.submissionMade = function(decision) {
         var td, otherTd, otherTd2, button;
@@ -98,13 +101,12 @@ function init() {
     };
 
     this.updateSubmissionButton = function(decision) {
-        var button;        
+        var button;
         decision = decision || node.game.last_ex;
         if (decision) {
             button = W.getElementById('decision');
             button.disabled = false;
-            button.value = 'I am going to submit my work to exhibition: ' +
-                decision;
+            button.value = 'I chose exhibition: ' + decision;
         }
     };
 
@@ -124,7 +126,7 @@ function init() {
         var w, h;
         var cf, cfOptions;
         var container, cfDetailsTable;
-        
+
         // Check if it is really CF obj (can be another cell, e.g. header).
         if (!cell.content || !cell.content.cf) return;
 
@@ -314,7 +316,7 @@ function submission() {
 
         node.widgets.append('ChernoffFaces', creaDiv, options);
 
-        hisDiv = W.getElementById("history")        
+        hisDiv = W.getElementById("history")
 
         // Append history, if there is any.
         if (this.getCurrentGameStage().round !== 1) {
@@ -330,18 +332,18 @@ function submission() {
 
 function dissemination() {
 
-    var dt_header = 'Round: ' + node.player.stage.round;
+    var dt_header, table;
 
+    dt_header = 'Round: ' + node.player.stage.round;
     this.all_ex.addDT(dt_header);
 
-    var table = new W.Table({
+    table = new W.Table({
         className: 'exhibition',
         render: {
             pipeline: this.renderCF,
             returnAt: 'first'
         }
     });
-
     table.setHeader(this.exhibitNames);
 
     W.loadFrame('dissemination.html', function() {
@@ -349,38 +351,21 @@ function dissemination() {
         node.game.timer.stop();
 
         node.on.data('WIN_CF', function(msg) {
-            var str, db;
+            var str, res;
             var j, winners;
-
             console.log('WWWWWWWWWIN_CF');
-            if (msg.data.length) {
-                db = new node.NDDB(null, msg.data);
 
-                for (j = 0; j < this.nExhibits; j++) {
-                    winners = db.select('ex', '=', this.exhibitNames[j])
-                        .sort('mean')
-                        .reverse()
-                        .fetch();
-
-
-                    if (winners.length > 0) {
-                        table.addColumn(winners);
-                    }
-                    else {
-                        table.addColumn([' - ']);
-                    }
-                }
-
-                // $('#mainframe').contents()
-                //   .find('#done_box').before(table.parse());
-
-                W.getElementById('container_exhibition')
-                    .appendChild(table.parse());
-
-                this.all_ex.addDD(table);
-
+            if (!msg.data) {
+                node.err('Error: No data received on WIN_CF.');
+                return;
             }
 
+            // debugger
+            if (msg.data.winners) {
+                makeExColumn('A', msg.data.A);
+                makeExColumn('B', msg.data.B);
+                makeExColumn('C', msg.data.C);
+            }
             else {
                 str = 'No painting was considered good enough ' +
                     'to be put on display.';
@@ -388,8 +373,13 @@ function dissemination() {
                 this.all_ex.addDD(str);
             }
 
+            W.getElementById('container_exhibition')
+                .appendChild(table.parse());
+
+            this.all_ex.addDD(table);
+
             node.game.timer.restart({
-                milliseconds: 15000,
+                milliseconds: node.game.settings.timer.dissemination,
                 timeup: 'DONE'
             });
         });
@@ -421,6 +411,24 @@ function dissemination() {
                 node.done();
             }, 5000);
         });
+
+        function makeExColumn(ex, data) {
+            var winners;
+            if (!data.length) {
+                table.addColumn([' - ']);
+                return;
+            }
+            winners = data.sort(function(a, b) {
+                if (a.mean > b.mean) return -1;
+                if (b.mean > a.mean) return 1;
+                return 0;
+            });
+            
+            table.addColumn(winners);
+            // Add to submission table.
+            node.game.winners[ex].push(winners);
+        }
+
     });
 
     console.log('Dissemination');

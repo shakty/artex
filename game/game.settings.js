@@ -38,7 +38,7 @@ module.exports = {
     WAIT_TIME: 60,
 
     // Threshold for publication.
-    threshold: 5,
+    threshold: -1,
 
     // Exhibition names.
     exhibitNames: ['A','B','C'],

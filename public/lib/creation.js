@@ -147,28 +147,28 @@ $(document).ready(function() {
     // Submission
     //////////////
 
-    $('#done_box button').click(function() {
-        $(function() {
-            // Notify the game engine that the button has been
-            // clicked. This way any other jQuery dialog can
-            // get closed
-            node.emit('CLICKED_DONE');
-
-            // If time is up reopen the dialog immediately
-            // if it gets closed
-            $("#sub_list").bind("dialogclose", function(event, ui) {
-                $("#sub_list").dialog('destroy');
-                if (!node.game.timer.gameTimer.timeLeft) {
-                    initSubmitDialog();
-                    $("#sub_list").dialog('open');
-                }
-            });
-
-            initSubmitDialog();
-            $("#sub_list").dialog('open');
-
-        });
-    });
+//     $('#done_box button').click(function() {
+//         $(function() {
+//             // Notify the game engine that the button has been
+//             // clicked. This way any other jQuery dialog can
+//             // get closed
+//             node.emit('CLICKED_DONE');
+// 
+//             // If time is up reopen the dialog immediately
+//             // if it gets closed
+//             $("#sub_list").bind("dialogclose", function(event, ui) {
+//                 $("#sub_list").dialog('destroy');
+//                 if (!node.game.timer.gameTimer.timeLeft) {
+//                     initSubmitDialog();
+//                     $("#sub_list").dialog('open');
+//                 }
+//             });
+// 
+//             initSubmitDialog();
+//             $("#sub_list").dialog('open');
+// 
+//         });
+//     });
 
     // Tooltip for enlarge and copy canvas
     //////////////////////////////////////
@@ -192,37 +192,7 @@ $(document).ready(function() {
         function() {
             $(this).parent().find("span#enlarge").remove();
             $(this).unbind('mousemove');
-        });
-
-    // AUTOPLAY
-    ////////////
-    node.env('auto', function() {
-    	node.timer.randomExec(function() {
-    	    var choice, odd, ex;
-
-//             // Round/color dependent.
-//             odd = node.player.stage.round % 2 === 1;
-//     	    if (node.player.color === 'green') {
-//     		ex =  odd ? 'ex_A' : 'ex_B';
-//     	    }
-//             else if (node.player.color === 'red') {
-//                 ex =  odd ? 'ex_B' : 'ex_C';    		
-//     	    }
-//     	    else {
-//                 ex =  odd ? 'ex_C' : 'ex_A';    		
-//     		
-//     	    }
-
-             // Completely random.
-             choice = Math.random();                     
-             if (choice < 0.33) ex = 'ex_A';
-             else if (choice < 0.66) ex = 'ex_B';            
-             else ex = 'ex_C';            
-
-    	    node.window.getElementById(ex).click();
-
-	}, 4000);
-    });
-
+        }
+    );
 
 });
