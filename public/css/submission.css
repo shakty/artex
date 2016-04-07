@@ -40,19 +40,6 @@ div.ng_widget, div.panel-heading, div.panel-body {
     padding: 0;
 }
 
-/* History */
-
-div#history {
-    border: 0;
-    padding: 0;
-    margin: 0 auto;
-    width: 600px;
-    text-align: center;
-    max-height: 483px;
-    vertical-align: top;
-    margin-bottom: 10px;
-    overflow-y: auto;
-}
 
 /* Main table */
 
@@ -69,10 +56,6 @@ table#table-decision td {
     text-align: center;
     height: 50px;
     vertical-align: top;
-/*
-  padding: 20px; 
-  background: #FFE; 
-  */
 }
 
 table#table-decision input {
@@ -89,10 +72,17 @@ table.table-rules {
 
 table.table-rules tr {
     border-bottom: 3px solid #CCC;
+    padding: 0;
+    margin: 0;
 }
 
-table.table-rules-left td {
-    width: 70%;
+table.table-rules td {
+    padding: 0;
+    margin: 0;
+}
+
+td.table-rules-left {
+    width: 90%;
 }
 
 table#table-decision td:hover {
@@ -100,33 +90,24 @@ table#table-decision td:hover {
     cursor: pointer;
 }
 
-/*
-
-table#table-decision img {
-    width: 50px;
+span.title {
+    font-weight: bold;
 }
 
-
-div.ex-rules {
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-
-
-table.table-rules tr {
+div.ex-column {
+    border: 0;
     padding: 0;
     margin: 0;
-    border-bottom: 5px solid #CCC;
+    max-height: 300px;
+    overflow-y: auto; 
 }
-
-*/
 
 div#div-button {
     clear: both;
     margin-top: 10px;
     text-align: center;
     border: 10px;
+    font-size: 20px;
 }
 
 td.td-selected {

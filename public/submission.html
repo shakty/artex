@@ -15,10 +15,10 @@
 
 <body>  
   <div id="container">
-    <h2>Submit your work to the exhibition that you think is most appropriate</h2>
          
     <div id="creation"></div>
-    
+    <h3>Choose an exhibition for your work</h3>
+        
     <table id="table-decision">
       <tr id="tr-decision">
         <td onclick="parent.node.game.submissionMade('A')"  id="td-A">
@@ -32,6 +32,9 @@
               <td>All others:</td><td>0</td>
             </tr>
           </table>
+          <br/>
+          <span class="title">Past images from A:</span>
+          <div id="ex-A" class="ex-column"></div>
         </td>
         <td id="td-B" onclick="parent.node.game.submissionMade('B')">
           <input id="button-B" type="button" value="B" class="btn btn-lg btn-primary"/>
@@ -47,6 +50,9 @@
               <td>All others:</td><td>0</td>
             </tr>
           </table>
+           <br/>
+           <span class="title">Past images from B:</span>
+           <div id="ex-B" class="ex-column"></div>
         </td>
         <td id="td-C" onclick="parent.node.game.submissionMade('C')">
           <input id="button-C" type="button" value="C" class="btn btn-lg btn-primary"/>
@@ -59,12 +65,15 @@
               <td>All others:</td><td>0</td>
             </tr>
           </table>
+           <br/>
+           <span class="title">Past images from C:</span>
+           <div id="ex-C" class="ex-column"></div>
         </td>
       </tr>
       
     </table>
 
-    <div id="history"></div>
+    <hr/>
 
     Confirm your decision by clicking the button below<br/>
     <div id="div-button">

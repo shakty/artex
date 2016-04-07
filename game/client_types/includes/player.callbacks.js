@@ -120,7 +120,7 @@ function init() {
         if (decision) {
             button = W.getElementById('decision');
             button.disabled = false;
-            button.value = 'I chose exhibition: ' + decision;
+            button.value = 'Click here to submit to exhibition: ' + decision;
         }
     };
 
@@ -137,15 +137,17 @@ function init() {
 
     // Renders a chernoff face (plus metadata) inside a table's cell.
     this.renderCF = function(cell) {
-        var w, h;
+        var stepName, w, h;
         var cf, cfOptions;
         var container, cfDetailsTable;
 
         // Check if it is really CF obj (can be another cell, e.g. header).
         if (!cell.content || !cell.content.cf) return;
 
+        stepName = node.game.getCurrentStepObj().id;
+
         // Adjust dimensions depending on the step.
-        if (node.game.getCurrentStepObj().id === 'creation') {
+        if (stepName === 'creation' || stepName === 'submission') {
             w = 100;
             h = 100;
         }
@@ -161,8 +163,12 @@ function init() {
             id: false,
             controls: false,
             onChange: false,
-            title: false,
-            onclick: function() {
+            title: false
+        };
+
+        if (stepName !== 'submission') {
+
+            cfOptions.onclick = function() {
                 var f, cf, cfOptions;
                 var div, buttons;
 
@@ -188,7 +194,7 @@ function init() {
                 div.append(cf.getCanvas());
 
                 // If we are not in dissemination we can copy the image.
-                if (node.game.getCurrentStepObj().id !== 'dissemination') {
+                if (stepName !== 'dissemination') {
                     buttons = new Array(2);
                     buttons[0] = {
                         text: 'copy',
@@ -223,29 +229,33 @@ function init() {
                     hide: "explode",
                     buttons: buttons
                 });
-            }
-        };
+            };
+        }
+        
 
         // Creating HTML.
-        container = document.createElement('div');
 
-        // Just canvas.
-        // cf = node.widgets.get('ChernoffFaces', cfOptions);
-        // container.appendChild(cf.getCanvas());
+        if (stepName !== 'submission') {
+            container = document.createElement('div');
+            cf = node.widgets.append('ChernoffFaces',
+                                     container,
+                                     cfOptions);
 
-        // Whole widget.
-        cf = node.widgets.append('ChernoffFaces',
-                                 container,
-                                 cfOptions);
-
-        cfDetailsTable = new W.Table();
-        cfDetailsTable.addColumn([
-            'Author: ' + cell.content.author,
-            'Score: ' + cell.content.mean
-        ]);
-        container.appendChild(cfDetailsTable.parse());
-
-        return container;
+            cfDetailsTable = new W.Table();
+            cfDetailsTable.addColumn([
+                'Author: ' + cell.content.author,
+                'Score: ' + cell.content.mean
+            ]);
+            container.appendChild(cfDetailsTable.parse());
+            return container;
+        }
+        else {
+            debugger
+            // Just canvas.
+            cf = node.widgets.get('ChernoffFaces', cfOptions);
+            return cf.getCanvas();
+        }
+        
     };
 }
 
@@ -330,18 +340,34 @@ function submission() {
 
         node.widgets.append('ChernoffFaces', creaDiv, options);
 
-        hisDiv = W.getElementById("history")
+//         hisDiv = W.getElementById("history")
+// 
+//         // Append history, if there is any.
+//         if (this.getCurrentGameStage().round !== 1) {
+//             hisDiv.appendChild(node.game.all_ex.getRoot())
+//         }
 
-        // Append history, if there is any.
-        if (this.getCurrentGameStage().round !== 1) {
-            hisDiv.appendChild(node.game.all_ex.getRoot())
-        }
-        else {
-            hisDiv.style.display = 'none';
+
+        addImagesToEx('A');
+        addImagesToEx('B');
+        addImagesToEx('C');
+        
+
+        function addImagesToEx(ex) {
+            var table = new W.Table({
+                className: 'exhibition',
+                render: {
+                    pipeline: node.game.renderCF,
+                    returnAt: 'first'
+                }
+            });
+            table.addColumn(node.game.winners[ex]);
+            table.parse();
+            W.getElementById('ex-' + ex).appendChild(table.table);
         }
 
     });
-    console.log('Evaluation');
+    console.log('Submission');
 }
 
 function dissemination() {
@@ -440,7 +466,7 @@ function dissemination() {
             
             table.addColumn(winners);
             // Add to submission table.
-            node.game.winners[ex].push(winners);
+            node.game.winners[ex] = node.game.winners[ex].concat(winners);
         }
 
     });
