@@ -11,57 +11,74 @@
 <link rel="stylesheet" type="text/css" href="css/iframe.css">
 <link rel="stylesheet" type="text/css" href="css/submission.css">
 
-<body>
-  <h2>Submission</h2>
-  
+<body>  
   <div id="container">
-    Submit your work to the exhibition that you think is most appropriate.<br/>
+    <h2>Submit your work to the exhibition that you think is most appropriate</h2>
+    
+    <div id="container_creation">
+      <h2>Create your painting</h2>
+      <div id="creation"></div>
+    </div>
+    
+    <div id="container_history">
+      <h2>History of past exhibitions</h2>
+      <div id="history"></div> 
+    </div>
+
     <table id="table-decision">
       <tr id="tr-decision">
         <td id="td-A" class="td-not-selected" onclick="parent.node.game.submissionMade('A')">
-          <a href="#" alt="Exhibition A">
-            <img src="images/a.png" alt="Exhibition A" />
-          </a>
+          <a href="#"><img src="images/a.png" alt="Exhibition A" /></a>
           <br/>
           <br/>
-          <span class="td-title">Reward points for A</span>
+          <span class="td-title">Reward points:</span>
           <div class="ex-rules">
-            <ul>
-              <li>Position 1: 500</li>            
-              <li>Other positions: 0</li>
-            </ul>
+            <table class="table-rules">
+              <tr>
+                <td>1<sup>st</sup> position:</td><td>500</td>
+              </tr>
+              <tr>
+                <td>All others:</td><td>0</td>
+              </tr>
+            </table>
           </div>
         </td>
         
         <td id="td-B" class="td-not-selected" onclick="parent.node.game.submissionMade('B')">
-          <a href="#" alt="Exhibition B">
-            <img src="images/b.png" alt="Exhibition B" />
-          </a>
+          <a href="#"><img src="images/b.png" alt="Exhibition B" /></a>
           <br/>
           <br/>
-          <span class="td-title">Reward points for B</span>          
+          <span class="td-title">Reward points:</span>          
           <div class="ex-rules">
-            <ul>
-              <li>First ranked: 300</li>
-              <li>Second ranked: 200</li>
-              <li>All others: 0</li>
-            </ul>
+            <table class="table-rules">
+              <tr>
+                <td>1<sup>st</sup> position:</td><td>300</td>
+              </tr>
+              <tr>
+                <td>2<sup>nd</sup> position:</td><td>200</td>
+              </tr>
+              <tr>
+                <td>All others:</td><td>0</td>
+              </tr>
+            </table>
           </div>
         </td>
         
         
         <td id="td-C" class="td-not-selected" onclick="parent.node.game.submissionMade('C')">
-          <a href="#" alt="Exhibition C">
-            <img src="images/c.png" alt="Exhibition C" />
-          </a>
+          <a href="#"><img src="images/c.png" alt="Exhibition C" /></a>
           <br/>
           <br/>
-          <span class="td-title">Reward points for C</span>          
+          <span class="td-title">Reward points:</span>          
           <div class="ex-rules">
-            <ul>
-              <li>First to fifth ranked: 100</li>
-              <li>All others: 0</li>
-            </ul>
+            <table class="table-rules">
+              <tr>
+                <td>From 1<sup>st</sup> to 5<sup>th</sup> position</td><td>300</td>
+              </tr>            
+              <tr>
+                <td>All others:</td><td>0</td>
+              </tr>
+            </table>
           </div>
         </td>
         

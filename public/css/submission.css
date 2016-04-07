@@ -9,7 +9,6 @@ table#table-decision {
 
 table#table-decision td {
     width: 350px;
-    padding: 5px;
     text-align: center;
     vertical-align: top;
     padding: 20px;
@@ -20,12 +19,11 @@ table#table-decision td:hover {
     background: #FFE;
 }
 
-/*
+
 table#table-decision img {
-    width: 200px;
-    height: 150px;
+    width: 50px;
 }
-*/
+
 
 /*
 div#car-departure-div {
@@ -43,8 +41,22 @@ div.ex-rules {
     margin-bottom: 15px;
 }
 
-div.ex-rules ul li {
-    list-style: none;    
+table.table-rules {
+    border-spacing: 0;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0;
+}
+
+table.table-rules tr {
+    padding: 0;
+    margin: 0;
+    border-bottom: 5px solid #CCC;
+}
+
+table.table-rules td {
+    padding: 0px;
+    margin: 0;
 }
 
 div#div-button {
