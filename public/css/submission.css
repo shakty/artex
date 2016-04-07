@@ -25,7 +25,8 @@ table.cf_table {
     margin: 0 auto;
     text-align: center;
 }
-able.cf_table td {
+
+table.cf_table td {
     vertical-align: top;
     padding: 5px;
 }
@@ -56,20 +57,22 @@ div#history {
 /* Main table */
 
 table#table-decision {
-    border-spacing: 0px;
+    border-spacing: 20px;
     border-collapse: collapse;
     margin-top: 20px;
     margin: 0 auto;
 }
 
 table#table-decision td {
+    padding: 20px;
     width: 350px;
     text-align: center;
     height: 50px;
-    /*vertical-align: top;
-    padding: 20px; 
-    cursor: pointer;
-    background: #FFE; */
+    vertical-align: top;
+/*
+  padding: 20px; 
+  background: #FFE; 
+  */
 }
 
 table#table-decision input {
@@ -77,11 +80,27 @@ table#table-decision input {
     height: 98%;
 }
 
+table.table-rules {
+    border-spacing: 0;
+    border-collapse: collapse;
+    padding: 0;
+    margin: 0;
+}
 
-/*
+table.table-rules tr {
+    border-bottom: 3px solid #CCC;
+}
+
+table.table-rules-left td {
+    width: 70%;
+}
+
 table#table-decision td:hover {
     background: #FFE;
+    cursor: pointer;
 }
+
+/*
 
 table#table-decision img {
     width: 50px;
@@ -93,12 +112,7 @@ div.ex-rules {
     margin-bottom: 15px;
 }
 
-table.table-rules {
-    border-spacing: 0;
-    border-collapse: collapse;
-    padding: 0;
-    margin: 0;
-}
+
 
 table.table-rules tr {
     padding: 0;
@@ -106,10 +120,6 @@ table.table-rules tr {
     border-bottom: 5px solid #CCC;
 }
 
-table.table-rules td {
-    padding: 0px;
-    margin: 0;
-}
 */
 
 div#div-button {
@@ -121,7 +131,8 @@ div#div-button {
 
 td.td-selected {
     background: #FFC;
-    border: 5px solid #111;
+    border: 1px solid #CCC;
+    
 }
 
 td.td-not-selected {

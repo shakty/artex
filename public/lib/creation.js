@@ -3,6 +3,7 @@ $(document).ready(function() {
 
     var node = parent.node;
     var J = node.JSUS;
+    var W = node.window;
     var GameStage = node.GameStage;
 
     node.window.noEscape(window);
@@ -194,5 +195,13 @@ $(document).ready(function() {
             $(this).unbind('mousemove');
         }
     );
+
+    // AUTOPLAY
+    ////////////
+    node.env('auto', function() {
+    	node.timer.randomExec(function() {
+            W.getElementById('done_button_box').click();
+	}, 2000);
+    });
 
 });

@@ -67,22 +67,32 @@ function init() {
     this.winners = { A: [], B: [], C: [] };
 
     this.submissionMade = function(decision) {
-        var td, otherTd, otherTd2, button;
-
+        var td, otherTd, otherTd2;
+        var tdButton, otherTdButton, otherTdButton2;
+        
         if (decision === 'A') {
             td = W.getElementById('td-A');
             otherTd = W.getElementById('td-B');
             otherTd2 = W.getElementById('td-C');
+            tdButton = W.getElementById('button-A');
+            otherTdButton = W.getElementById('button-B');
+            otherTdButton2 = W.getElementById('button-C');
         }
         else if (decision === 'B') {
             td = W.getElementById('td-B');
             otherTd = W.getElementById('td-A');
             otherTd2 = W.getElementById('td-C');
+            tdButton = W.getElementById('button-B');
+            otherTdButton = W.getElementById('button-A');
+            otherTdButton2 = W.getElementById('button-C');
         }
         else if (decision === 'C') {
             td = W.getElementById('td-C');
             otherTd = W.getElementById('td-A');
             otherTd2 = W.getElementById('td-B');
+            tdButton = W.getElementById('button-C');
+            otherTdButton = W.getElementById('button-B');
+            otherTdButton2 = W.getElementById('button-A');
         }
         else {
             node.err('unknown exhibition selected: ' + decision);
@@ -92,11 +102,15 @@ function init() {
         node.game.last_ex = decision;
 
         // Departure time is changed by the slider for car.
-        JSUS.addClass(td, 'active');
-        JSUS.removeClass(otherTd, 'active');
-        JSUS.removeClass(otherTd2, 'active');
+        JSUS.addClass(tdButton, 'active');
+        JSUS.removeClass(otherTdButton, 'active');
+        JSUS.removeClass(otherTdButton2, 'active');
 
-        button = W.getElementById('decision');
+        td.className = 'td-selected';
+        otherTd.className = '';
+        otherTd2.className = '';
+        
+
         this.updateSubmissionButton();
     };
 

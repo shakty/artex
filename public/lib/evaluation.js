@@ -32,7 +32,7 @@ $(document).ready(function() {
     node.env('auto', function(){
         node.timer.randomExec(function() {
             node.done();
-        }, 10000);
+        }, 4000);
     });
 
     function makeReviewUI(exData) {
@@ -114,7 +114,7 @@ $(document).ready(function() {
                     $("#" + evaId).slider("value", Math.random() * 10);
                     $("#" + diplayEvaId).val($("#" + evaId)
                                              .slider("value"));
-                }, 4000);
+                }, 2000);
             });
         }
     }

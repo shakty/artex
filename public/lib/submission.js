@@ -7,6 +7,7 @@ $(document).ready(function() {
     // AUTOPLAY
     ////////////
     node.env('auto', function() {
+        return;
     	node.timer.randomExec(function() {
     	    var choice, odd, ex;
 
