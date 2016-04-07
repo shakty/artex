@@ -3,17 +3,30 @@
 
 /* Creation */
 
+div#container {
+    float: left;
+    width: 900px;
+}
+
+div#container_done {
+    float: right;
+    height: 100px;
+    width: 400px;
+    border: 0;
+    padding:0;
+    background: white;
+}
+
 div#creation {
     border: 0;
     padding: 0;
     margin: 0 auto;
     margin-top: 10px;
-    width: 600px;
+    width: 98%;
     text-align: center;
 }
 
 div#creation div.chernofffaces {
-    text-align: center;
     text-align: center;
 }
 
@@ -48,29 +61,46 @@ table#table-decision {
     border-collapse: collapse;
     margin-top: 20px;
     margin: 0 auto;
+    width: 98%;
 }
 
-table#table-decision td {
+td#td-A, td#td-B, td#td-C {
     padding: 20px;
-    width: 350px;
+    width: 300px;
     text-align: center;
     height: 50px;
     vertical-align: top;
+    border-right: 2px solid #CCC;
 }
+
+table#table-decision td:last-child {
+    border-right: 0;
+}
+
 
 table#table-decision input {
     width: 98%;
     height: 98%;
 }
 
+table#table-decision td:hover {
+    background: #FFE;
+    cursor: pointer;
+}
+
+/* Nested table */
+
 table.table-rules {
     border-spacing: 0;
     border-collapse: collapse;
     padding: 0;
     margin: 0;
+    border: 0;
+    text-align: center;
 }
 
 table.table-rules tr {
+    border: 0;
     border-bottom: 3px solid #CCC;
     padding: 0;
     margin: 0;
@@ -79,27 +109,23 @@ table.table-rules tr {
 table.table-rules td {
     padding: 0;
     margin: 0;
+    border: 0;    
 }
 
 td.table-rules-left {
     width: 90%;
 }
 
-table#table-decision td:hover {
-    background: #FFE;
-    cursor: pointer;
-}
-
-span.title {
-    font-weight: bold;
-}
+/* Exhibition List */
 
 div.ex-column {
     border: 0;
     padding: 0;
     margin: 0;
     max-height: 300px;
-    overflow-y: auto; 
+    overflow-x: auto;
+    text-align: center;
+    width: 250px;
 }
 
 div#div-button {
@@ -124,5 +150,17 @@ span.td-title {
     display: block;
     margin-bottom: 20px;
     font-size: 24px;
+    font-weight: bold;
+}
+
+table.exhibition td:hover {
+    background: #DADCCB;
+}
+
+/* General */
+
+span.title {
+    margin-top: 5px;
+    margin-bottom: 5px;
     font-weight: bold;
 }

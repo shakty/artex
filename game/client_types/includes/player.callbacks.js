@@ -250,7 +250,6 @@ function init() {
             return container;
         }
         else {
-            debugger
             // Just canvas.
             cf = node.widgets.get('ChernoffFaces', cfOptions);
             return cf.getCanvas();
@@ -361,7 +360,7 @@ function submission() {
                     returnAt: 'first'
                 }
             });
-            table.addColumn(node.game.winners[ex]);
+            table.addRow(node.game.winners[ex]);
             table.parse();
             W.getElementById('ex-' + ex).appendChild(table.table);
         }
