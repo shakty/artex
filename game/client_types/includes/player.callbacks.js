@@ -378,13 +378,16 @@ function submission() {
             }
             y = i % 2;
             if (y === 1) table.addRow([row[0]]);
-            // Add last row to control visible rows.
-            prev = document.createElement('a');
-            prev.innerHTML = 'Prev.';
-            next = document.createElement('a');
-            next.innerHTML = 'Next';
 
-            table.addRow([prev, next]);
+            if (len > 2) {
+                // Add last row to control visible rows (if needed).
+                prev = document.createElement('a');
+                prev.innerHTML = 'Prev.';
+                next = document.createElement('a');
+                next.innerHTML = 'Next';
+                table.addRow([prev, next]);
+            }
+
             table.parse();
             container.appendChild(table.table);
         }
