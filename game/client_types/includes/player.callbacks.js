@@ -344,7 +344,12 @@ function submission() {
 //             hisDiv.appendChild(node.game.all_ex.getRoot())
 //         }
 
-        if (this.getCurrentGameStage().round === 1) return;
+        if (this.getCurrentGameStage().round === 1) {
+            W.getElementById('span-past-images-A').style.display = 'none';
+            W.getElementById('span-past-images-B').style.display = 'none';
+            W.getElementById('span-past-images-C').style.display = 'none';
+            return;
+        }
 
         addImagesToEx('A');
         addImagesToEx('B');
