@@ -408,7 +408,7 @@ function dissemination() {
     table.setHeader(this.exhibitNames);
 
     W.loadFrame('dissemination.html', function() {
-
+   
         node.game.timer.stop();
 
         node.on.data('WIN_CF', function(msg) {
