@@ -115,12 +115,12 @@ function init() {
     };
 
     this.updateSubmissionButton = function(decision) {
-        var button;
+        var span;
         decision = decision || node.game.last_ex;
         if (decision) {
-            button = W.getElementById('decision');
-            button.disabled = false;
-            button.value = 'Click here to submit to exhibition: ' + decision;
+            span = W.getElementById('span-you-chose');
+            span.innerHTML = ' (Your choice: <em>' + decision + '</em>)';
+            W.getElementById('decision').disabled = false;
         }
     };
 
