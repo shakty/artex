@@ -230,11 +230,9 @@ function init() {
                     buttons: buttons
                 });
             };
-        }
-        
+        }        
 
         // Creating HTML.
-
         if (stepName !== 'submission') {
             container = document.createElement('div');
             cf = node.widgets.append('ChernoffFaces',
@@ -346,6 +344,7 @@ function submission() {
 //             hisDiv.appendChild(node.game.all_ex.getRoot())
 //         }
 
+        if (this.getCurrentGameStage().round === 1) return;
 
         addImagesToEx('A');
         addImagesToEx('B');
@@ -353,16 +352,39 @@ function submission() {
         
 
         function addImagesToEx(ex) {
-            var table = new W.Table({
+            var i, len, winners, container;
+            var table, header, y, row;
+
+            winners = node.game.winners[ex];
+            len = winners.length;
+            if (!len) return;
+
+            table = new W.Table({
                 className: 'exhibition',
                 render: {
                     pipeline: node.game.renderCF,
                     returnAt: 'first'
                 }
             });
-            table.addRow(node.game.winners[ex]);
+            
+            header = document.createElement('span');
+            header.innerHTML = 'Past images from ' + ex;
+            header.className = 'title';
+            //table.setHeader([header]);
+
+            container = W.getElementById('ex-' + ex);
+
+            row = new Array(2);
+            i = -1, y = -1;
+            for ( ; ++i < len ; ) {
+                y = i % 2;
+                row[y] = winners[i];
+                if (y === 1) table.addRow(row);               
+            }
+            y = i % 2;
+            if (y === 1) table.addRow([row[0]]);
             table.parse();
-            W.getElementById('ex-' + ex).appendChild(table.table);
+            container.appendChild(table.table);
         }
 
     });

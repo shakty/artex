@@ -101,9 +101,10 @@ table.table-rules {
 
 table.table-rules tr {
     border: 0;
-    border-bottom: 3px solid #CCC;
+    border-bottom: 1px solid #CCC;
     padding: 0;
     margin: 0;
+    margin-bottom: 10px;
 }
 
 table.table-rules td {
@@ -126,6 +127,7 @@ div.ex-column {
     overflow-x: auto;
     text-align: center;
     width: 250px;
+    background-color: transparent;
 }
 
 div#div-button {
@@ -138,7 +140,7 @@ div#div-button {
 
 td.td-selected {
     background: #FFC;
-    border: 1px solid #CCC;
+    /* border: 1px solid #CCC; */
     
 }
 
@@ -153,6 +155,10 @@ span.td-title {
     font-weight: bold;
 }
 
+table.exhibition {
+    margin: 20px auto;
+}
+
 table.exhibition td:hover {
     background: #DADCCB;
 }
@@ -160,7 +166,7 @@ table.exhibition td:hover {
 /* General */
 
 span.title {
-    margin-top: 5px;
-    margin-bottom: 5px;
+    margin-top: 20px;
+    margin-bottom: 15px;
     font-weight: bold;
 }
