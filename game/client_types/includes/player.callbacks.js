@@ -169,71 +169,10 @@ function init() {
         if (stepName !== 'submission') {
 
             cfOptions.onclick = function() {
-                var f, cf, cfOptions;
-                var div, buttons;
-
-                f = this.getAllValues();
-
-                cfOptions = {
-                    id: false,
-                    width: 400,
-                    height: 400,
-                    features: f,
-                    controls: false,
-                    onChange: false,
-                    title: false
-                };
-
-                cf = node.widgets.get('ChernoffFaces', cfOptions);
-
-                div = $('<div class="copyorclose">');
-                $(cf.canvas).css('background', 'white');
-                $(cf.canvas).css('border', '3px solid #CCC');
-                $(cf.canvas).css('padding', '5px');
-
-                div.append(cf.getCanvas());
-
-                // If we are not in dissemination we can copy the image.
-                if (stepName !== 'dissemination') {
-                    buttons = new Array(2);
-                    buttons[0] = {
-                        text: 'copy',
-                        click: function() {
-                            // Triggers the update of the image and sliders.
-                            node.emit('COPIED', f);
-                            // Keep track of copying.
-                            node.game.copies.push({
-                                time: node.timer.getTimeSince('step'),
-                                author: cell.content.author,
-                                ex: cell.content.ex,
-                                mean: cell.content.mean,
-                                round: cell.content.round
-                            });
-                            $(this).dialog("close");
-                        }
-                    };
-                }
-                else {
-                    buttons = new Array(1);
-                }
-
-                buttons[buttons.length-1] = {
-                    text: 'Cancel',
-                    click: function() { $(this).dialog("close"); }
-                };
-
-                div.dialog({
-                    width: 460,
-                    height: 560,
-                    show: "blind",
-                    hide: "explode",
-                    buttons: buttons
-                });
+                node.game.popupCf.call(this, stepName, cell.content);
             };
-        }        
-
-        // Creating HTML.
-        if (stepName !== 'submission') {
+            
+            // Creating HTML.
             container = document.createElement('div');
             cf = node.widgets.append('ChernoffFaces',
                                      container,
@@ -253,6 +192,69 @@ function init() {
             return cf.getCanvas();
         }
         
+    };
+
+    this.popupCf = function(stepName, metadata) {
+        var cf, cfOptions;
+        var div, buttons, f;
+
+        f = this.getAllValues();
+
+        cfOptions = {
+            id: false,
+            width: 400,
+            height: 400,
+            features: f,
+            controls: false,
+            onChange: false,
+            title: false
+        };
+
+        cf = node.widgets.get('ChernoffFaces', cfOptions);
+
+        div = $('<div class="copyorclose">');
+        $(cf.canvas).css('background', 'white');
+        $(cf.canvas).css('border', '3px solid #CCC');
+        $(cf.canvas).css('padding', '5px');
+
+        div.append(cf.getCanvas());
+
+        // If we are not in dissemination we can copy the image.
+        if (stepName !== 'dissemination') {
+            buttons = new Array(2);
+            buttons[0] = {
+                text: 'copy',
+                click: function() {
+                    // Triggers the update of the image and sliders.
+                    node.emit('COPIED', f);
+                    // Keep track of copying.
+                    node.game.copies.push({
+                        time: node.timer.getTimeSince('step'),
+                        author: metadata.author,
+                        ex: metadata.ex,
+                        mean: metadata.mean,
+                        round: metadata.round
+                    });
+                    $(this).dialog("close");
+                }
+            };
+        }
+        else {
+            buttons = new Array(1);
+        }
+
+        buttons[buttons.length-1] = {
+            text: 'Cancel',
+            click: function() { $(this).dialog("close"); }
+        };
+
+        div.dialog({
+            width: 460,
+            height: 560,
+            show: "blind",
+            hide: "explode",
+            buttons: buttons
+        });
     };
 }
 
@@ -337,13 +339,6 @@ function submission() {
 
         node.widgets.append('ChernoffFaces', creaDiv, options);
 
-//         hisDiv = W.getElementById("history")
-// 
-//         // Append history, if there is any.
-//         if (this.getCurrentGameStage().round !== 1) {
-//             hisDiv.appendChild(node.game.all_ex.getRoot())
-//         }
-
         if (this.getCurrentGameStage().round === 1) {
             W.getElementById('span-past-images-A').style.display = 'none';
             W.getElementById('span-past-images-B').style.display = 'none';
@@ -358,7 +353,7 @@ function submission() {
 
         function addImagesToEx(ex) {
             var i, len, winners, container;
-            var table, header, y, row;
+            var table, y, row;
 
             winners = node.game.winners[ex];
             len = winners.length;
@@ -372,11 +367,6 @@ function submission() {
                 }
             });
             
-            header = document.createElement('span');
-            header.innerHTML = 'Past images from ' + ex;
-            header.className = 'title';
-            //table.setHeader([header]);
-
             container = W.getElementById('ex-' + ex);
 
             row = new Array(2);
@@ -388,6 +378,9 @@ function submission() {
             }
             y = i % 2;
             if (y === 1) table.addRow([row[0]]);
+            // Add last row to control visible rows.
+            table.addRow(['Last row']);
+debugger
             table.parse();
             container.appendChild(table.table);
         }
