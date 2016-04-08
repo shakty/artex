@@ -353,7 +353,7 @@ function submission() {
 
         function addImagesToEx(ex) {
             var i, len, winners, container;
-            var table, y, row;
+            var table, y, row, prev, next;
 
             winners = node.game.winners[ex];
             len = winners.length;
@@ -379,8 +379,12 @@ function submission() {
             y = i % 2;
             if (y === 1) table.addRow([row[0]]);
             // Add last row to control visible rows.
-            table.addRow(['Last row']);
-debugger
+            prev = document.createElement('a');
+            prev.innerHTML = 'Prev.';
+            next = document.createElement('a');
+            next.innerHTML = 'Next';
+
+            table.addRow([prev, next]);
             table.parse();
             container.appendChild(table.table);
         }
