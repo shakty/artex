@@ -256,6 +256,52 @@ function init() {
             buttons: buttons
         });
     };
+
+    this.addImagesToEx = function(ex) {
+        var i, len, winners, container;
+        var table, y, row, prev, next;
+
+        winners = node.game.winners[ex];
+        len = winners.length;
+        if (!len) {
+            W.getElementById('span-past-images-' + ex)
+                .style.display = 'none';
+            return;
+        }
+
+        table = new W.Table({
+            className: 'exhibition',
+            render: {
+                pipeline: node.game.renderCF,
+                returnAt: 'first'
+            }
+        });
+        
+        container = W.getElementById('ex-' + ex);
+
+        row = new Array(2);
+        i = -1, y = -1;
+        for ( ; ++i < len ; ) {
+            y = i % 2;
+            row[y] = winners[i];
+            if (y === 1) table.addRow(row);               
+        }
+        y = i % 2;
+        if (y === 1) table.addRow([row[0]]);
+
+        if (len > 2) {
+            // Add last row to control visible rows (if needed).
+            prev = document.createElement('a');
+            prev.innerHTML = 'Prev.';
+            next = document.createElement('a');
+            next.innerHTML = 'Next';
+            table.addRow([prev, next]);
+        }
+
+        table.parse();
+        container.appendChild(table.table);
+    };
+
 }
 
 function instructions() {
@@ -339,59 +385,10 @@ function submission() {
 
         node.widgets.append('ChernoffFaces', creaDiv, options);
 
-        if (this.getCurrentGameStage().round === 1) {
-            W.getElementById('span-past-images-A').style.display = 'none';
-            W.getElementById('span-past-images-B').style.display = 'none';
-            W.getElementById('span-past-images-C').style.display = 'none';
-            return;
-        }
-
-        addImagesToEx('A');
-        addImagesToEx('B');
-        addImagesToEx('C');
-        
-
-        function addImagesToEx(ex) {
-            var i, len, winners, container;
-            var table, y, row, prev, next;
-
-            winners = node.game.winners[ex];
-            len = winners.length;
-            if (!len) return;
-
-            table = new W.Table({
-                className: 'exhibition',
-                render: {
-                    pipeline: node.game.renderCF,
-                    returnAt: 'first'
-                }
-            });
-            
-            container = W.getElementById('ex-' + ex);
-
-            row = new Array(2);
-            i = -1, y = -1;
-            for ( ; ++i < len ; ) {
-                y = i % 2;
-                row[y] = winners[i];
-                if (y === 1) table.addRow(row);               
-            }
-            y = i % 2;
-            if (y === 1) table.addRow([row[0]]);
-
-            if (len > 2) {
-                // Add last row to control visible rows (if needed).
-                prev = document.createElement('a');
-                prev.innerHTML = 'Prev.';
-                next = document.createElement('a');
-                next.innerHTML = 'Next';
-                table.addRow([prev, next]);
-            }
-
-            table.parse();
-            container.appendChild(table.table);
-        }
-
+        this.addImagesToEx('A');
+        this.addImagesToEx('B');
+        this.addImagesToEx('C');
+       
     });
     console.log('Submission');
 }

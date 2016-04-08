@@ -83,7 +83,7 @@ table#table-decision input {
     height: 98%;
 }
 
-table#table-decision td:hover {
+td#td-A:hover, td#td-B:hover, td#td-C:hover {
     background: #FFE;
     cursor: pointer;
 }
@@ -129,6 +129,18 @@ div.ex-column {
     width: 250px;
     background-color: transparent;
 }
+
+
+td#td-A-past-images, td#td-B-past-images, td#td-C-past-images {
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    height: 50px;
+    vertical-align: top;
+    border-right: 2px solid #CCC;
+}
+
+
 
 div#div-button {
     clear: both;

@@ -2,7 +2,13 @@
 $(document).ready(function() {
     var node = parent.node;
     var J = parent.JSUS;
+    var ids;
     node.game.subOrder = J.shuffleNodes(document.getElementById("tr-decision"));
+    ids = [node.game.subOrder[0] + '-past-images',
+           node.game.subOrder[1] + '-past-images',
+           node.game.subOrder[2] + '-past-images'
+          ];
+    J.shuffleNodes(document.getElementById("tr-past-images"), ids);
     
     // AUTOPLAY
     ////////////

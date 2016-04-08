@@ -13,12 +13,12 @@
      <link rel="stylesheet" type="text/css" href="css/exhibition.css"> -->
 <link rel="stylesheet" type="text/css" href="css/submission.css">
 
-<body>  
+<body>
   <div id="container">
-    
+
     <div id="creation"></div>
     <h3>Choose an exhibition for your work<span id="span-you-chose"></span></h3>
-    
+
     <table id="table-decision">
       <tr id="tr-decision">
         <td id="td-A" onclick="parent.node.game.submissionMade('A')">
@@ -31,13 +31,11 @@
             </tr>
             <tr>
               <td>All others:</td><td>0</td>
-            </tr>        
+            </tr>
             <tr>
               <td>&nbsp;</td><td>&nbsp;</td>
             </tr>
           </table>
-          <span class="title" id="span-past-images-A">Past images</span>
-          <div id="ex-A" class="ex-column"></div>
         </td>
         <td id="td-B" onclick="parent.node.game.submissionMade('B')">
           <input id="button-B" type="button" value="B" class="btn btn-lg btn-primary"/>
@@ -54,8 +52,6 @@
               <td>All others:</td><td>0</td>
             </tr>
           </table>
-          <span class="title" id="span-past-images-B">Past images</span>
-          <div id="ex-B" class="ex-column"></div>
         </td>
         <td id="td-C" onclick="parent.node.game.submissionMade('C')">
           <input id="button-C" type="button" value="C" class="btn btn-lg btn-primary"/>
@@ -64,39 +60,48 @@
           <table class="table-rules">
             <tr>
               <td class="table-rules-left">1<sup>st</sup> to 5<sup>th</sup> position:</td><td>100</td>
-            </tr>            
+            </tr>
             <tr>
               <td>All others:</td><td>0</td>
-            </tr>          
+            </tr>
             <tr>
               <td>&nbsp;</td><td>&nbsp;</td>
             </tr>
           </table>
-          <span class="title" id="span-past-images-C">Past images</span>
-          <div id="ex-C" class="ex-column">
-          </div>
         </td>
       </tr>
-      
+      <tr id="tr-past-images">
+        <td id="td-A-past-images">
+          <span class="title" id="span-past-images-A">Past images A</span>
+          <div id="ex-A" class="ex-column"></div>
+        </td>
+        <td id="td-B-past-images">
+          <span class="title" id="span-past-images-B">Past images B</span>
+          <div id="ex-B" class="ex-column"></div>
+        </td>
+        <td id="td-C-past-images">
+          <span class="title" id="span-past-images-C">Past images C</span>
+          <div id="ex-C" class="ex-column"></div>
+        </td>
+      </tr>
     </table>
-  </div>
-
-  
-  <div id="container_done">
-    <div id="done_box" >
-      <input onclick='javascript:parent.node.done();' type="button" id="decision" value="Click here when you are done" disabled="disabled" class="btn btn-lg btn-primary"/>
     </div>
-  </div>
-    
+
+    <div id="container_done">
+      <div id="done_box" >
+        <input onclick='javascript:parent.node.done();' type="button" id="decision" value="Click here when you are done" disabled="disabled" class="btn btn-lg btn-primary"/>
+      </div>
+    </div>
+
 
 </body>
 <script src="lib/submission.js" type="text/javascript" charset="utf-8"></script>
 
 <!--             <table>
-              <tr id="tr-slider-C">
-                <td id="td-slider-left-C" onclick="javascript:parent.node.game.slideSub('C', 'left')">L</td>
-                <td id="td-slider-center-C"><ul id="ul-slider-C"></ul></td>
-                <td id="td-slider-right-C" onclick="javascript:parent.node.game.slideSub('C', 'right')">R</td>
-              </tr>
-            </table>
+                 <tr id="tr-slider-C">
+                   <td id="td-slider-left-C" onclick="javascript:parent.node.game.slideSub('C', 'left')">L</td>
+                   <td id="td-slider-center-C"><ul id="ul-slider-C"></ul></td>
+                   <td id="td-slider-right-C" onclick="javascript:parent.node.game.slideSub('C', 'right')">R</td>
+                 </tr>
+</table>
 -->
