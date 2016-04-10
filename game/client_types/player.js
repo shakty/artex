@@ -102,6 +102,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('submission', {    
         cb: cbs.submission,
         timer: settings.timer.submission,
+        donebutton: false,
         done: function() {
             return {
                 ex: node.game.last_ex,

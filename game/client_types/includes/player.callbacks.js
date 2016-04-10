@@ -39,10 +39,12 @@ function init() {
         });
 
         node.game.timer = node.widgets.append('VisualTimer', header);
-
+        
         node.game.money = node.widgets.append('MoneyTalks', header, {
             currency: 'CHF', money: 10
         });
+
+        node.game.donebutton = node.widgets.append('DoneButton', header);
 
     }
 
@@ -120,7 +122,7 @@ function init() {
         if (decision) {
             span = W.getElementById('span-you-chose');
             span.innerHTML = ' (Your choice: <em>' + decision + '</em>)';
-            W.getElementById('decision').disabled = false;
+            node.game.donebutton.enable();
         }
     };
 
