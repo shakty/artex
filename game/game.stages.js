@@ -25,7 +25,7 @@ module.exports = function(stager, settings) {
             ]
         });
 
-    // stager.skip('instructions');
+    stager.skip('instructions');
     stager.skip('quiz');
     // stager.skip('artex', 'creation');
     // stager.skip('artex', 'evaluation');

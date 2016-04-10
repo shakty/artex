@@ -96,15 +96,7 @@ $(document).ready(function() {
     // Important: set the player color.
     init_cf.color = 'black';
 
-    // TODO: to remove.
-    console.log('init_cf');
-    console.log(init_cf);
-    window.aa = J.clone(init_cf);
-
     init_sc = CFControls.normalizeFeatures(init_cf);
-
-    console.log('init_sc');
-    console.log(init_sc);
 
     cfc = new CFControls({
         id: 'cf_controls',
@@ -144,57 +136,8 @@ $(document).ready(function() {
             document.createTextNode('No past exhibitions yet.'));
     }
 
-
-    // Submission
-    //////////////
-
-//     $('#done_box button').click(function() {
-//         $(function() {
-//             // Notify the game engine that the button has been
-//             // clicked. This way any other jQuery dialog can
-//             // get closed
-//             node.emit('CLICKED_DONE');
-// 
-//             // If time is up reopen the dialog immediately
-//             // if it gets closed
-//             $("#sub_list").bind("dialogclose", function(event, ui) {
-//                 $("#sub_list").dialog('destroy');
-//                 if (!node.game.timer.gameTimer.timeLeft) {
-//                     initSubmitDialog();
-//                     $("#sub_list").dialog('open');
-//                 }
-//             });
-// 
-//             initSubmitDialog();
-//             $("#sub_list").dialog('open');
-// 
-//         });
-//     });
-
-    // Tooltip for enlarge and copy canvas
-    //////////////////////////////////////
-
-    $('#all_ex canvas').hover(
-        function(e) {
-            var txt = "<span id='enlarge'>Click to enlarge, " +
-                "and decide if you want to copy it.</span>";
-            var enlarge = $(txt);
-            var pos = $(this).position();
-            enlarge.addClass('tooltip');
-            enlarge.css({"left": (5 + e.pageX) + "px","top":e.pageY + "px" });
-            $(this).before(enlarge);
-            $(this).mousemove(function(e){
-                $('span#enlarge').css(
-                    {"left": (5 + e.pageX)  +
-                     "px","top":e.pageY + "px"
-                    });
-            });
-        },
-        function() {
-            $(this).parent().find("span#enlarge").remove();
-            $(this).unbind('mousemove');
-        }
-    );
+    // Canvas tooltip.
+    node.events.step.emit('canvas_tooltip');
 
     // AUTOPLAY
     ////////////

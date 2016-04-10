@@ -251,11 +251,12 @@ function init() {
         };
 
         div.dialog({
-            width: 460,
-            height: 560,
+            width: 480,
+            height: 580,
             show: "blind",
             hide: "explode",
-            buttons: buttons
+            buttons: buttons,
+            dialogClass: 'noTitleStuff'
         });
     };
 
@@ -303,6 +304,68 @@ function init() {
         table.parse();
         container.appendChild(table.table);
     };
+
+    this.addTooltip = function() {
+        
+        var cancopy, txt, select;
+
+        // Creation is step 1 of stage artex.
+        cancopy = node.game.getCurrentGameStage().step === 1;
+
+        if (cancopy) {
+            select = '#all_ex canvas';
+            txt = "<span id='enlarge'>Click to enlarge, " +
+                "and decide if you want to copy it.</span>";
+        }
+        else {
+            select = '#container_exhibition canvas';
+            txt = "<span id='enlarge'>Click to enlarge.</span>";
+        }
+        $("#ng_mainframe").contents().find(select).hover(
+            function(e) {
+                var enlarge = $(txt);
+                var pos = $(this).position();
+                enlarge.addClass('tooltip');
+                enlarge.css({"left": (5 + e.pageX) + "px","top":e.pageY + "px" });
+                $(this).before(enlarge);
+                $(this).mousemove(function(e){
+                    $('span#enlarge').css(
+                        {"left": (5 + e.pageX)  +
+                         "px","top":e.pageY + "px"
+                        });
+                });
+            },
+            function() {
+                $(this).parent().find("span#enlarge").remove();
+                $(this).unbind('mousemove');
+            }
+        );
+
+
+// .hover(
+//             function(e) {
+//                 var enlarge = $(txt);
+//                 var pos = $(this).position();
+//                 enlarge.addClass('tooltip');
+//                 enlarge.css({
+//                     'left': (5 + e.pageX) + 'px',
+//                     'top': e.pageY + 'px'
+//                 });
+//                 $(this).before(enlarge);
+//                 $(this).mousemove(function(e) {
+//                     $('span#enlarge').css({
+//                         'left': (5 + e.pageX) + 'px',
+//                         'top': e.pageY + 'px'
+//                     });
+//                 });
+//             },
+//             function() {
+//                 $(this).parent().find("span#enlarge").remove();
+//                 $(this).unbind('mousemove');
+//             }
+//         );
+ 
+     };
 
 }
 
@@ -431,6 +494,11 @@ function dissemination() {
                 .appendChild(table.parse());
 
             this.all_ex.addDD(table);
+
+            // Add tooltip to every canvas. (does not work for now).
+            // this.addTooltip();
+
+            node.events.step.emit('canvas_tooltip');
 
             node.game.timer.restart({
                 milliseconds: node.game.settings.timer.dissemination,
