@@ -347,12 +347,7 @@ function quiz() {
 }
 
 function creation() {
-    W.loadFrame('creation.html', function() {
-        node.on('CLICKED_DONE', function() {
-            $( ".copyorclose" ).dialog('close');
-            $( ".copyorclose" ).dialog('destroy');
-        });
-    });
+    W.loadFrame('creation.html');
     console.log('Creation');
 }
 
