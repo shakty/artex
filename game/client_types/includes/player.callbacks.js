@@ -39,7 +39,7 @@ function init() {
         });
 
         node.game.timer = node.widgets.append('VisualTimer', header);
-        
+
         node.game.money = node.widgets.append('MoneyTalks', header, {
             currency: 'CHF', money: 10
         });
@@ -65,13 +65,16 @@ function init() {
     this.exhibitNames = this.settings.exhibitNames;
     this.nExhibits = this.exhibitNames.length;
 
+    // Indexes of what sliders displaying past images by exhibition.
+    this.subSliders = { A: 0, B: 0, C: 0 };
+
     // Winners.
     this.winners = { A: [], B: [], C: [] };
 
     this.submissionMade = function(decision) {
         var td, otherTd, otherTd2;
         var tdButton, otherTdButton, otherTdButton2;
-        
+
         if (decision === 'A') {
             td = W.getElementById('td-A');
             otherTd = W.getElementById('td-B');
@@ -111,7 +114,7 @@ function init() {
         td.className = 'td-selected';
         otherTd.className = '';
         otherTd2.className = '';
-        
+
 
         this.updateSubmissionButton();
     };
@@ -173,7 +176,7 @@ function init() {
             cfOptions.onclick = function() {
                 node.game.popupCf.call(this, stepName, cell.content);
             };
-            
+
             // Creating HTML.
             container = document.createElement('div');
             cf = node.widgets.append('ChernoffFaces',
@@ -193,7 +196,7 @@ function init() {
             cf = node.widgets.get('ChernoffFaces', cfOptions);
             return cf.getCanvas();
         }
-        
+
     };
 
     this.popupCf = function(stepName, metadata) {
@@ -261,112 +264,89 @@ function init() {
     };
 
     this.addImagesToEx = function(ex) {
-        var i, len, winners, container;
-        var table, y, row, prev, next;
+        var i, len, nTR, winners, container;
+        var table, y, row, seeMore;
+
+        container = W.getElementById('ex-' + ex);
 
         winners = node.game.winners[ex];
         len = winners.length;
         if (!len) {
             W.getElementById('span-past-images-' + ex)
                 .style.display = 'none';
+            container.innerHTML = '<em>No past images yet</em>';
             return;
         }
+
+        // Number of rows in the table.
+        nTR = (len % 2 === 0) ? Math.floor(len / 2) : Math.floor(len / 2) + 1;
+        // Update index of visible row (the last one);
+        node.game.subSliders[ex] = nTR;
 
         table = new W.Table({
             className: 'exhibition',
             render: {
                 pipeline: node.game.renderCF,
                 returnAt: 'first'
+            },
+            id: 'tbl-ex-' + ex,
+            tr: function(tr, row) {
+                if ('number' !== typeof row) return;
+                if ((row+1) < nTR) {
+                    tr.style.display = 'none';
+                }
             }
         });
-        
-        container = W.getElementById('ex-' + ex);
 
         row = new Array(2);
         i = -1, y = -1;
         for ( ; ++i < len ; ) {
             y = i % 2;
             row[y] = winners[i];
-            if (y === 1) table.addRow(row);               
+            if (y === 1) table.addRow(row);
         }
         y = i % 2;
         if (y === 1) table.addRow([row[0]]);
 
-        if (len > 2) {
-            // Add last row to control visible rows (if needed).
-            prev = document.createElement('a');
-            prev.innerHTML = 'Prev.';
-            next = document.createElement('a');
-            next.innerHTML = 'Next';
-            table.addRow([prev, next]);
-        }
-
         table.parse();
         container.appendChild(table.table);
+
+        if (len > 2) {
+            // Add last row to control visible rows (if needed).
+            seeMore = document.createElement('span');
+            seeMore.innerHTML = 'See more';
+            seeMore.className = 'seemore';
+
+            seeMore.onclick = function() {
+                var idxShow, idxHide, trShow, trHide;
+
+                idxHide = node.game.subSliders[ex];
+                trHide = table.getTR((idxHide-1));
+
+                if (!trHide) {
+                    console.log('Error... trHide not found.');
+                    return;
+                }
+
+                if (idxHide > 1) node.game.subSliders[ex]--;
+                else node.game.subSliders[ex] = nTR;
+
+                idxShow = node.game.subSliders[ex];
+                trShow = table.getTR((idxShow-1));
+
+                if (!trShow) {
+                    console.log('Error... trShow not found.');
+                    return;
+                }
+
+                trHide.style.display = 'none';
+                trShow.style.display = '';
+
+            };
+            container.appendChild(seeMore);
+        }
+
     };
-
-    this.addTooltip = function() {
-        
-        var cancopy, txt, select;
-
-        // Creation is step 1 of stage artex.
-        cancopy = node.game.getCurrentGameStage().step === 1;
-
-        if (cancopy) {
-            select = '#all_ex canvas';
-            txt = "<span id='enlarge'>Click to enlarge, " +
-                "and decide if you want to copy it.</span>";
-        }
-        else {
-            select = '#container_exhibition canvas';
-            txt = "<span id='enlarge'>Click to enlarge.</span>";
-        }
-        $("#ng_mainframe").contents().find(select).hover(
-            function(e) {
-                var enlarge = $(txt);
-                var pos = $(this).position();
-                enlarge.addClass('tooltip');
-                enlarge.css({"left": (5 + e.pageX) + "px","top":e.pageY + "px" });
-                $(this).before(enlarge);
-                $(this).mousemove(function(e){
-                    $('span#enlarge').css(
-                        {"left": (5 + e.pageX)  +
-                         "px","top":e.pageY + "px"
-                        });
-                });
-            },
-            function() {
-                $(this).parent().find("span#enlarge").remove();
-                $(this).unbind('mousemove');
-            }
-        );
-
-
-// .hover(
-//             function(e) {
-//                 var enlarge = $(txt);
-//                 var pos = $(this).position();
-//                 enlarge.addClass('tooltip');
-//                 enlarge.css({
-//                     'left': (5 + e.pageX) + 'px',
-//                     'top': e.pageY + 'px'
-//                 });
-//                 $(this).before(enlarge);
-//                 $(this).mousemove(function(e) {
-//                     $('span#enlarge').css({
-//                         'left': (5 + e.pageX) + 'px',
-//                         'top': e.pageY + 'px'
-//                     });
-//                 });
-//             },
-//             function() {
-//                 $(this).parent().find("span#enlarge").remove();
-//                 $(this).unbind('mousemove');
-//             }
-//         );
- 
-     };
-
 }
 
 function instructions() {
@@ -442,7 +422,7 @@ function submission() {
         this.addImagesToEx('A');
         this.addImagesToEx('B');
         this.addImagesToEx('C');
-       
+
     });
     console.log('Submission');
 }
@@ -464,7 +444,7 @@ function dissemination() {
     table.setHeader(this.exhibitNames);
 
     W.loadFrame('dissemination.html', function() {
-   
+
         node.game.timer.stop();
 
         node.on.data('WIN_CF', function(msg) {
@@ -494,9 +474,6 @@ function dissemination() {
                 .appendChild(table.parse());
 
             this.all_ex.addDD(table);
-
-            // Add tooltip to every canvas. (does not work for now).
-            // this.addTooltip();
 
             node.events.step.emit('canvas_tooltip');
 
@@ -545,7 +522,7 @@ function dissemination() {
                 if (b.mean > a.mean) return 1;
                 return 0;
             });
-            
+
             table.addColumn(winners);
             // Add to submission table.
             node.game.winners[ex] = node.game.winners[ex].concat(winners);

@@ -70,7 +70,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //            // On TimeUp there are no answers
 //            node.set(answers);
 //            node.emit('INPUT_DISABLE');
-//            
+//
 //            return true;
 //        }
     });
@@ -94,14 +94,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         cb: cbs.creation,
         timer: settings.timer.creation,
-        done: function() {            
+        done: function() {
             $( ".copyorclose" ).dialog('close');
             $( ".copyorclose" ).dialog('destroy');
             node.game.last_cf = node.game.cf.getAllValues();
         }
     });
 
-    stager.extendStep('submission', {    
+    stager.extendStep('submission', {
+        init: function() {
+            this.subSliders = { A: 0, B: 0, C: 0 };
+        },
         cb: cbs.submission,
         timer: settings.timer.submission,
         donebutton: false,
@@ -139,11 +142,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             return { reviews: out };
         }
     });
-    
+
     stager.extendStep('dissemination', {
         cb: cbs.dissemination,
         timer: settings.timer.dissemination,
-        done: function() {            
+        done: function() {
             $( ".copyorclose" ).dialog('close');
             $( ".copyorclose" ).dialog('destroy');
         }
@@ -172,8 +175,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // We serialize the game sequence before sending it.
     game.plot = stager.getState();
 
-    // Other settings, optional.   
-    
+    // Other settings, optional.
+
     //auto: true = automatic run, auto: false = user input
     game.env = {
         auto: settings.AUTO,

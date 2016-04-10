@@ -86,6 +86,7 @@ table#table-decision input {
 td#td-A:hover, td#td-B:hover, td#td-C:hover {
     background: #FFE;
     cursor: pointer;
+    cursor: hand;
 }
 
 /* Nested table */
@@ -182,4 +183,15 @@ span.title {
     margin-bottom: 10px;
     font-weight: bold;
     display: block;
+}
+
+span.seemore {
+    display: block;
+    color: #0000EE;
+}
+
+span.seemore:hover {
+    cursor: pointer;
+    cursor: hand;
+    text-decoration: underline;
 }
