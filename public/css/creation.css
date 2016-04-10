@@ -91,7 +91,7 @@ dl#sub_list dt{
 
 div#container_history {
     float: right;
-    height: 560px;
+    height: 700px;
     width: 40%;
     border: 0;
     padding:0;
@@ -99,7 +99,7 @@ div#container_history {
 }
 
 div#history {
-    height: 483px;
+    max-height: 680px;
     vertical-align: top;
     margin-bottom: 10px;
     overflow-y: auto;

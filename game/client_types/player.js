@@ -94,7 +94,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         cb: cbs.creation,
         timer: settings.timer.creation,
-        done: function() {
+        done: function() {            
+            $( ".copyorclose" ).dialog('close');
+            $( ".copyorclose" ).dialog('destroy');
             node.game.last_cf = node.game.cf.getAllValues();
         }
     });
@@ -141,6 +143,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('dissemination', {
         cb: cbs.dissemination,
         timer: settings.timer.dissemination,
+        done: function() {            
+            $( ".copyorclose" ).dialog('close');
+            $( ".copyorclose" ).dialog('destroy');
+        }
     });
 
     stager.extendStep('questionnaire', {

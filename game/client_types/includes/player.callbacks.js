@@ -310,12 +310,6 @@ function instructions() {
 
     W.loadFrame(node.game.settings.instrPage, function() {
 
-        // TODO: html pages have own button and js handler.
-        var b = W.getElementById('read');
-        b.onclick = function() {
-            node.done();
-        };
-
         node.env('auto', function() {
             node.timer.randomExec(function() {
                 node.done();
