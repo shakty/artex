@@ -274,7 +274,8 @@ function init() {
         if (!len) {
             W.getElementById('span-past-images-' + ex)
                 .style.display = 'none';
-            container.innerHTML = '<em>No past images yet</em>';
+            container.innerHTML = '<span class="noimages">' +
+                'No past images yet</span>';
             return;
         }
 
