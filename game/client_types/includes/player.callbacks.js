@@ -45,7 +45,9 @@ function init() {
             currency: 'CHF', money: 10
         });
 
-        node.game.donebutton = node.widgets.append('DoneButton', header);
+        node.game.donebutton = node.widgets.append('DoneButton', header, {
+            text: 'Click here when you are done!'
+        });
 
     }
 
