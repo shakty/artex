@@ -33,3 +33,10 @@ input.curr-eva-input {
 span.ex-header {
     font-weight: bold;
 }
+
+img.sliderimage {
+    display: block;
+    margin-left: 10%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
