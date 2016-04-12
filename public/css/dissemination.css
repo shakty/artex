@@ -2,19 +2,10 @@ div#container_exhibition {
     float: left;
     clear: both;
     width: 800px;
-    height: 590px;
+    height: 490px;
     overflow-y: auto;
     margin:0;
     margin-top: 20px;
-}
-
-div#container_done {
-    float: right;
-    height: 100px;
-    width: 400px;
-    border: 0;
-    padding:0;
-    background: white;
 }
 
 div#results {
