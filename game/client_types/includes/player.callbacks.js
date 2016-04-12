@@ -280,8 +280,8 @@ function init() {
 
         // Number of rows in the table.
         nTR = (len % 2 === 0) ? Math.floor(len / 2) : Math.floor(len / 2) + 1;
-        // Update index of visible row (the last one);
-        node.game.subSliders[ex] = nTR;
+        // Update index of visible row (first row = last images);
+        node.game.subSliders[ex] = 1;
 
         table = new W.Table({
             className: 'exhibition',
@@ -292,7 +292,7 @@ function init() {
             id: 'tbl-ex-' + ex,
             tr: function(tr, row) {
                 if ('number' !== typeof row) return;
-                if ((row+1) < nTR) {
+                if (row !== 0) {
                     tr.style.display = 'none';
                 }
             }
@@ -328,8 +328,8 @@ function init() {
                     return;
                 }
 
-                if (idxHide > 1) node.game.subSliders[ex]--;
-                else node.game.subSliders[ex] = nTR;
+                if (idxHide < nTR) node.game.subSliders[ex]++;
+                else node.game.subSliders[ex] = 1;
 
                 idxShow = node.game.subSliders[ex];
                 trShow = table.getTR((idxShow-1));
@@ -525,7 +525,7 @@ function dissemination() {
 
             table.addColumn(winners);
             // Add to submission table.
-            node.game.winners[ex] = node.game.winners[ex].concat(winners);
+            node.game.winners[ex] = winners.concat(node.game.winners[ex]);
         }
 
     });
