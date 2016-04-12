@@ -29,7 +29,7 @@ div#container_creation {
 }
 
 div#creation {
-    width: 790px;
+    width: 760px;
     /* height: 550px; */
 }
 
@@ -92,7 +92,7 @@ dl#sub_list dt{
 div#container_history {
     float: right;
     height: 700px;
-    width: 40%;
+    width: 30%;
     border: 0;
     padding:0;
     background: white;
