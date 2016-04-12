@@ -33,12 +33,13 @@ function init() {
         // Uncomment to visualize the name of the stages.
         //node.game.visualStage = node.widgets.append('VisualStage', header);
 
+
+        node.game.timer = node.widgets.append('VisualTimer', header);
+
         node.game.rounds = node.widgets.append('VisualRound', header, {
             displayModeNames: ['COUNT_UP_STAGES_TO_TOTAL'],
             totStageOffset: 1
         });
-
-        node.game.timer = node.widgets.append('VisualTimer', header);
 
         node.game.money = node.widgets.append('MoneyTalks', header, {
             currency: 'CHF', money: 10
@@ -293,9 +294,7 @@ function init() {
             id: 'tbl-ex-' + ex,
             tr: function(tr, row) {
                 if ('number' !== typeof row) return;
-                if (row !== 0) {
-                    tr.style.display = 'none';
-                }
+                if (row !== 0) tr.style.display = 'none';                
             }
         });
 

@@ -1,8 +1,15 @@
 /* Header Horizontal */
 
+div.ng_header_position-horizontal-t  {
+    vertical-align: middle;
+}
+
 div.ng_header_position-horizontal-t > .ng_widget {
-    margin-left: 20px;
-    height: 150px;
+    border: 0;
+/*     
+       margin-left: 20px;
+       height: 100px;
+       */
 }
 
 div.ng_header_position-horizontal-t > .panel-body > div {
@@ -11,4 +18,156 @@ div.ng_header_position-horizontal-t > .panel-body > div {
 
 div.ng_header_position-horizontal-t > .donebutton {
     float: left;
+}
+
+div.ng_header_position-horizontal-t > .ng_widget > .panel-heading {
+    display: none;
+    background: white;
+}
+
+.ng_header_position-horizontal-t, .ng_header_position-horizontal-b {
+    /*width: 530px !important;*/
+    margin:0 auto !important;
+}
+
+#ng_header > .visualtimer > .panel-heading {
+    display: inline;
+    font-weight: bold;
+    float:left;
+    font-size:20px !important;
+    /*background:#eee;*/
+    border:0;
+    margin:0;
+    padding:10px;
+    height:100% !important;
+}
+
+#ng_header > .visualtimer > .panel-body {
+    float:right;
+    margin:0;
+    padding:10px !important;
+    /*background:#eee;*/
+}
+
+#ng_header > .visualtimer > .panel-body > div {
+    font-size:20px;
+    position:relative;
+    height:20px;
+}
+
+#ng_header > .visualtimer {
+    float: left !important;
+    width: 175px !important;
+    height:40px;
+    border:0;
+    /*background:#eee;*/
+    -webkit-box-shadow:inset 0 0px 0px;box-shadow:inset 0 0px 0px;
+}
+
+.visualround {
+    float: left !important;
+    width: 310px !important;
+    height:40px;
+    border:0;
+    /*background:#eee;*/
+    -webkit-box-shadow:inset 0 0px 0px;box-shadow:inset 0 0px 0px;
+    -webkit-border-radius: 0px 0px 0px 0px;-moz-border-radius: 0px 0px 0px 0px;border-radius: 0px 0px 0px 0px;
+}
+
+.visualround .title {
+    font-size:20px !important;
+    margin:0;
+    padding:5;
+    display: inline-block;
+    padding-right:6px;
+    font-weight: bold;
+}
+
+.visualround > .panel-body > div > div.rounddiv {
+    font-size: 20px !important;
+    text-align: left !important;
+}
+
+.visualround > .panel-body {
+    margin:0;
+    padding:10px;
+}
+
+.number {
+    font-size:20px !important;
+}
+
+.text {
+    font-size:20px !important;
+}
+
+.waitTimerTitle {
+    display:none !important;
+}
+
+.waitTimerBody {
+    display:none !important;
+}
+
+/* Money Talks */
+
+#ng_header > .moneytalks > .panel-heading {
+    display: inline;
+    font-weight: bold;
+    float:left;
+    font-size:20px !important;
+    /*background:#eee;*/
+    border:0;
+    margin:0;
+    padding:10px;
+    height:100% !important;
+}
+
+#ng_header > .moneytalks > .panel-body {
+    float:right;
+    margin:0;
+    padding:10px !important;
+    /*background:#eee;*/
+}
+
+#ng_header > .moneytalks > .panel-body > div {
+    font-size:20px;
+    position:relative;
+    height:20px;
+}
+
+#ng_header > .moneytalks {
+    float: left !important;
+    width: 175px !important;
+    border:0;
+    /*background:#eee;*/
+    -webkit-box-shadow:inset 0 0px 0px;box-shadow:inset 0 0px 0px;
+}
+
+.moneytalks > .panel-body span.moneytalksmoney {
+    font-size: 20px;
+}
+
+
+/* Done Button */
+
+#ng_header > .donebutton {
+    float: right !important;
+    width: 175px !important;
+    border:0;
+    /*background:#eee;*/
+    -webkit-box-shadow:inset 0 0px 0px;box-shadow:inset 0 0px 0px;
+}
+
+#ng_header > .donebutton > .panel-body {
+    float:right;
+    margin:0;
+    padding:10px !important;
+    /*background:#eee;*/
+}
+
+#ng_header > .donebutton > .panel-body > div {
+    font-size:20px;
+    position:relative;
+    height:20px;
 }
