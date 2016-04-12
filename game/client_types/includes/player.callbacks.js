@@ -28,7 +28,7 @@ function init() {
     if (!W.getHeader()) {
         header = W.generateHeader();
 
-        // W.setHeaderPosition('top');
+        W.setHeaderPosition('top');
 
         // Uncomment to visualize the name of the stages.
         //node.game.visualStage = node.widgets.append('VisualStage', header);
@@ -525,7 +525,7 @@ function dissemination() {
 
             table.addColumn(winners);
             // Add to submission table.
-            node.game.winners[ex] = node.game.winners[ex].concat(winners);
+            node.game.winners[ex] = winners.concat(node.game.winners[ex]);
         }
 
     });
