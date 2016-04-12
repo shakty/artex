@@ -48,15 +48,10 @@ module.exports = {
 
         instructions: 90000,
         quiz: 60000,
-        creation: {
-            milliseconds: function() {
-                if (node.player.stage.round < 2) return 80000;
-                if (node.player.stage.round < 3) return 60000;
-                return 50000;
-            },
-            timeup: function() {
-                $('#mainframe').contents().find('#done_box button').click();
-            }
+        creation: function() {
+            if (node.player.stage.round < 2) return 80000;
+            if (node.player.stage.round < 3) return 60000;
+            return 50000;
         },
         evaluation: 20000,
         dissemination: 15000
