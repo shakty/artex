@@ -525,7 +525,7 @@ function dissemination() {
 
             table.addColumn(winners);
             // Add to submission table.
-            node.game.winners[ex] = winners.concat(node.game.winners[ex]);
+            node.game.winners[ex] = node.game.winners[ex].concat(winners);
         }
 
     });

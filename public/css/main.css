@@ -1,4 +1,4 @@
-/* Summary Table */
+/* Header Horizontal */
 
 div.ng_header_position-horizontal-t > .ng_widget {
     margin-left: 20px;
@@ -9,38 +9,6 @@ div.ng_header_position-horizontal-t > .panel-body > div {
     vertical-align: middle;
 }
 
-
-
 div.ng_header_position-horizontal-t > .donebutton {
     float: left;
 }
-
-
-/* 
-#pr_summary_fieldset {
-    margin: 0;
-    padding: 0;
-}
-
-#pr_summary_fieldset table {
-    margin: 0;
-    padding: 0;
-}
-
-#pr_summary_fieldset table td {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    padding: 0 3px;
-    border-right: 1px solid #CCC;
-}
-
-#pr_summary_fieldset table td:first-child {
-    padding-right: 10px;
-    text-align: left;
-}
-
-iframe#mainframe {
-    height: 1000px;
-}
-*/
