@@ -360,7 +360,8 @@ function instructions() {
                 node.done();
             }, 2000);
         });
-    });
+    }, { autoParse: node.game.settings } );
+
     console.log('Instructions');
 }
 

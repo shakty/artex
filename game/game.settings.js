@@ -43,6 +43,9 @@ module.exports = {
     // Exhibition names.
     exhibitNames: ['A','B','C'],
 
+    // Number of players in each group.
+    nPlayers: 9,
+
     // Timer values.
     timer: {
 

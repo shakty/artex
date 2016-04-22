@@ -46,7 +46,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('instructions', {
         cb: cbs.instructions,
         minPlayers: MIN_PLAYERS,
-        timer: settings.timer.instructions
+        timer: settings.timer.instructions,
+//         frame: {
+//             uri: settings.instrPage,
+//             // loadMode: 'cache',
+//             // storeMode: 'onLoad'
+//             autoParse: true,
+//         },
+//        frame: settings.instrPage,
+        auto: function() {
+            node.timer.randomExec(function() {
+                node.done();
+            }, 2000);
+        }
+            
+        
     });
 
     stager.extendStep('quiz', {
@@ -147,8 +161,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination,
         timer: settings.timer.dissemination,
         done: function() {
-            $( ".copyorclose" ).dialog('close');
-            $( ".copyorclose" ).dialog('destroy');
+            $(".copyorclose").dialog('close');
+            $(".copyorclose").dialog('destroy');
         }
     });
 

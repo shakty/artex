@@ -18,57 +18,57 @@
 
   <div id="container_instructions">
     <h1>Welcome to the Art Exhibition Game!</h1>
-   
-    <div id="instructions">     
+
+    <div id="instructions">
       <img src="images/instructions/painter.jpeg" width="200px" />
       <span id="scrolldown">Scroll the page to read the whole text. </br> Read carefully and with no hurry.</span>
       <p>
         <h3>Introduction</h3>
-        You just became part of a community of 9 painters (including you).
-        The community will collectively decide which paintings can be 
+        You just became part of a community of <span id="ng_replace_nplayers">X</span> painters (including you).
+        The community will collectively decide which paintings can be
         displayed in <strong>3</strong> artistic exhibitions: A, B, and C.
         The three exhibitions have different values for the members of the community.
       </p>
-       
+
       <p>
-      Always keep in mind: In this game you will act both as an <em>artist</em> and as an <em>art critic</em>. 
+      Always keep in mind: In this game you will act both as an <em>artist</em> and as an <em>art critic</em>.
       </p>
-      
+
       <p>
       <h3>The game</h3>
-      
+
       The game is divided in rounds, and each round is divided in three steps:
-      
+
       <ul>
         <li><strong>Step 1: </strong>Each artist creates 1 painting, and chooses 1 exhibition to which he / she submits the work of art.
         </li>
         <li>
-          <strong>Step 2: </strong>Each artist reviews 3 of the 8 paintings produced by the other artists. 
-          The review is done by assigning a rating on a scale from 0 to 10. 
-          
+          <strong>Step 2: </strong>Each artist reviews 3 of the 8 paintings produced by the other artists.
+          The review is done by assigning a rating on a scale from 0 to 10.
+
         </li>
         <li>
           <strong>Step 3: </strong>All the paintings that received an average review-score
-           greater than <em>5</em> are put on display in the exhibition to which they were 
+           greater than <em id="ng_replace_threshold"></em> are put on display in the exhibition to which they were
           submitted. If your painting is displayed you will receive a <em>payoff</em>.
           </li>
       </ul>
-      
+
       </p>
-      
+
       <p>
       <h3>Who reviews what</h3>
-      
+
         <ul>
           <li>At each round you will be <em>randomly</em> assigned to review 3 paintings, and you can never review your own painting.</li>
         </ul>
-        
+
       </p>
-      
+
        <p>
       <h3>Payoff calculation</h3>
       <ul>
-        <li>You will receive a fixed monetary compensation of <strong>10 CHF</strong>, plus 
+        <li>You will receive a fixed monetary compensation of <strong>10 CHF</strong>, plus
             a variable amount based on your performance in the game.</li>
         <li>If one of your painting is published you will receive a sum equal to <strong>(3 / N) CHF</strong>, where N is the number of artists who published with you in the <strong>same</strong> exhibition.
         <table id="payoff">
@@ -82,10 +82,10 @@
         </li>
         <li>If your painting is not published you will receive <strong>0 CHF</strong>.</li>
         <li>The maximum amount of money you can win is 30*3 + 10 = <strong>100 CHF</strong>.</li>
-        
+
       </ul>
       </p>
-      
+
       <p>
       <h3>Other rules</h3>
       <ul>
@@ -94,11 +94,11 @@
          <li>It is possible to copy paintings from the past exhibitions.</li>
       </ul>
       </p>
-      
+
       <p>
       <h3>Termination</h3>
       <ul>
-         <li>The game will end either after <strong>30 </strong> rounds, or after <strong>1 hour</strong> of playing.</li>
+         <li>The game will end either after <strong id="ng_replace_repeat"></strong> rounds, or after <strong>1 hour</strong> of playing.</li>
          <li>In case of misconduct, cheating or disturbing behavior during the game, you will not be paid any money.</li>
       </ul>
       </p>
@@ -129,7 +129,7 @@
       <h3>Proceed to the game</h3>
       If you understood the instructions, click now the "Done Button."
     </div>
-    
+
   </div>
 </body>
 <script>parent.node.window.noEscape(window);</script>
