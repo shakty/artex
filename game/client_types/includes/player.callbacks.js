@@ -8,7 +8,7 @@
 
 module.exports = {
     init: init,
-    instructions: instructions,
+    // instructions: instructions,
     quiz: quiz,
     creation: creation,
     submission: submission,
@@ -351,19 +351,19 @@ function init() {
     };
 }
 
-function instructions() {
-
-    W.loadFrame(node.game.settings.instrPage, function() {
-
-        node.env('auto', function() {
-            node.timer.randomExec(function() {
-                node.done();
-            }, 2000);
-        });
-    }, { autoParse: node.game.settings } );
-
-    console.log('Instructions');
-}
+// function instructions() {
+// 
+//     W.loadFrame(node.game.settings.instrPage, function() {
+// 
+//         node.env('auto', function() {
+//             node.timer.randomExec(function() {
+//                 node.done();
+//             }, 2000);
+//         });
+//     }, { autoParse: node.game.settings } );
+// 
+//     console.log('Instructions');
+// }
 
 function quiz() {
     W.loadFrame('quiz.html', function() {
@@ -383,11 +383,11 @@ function quiz() {
         });
 
 
-        node.env('auto', function() {
-            node.timer.randomExec(function() {
-                node.game.timer.doTimeUp();
-            });
-        });
+//         node.env('auto', function() {
+//             node.timer.randomExec(function() {
+//                 node.game.timer.doTimeUp();
+//             });
+//         });
     });
     console.log('Quiz');
 }
@@ -508,11 +508,11 @@ function dissemination() {
         });
 
         // Auto play.
-        node.env('auto', function() {
-            node.timer.randomExec(function() {
-                node.done();
-            }, 5000);
-        });
+//         node.env('auto', function() {
+//             node.timer.randomExec(function() {
+//                 node.done();
+//             }, 5000);
+//         });
 
         function makeExColumn(ex, data) {
             var winners;
@@ -541,11 +541,11 @@ function questionnaire() {
     console.log('Postgame');
 
     // Auto play.
-    node.env('auto', function() {
-        node.timer.randomExec(function() {
-            node.done();
-        }, 5000);
-    });
+//     node.env('auto', function() {
+//         node.timer.randomExec(function() {
+//             node.done();
+//         }, 5000);
+//     });
 
 }
 

@@ -141,10 +141,10 @@ $(document).ready(function() {
 
     // AUTOPLAY
     ////////////
-    node.env('auto', function() {
-    	node.timer.randomExec(function() {
-            W.getElementById('done_button_box').click();
-	}, 2000);
-    });
+//     node.env('auto', function() {
+//     	node.timer.randomExec(function() {
+//             W.getElementById('done_button_box').click();
+// 	}, 2000);
+//     });
 
 });

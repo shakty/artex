@@ -44,7 +44,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.setDefaultProperty('done', cbs.clearFrame);
 
     stager.extendStep('instructions', {
-        cb: cbs.instructions,
         minPlayers: MIN_PLAYERS,
         timer: settings.timer.instructions,
 //         frame: {
@@ -53,14 +52,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //             // storeMode: 'onLoad'
 //             autoParse: true,
 //         },
-//        frame: settings.instrPage,
-        auto: function() {
-            node.timer.randomExec(function() {
-                node.done();
-            }, 2000);
-        }
-            
-        
+        frame: settings.instrPage
     });
 
     stager.extendStep('quiz', {
