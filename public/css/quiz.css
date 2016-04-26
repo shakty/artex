@@ -1,26 +1,46 @@
 ul, ol {
-	margin: 30px 0 30px 10px;
-
+    margin: 30px 0 30px 10px;
 }
 
 li {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 div#container_quiz {
-  margin: 0 auto;
-  width: 800px;
-	border: 0;
-	background: #fff;
+    margin: 0 auto;
+    width: 800px;
+    border: 0;
+    background: #fff;
 }
 
 div#quiz {
-	margin: 0 auto;
-	width: 600px;
-	text-align: left;
-	padding: 10px;
+    margin: 0 auto;
+    width: 800px;
+    text-align: left;
+    padding: 10px;
+}
+
+div#quiz dd {
+    margin-bottom: 30px;
+    padding-left: 20px;
+}
+
+div#quiz dd form {
+    padding-left: 20px;
+}
+
+div#quiz dd:last-child {
+    margin-bottom: 0;
+}
+
+.question {
+    font-weight: bold;
+}
+
+span#insideh1 {
+    font-size: 16px;
 }
 
 .quiz_result {
-	font-weight: bold;
+    font-weight: bold;
 }

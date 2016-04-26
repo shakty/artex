@@ -9,7 +9,7 @@
 module.exports = {
     init: init,
     // instructions: instructions,
-    quiz: quiz,
+    // quiz: quiz,
     creation: creation,
     submission: submission,
     evaluation: evaluation,
@@ -365,32 +365,32 @@ function init() {
 //     console.log('Instructions');
 // }
 
-function quiz() {
-    W.loadFrame('quiz.html', function() {
-        var button, QUIZ;
-
-        QUIZ = W.getFrameWindow().QUIZ;
-        button = W.getElementById('submitQuiz');
-
-        node.on('check-quiz', function() {
-            var answers;
-            answers = QUIZ.checkAnswers(button);
-            if (answers.correct || node.game.timer.isTimeup()) {
-                node.emit('INPUT_DISABLE');
-                // On Timeup there are no answers.
-                node.done(answers);
-            }
-        });
-
-
-//         node.env('auto', function() {
-//             node.timer.randomExec(function() {
-//                 node.game.timer.doTimeUp();
-//             });
+// function quiz() {
+//     W.loadFrame('quiz.html', function() {
+//         var button, QUIZ;
+// 
+//         QUIZ = W.getFrameWindow().QUIZ;
+//         button = W.getElementById('submitQuiz');
+// 
+//         node.on('check-quiz', function() {
+//             var answers;
+//             answers = QUIZ.checkAnswers(button);
+//             if (answers.correct || node.game.timer.isTimeup()) {
+//                 node.emit('INPUT_DISABLE');
+//                 // On Timeup there are no answers.
+//                 node.done(answers);
+//             }
 //         });
-    });
-    console.log('Quiz');
-}
+// 
+// 
+// //         node.env('auto', function() {
+// //             node.timer.randomExec(function() {
+// //                 node.game.timer.doTimeUp();
+// //             });
+// //         });
+//     });
+//     console.log('Quiz');
+// }
 
 function creation() {
     W.loadFrame('creation.html');

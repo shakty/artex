@@ -16,8 +16,7 @@
 <body>
   
   <div id="container_quiz">
-    <h1>Before starting the game answer the following questions:</h1>
-    
+    <h1>Understanding Quiz <span id="insideh1">Correct answers <span id="answers_counter">0 / 3</span></span></h1>
     <div id="quiz"> 
       <dl>
         <dt><strong>Q.1</strong></dt>
@@ -25,7 +24,7 @@
         <dd>
           <span id="reviewRange_result" class="quiz_result"></span>
           <form name="reviewRange" id="reviewRange">
-	    <p> When reviewing a painting, on which scale can you express your liking? </p>
+	    <p class="question"> When reviewing a painting, on which scale can you express your liking? </p>
 	    <p>
 	      <input type="radio" name="reviewRange" value="0"> From 0 to 10<br>
 	      <input type="radio" name="reviewRange" value="1"> From 1 to 5<br>
@@ -37,7 +36,7 @@
         <dd>
           <span id="reviewSelect_result" class="quiz_result"></span>
           <form name="reviewSelect" id="reviewSelect">
-            <p>In the current round you have been the only artist who published in exhibition A. In the next round, will you be a reviewer for exhibition A ?</p>
+            <p class="question">In the current round you have been the only artist who published in exhibition A. In the next round, will you be a reviewer for exhibition A ?</p>
             <p>
               <input type="radio" name="reviewSelect" value="0"> Yes, in any case <br>
               <input type="radio" name="reviewSelect" value="1"> Yes, if I submit to exhibition A again<br>
@@ -51,7 +50,7 @@
         <dd>
           <span id="coocom_result" class="quiz_result"></span>
           <form name="coocom" id="coocom">
-            <p> If exhibition A publishes 2 paintings, B 0 paintings, and C 1 painting, what is the payoff for the artists who published ?</p>
+            <p class="question"> If exhibition A publishes 2 paintings, B 0 paintings, and C 1 painting, what is the payoff for the artists who published ?</p>
             <p>
               <input type="radio" name="coocom" value="0"> They all get 3.00 CHF<br>
               <input type="radio" name="coocom" value="1"> Those who published in A receive 2.15 each, that who published in C receive 4.5 CHF <br>
@@ -61,12 +60,6 @@
           </form>
         </dd>
       </dl>
-      <div id="done_box">
-        <button onclick='javascript:parent.node.emit("check-quiz");' id="submitQuiz">
-          Click here to check your answers, and start the game.
-          <br>Correct answers <span id="answers_counter">0 / 3</span>
-        </button>
-      </div>
     </div>
   </div>
   

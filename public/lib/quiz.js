@@ -50,13 +50,6 @@ $(document).ready(function() {
         });
     });
 
-    node.env('auto', function() {     
-        node.timer.randomExec(function() {
-            results.correct = true;
-            node.done(results);   
-        });
-    });
-
     function checkAnswer(a) {
         var checked;
         if (!a || !answers) return;
@@ -66,7 +59,8 @@ $(document).ready(function() {
     }
 
     function checkAnswers(submitButton) {
-        var correct, counter = 0;
+        var correct, counter, spanCounter;
+        counter = 0;
         J.each(document.forms, function(a) {
             if (!results[a.name]) results[a.name] = [];
             correct = checkAnswer(a);
@@ -84,12 +78,19 @@ $(document).ready(function() {
             }
         });
 
-        document.getElementById('answers_counter').innerHTML = counter + ' / ' + document.forms.length;
+        results.counterCorrect = counter;
+        results.counterQuestions = document.forms.length;
+
+        spanCounter = document.getElementById('answers_counter');
+        if (spanCounter) {
+            spanCounter.innerHTML = counter + ' / ' + document.forms.length;
+        }
 
         if (counter === document.forms.length) {
-            submitButton.disabled = true;
+            if (submitButton) submitButton.disabled = true;
             results.correct = true;
         }
+
         return results;
     }
 

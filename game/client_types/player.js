@@ -56,29 +56,25 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('quiz', {
-        cb: cbs.quiz,
-        timer: settings.timer.quiz,
-//        done: function() {
-//            var b, QUIZ, answers, isTimeup;
-//            QUIZ = W.getFrameWindow().QUIZ;
-//            b = W.getElementById('submitQuiz');
-//
-//            answers = QUIZ.checkAnswers(b);
-//            isTimeup = node.game.timer.isTimeup();
-//
-//            if (!answers.__correct__ && !isTimeup) {
-//                return false;
-//            }
-//
-//            answers.timeUp = isTimeup;
-//            answers.quiz = true;
-//
-//            // On TimeUp there are no answers
-//            node.set(answers);
-//            node.emit('INPUT_DISABLE');
-//
-//            return true;
-//        }
+        // cb: cbs.quiz,
+        frame: 'quiz.html',
+        // timer: settings.timer.quiz,
+        donebutton: { text: 'Check Quiz!' },
+        done: function() {
+            var QUIZ, answers, isTimeup, text;
+            QUIZ = W.getFrameWindow().QUIZ;
+            answers = QUIZ.checkAnswers();            
+            text = 'Check Quiz! Correct: ' + answers.counterCorrect +
+                ' / ' + answers.counterQuestions;
+            this.node.game.donebutton.setText(text);
+            if (answers.correct || node.game.timer.isTimeup()) {
+                // On Timeup there are no answers.
+                return answers;
+            }
+            else {
+                return false;
+            }
+        }
     });
 
     // Adjust to displaying rounds in main stage.
