@@ -1,10 +1,7 @@
 /**
- * # Player code for Ultimatum Game
- * Copyright(c) 2015 Stefano Balietti
+ * # Player code for Artex Game
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
- *
- * Handles bidding, and responds between two players.
- * Extensively documented tutorial.
  *
  * http://www.nodegame.org
  */
@@ -56,18 +53,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('quiz', {
-        // cb: cbs.quiz,
         frame: 'quiz.html',
-        // timer: settings.timer.quiz,
+        timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {
-            var QUIZ, answers, isTimeup, text;
+            var QUIZ, answers, isTimeup, text;            
             QUIZ = W.getFrameWindow().QUIZ;
-            answers = QUIZ.checkAnswers();            
+            answers = QUIZ.checkAnswers();
             text = 'Check Quiz! Correct: ' + answers.counterCorrect +
                 ' / ' + answers.counterQuestions;
             this.node.game.donebutton.setText(text);
-            if (answers.correct || node.game.timer.isTimeup()) {
+            if (answers.correct || node.game.timer.isTimeup()) {                
                 // On Timeup there are no answers.
                 return answers;
             }
@@ -84,6 +80,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // 'COUNT_UP_STAGES_TO_TOTAL',
                 'COUNT_UP_ROUNDS_TO_TOTAL'
             ]);
+            // Quiz might have changed.
+            node.game.donebutton.setText('Click here when you are done!');
         },
         exit: function() {
             node.game.rounds.setDisplayMode([ 'COUNT_UP_STAGES_TO_TOTAL' ]);
@@ -94,7 +92,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         init: function() {
             node.game.copies = [];
         },
-        cb: cbs.creation,
+        frame: 'creation.html',
         timer: settings.timer.creation,
         done: function() {
             $( ".copyorclose" ).dialog('close');
@@ -124,7 +122,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             // Reset evaluations.
             node.game.evas = {};
         },
-        cb: cbs.evaluation,
+        frame: 'evaluation.html',
         timer: settings.timer.evaluation,
         done: function() {
             var i, out, eva;
