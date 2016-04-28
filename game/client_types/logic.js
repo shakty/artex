@@ -78,18 +78,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination
     });
     
-    stager.extendStep('questionnaire', {
+    stager.extendStage('final', {
         stepRule: 'SOLO',
-        minPlayers: undefined,
-        cb: function() { node.done(); }
+        minPlayers: undefined
     });
 
-    stager.extendStep('endgame', {
-        syncStepping: false,
-        cb: cbs.endgame,
-        minPlayers: undefined,
-        steprule: stepRules.SOLO
-    });
+//     stager.extendStep('endgame', {
+//         syncStepping: false,
+//         cb: cbs.endgame,
+//         minPlayers: undefined,
+//         steprule: stepRules.SOLO
+//     });
 
     // Here we group together the definition of the game logic.
     return {

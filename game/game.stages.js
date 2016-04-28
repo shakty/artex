@@ -12,21 +12,29 @@ module.exports = function(stager, settings) {
         .next('instructions')
         .next('quiz')
         .repeat('artex', settings.REPEAT)
-        .next('questionnaire')
-        .next('endgame')
+        .next('final')
         .gameover();
         
-        stager.extendStage('artex', {
-            steps: [
-                'creation',
-                'submission',
-                'evaluation',
-                'dissemination'
-            ]
-        });
+    stager.extendStage('artex', {
+        steps: [
+            'creation',
+            'submission',
+            'evaluation',
+            'dissemination'
+        ]
+    });
+
+    stager.extendStage('final', {
+        steps: [
+            'questionnaire',
+            'morequestions',
+            'endgame'
+        ]
+    });
 
     stager.skip('instructions');
     stager.skip('quiz');
+    stager.skip('artex');
     // stager.skip('artex', 'creation');
     // stager.skip('artex', 'evaluation');
     // stager.skip('artex', 'dissemination');

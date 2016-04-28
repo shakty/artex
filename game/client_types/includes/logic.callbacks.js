@@ -94,19 +94,44 @@ function init() {
     // Player reconnecting.
     // Reconnections must be handled by the game developer.
     node.on.preconnect(function(p) {
-        var code;
+        var code, questStage, disconnectStage;
 
-        console.log('Oh...somebody reconnected!', p);
+        console.log('Oh...somebody reconnected!', p.id);
+
+
+        // The stage when the client disconnected.
+        questStage = node.game.questStage;
+        disconnectStage = p.stage;
+
+        // If we are in the last steps.
+        if (node.game.compareCurrentStep('questionnaire') >= 0) {
+
+            // Player disconnected before the questionnaire
+            if (GameStage.compare(disconnectStage, questStage) < 0) 
+
+
+            // TODO Handle last stage.
+            // node.remoteCommand('goto_step', XXXX);
+
+            if (node.game.compareCurrentStep('endgame') === 0) {
+                payoff = doCheckout(p);
+                // If player was not checkout yet, do it.
+                if (payoff) postPayoffs([payoff]);
+            }
+            return;
+        }
 
         // Setup newly connected client.
         gameRoom.setupClient(p.id);
 
-        // Start the game on the reconnecting client.
+        // Inits the game on the reconnecting client.
         node.remoteCommand('start', p.id, { step: false });
+
         // Add player to player list.
         node.game.pl.add(p);
 
         code = channel.registry.getClient(p.id);
+
 
         // Clear any message in the buffer from.
         node.remoteCommand('erase_buffer', 'ROOM');
@@ -114,13 +139,6 @@ function init() {
         // Will send all the players to current stage
         // (also those who were there already).
         node.game.gotoStep(node.player.stage);
-
-        // If we are in the last step.
-        if (node.game.compareCurrentStep('end') === 0) {
-            payoff = doCheckout(p);
-            // If player was not checkout yet, do it.
-            if (payoff) postPayoffs([payoff]);
-        }
 
         // TODO: or...
 

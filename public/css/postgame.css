@@ -1,5 +1,31 @@
-iframe#surveymonkey {
-	margin: 30px auto;
-  width: 95%;
-  height: 500px;
+div#quiz form textarea {
+    width: 600px;
+    height: 50px;
+    margin: 5px 0 20px 0;
+    color: #333;
+    border: 1px solid #CCC;
+}
+
+table td {
+    word-wrap: break-word;
+    border: solid 1px;
+    text-align: center;    
+    padding: 5px;
+    width: 40px;
+    background: white;
+}
+
+table td:hover {
+    background: #FFE;
+    cursor: pointer;
+    cursor: hand;
+}
+
+td.selected {
+    border: 3px solid #333;
+    background: #FFE;
+}
+
+p.freetext {
+    margin-top: 20px;
 }

@@ -93,8 +93,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'creation.html',
         timer: settings.timer.creation,
         done: function() {
-            $( ".copyorclose" ).dialog('close');
-            $( ".copyorclose" ).dialog('destroy');
+            $(".copyorclose").dialog('close');
+            $(".copyorclose").dialog('destroy');
             node.game.last_cf = node.game.cf.getAllValues();
         }
     });
@@ -155,8 +155,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('questionnaire', {
         frame: settings.questPage,
-        timer: settings.timer.questionnaire,
-        stepRule: 'SOLO',
+        // timer: settings.timer.questionnaire,
+        stepRule: 'SOLO'
     });
 
     stager.extendStep('endgame', {

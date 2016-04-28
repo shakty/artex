@@ -68,6 +68,9 @@ function init() {
     // Winners.
     this.winners = { A: [], B: [], C: [] };
 
+    // Questionnaire data.
+    this.questionnaire = {};
+
     this.submissionMade = function(decision) {
         var td, otherTd, otherTd2;
         var tdButton, otherTdButton, otherTdButton2;
@@ -290,7 +293,7 @@ function init() {
             id: 'tbl-ex-' + ex,
             tr: function(tr, row) {
                 if ('number' !== typeof row) return;
-                if (row !== 0) tr.style.display = 'none';                
+                if (row !== 0) tr.style.display = 'none';
             }
         });
 
@@ -343,6 +346,33 @@ function init() {
         }
 
     };
+
+    this.makeChoiceTD = function(e) {
+        var name, value, td, q, oldSelected;
+        q = node.game.questionnaire;
+        e = e || window.event;
+        td = e.target || e.srcElement;
+
+        // Id of elements are in the form of name_value.
+        value = td.id.split('_');
+        name = value[0];
+        value = value[1];
+
+        if (!q[name]) q[name] = { numberOfClicks: 0 };
+        oldSelected = q[name].oldSelected;
+        if (oldSelected) oldSelected.className = ''
+
+        ++q[name].numberOfClicks;
+        q[name].currentAnswer = value;
+
+        td.className = 'selected';
+        q[name].oldSelected = td;
+
+        // In case we want to add a radio button.
+        // input = td.children[0];
+        // input.checked = true;
+    };
+
 }
 
 function submission() {
