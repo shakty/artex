@@ -35,7 +35,7 @@ module.exports = {
     AUTH: 'NO', // MTURK, LOCAL, NO.
 
     // Wait time to reconnect.
-    WAIT_TIME: 60,
+    WAIT_TIME: 5,
 
     // Threshold for publication.
     threshold: -1,
@@ -57,7 +57,8 @@ module.exports = {
             return 50000;
         },
         evaluation: 20000,
-        dissemination: 15000
+        dissemination: 15000,
+        questionnaire: 20000
     },
 
     // Available treatments:

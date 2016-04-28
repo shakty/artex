@@ -1,5 +1,7 @@
-// Script loaded by creation.html.
+// Script loaded by evaluation.html.
 $(document).ready(function() {
+
+    console.log('Evaluation');
 
     var node = parent.node,
     JSUS = parent.JSUS,

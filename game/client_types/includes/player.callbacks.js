@@ -9,9 +9,7 @@
 module.exports = {
     init: init,
     submission: submission,
-    dissemination: dissemination,
-    questionnaire: questionnaire,
-    endgame: endgame
+    dissemination: dissemination
 };
 
 function init() {
@@ -452,13 +450,6 @@ function dissemination() {
             W.getElementById('results').innerHTML = str;
         });
 
-        // Auto play.
-//         node.env('auto', function() {
-//             node.timer.randomExec(function() {
-//                 node.done();
-//             }, 5000);
-//         });
-
         function makeExColumn(ex, data) {
             var winners;
             if (!data.length) {
@@ -480,22 +471,3 @@ function dissemination() {
 
     console.log('Dissemination');
 }
-
-function questionnaire() {
-    W.loadFrame(node.game.settings.questPage);
-    console.log('Postgame');
-
-    // Auto play.
-//     node.env('auto', function() {
-//         node.timer.randomExec(function() {
-//             node.done();
-//         }, 5000);
-//     });
-
-}
-
-function endgame() {
-    W.loadFrame('ended.html');
-    console.log('Game ended');
-}
-

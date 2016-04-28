@@ -21,7 +21,8 @@ module.exports = {
     evaluation: evaluation,
     dissemination: dissemination,
     endgame: endgame,
-    notEnoughPlayers: notEnoughPlayers
+    notEnoughPlayers: notEnoughPlayers,
+    enoughPlayersAgain: enoughPlayersAgain
 };
 
 var node = module.parent.exports.node;
@@ -33,12 +34,17 @@ var counter = module.parent.exports.counter;
 var client = gameRoom.getClientType('player');
 var autoplay = gameRoom.getClientType('autoplay');
 
+var WAIT_TIME = settings.WAIT_TIME * 1000;
 
 function init() {
 
     // Create data dir. TODO: do it automatically?
     DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
+
+    this.disconnectStr = 'One or more players disconnected. If they ' +
+        'do not reconnect within ' + settings.WAIT_TIME  +
+        ' seconds the game will be terminated.';
 
     // Number of reviewers per image.
     this.reviewers = 3;
@@ -91,10 +97,6 @@ function init() {
         var code;
 
         console.log('Oh...somebody reconnected!', p);
-
-        // Delete countdown to terminate the game.
-        // TODO: clearTimeout does not exist.
-        clearTimeout(this.countdown);
 
         // Setup newly connected client.
         gameRoom.setupClient(p.id);
@@ -179,6 +181,9 @@ function evaluation() {
                     ex: face.ex
                 });
             }
+
+            console.log(faces[i].player);
+
             // Send them.
             node.say('CF', faces[i].player, data);
         }
@@ -399,6 +404,7 @@ function gameover() {
 function notEnoughPlayers() {
     if (this.countdown) return;
     console.log('Warning: not enough players!!');
+    node.remoteCommand('pause', 'ROOM', this.disconnectStr);
     this.countdown = setTimeout(function() {
         console.log('Countdown fired. Going to Step: questionnaire.');
         node.remoteCommand('erase_buffer', 'ROOM');
@@ -406,10 +412,16 @@ function notEnoughPlayers() {
         node.game.gameTerminated = true;
         // if syncStepping = false
         //node.remoteCommand('goto_step', 5);
-        node.game.gotoStep('questionnaire');
-    }, 30000);
+        node.game.gotoStep(new GameStage('questionnaire'));
+    }, WAIT_TIME);
 }
 
+function enoughPlayersAgain() {
+    console.log('Enough players again!');
+    // Delete countdown to terminate the game.
+    clearTimeout(this.countdown);
+    this.countdown = null;
+}
 
 /**
  * ## doCheckout

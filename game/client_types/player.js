@@ -32,10 +32,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Init callback.
     stager.setOnInit(cbs.init);
 
-    stager.setOnGameOver(function() {
-        // Do something if you like!
-    });
-
     // Add all the stages into the stager.
 
     stager.setDefaultProperty('done', cbs.clearFrame);
@@ -70,6 +66,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             else {
                 return false;
             }
+        },
+        exit: function() {            
+            // Quiz might have changed.
+            node.game.donebutton.setText('Click here when you are done!');
         }
     });
 
@@ -80,8 +80,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // 'COUNT_UP_STAGES_TO_TOTAL',
                 'COUNT_UP_ROUNDS_TO_TOTAL'
             ]);
-            // Quiz might have changed.
-            node.game.donebutton.setText('Click here when you are done!');
         },
         exit: function() {
             node.game.rounds.setDisplayMode([ 'COUNT_UP_STAGES_TO_TOTAL' ]);
@@ -123,6 +121,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.evas = {};
         },
         frame: 'evaluation.html',
+        // cb: function() {
+        //    W.loadFrame('evaluation.html');
+        // },
         timer: settings.timer.evaluation,
         done: function() {
             var i, out, eva;
@@ -153,23 +154,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('questionnaire', {
-        cb: cbs.questionnaire,
-        timer: 90000,
-        // `done` is a callback function that is executed as soon as a
-        // _DONE_ event is emitted. It can perform clean-up operations (such
-        // as disabling all the forms) and only if it returns true, the
-        // client will enter the _DONE_ stage level, and the step rule
-        // will be evaluated.
-        done: function() {
-
-            // TODO: do checkings, check if timeup.
-
-            node.emit('INPUT_DISABLE');
-        }
+        frame: settings.questPage,
+        timer: settings.timer.questionnaire,
+        stepRule: 'SOLO',
     });
 
     stager.extendStep('endgame', {
-        cb: cbs.endgame
+        frame: 'ended.html',
+        donebutton: false
     });
 
     // We serialize the game sequence before sending it.
@@ -186,10 +178,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         coo: !!settings.coo
     };
 
-
-
-    game.verbosity = setup.verbosity;
+    game.verbosity = 1000; // setup.verbosity;
     game.debug = setup.debug;
+    game.events = { dumpEvents: true };
 
     game.nodename = 'player';
 

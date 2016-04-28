@@ -50,7 +50,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Extending all stages.
     stager.setDefaultProperty('minPlayers', [
         settings.MIN_PLAYERS,
-        cbs.notEnoughPlayers
+        cbs.notEnoughPlayers,
+        cbs.enoughPlayersAgain
     ]);
 
     stager.extendStep('submission', {
@@ -77,7 +78,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination
     });
     
+    stager.extendStep('questionnaire', {
+        stepRule: 'SOLO',
+        minPlayers: undefined,
+        cb: function() { node.done(); }
+    });
+
     stager.extendStep('endgame', {
+        syncStepping: false,
         cb: cbs.endgame,
         minPlayers: undefined,
         steprule: stepRules.SOLO
