@@ -361,7 +361,7 @@ function init() {
     };
 
     this.makeChoiceTD = function(e) {
-        var name, value, td, q, oldSelected;
+        var name, value, td, q, oldSelected, form;
         q = node.game.questionnaire;
         e = e || window.event;
         td = e.target || e.srcElement;
@@ -380,6 +380,12 @@ function init() {
         td.className = 'selected';
         q[name].oldSelected = td;
 
+        // Remove any warning/error from form on click.
+        form = W.getElementById(name);
+        if (form) form.style.border = '';    
+
+        node.game.donebutton.setText('Click here when you are done!');
+        
         // In case we want to add a radio button.
         // input = td.children[0];
         // input.checked = true;

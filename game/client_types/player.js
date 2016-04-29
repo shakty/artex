@@ -164,7 +164,35 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         frame: settings.questPage,
         // timer: settings.timer.questionnaire,
-        stepRule: 'SOLO'
+        stepRule: 'SOLO',
+        done: function() {
+            var name, q, miss, out;
+            out = {};
+            q = this.questionnaire;
+            for (name in q) {
+                if (q.hasOwnProperty(name)) {
+                    if (!q[name].currentAnswer) {
+                        miss = true;
+                        W.highlight(W.getElementById(name), 'ERR');
+                    }
+                    else if (!miss) {
+                        out[name] = {
+                            name: name,
+                            value: q[name].currentAnswer,
+                            numberOfClicks: q[name].numberOfClicks
+                        };
+                    }
+                }
+            }
+            if (miss) {
+                this.donebutton.setText('Answer all 5 questions');
+                return false;
+            }
+            return out;
+        },
+        exit: function() {
+            node.game.donebutton.setText('Click here when you are done!');
+        }
     });
 
     stager.extendStep('endgame', {
