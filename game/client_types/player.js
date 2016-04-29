@@ -190,22 +190,28 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             this.qShown = null;
 
             this.showQuestion = function() {
-                var idx, q;
+                var idx, q, len, title;
+
+                // Num. of available questions, also used to assess
+                // the order in which they are shown.
+                len = this.qAvailable.length;
+
                 // Hide previous question.
                 if (this.qShown) {
                     q = node.game.questionnaire;
 
                     // Storing value.
                     node.set({
-                        name: node.game.qShown,
+                        name: this.qShown,
                         value: q[node.game.qShown].currentAnswer,
-                        numberOfClicks: q[node.game.qShown].numberOfClicks
+                        numberOfClicks: q[node.game.qShown].numberOfClicks,
+                        globalOrder: (this.qNamesExtra.length - len)
                     });
 
                     W.hide(this.qShown);
                 }
-                if (this.qAvailable.length) {
-                    idx = JSUS.randomInt(-1, (this.qAvailable -1));
+                if (len) {
+                    idx = JSUS.randomInt(-1, (len -1));
                     // Save the id of available question,
                     // and remove it from array.
                     this.qShown = this.qAvailable.splice(idx, 1)[0];
@@ -218,13 +224,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         node.done();
                     }
                 }
+
+                title = W.getElementById(this.qShown + '_title').value;
+                W.getElementById('h1title').innerHTML = title;
                 // Show new question.
                 W.show(this.qShown);
             }
         },
         frame: 'morequestions.html',
         cb: function() {
-            W.hide('h1title');
+            // W.hide('h1title');
             W.getElementById('onemore').onclick = function() {
                 node.game.showQuestion();
             };            
@@ -232,6 +241,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 node.done();
             };
             this.showQuestion();
+            // W.show('h1title');
         },
         donebutton: false
     });

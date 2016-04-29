@@ -11,7 +11,7 @@ $(document).ready(function() {
         name = names[i];
         tmpElement = document.getElementById(name + '_dl');
         q[name].order = W.shuffleElements(tmpElement);        
-        // tmpElement = document.getElementById(name + '_table');
-        // tmpElement.addEventListener('click', node.game.makeChoiceTD);
+        //tmpElement = document.getElementById(name + '_table');
+        //tmpElement.addEventListener('click', node.game.makeChoiceTD);
     }
 });
