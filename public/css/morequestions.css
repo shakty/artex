@@ -6,3 +6,12 @@ div#quiz dt {
     font-weight: normal;
     margin: 20px;
 }
+
+span.mainquestion {
+    display: block;
+    font-size: 24px;
+}
+
+div#quiz form textarea#freecomment_text {
+    height: 250px;
+}
