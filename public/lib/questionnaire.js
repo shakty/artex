@@ -5,7 +5,7 @@ $(document).ready(function() {
     W = parent.W;
     q = node.game.questionnaire;
     W.noEscape(window);
-    names = ['enjoy', 'competitive', 'exbeau', 'exinn', 'exfair']; // , 
+    names = node.game.qNames;
     i = -1, len = names.length;
     for ( ; ++i < len ; ) {
         name = names[i];

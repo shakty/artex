@@ -39,12 +39,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('instructions', {
         minPlayers: MIN_PLAYERS,
         timer: settings.timer.instructions,
-//         frame: {
-//             uri: settings.instrPage,
-//             // loadMode: 'cache',
-//             // storeMode: 'onLoad'
-//             autoParse: true,
-//         },
         frame: settings.instrPage
     });
 
@@ -157,16 +151,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         stepRule: 'SOLO'
     });
 
-    stager.extendStep('questionnaire', {
-        init: function() {
-            var i, len;            
-            i = -1, len = this.qNamesAll.length;
-            for ( ; ++i < len ; ) {
-                this.makeQuestion(this.qNamesAll[i]);
-            }
-        },
+    stager.extendStep('questionnaire', {       
         frame: 'questionnaire.html',
-        // timer: settings.timer.questionnaire,
         done: function() {
             var name, q, miss, out, i, len;
             out = {};
@@ -204,12 +190,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             this.qShown = null;
 
             this.showQuestion = function() {
-                var idx;
+                var idx, q;
                 // Hide previous question.
                 if (this.qShown) {
+                    q = node.game.questionnaire;
 
-                    // TODO: set value.
-                    // node.set();
+                    // Storing value.
+                    node.set({
+                        name: node.game.qShown,
+                        value: q[node.game.qShown].currentAnswer,
+                        numberOfClicks: q[node.game.qShown].numberOfClicks
+                    });
 
                     W.hide(this.qShown);
                 }
@@ -218,7 +209,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     // Save the id of available question,
                     // and remove it from array.
                     this.qShown = this.qAvailable.splice(idx, 1)[0];
-                    // Show it.
                 }
                 else {
                     this.qShown = 'freecomment';
@@ -228,6 +218,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         node.done();
                     }
                 }
+                // Show new question.
                 W.show(this.qShown);
             }
         },
@@ -242,9 +233,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             };
             this.showQuestion();
         },
-        done: function() {
-            // TODO.
-        },
         donebutton: false
     });
 
@@ -256,8 +244,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // We serialize the game sequence before sending it.
     game.plot = stager.getState();
 
-    // Other settings, optional.
-
     //auto: true = automatic run, auto: false = user input
     game.env = {
         auto: settings.AUTO,
@@ -267,8 +253,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         coo: !!settings.coo
     };
 
-    game.verbosity = 1000; // setup.verbosity;
+    game.verbosity = setup.verbosity;
     game.debug = setup.debug;
+
+    // Remove for live game.
     game.events = { dumpEvents: true };
 
     game.nodename = 'player';

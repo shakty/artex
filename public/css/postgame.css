@@ -45,3 +45,7 @@ p.freetext {
 div#question {
     padding: 20px;
 }
+
+div#quiz dt {
+    font-weight: normal;
+}

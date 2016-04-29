@@ -38,5 +38,5 @@ module.exports = function(stager, settings) {
     // stager.skip('artex', 'creation');
     // stager.skip('artex', 'evaluation');
     // stager.skip('artex', 'dissemination');
-    // stager.skip('final', 'questionnaire')
+    stager.skip('final', 'questionnaire')
 };

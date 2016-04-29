@@ -13,7 +13,8 @@ module.exports = {
 };
 
 function init() {
-    var that, header;
+    var that, header;    
+    var i, len;
 
     that = this;
     this.node.log('Init.');
@@ -144,7 +145,7 @@ function init() {
     ];
 
     // All ids of questionnaire forms.
-    this.qNamesAll = this.qNames.concat(this.qNamesExtra);
+    this.qNamesAll = this.qNames.concat(this.qNamesExtra); 
 
     // List of all past exhibitions.
     this.all_ex = new W.List({
@@ -373,15 +374,22 @@ function init() {
     };
 
     this.makeChoiceTD = function(e) {
-        var name, value, td, q, oldSelected, form;
+        var item, name, value, td, q, oldSelected, form;
         q = node.game.questionnaire;
         e = e || window.event;
         td = e.target || e.srcElement;
 
-        // Id of elements are in the form of name_value.
+        // Id of elements are in the form of name_value or name_item_value.
         value = td.id.split('_');
-        name = value[0];
-        value = value[1];
+        if (value.length === 2) {
+            name = value[0];
+            value = value[1];
+        }
+        else {            
+            name = value[0];
+            item = value[1];
+            value = value[2];
+        }
 
         oldSelected = q[name].oldSelected;
         if (oldSelected) oldSelected.className = ''
@@ -403,6 +411,11 @@ function init() {
         // input.checked = true;
     };
 
+    // Make questionnaire data structure.
+    i = -1, len = this.qNamesAll.length;
+    for ( ; ++i < len ; ) {
+        this.makeQuestion(this.qNamesAll[i]);
+    }
 }
 
 function submission() {
