@@ -347,6 +347,19 @@ function init() {
 
     };
 
+
+    this.makeQuestion = function(name) {
+        if ('string' !== typeof name || name.trim() === '') {
+            throw new TypeError('makeQuestion: name must be ' +
+                                'non-empty string: ' + name);
+        }
+        if (node.game.questionnaire[name]) {
+            throw new TypeError('makeQuestion: question with same name ' +
+                                'already existing: ' + name);
+        }
+        node.game.questionnaire[name] = { numberOfClicks: 0 };
+    };
+
     this.makeChoiceTD = function(e) {
         var name, value, td, q, oldSelected;
         q = node.game.questionnaire;
@@ -358,7 +371,6 @@ function init() {
         name = value[0];
         value = value[1];
 
-        if (!q[name]) q[name] = { numberOfClicks: 0 };
         oldSelected = q[name].oldSelected;
         if (oldSelected) oldSelected.className = ''
 

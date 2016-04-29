@@ -53,13 +53,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {
-            var QUIZ, answers, isTimeup, text;            
+            var QUIZ, answers, isTimeup, text;
             QUIZ = W.getFrameWindow().QUIZ;
             answers = QUIZ.checkAnswers();
             text = 'Check Quiz! Correct: ' + answers.counterCorrect +
                 ' / ' + answers.counterQuestions;
             this.node.game.donebutton.setText(text);
-            if (answers.correct || node.game.timer.isTimeup()) {                
+            if (answers.correct || node.game.timer.isTimeup()) {
                 // On Timeup there are no answers.
                 return answers;
             }
@@ -67,7 +67,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 return false;
             }
         },
-        exit: function() {            
+        exit: function() {
             // Quiz might have changed.
             node.game.donebutton.setText('Click here when you are done!');
         }
@@ -154,6 +154,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('questionnaire', {
+        init: function() {
+            var names, i, len;
+            names = ['enjoy', 'competitive', 'exbeau', 'exinn', 'exfair'];
+            i = -1, len = names.length;
+            for ( ; ++i < len ; ) {
+                this.makeQuestion(names[i]);
+            }
+        },
         frame: settings.questPage,
         // timer: settings.timer.questionnaire,
         stepRule: 'SOLO'

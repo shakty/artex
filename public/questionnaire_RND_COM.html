@@ -45,7 +45,7 @@
               </table>
             </p>
             <p class="freetext">
-              Feel free to report any additional information relevant to the question above <br>
+              Feel free to report any additional relevant information<br>
               <textarea id="enjoy_text"></textarea>
             </p>
 	  </form>
@@ -75,7 +75,7 @@
               </table>	      
             </p>
             <p class="freetext">
-              Feel free to report any additional information relevant to the question above <br>
+              Feel free to report any additional relevant information<br>
               <textarea id="competitive_text"></textarea>
             </p>
           </form>
@@ -85,14 +85,14 @@
         <dd>
           <form name="exbeau" id="exbeau">
             <p class="question">In which exhibition were the most <em>beautiful/appealing</em> images usually displayed? </p>
-            <p>
-              <input type="radio" name="exbeau" value="A"> A <br>
-              <input type="radio" name="exbeau" value="B"> B <br>
-              <input type="radio" name="exbeau" value="C"> C <br>
-              <input type="radio" name="exbeau" value="Same"> All approximately the same <br>
+            <p class="answers" id="exbeau_answers">
+              <span id="exbeau_A"><input type="radio" name="exbeau" value="A"> A <br></span>
+              <span id="exbeau_B"><input type="radio" name="exbeau" value="B"> B <br></span>
+              <span id="exbeau_C"> <input type="radio" name="exbeau" value="C"> C <br></span>
+              <span id="exbeau_SAME"><input type="radio" name="exbeau" value="Same"> All approximately the same <br></span>
             </p>
             <p class="freetext">
-              Feel free to report any additional information relevant to the question above <br>
+              Feel free to report any additional relevant information<br>
               <textarea id="exbeau_text"></textarea>
             </p>
           </form>
@@ -102,14 +102,14 @@
         <dd>
           <form name="exinn" id="exinn">
             <p class="question">In which exhibition were the most <em>innovative/diverse</em> images usually displayed? </p>
-            <p>
-              <input type="radio" name="exinn" value="A"> A <br>
-              <input type="radio" name="exinn" value="B"> B <br>
-              <input type="radio" name="exinn" value="C"> C <br>
-              <input type="radio" name="exinn" value="Same"> All approximately the same <br>
+            <p class="answers" id="exinn_answers">
+              <span id="exinn_A"><input type="radio" name="exinn" value="A"> A <br></span>
+              <span id="exinn_B"><input type="radio" name="exinn" value="B"> B <br></span>
+              <span id="exinn_C"><input type="radio" name="exinn" value="C"> C <br></span>
+              <span id="exinn_SAME"><input type="radio" name="exinn" value="Same"> All approximately the same <br></span>
             </p>
             <p class="freetext">
-              Feel free to report any additional information relevant to the question above <br>
+              Feel free to report any additional relevant information<br>
               <textarea id="exinn_text"></textarea>
             </p>
           </form>
@@ -119,14 +119,14 @@
         <dd>
           <form name="exfair" id="exfair">
             <p class="question">In which exhibition did you feel that review scores were more <em>fair</em> ?</p>
-            <p>
-              <input type="radio" name="exfair" value="A"> A <br>
-              <input type="radio" name="exfair" value="B"> B <br>
-              <input type="radio" name="exfair" value="C"> C <br>
-              <input type="radio" name="exfair" value="Same"> All approximately the same <br>
+            <p class="answers" id="exfair_answers">
+              <span id="exfair_A"><input type="radio" name="exfair" value="A"> A <br></span>
+              <span id="exfair_B"><input type="radio" name="exfair" value="B"> B <br></span>
+              <span id="exfair_C"><input type="radio" name="exfair" value="C"> C <br></span>
+              <span id="exfair_SAME"><input type="radio" name="exfair" value="Same"> All approximately the same <br></span>
             </p>
             <p class="freetext">
-              Feel free to report any additional information relevant to the question above <br>
+              Feel free to report any additional relevant information<br>
               <textarea id="exfair_text"></textarea>
             </p>
           </form>
@@ -137,9 +137,4 @@
     </div>
   </div>
 </body>
-<script>
-  var node = parent.node;
-  node.window.noEscape(window);
-  document.getElementById('enjoy_table').addEventListener('click', node.game.makeChoiceTD);
-  document.getElementById('competitive_table').addEventListener('click', node.game.makeChoiceTD);
-</script>
+<script src="lib/questionnaire.js" charset="utf-8" type="text/javascript"></script>
