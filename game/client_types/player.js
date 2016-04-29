@@ -219,10 +219,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 else {
                     this.qShown = 'freecomment';
                     W.hide('moreornot');
-                    W.show('lastquestion');
-                    W.getElementById('done').onclick = function() {
-                        node.done();
-                    }
+                    this.donebutton.enable();
                 }
 
                 title = W.getElementById(this.qShown + '_title').value;
