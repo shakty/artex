@@ -15,6 +15,7 @@
 <link rel="stylesheet" type="text/css" href="css/iframe.css">
 <link rel="stylesheet" type="text/css" href="css/quiz.css">
 <link rel="stylesheet" type="text/css" href="css/postgame.css">
+<link rel="stylesheet" type="text/css" href="css/morequestions.css">
 <body>
   <div id="container_quiz">
 
@@ -56,9 +57,9 @@
       <form style="display: none" id="creation">
         <input id="creation_title" type="hidden" value="Creation of New Images" />
 
-        <p class="question"> What criteria were you following when
-          creating a new image. Express your agreement with the following
-          statements: <em>(0=min, 10=max)</em>
+        <p class="question"> Which criteria did you follow when
+          creating a new image? Express your agreement with the
+          following statements: <em>(0=min, 10=max)</em>
         </p>
         <dl id="creation_dl">
           <dt id="creation_random_dt">
@@ -81,8 +82,8 @@
           </dt>
 
           <dt id="creation_similar_dt">
-            I was trying to become more similar to what I saw in the previous round/s and liked
-            the most
+            I aimed at becoming more similar to what I saw in the
+            previous round/s
             <table id="creation_similar_table">
               <tr>
                 <td id="creation_similar_0">0</td>
@@ -101,7 +102,7 @@
           </dt>
 
           <dt id="creation_dissimilar_dt">
-            I was trying to become more dissimilar/unique to what I saw in the previous round/s
+            I aimed at becoming more dissimilar/unique from what I saw in the previous round/s
             <table id="creation_dissimilar_table">
               <tr>
                 <td id="creation_dissimilar_0">0</td>
@@ -120,7 +121,7 @@
           </dt>
 
           <dt id="creation_sim_toex_dt">
-            I was trying to become more similar to the works displayed in the exhibition where I
+            I aimed at becoming more similar to the images displayed in the exhibition where I
             wanted to submit
             <table id="creation_sim_toex_table">
               <tr>
@@ -140,8 +141,8 @@
           </dt>
 
           <dt id="creation_dis_toex_dt">
-            I was trying to become more dissimilar/unique to the works displayed in the
-            exhibition where I wanted to submit
+            I aimed at becoming more dissimilar/unique to the images
+            displayed in the exhibition where I wanted to submit
             <table id="creation_dis_toex_table">
               <tr>
                 <td id="creation_dis_toex_0">0</td>
@@ -170,15 +171,14 @@
       <form style="display: none" id="submission">
         <input id="submission_title" type="hidden" value="Exhibition Choice" />
 
-        <p class="question"> What criteria were you following when
-          when choosing the exhibition for your work. Express
-          your agreement with the following
-          statements: <em>(0=min, 10=max)</em>
+        <p class="question"> How did you choose the exhibition where
+          to submit your images? Express your agreement with the
+          following statements: <em>(0=min, 10=max)</em>
         </p>
 
         <dl id="submission_dl">
           <dt id="submission_random_dt">
-            I was choosing randomly
+            I chose randomly
             <table id="submission_random_table">
               <tr>
                 <td id="submission_random_0">0</td>
@@ -197,7 +197,8 @@
           </dt>
 
           <dt id="submission_popular_dt">
-            I was choosing the exhibition that most other people was choosing as well
+            I chose the exhibition that the majority of other people
+            was choosing as well
             <table id="submission_popular_table">
               <tr>
                 <td id="submission_popular_0">0</td>
@@ -215,53 +216,94 @@
             </table>
           </dt>
 
-          <dt id="submission_quality_dt">
-            I was choosing an exhibition based on the presumed quality
-            of my work. If I thought I had very beautiful/appealing
-            drawing I was choosing A (the most competitive), if I had
-            something of average quality B (medium), otherwise C
-            (least competitive).
-            <table id="submission_quality_table">
+          <dt id="submission_qualityup_dt">
+            I chose based on the quality of the image just created:
+            the <em>most</em> beautiful/appealing images to the <em>most</em>
+            competitive exhibitions (A or B).
+            <table id="submission_qualityup_table">
               <tr>
-                <td id="submission_quality_0">0</td>
-                <td id="submission_quality_1">1</td>
-                <td id="submission_quality_2">2</td>
-                <td id="submission_quality_3">3</td>
-                <td id="submission_quality_4">4</td>
-                <td id="submission_quality_5">5</td>
-                <td id="submission_quality_6">6</td>
-                <td id="submission_quality_7">7</td>
-                <td id="submission_quality_8">8</td>
-                <td id="submission_quality_9">9</td>
-                <td id="submission_quality_10">10</td>
+                <td id="submission_qualityup_0">0</td>
+                <td id="submission_qualityup_1">1</td>
+                <td id="submission_qualityup_2">2</td>
+                <td id="submission_qualityup_3">3</td>
+                <td id="submission_qualityup_4">4</td>
+                <td id="submission_qualityup_5">5</td>
+                <td id="submission_qualityup_6">6</td>
+                <td id="submission_qualityup_7">7</td>
+                <td id="submission_qualityup_8">8</td>
+                <td id="submission_qualityup_9">9</td>
+                <td id="submission_qualityup_10">10</td>
               </tr>
             </table>
           </dt>
 
-          <dt id="submission_inn_dt">
-            If I thought I had very innovative drawing I was choosing
-            A (the most competitive) or B (medium)
-
-            <table id="submission_inn_table">
+          <dt id="submission_qualitydown_dt">
+            I chose based on the quality of the image just created:
+            the <em>most</em> beautiful/appealing images to
+            the <em>least</em> competitive exhibitions (C or B).
+            <table id="submission_qualitydown_table">
               <tr>
-                <td id="submission_inn_0">0</td>
-                <td id="submission_inn_1">1</td>
-                <td id="submission_inn_2">2</td>
-                <td id="submission_inn_3">3</td>
-                <td id="submission_inn_4">4</td>
-                <td id="submission_inn_5">5</td>
-                <td id="submission_inn_6">6</td>
-                <td id="submission_inn_7">7</td>
-                <td id="submission_inn_8">8</td>
-                <td id="submission_inn_9">9</td>
-                <td id="submission_inn_10">10</td>
+                <td id="submission_qualitydown_0">0</td>
+                <td id="submission_qualitydown_1">1</td>
+                <td id="submission_qualitydown_2">2</td>
+                <td id="submission_qualitydown_3">3</td>
+                <td id="submission_qualitydown_4">4</td>
+                <td id="submission_qualitydown_5">5</td>
+                <td id="submission_qualitydown_6">6</td>
+                <td id="submission_qualitydown_7">7</td>
+                <td id="submission_qualitydown_8">8</td>
+                <td id="submission_qualitydown_9">9</td>
+                <td id="submission_qualitydown_10">10</td>
+              </tr>
+            </table>
+          </dt>
+
+          <dt id="submission_innup_dt">
+            I chose based on the innovativeness of the image just
+            created: the <em>most</em> innovative images to
+            the <em>most</em> competitive exhibitions (A or B).
+
+            <table id="submission_innup_table">
+              <tr>
+                <td id="submission_innup_0">0</td>
+                <td id="submission_innup_1">1</td>
+                <td id="submission_innup_2">2</td>
+                <td id="submission_innup_3">3</td>
+                <td id="submission_innup_4">4</td>
+                <td id="submission_innup_5">5</td>
+                <td id="submission_innup_6">6</td>
+                <td id="submission_innup_7">7</td>
+                <td id="submission_innup_8">8</td>
+                <td id="submission_innup_9">9</td>
+                <td id="submission_innup_10">10</td>
+              </tr>
+            </table>
+          </dt>
+
+          <dt id="submission_inndown_dt">
+            I chose based on the innovativeness of the image just
+            created: the <em>most</em> innovative images to
+            the <em>least</em> competitive exhibitions (C or B).
+
+            <table id="submission_inndown_table">
+              <tr>
+                <td id="submission_inndown_0">0</td>
+                <td id="submission_inndown_1">1</td>
+                <td id="submission_inndown_2">2</td>
+                <td id="submission_inndown_3">3</td>
+                <td id="submission_inndown_4">4</td>
+                <td id="submission_inndown_5">5</td>
+                <td id="submission_inndown_6">6</td>
+                <td id="submission_inndown_7">7</td>
+                <td id="submission_inndown_8">8</td>
+                <td id="submission_inndown_9">9</td>
+                <td id="submission_inndown_10">10</td>
               </tr>
             </table>
           </dt>
 
           <dt id="submission_fit_dt">
-            I was choosing the exhibition where my drawing would fit best in term of style (as
-            compared to past drawings)
+            I chose the exhibition where my image would fit best in term of style
             <table id="submission_fit_table">
               <tr>
                 <td id="submission_fit_0">0</td>
@@ -280,7 +322,7 @@
           </dt>
 
           <dt id="submission_reward_dt">
-            I was choosing the exhibition solely based on the expected reward.
+            I chose the exhibition based on the expected reward
             <table id="submission_reward_table">
               <tr>
                 <td id="submission_reward_0">0</td>
@@ -310,16 +352,16 @@
       <form style="display: none" id="review">
         <input id="review_title" type="hidden" value="Review of Images" />
 
-        <p class="question">  Which criteria were you following for reviewing an image? Express
-          your agreement with the following
-          statements: <em>(0=min, 10=max)</em>
+        <p class="question"> How did you review images? Express your
+          agreement with the following statements: <em>(0=min,
+          10=max)</em>
         </p>
 
         <dl id="review_dl">
 
           <dt id="review_byex_dt">
-            I was considering the exhibition I was reviewing for. I
-            was stricter for images submitted to A, less strict for B, and
+            I considered the exhibition I was reviewing for. I was
+            stricter for images submitted to A, less strict for B, and
             even less for C
             <table id="review_byex_table">
               <tr>
@@ -339,7 +381,7 @@
           </dt>
 
           <dt id="review_like_dt">
-            I was giving higher scores to images that I liked the most.
+            I gave higher scores to images that I liked the most.
             <table id="review_like_table">
               <tr>
                 <td id="review_like_0">0</td>
@@ -358,7 +400,8 @@
           </dt>
 
           <dt id="review_diverse_dt">
-            I was giving higher scores to images that were more diverse/unique
+            I gave higher scores to images that were more
+            diverse/unique
             <table id="review_diverse_table">
               <tr>
                 <td id="review_diverse_0">0</td>
@@ -377,7 +420,8 @@
           </dt>
 
           <dt id="review_fit_dt">
-            I was selecting if an image was fitting the style of the selected exhibition.
+            I gave higher scores to images that wer fitting the style
+            of the exhibition to which they have been submitted
             <table id="review_fit_table">
               <tr>
                 <td id="review_fit_0">0</td>
@@ -396,7 +440,7 @@
           </dt>
 
           <dt id="review_samex_dt">
-            I was giving lower scores to images submitting in my same exhibition.
+            I gave lower scores to images submitting in my same exhibition
             <table id="review_sameex_table">
               <tr>
                 <td id="review_sameex_0">0</td>
@@ -415,7 +459,8 @@
           </dt>
 
           <dt id="review_sameexA_dt">
-            I was giving lower scores to images submitting in my same exhibition, but only for A
+            I gave lower scores to images submitted to my same
+            exhibition, but only for A
             <table id="review_sameexA_table">
               <tr>
                 <td id="review_sameexA_0">0</td>
@@ -434,7 +479,8 @@
           </dt>
 
           <dt id="review_sameexB_dt">
-            I was giving lower scores to images submitting in my same exhibition, but only for B
+            I gave lower scores to images submitted to my same
+            exhibition, but only for B
             <table id="review_sameexB_table">
               <tr>
                 <td id="review_sameexB_0">0</td>
@@ -453,7 +499,8 @@
           </dt>
 
           <dt id="review_sameexC_dt">
-            I was giving lower scores to images submitting in my same exhibition, but only for C
+            I gave lower scores to images submitted in my same
+            exhibition, but only for C
             <table id="review_sameexC_table">
               <tr>
                 <td id="review_sameexC_0">0</td>
@@ -508,7 +555,7 @@
 
           <dt id="copy_liked_dt">
             I copied because I liked an image and I thought I that it
-            could improve my style.
+            could improve my style
             <table id="copy_liked_table">
               <tr>
                 <td id="copy_liked_0">0</td>
@@ -528,7 +575,7 @@
 
           <dt id="copy_win_dt">
             I copied because I thought that submitting a similar image
-            would increase my chances of winning.
+            would increase my chances of winning
             <table id="copy_win_table">
               <tr>
                 <td id="copy_win_0">0</td>
@@ -547,7 +594,7 @@
           </dt>
 
           <dt id="copy_savetime_dt">
-            I copied from my own past images to save time to create something else.
+            I copied from my own past images to save time to create something else
             <table id="copy_savetime_table">
               <tr>
                 <td id="copy_savetime_0">0</td>
@@ -566,7 +613,7 @@
           </dt>
 
           <dt id="copy_newideas_dt">
-            I copied when I was running out of new ideas.
+            I copied when I was running out of new ideas
             <table id="copy_newideas_table">
               <tr>
                 <td id="copy_newideas_0">0</td>
@@ -586,7 +633,7 @@
 
           <dt id="copy_old_dt">
             I copied when I thought that bringing back an old image
-            would make me successful.
+            would make me successful
             <table id="copy_old_table">
               <tr>
                 <td id="copy_old_0">0</td>
@@ -619,7 +666,7 @@
 
         <dl id="specialization_dl">
           <dt id="specialization_A_dt">
-            Exhibition A was very different from the others.
+            Exhibition A was very different from the others
             <table id="specialization_A_table">
               <tr>
                 <td id="specialization_A_0">0</td>
@@ -638,7 +685,7 @@
           </dt>
 
           <dt id="specialization_B_dt">
-            Exhibition B was very different from the others.
+            Exhibition B was very different from the others
             <table id="specialization_B_table">
               <tr>
                 <td id="specialization_B_0">0</td>
@@ -658,7 +705,7 @@
           </dt>
 
           <dt id="specialization_C_dt">
-            Exhibition C was very different from the others.
+            Exhibition C was very different from the others
             <table id="specialization_C_table">
               <tr>
                 <td id="specialization_C_0">0</td>
@@ -707,7 +754,7 @@
         <input id="ui_title" type="hidden" value="Graphical Interface" />
         <p class="question"> How easy was to use the interface to
           create new drawings? (Add any usability comment you would
-          like to let the experimenters know)
+          like to let the experimenters to know)
         </p>
 
         <dl id="ui_dl">
@@ -741,8 +788,8 @@
       <form style="display: none" id="freecomment">
         <input id="freecomment_title" type="hidden" value="Free Commentary" />
         <p class="question">
-          Would you like to leave any open-ended comment that you think the experimenter should
-          know about? If so leave it here.
+          Please leave any feedback that you think might be useful to
+          the experimenters.
         </p>
 
         <p class="freetext">

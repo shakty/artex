@@ -232,8 +232,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
         },
         frame: 'morequestions.html',
-        cb: function() {
-            // W.hide('h1title');
+        cb: function() {           
             W.getElementById('onemore').onclick = function() {
                 node.game.showQuestion();
             };            
@@ -241,7 +240,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 node.done();
             };
             this.showQuestion();
-            // W.show('h1title');
         },
         donebutton: false
     });
