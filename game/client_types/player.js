@@ -162,7 +162,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 this.makeQuestion(names[i]);
             }
         },
-        frame: settings.questPage,
+        frame: 'questionnaire.html',
         // timer: settings.timer.questionnaire,
         stepRule: 'SOLO',
         done: function() {
