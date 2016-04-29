@@ -153,35 +153,37 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    stager.extendStage('final', {
+        stepRule: 'SOLO'
+    });
+
     stager.extendStep('questionnaire', {
         init: function() {
-            var names, i, len;
-            names = ['enjoy', 'competitive', 'exbeau', 'exinn', 'exfair'];
-            i = -1, len = names.length;
+            var i, len;            
+            i = -1, len = this.qNamesAll.length;
             for ( ; ++i < len ; ) {
-                this.makeQuestion(names[i]);
+                this.makeQuestion(this.qNamesAll[i]);
             }
         },
         frame: 'questionnaire.html',
         // timer: settings.timer.questionnaire,
-        stepRule: 'SOLO',
         done: function() {
-            var name, q, miss, out;
+            var name, q, miss, out, i, len;
             out = {};
             q = this.questionnaire;
-            for (name in q) {
-                if (q.hasOwnProperty(name)) {
-                    if (!q[name].currentAnswer) {
-                        miss = true;
-                        W.highlight(W.getElementById(name), 'ERR');
-                    }
-                    else if (!miss) {
-                        out[name] = {
-                            name: name,
-                            value: q[name].currentAnswer,
-                            numberOfClicks: q[name].numberOfClicks
-                        };
-                    }
+            i = -1, len = this.qNames.length;
+            for ( ; ++i < len ; ) {                
+                name = this.qNames[i];
+                if (!q[name].currentAnswer) {
+                    miss = true;
+                    W.highlight(W.getElementById(name), 'ERR');
+                }
+                else if (!miss) {
+                    out[name] = {
+                        name: name,
+                        value: q[name].currentAnswer,
+                        numberOfClicks: q[name].numberOfClicks
+                    };
                 }
             }
             if (miss) {
@@ -196,8 +198,54 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('morequestions', {
-        donebutton: false,
-        frame: 'morequestions.html'
+        init: function() {
+            this.qAvailable = this.qNamesExtra
+                .slice(0, this.qNamesExtra.length -1);
+            this.qShown = null;
+
+            this.showQuestion = function() {
+                var idx;
+                // Hide previous question.
+                if (this.qShown) {
+
+                    // TODO: set value.
+                    // node.set();
+
+                    W.hide(this.qShown);
+                }
+                if (this.qAvailable.length) {
+                    idx = JSUS.randomInt(-1, (this.qAvailable -1));
+                    // Save the id of available question,
+                    // and remove it from array.
+                    this.qShown = this.qAvailable.splice(idx, 1)[0];
+                    // Show it.
+                }
+                else {
+                    this.qShown = 'freecomment';
+                    W.hide('moreornot');
+                    W.show('lastquestion');
+                    W.getElementById('done').onclick = function() {
+                        node.done();
+                    }
+                }
+                W.show(this.qShown);
+            }
+        },
+        frame: 'morequestions.html',
+        cb: function() {
+            W.hide('h1title');
+            W.getElementById('onemore').onclick = function() {
+                node.game.showQuestion();
+            };            
+            W.getElementById('enough').onclick = function() {
+                node.done();
+            };
+            this.showQuestion();
+        },
+        done: function() {
+            // TODO.
+        },
+        donebutton: false
     });
 
     stager.extendStep('endgame', {

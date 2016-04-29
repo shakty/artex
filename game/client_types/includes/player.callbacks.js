@@ -134,6 +134,18 @@ function init() {
     // to the input containing the current value, and the exhibition.
     this.evas = {};
 
+    // Names of the questionnaire forms ids (standard).
+    this.qNames = [ 'enjoy', 'competitive', 'exbeau', 'exinn', 'exfair' ];
+
+    // Names of the questionnaire forms ids (additional).
+    this.qNamesExtra = [ 
+        'creation', 'submission', 'review', 'copy',
+        'specialization', 'ui', 'freecomment'
+    ];
+
+    // All ids of questionnaire forms.
+    this.qNamesAll = this.qNames.concat(this.qNamesExtra);
+
     // List of all past exhibitions.
     this.all_ex = new W.List({
         id: 'all_ex',

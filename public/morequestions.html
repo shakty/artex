@@ -17,16 +17,15 @@
 <link rel="stylesheet" type="text/css" href="css/postgame.css">
 <body>
   <div id="container_quiz">
-
-    <h1 style="margin: 0 auto">Would you like to answer more questions?</h1>    
+    
+    <h1 id="h1title" style="margin: 0 auto">Would you like to answer more questions?</h1>
     <br>
-    <div id="question">
-      
-      
+    <div id="question" style="display: none">
+            
       The experiment is now over, and you can decide if you want to
       answer additional questions to help reseachers gaining a better
       understanding of the dynamics at study.
-      <br><br> 
+      <br><br>
       
       <strong>Important!</strong> This is <em>completely voluntary</em> and
       does not affect the number of points earned.
@@ -52,163 +51,749 @@
       
     </div>
     
-    <div id="quiz" style="display: none">
+    <div id="quiz">
       
-      
-      
-      What criteria where you following when choosing the exhibition for your work. Express
-      agreement with the following statements:
-      − I was choosing randomly
-      − I was choosing the exhibition that most other people was choosing as well
-      − If I thought I had very beautiful/appealing drawing I was choosing A (the most
-      competitive) or B (medium)
-      − If I thought I had very innovative drawing I was choosing A (the most competitive) or
-      B (medium)
-      − I was choosing the exhibition where my drawing would fit best in term of style (as
-      compared to past drawings)
-      − I was choosing the exhibition solely based on the expected reward.
-      
-      Which criteria were you following for reviewing an image?
-      − I was considering the exhibition I was reviewing for. I was stricter for images
-      submitted to A, less strict for B, and even less for C
-      − I was giving higher scores to images that I liked the most
-      − I was giving higher scores to images that were more diverse/unique
-      − I was selecting if an image was fitting the style of the selected exhibition.
-      − I was giving lower scores to images submitting in my same exhibition.
-      − I was giving lower scores to images submitting in my same exhibition, but only for A
-      − I was giving lower scores to images submitting in my same exhibition, but only for B
-      − I was giving lower scores to images submitting in my same exhibition, but only for C
-      − Others, specify
-      
-      Under which conditions did you copy an image from **other** participants?
-      − I did not do copy any
-      − Because I liked it and I thought I could improve my style
-      − Because I thought that submitting a variation of that image would increase my
-      chances of winning
-      − Other, explain
-      
-      Under which conditions did you copy a past image of your **own**?
-      − I did not do copy any
-      − To save time in changing style
-      − I was running out of new ideas
-      − I thought that bringing back an old image would be successful
-      − Other, explain
-      
-      Did you think one or more exhibition developed an own style during the game? If so,
-      which one (you can select more) A,B,C [Explain more if you like]
-      
-      How easy was to create images with the interface [0-10] (Add any usability comment you
-      would like to let the experimenters know)
-      
-      Would you like to leave any open-ended comment that you think the experimenter should
-      know about? If so leave it here.
-      
-      
-      
-      
-      <dl>
-        <dt><strong>Q.1</strong></dt>
-        <dd>
-          <form name="enjoy" id="enjoy">
-	    <p class="question"> What criteria were you following when
-              creating a new image. Express your agreement with the
-              following statements: <em>(0=min, 10=max)</em></p>
-            <p class="answers">
-              I was changing randomly
-              <table id="enjoy_table" name="enjoy_table">
-                <tr>
-                  <td id="enjoy_0">0</td>
-                  <td id="enjoy_1">1</td>
-                  <td id="enjoy_2">2</td>
-                  <td id="enjoy_3">3</td>
-                  <td id="enjoy_4">4</td>
-                  <td id="enjoy_5">5</td>
-                  <td id="enjoy_6">6</td>
-                  <td id="enjoy_7">7</td>
-                  <td id="enjoy_8">8</td>
-                  <td id="enjoy_9">9</td>
-                  <td id="enjoy_10">10</td>
-                </tr>
-              </table>
-              I was trying to become more similar to what I saw in the previous round/s and liked
-              the most
-              <table id="enjoy_table" name="enjoy_table">
-                <tr>
-                  <td id="enjoy_0">0</td>
-                  <td id="enjoy_1">1</td>
-                  <td id="enjoy_2">2</td>
-                  <td id="enjoy_3">3</td>
-                  <td id="enjoy_4">4</td>
-                  <td id="enjoy_5">5</td>
-                  <td id="enjoy_6">6</td>
-                  <td id="enjoy_7">7</td>
-                  <td id="enjoy_8">8</td>
-                  <td id="enjoy_9">9</td>
-                  <td id="enjoy_10">10</td>
-                </tr>
-              </table>
-              − I was trying to become more dissimilar/unique to what I saw in the previous round/s
-              <table id="enjoy_table" name="enjoy_table">
-                <tr>
-                  <td id="enjoy_0">0</td>
-                  <td id="enjoy_1">1</td>
-                  <td id="enjoy_2">2</td>
-                  <td id="enjoy_3">3</td>
-                  <td id="enjoy_4">4</td>
-                  <td id="enjoy_5">5</td>
-                  <td id="enjoy_6">6</td>
-                  <td id="enjoy_7">7</td>
-                  <td id="enjoy_8">8</td>
-                  <td id="enjoy_9">9</td>
-                  <td id="enjoy_10">10</td>
-                </tr>
-              </table>
-              − I was trying to become more similar to the works displayed in the exhibition where I
-              wanted to submit
-              <table id="enjoy_table" name="enjoy_table">
-                <tr>
-                  <td id="enjoy_0">0</td>
-                  <td id="enjoy_1">1</td>
-                  <td id="enjoy_2">2</td>
-                  <td id="enjoy_3">3</td>
-                  <td id="enjoy_4">4</td>
-                  <td id="enjoy_5">5</td>
-                  <td id="enjoy_6">6</td>
-                  <td id="enjoy_7">7</td>
-                  <td id="enjoy_8">8</td>
-                  <td id="enjoy_9">9</td>
-                  <td id="enjoy_10">10</td>
-                </tr>
-              </table>
-              − I was trying to become more dissimilar/unique to the works displayed in the
-              exhibition where I wanted to submit
-              <table id="enjoy_table" name="enjoy_table">
-                <tr>
-                  <td id="enjoy_0">0</td>
-                  <td id="enjoy_1">1</td>
-                  <td id="enjoy_2">2</td>
-                  <td id="enjoy_3">3</td>
-                  <td id="enjoy_4">4</td>
-                  <td id="enjoy_5">5</td>
-                  <td id="enjoy_6">6</td>
-                  <td id="enjoy_7">7</td>
-                  <td id="enjoy_8">8</td>
-                  <td id="enjoy_9">9</td>
-                  <td id="enjoy_10">10</td>
-                </tr>
-              </table>
+      <form style="display: none" id="creation">
+        
+        <dl>
+          <dt>
+            <p class="question"> What criteria were you following when
+              creating a new image. Express your agreement with the following
+              statements: <em>(0=min, 10=max)</em>
             </p>
+          </dt>
+          <dd>
+            I was changing randomly
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was trying to become more similar to what I saw in the previous round/s and liked
+            the most
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          <dd>
+            I was trying to become more dissimilar/unique to what I saw in the previous round/s
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          <dd>
+            I was trying to become more similar to the works displayed in the exhibition where I
+            wanted to submit
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          <dd>
+            I was trying to become more dissimilar/unique to the works displayed in the
+            exhibition where I wanted to submit
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+            
+          </dd>
+          <dd>
             <p class="freetext">
               Feel free to report additional relevant information<br>
               <textarea id="enjoy_text"></textarea>
             </p>
-	  </form>
-        </dd>
-        
-        
-      </dl>
+            
+          </dd>
+        </dl>
+      </form>
       
+      
+      <form style="display: none" id="submission">
+        
+        <dl>
+          <dt>
+            <p class="question"> What criteria were you following when
+              when choosing the exhibition for your work. Express
+              your agreement with the following
+              statements: <em>(0=min, 10=max)</em>
+            </p>
+          </dt>
+          
+          <dd>
+            I was choosing randomly
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was choosing the exhibition that most other people was choosing as well
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was choosing an exhibition based on the presumed quality
+            of my work. If I thought I had very beautiful/appealing
+            drawing I was choosing A (the most competitive), if I had
+            something of average quality B (medium), otherwise C
+            (least competitive).
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            If I thought I had very innovative drawing I was choosing
+            A (the most competitive) or B (medium)
+            
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was choosing the exhibition where my drawing would fit best in term of style (as
+            compared to past drawings)
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was choosing the exhibition solely based on the expected reward.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            <p class="freetext">
+              Feel free to report additional relevant information<br>
+              <textarea id="enjoy_text"></textarea>
+            </p>
+            
+          </dd>
+          
+        </dl>
+        
+        
+      </form>
+      
+      <form style="display: none" id="review">
+        
+        <dl>
+          <dt>
+            <p class="question">  Which criteria were you following for reviewing an image? Express
+              your agreement with the following
+              statements: <em>(0=min, 10=max)</em>
+            </p>
+          </dt>
+          
+          <dd>
+            I was considering the exhibition I was reviewing for. I
+            was stricter for images submitted to A, less strict for B, and
+            even less for C
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was giving higher scores to images that I liked the most.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was giving higher scores to images that were more diverse/unique
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was selecting if an image was fitting the style of the selected exhibition.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was giving lower scores to images submitting in my same exhibition.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was giving lower scores to images submitting in my same exhibition, but only for A
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I was giving lower scores to images submitting in my same exhibition, but only for B
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          
+          <dd>
+            I was giving lower scores to images submitting in my same exhibition, but only for C
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          
+          <dd>
+            <p class="freetext">
+              Feel free to report additional relevant information<br>
+              <textarea id="enjoy_text"></textarea>
+            </p>
+            
+          </dd>
+          
+        </dl>
+      </form>
+      
+      
+      <form style="display: none" id="copy">
+        <dl>
+          <dt>
+            <p class="question"> When and why did you copy an image
+              from a past exhibition? Express your agreement with the
+              following statements: <em>(0=min, 10=max)</em>
+            </p>
+          </dt>
+          
+          <dd>
+            I seldom or never copied past images
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I copied because I liked an image and I thought I that it
+            could improve my style.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I copied because I thought that submitting a similar image
+            would increase my chances of winning.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I copied from my own past images to save time to create something else.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I copied when I was running out of new ideas.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I copied when I thought that bringing back an old image
+            would make me successful.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          
+          <dd>
+            <p class="freetext">
+              Feel free to report additional relevant information<br>
+              <textarea id="enjoy_text"></textarea>
+            </p>
+            
+          </dd>
+          
+        </dl>
+      </form>
+      
+      <form style="display: none" id="specialization">
+        
+        <dl>
+          <dt>
+            <p class="question"> Do you think that one or more
+              exhibitions developed an own style during the game?
+            </p>
+          </dt>
+          
+          <dd>
+            Exhibition A was very different from the others.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            Exhibition B was very different from the others.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            Exhibition C was very different from the others.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            I did not notice any significant difference across exhibitions
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          <dd>
+            <p class="freetext">
+              Feel free to report additional relevant information<br>
+              <textarea id="enjoy_text"></textarea>
+            </p>
+            
+          </dd>
+        </dl>
+      </form>
+      
+      <form style="display: none" id="ui">
+        
+        <dl>
+          <dt>
+            <p class="question"> How easy was to use the interface to
+              create new drawings? (Add any usability comment you would
+              like to let the experimenters know)
+            </p>
+          </dt>
+          
+          <dd>
+            Exhibition A was very different from the others.
+            <table id="enjoy_table" name="enjoy_table">
+              <tr>
+                <td id="enjoy_0">0</td>
+                <td id="enjoy_1">1</td>
+                <td id="enjoy_2">2</td>
+                <td id="enjoy_3">3</td>
+                <td id="enjoy_4">4</td>
+                <td id="enjoy_5">5</td>
+                <td id="enjoy_6">6</td>
+                <td id="enjoy_7">7</td>
+                <td id="enjoy_8">8</td>
+                <td id="enjoy_9">9</td>
+                <td id="enjoy_10">10</td>
+              </tr>
+            </table>
+          </dd>
+          
+          
+          <dd>
+            <p class="freetext">
+              Feel free to report additional relevant information<br>
+              <textarea id="enjoy_text"></textarea>
+            </p>
+            
+          </dd>
+        </dl>
+      </form>
+      
+      
+      <form style="display: none" id="freecomment">
+        
+        <dl>
+          <dt>
+            <p class="question">
+              Would you like to leave any open-ended comment that you think the experimenter should
+              know about? If so leave it here.
+            </p>
+          </dt>
+          
+          <dd>
+            <p class="freetext">
+              <textarea id="enjoy_text"></textarea>
+            </p>
+            
+          </dd>
+        </dl>
+      </form>
+      
+      <span style="margin: 0 auto; display: block">
+        <p id="moreornot">
+          <button id="onemore" type="button" class="btn btn-lg btn-success">I want to answer another question </button>
+          <button id="enough" type="button" class="btn btn-lg btn-danger">I want to end this experiment now </button>
+        </p>
+        <p id="lastquestion" style="display: none"> 
+          <button id="done" type="button" class="btn btn-lg btn-default">There are no more additional questions. Thank you.</button>       
+        </p>
+      </spanx>
     </div>
   </div>
 </body>
-<script src="lib/questionnaire.js" charset="utf-8" type="text/javascript"></script>
+<!-- <script src="lib/questionnaire.js" charset="utf-8" type="text/javascript"></script> -->
