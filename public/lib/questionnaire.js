@@ -5,15 +5,15 @@ $(document).ready(function() {
     W = parent.W;
     q = node.game.questionnaire;
     W.noEscape(window);
-    names = ['exbeau', 'exinn', 'exfair']; // 'enjoy', 'competitive', 
+    names = ['enjoy', 'competitive', 'exbeau', 'exinn', 'exfair']; // , 
     i = -1, len = names.length;
     for ( ; ++i < len ; ) {
         name = names[i];
-        tmpElement = document.getElementById(name + '_answers');
-        q[name].order = W.shuffleElements(tmpElement);
+        if (name !== 'enjoy' && name !== 'competitive') {
+            tmpElement = document.getElementById(name + '_tr');
+            q[name].order = W.shuffleElements(tmpElement);
+        }
+        tmpElement = document.getElementById(name + '_table');
+        tmpElement.addEventListener('click', node.game.makeChoiceTD);
     }
-    tmpElement = document.getElementById('enjoy_table');
-    tmpElement.addEventListener('click', node.game.makeChoiceTD);
-    tmpElement = document.getElementById('competitive_table');
-    tmpElement.addEventListener('click', node.game.makeChoiceTD);
 });

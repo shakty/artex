@@ -21,6 +21,18 @@ table td:hover {
     cursor: hand;
 }
 
+table#exbeau_table td {
+    width: 150px;
+}
+
+table#exinn_table td {
+    width: 150px;
+}
+
+table#exfair_table td {
+    width: 150px;
+}
+
 td.selected {
     border: 3px solid #333;
     background: #FFE;
