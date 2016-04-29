@@ -41,3 +41,7 @@ td.selected {
 p.freetext {
     margin-top: 20px;
 }
+
+div#question {
+    padding: 20px;
+}

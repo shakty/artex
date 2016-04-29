@@ -195,6 +195,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    stager.extendStep('morequestions', {
+        donebutton: false,
+        frame: 'morequestions.html'
+    });
+
     stager.extendStep('endgame', {
         frame: 'ended.html',
         donebutton: false
