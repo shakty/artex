@@ -375,20 +375,23 @@ function init() {
 
     this.makeChoiceTD = function(e) {
         var item, name, value, td, q, oldSelected, form;
-        q = node.game.questionnaire;
         e = e || window.event;
         td = e.target || e.srcElement;
-
         // Id of elements are in the form of name_value or name_item_value.
         value = td.id.split('_');
         if (value.length === 2) {
             name = value[0];
             value = value[1];
+            q = node.game.questionnaire;
         }
         else {            
             name = value[0];
             item = value[1];
             value = value[2];
+            // TODO: improve here.
+            q = node.game.questionnaire[name];
+            name = item;
+            if (!q[name]) q[name] = { numberOfClicks: 0 };
         }
 
         oldSelected = q[name].oldSelected;
