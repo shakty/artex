@@ -79,6 +79,30 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
     
     stager.extendStage('final', {
+        init: function() {
+
+            // Compute payoff.
+
+            node.on.data('WIN', function(msg) {
+                var id, code;
+                id = msg.from;
+
+                code = channel.registry.getClient(id);
+                if (!code) {
+                    console.log('ERROR: no code in endgame:', id);
+                    return;
+                }
+
+
+                channel.registry.checkOut(id);
+
+                node.say('WIN', id, {
+                    win: code.win,
+                    exitcode: code.ExitCode
+                });
+                
+            });
+        },
         stepRule: 'SOLO',
         minPlayers: undefined
     });

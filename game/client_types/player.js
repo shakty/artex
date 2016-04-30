@@ -242,6 +242,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('endgame', {
+        init: function() {
+            // Request data.
+            node.say('WIN', 'SERVER');
+            node.on.data('WIN', function(msg) {
+                var win, exitcode, codeErr;
+                var exitCodeInput, winInput;
+                codeErr = 'ERROR (code not found)';
+                win = msg.data && msg.data.win || 0;
+                exitcode = msg.data && msg.data.exitcode || codeErr;
+                exitCodeInput = W.getElementById('exitCode');
+                exitCodeInput.value = exitcode;
+                winInput = W.getElementById('win');
+                winInput.value = win;
+            });
+        },
         frame: 'ended.html',
         donebutton: false
     });
