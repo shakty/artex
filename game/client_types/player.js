@@ -152,24 +152,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('questionnaire', {       
-        frame: 'questionnaire.html',
+        frame: 'questionnaire2.html',
         done: function() {
-            var name, q, miss, out, i, len;
+            var name, q, miss, out, i, len, values;
             out = {};
             q = this.questionnaire;
             i = -1, len = this.qNames.length;
             for ( ; ++i < len ; ) {                
                 name = this.qNames[i];
-                if (!q[name].currentAnswer) {
+                values = q[name].getAllValues();
+                if (!values.choice) {
                     miss = true;
                     W.highlight(W.getElementById(name), 'ERR');
                 }
                 else if (!miss) {
-                    out[name] = {
-                        name: name,
-                        value: q[name].currentAnswer,
-                        numberOfClicks: q[name].numberOfClicks
-                    };
+                    out[name] = values;
                 }
             }
             if (miss) {

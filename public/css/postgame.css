@@ -6,7 +6,13 @@ div#quiz form textarea {
     border: 1px solid #CCC;
 }
 
-table td {
+
+div.choicetable, div.choicetable div.panel-heading, div.choicetable div.panel-body {
+    border: 0;
+    padding: 0;
+}
+
+table.choicetable td {
     word-wrap: break-word;
     border: solid 1px;
     text-align: center;    
@@ -15,27 +21,27 @@ table td {
     background: white;
 }
 
-table td:hover {
+table.clickable td:hover {
     background: #FFE;
     cursor: pointer;
     cursor: hand;
 }
 
-table#exbeau_table td {
+table#exbeau td {
     width: 150px;
 }
 
-table#exinn_table td {
+table#exinn td {
     width: 150px;
 }
 
-table#exfair_table td {
+table#exfair td {
     width: 150px;
 }
 
 td.selected {
-    border: 3px solid #333;
-    background: #FFE;
+    border: 3px solid #333 !important;
+    background: #FFE !important;
 }
 
 p.freetext {

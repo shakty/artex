@@ -361,64 +361,64 @@ function init() {
     };
 
 
-    this.makeQuestion = function(name) {
-        if ('string' !== typeof name || name.trim() === '') {
-            throw new TypeError('makeQuestion: name must be ' +
-                                'non-empty string: ' + name);
-        }
-        if (node.game.questionnaire[name]) {
-            throw new TypeError('makeQuestion: question with same name ' +
-                                'already existing: ' + name);
-        }
-        node.game.questionnaire[name] = { numberOfClicks: 0 };
-    };
-
-    this.makeChoiceTD = function(e) {
-        var item, name, value, td, q, oldSelected, form;
-        e = e || window.event;
-        td = e.target || e.srcElement;
-        // Id of elements are in the form of name_value or name_item_value.
-        value = td.id.split('_');
-        if (value.length === 2) {
-            name = value[0];
-            value = value[1];
-            q = node.game.questionnaire;
-        }
-        else {            
-            name = value[0];
-            item = value[1];
-            value = value[2];
-            // TODO: improve here.
-            q = node.game.questionnaire[name];
-            name = item;
-            if (!q[name]) q[name] = { numberOfClicks: 0 };
-        }
-
-        oldSelected = q[name].oldSelected;
-        if (oldSelected) oldSelected.className = ''
-
-        ++q[name].numberOfClicks;
-        q[name].currentAnswer = value;
-
-        td.className = 'selected';
-        q[name].oldSelected = td;
-
-        // Remove any warning/error from form on click.
-        form = W.getElementById(name);
-        if (form) form.style.border = '';    
-
-        node.game.donebutton.setText('Click here when you are done!');
-        
-        // In case we want to add a radio button.
-        // input = td.children[0];
-        // input.checked = true;
-    };
-
-    // Make questionnaire data structure.
-    i = -1, len = this.qNamesAll.length;
-    for ( ; ++i < len ; ) {
-        this.makeQuestion(this.qNamesAll[i]);
-    }
+//     this.makeQuestion = function(name) {
+//         if ('string' !== typeof name || name.trim() === '') {
+//             throw new TypeError('makeQuestion: name must be ' +
+//                                 'non-empty string: ' + name);
+//         }
+//         if (node.game.questionnaire[name]) {
+//             throw new TypeError('makeQuestion: question with same name ' +
+//                                 'already existing: ' + name);
+//         }
+//         node.game.questionnaire[name] = { numberOfClicks: 0 };
+//     };
+// 
+//     this.makeChoiceTD = function(e) {
+//         var item, name, value, td, q, oldSelected, form;
+//         e = e || window.event;
+//         td = e.target || e.srcElement;
+//         // Id of elements are in the form of name_value or name_item_value.
+//         value = td.id.split('_');
+//         if (value.length === 2) {
+//             name = value[0];
+//             value = value[1];
+//             q = node.game.questionnaire;
+//         }
+//         else {            
+//             name = value[0];
+//             item = value[1];
+//             value = value[2];
+//             // TODO: improve here.
+//             q = node.game.questionnaire[name];
+//             name = item;
+//             if (!q[name]) q[name] = { numberOfClicks: 0 };
+//         }
+// 
+//         oldSelected = q[name].oldSelected;
+//         if (oldSelected) oldSelected.className = ''
+// 
+//         ++q[name].numberOfClicks;
+//         q[name].currentAnswer = value;
+// 
+//         td.className = 'selected';
+//         q[name].oldSelected = td;
+// 
+//         // Remove any warning/error from form on click.
+//         form = W.getElementById(name);
+//         if (form) form.style.border = '';    
+// 
+//         node.game.donebutton.setText('Click here when you are done!');
+//         
+//         // In case we want to add a radio button.
+//         // input = td.children[0];
+//         // input.checked = true;
+//     };
+// 
+//     // Make questionnaire data structure.
+//     i = -1, len = this.qNamesAll.length;
+//     for ( ; ++i < len ; ) {
+//         this.makeQuestion(this.qNamesAll[i]);
+//     }
 }
 
 function submission() {
