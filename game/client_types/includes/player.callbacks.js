@@ -350,7 +350,6 @@ function init() {
             seeMore.onclick = function() {
                 var idxShow, idxHide, trShow, trHide;
                 // Restarting modular index.
-debugger
                 if (node.game.subSliders[ex] === 1) idxHide = nTR;
                 else idxHide = node.game.subSliders[ex]-1;
                 trHide = table.getTR((idxHide-1));
@@ -379,91 +378,6 @@ debugger
         }
 
     };
-
-//     this.addImagesToEx = function(ex) {
-//         var i, len, nTR, winners, container;
-//         var table, y, row, seeMore;
-//
-//         container = W.getElementById('ex-' + ex);
-//
-//         winners = node.game.winners[ex];
-//         len = winners.length;
-//         if (!len) {
-//             W.getElementById('span-past-images-' + ex)
-//                 .style.display = 'none';
-//             container.innerHTML = '<span class="noimages">' +
-//                 'No past images yet</span>';
-//             return;
-//         }
-//
-//         // Number of rows in the table.
-//         nTR = (len % 2 === 0) ? Math.floor(len / 2) : Math.floor(len / 2) + 1;
-//         // Update index of visible row (first row = last images);
-//         node.game.subSliders[ex] = 1;
-//
-//         table = new W.Table({
-//             className: 'exhibition',
-//             render: {
-//                 pipeline: node.game.renderCF,
-//                 returnAt: 'first'
-//             },
-//             id: 'tbl-ex-' + ex,
-//             tr: function(tr, row) {
-//                 if ('number' !== typeof row) return;
-//                 if (row !== 0) tr.style.display = 'none';
-//             }
-//         });
-//
-//         row = new Array(2);
-//         i = -1, y = -1;
-//         for ( ; ++i < len ; ) {
-//             y = i % 2;
-//             row[y] = winners[i];
-//             if (y === 1) table.addRow(row);
-//         }
-//         y = i % 2;
-//         if (y === 1) table.addRow([row[0]]);
-//
-//         table.parse();
-//         container.appendChild(table.table);
-//
-//         if (len > 2) {
-//             // Add last row to control visible rows (if needed).
-//             seeMore = document.createElement('span');
-//             seeMore.innerHTML = 'See more';
-//             seeMore.className = 'seemore';
-//
-//             seeMore.onclick = function() {
-//                 var idxShow, idxHide, trShow, trHide;
-//
-//                 idxHide = node.game.subSliders[ex];
-//                 trHide = table.getTR((idxHide-1));
-//
-//                 if (!trHide) {
-//                     console.log('Error... trHide not found.');
-//                     return;
-//                 }
-//
-//                 if (idxHide < nTR) node.game.subSliders[ex]++;
-//                 else node.game.subSliders[ex] = 1;
-//
-//                 idxShow = node.game.subSliders[ex];
-//                 trShow = table.getTR((idxShow-1));
-//
-//                 if (!trShow) {
-//                     console.log('Error... trShow not found.');
-//                     return;
-//                 }
-//
-//                 trHide.style.display = 'none';
-//                 trShow.style.display = '';
-//
-//             };
-//             container.appendChild(seeMore);
-//         }
-//
-//     };
-
 
 //     this.makeQuestion = function(name) {
 //         if ('string' !== typeof name || name.trim() === '') {
