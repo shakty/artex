@@ -70,8 +70,8 @@ module.exports = {
     exC: {
         competition: 'tournament',
         threshold : -1,
-        N: 5,
-        reward: 100
+        N: 4,
+        reward: 125
     },
 
 
@@ -81,12 +81,13 @@ module.exports = {
         instructions: 90000,
         quiz: 60000,
         creation: function() {
+            return 3000;
             if (node.player.stage.round < 2) return 80000;
             if (node.player.stage.round < 3) return 60000;
             return 50000;
         },
-        evaluation: 20000,
-        dissemination: 15000,
+        evaluation: 2000, // 20000,
+        dissemination: 150000,
         questionnaire: 20000
     },
 

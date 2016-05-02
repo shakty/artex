@@ -37,7 +37,7 @@ function init() {
         });
 
         node.game.money = node.widgets.append('MoneyTalks', header, {
-            currency: 'CHF', money: 10
+            currency: 'POINTS', money: 10
         });
 
         node.game.donebutton = node.widgets.append('DoneButton', header, {
@@ -513,7 +513,7 @@ function dissemination() {
                 str += 'Congratulations! You published in exhibition: ';
                 str += '<strong>' + msg.data.ex + '</strong>. ';
                 str += 'You earned <strong>' + msg.data.payoff;
-                str += ' CHF</strong>. ';
+                str += ' points</strong>. ';
                 node.emit('MONEYTALKS', parseFloat(msg.data.payoff));
             }
             else {

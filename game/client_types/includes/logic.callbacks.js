@@ -265,12 +265,133 @@ function evaluation() {
     console.log('evaluation');
 }
 
+// function dissemination() {
+//     var ex, author, cf, mean, player, works;
+//     var nextRoundReviewer, player_result;
+//     var i, j, k, len;
+//     var idEx, nPubs, s;
+//     var submissionRound;
+// 
+//     // Array of all the selected works (by exhibition);
+//     var selected;
+//     // Results of the round (by author)
+//     var player_results;
+// 
+//     // Prepare result arrays.
+//     // Contains the selected images by exhibitions.
+//     selected = { A: [], B: [], C: [] };
+//     // Contains the individual result for every player.
+//     player_results = [];
+//     submissionRound = this.getPreviousStep(2);
+//     // Loop through exhibitions.
+//     for (i = 0; i < this.last_submissions.length; i++) {
+// 
+//         // Groups all the reviews for an artist.
+//         works = this.last_submissions[i];
+// 
+//         // Exhibition.
+//         ex = this.settings.exhibitNames[i];    
+// 
+//         // Collect all reviews and compute mean.
+//         for (j = 0; j < works.length; j++) {
+//             player = works[j].player;
+//             if (!this.last_reviews[player]) {
+//                 node.err('No reviews for player: ' + player +
+//                          '. This should not happen. Some results are missing.');
+//                 continue;
+//             }
+//             author = this.pl.id.get(player);
+//             if (!author) {
+//                 node.err('No author found. This should not happen. ' +
+//                          'Some results are missing.');
+//                 continue;
+//             }
+// 
+//             // Compute average review score.
+//             mean = 0;
+//             k = -1, len = this.last_reviews[player].length;
+//             for ( ; ++k < len ; ) {
+//                 mean += this.last_reviews[player][k]
+//             }
+//             mean = mean / this.last_reviews[player].length;
+// 
+//             // Cf.
+//             cf = works[j].cf;
+// 
+//             // Player is a submitter: second choice reviewer.
+//             nextRoundReviewer = 1;
+// 
+//             player_result = {
+//                 player: player,
+//                 author: author.name || player.substr(player.length -5),
+//                 mean: mean.toFixed(2),
+//                 ex: ex,
+//                 round: submissionRound,
+//                 payoff: 0 // will be updated later
+//             };
+// 
+//             // Threshold.
+//             if (mean > settings.threshold) {
+//                 // Mark that there is at least one winner.
+//                 selected.winners = true;
+// 
+//                 J.mixin(player_result, {
+//                     cf: cf,
+//                     id: author.name,
+//                     round: node.game.getCurrentGameStage().toHash('S.r'),
+//                     pc: author.pc,
+//                     published: true
+//                 });
+// 
+//                 selected[ex].push(player_result);
+// 
+//                 // Player will be first choice as a reviewer
+//                 // in exhibition i
+//                 nextRoundReviewer = 0;
+//             }
+// 
+//             // Add player to the list of next reviewers for the
+//             // exhibition where he submitted / published
+//             this.nextround_reviewers[i][nextRoundReviewer].push(player);
+// 
+//             // Add results for single player
+//             player_results.push(player_result);
+//         }
+//     }
+// 
+//     // Dispatch exhibition results to ROOM.
+//     node.say('WIN_CF', 'ROOM', selected);
+// 
+//     // Compute individual payoffs and send them to each player.
+//     i = -1, len = player_results.length;
+//     for ( ; ++i < len ; ) {
+//         r = player_results[i];
+// 
+//         if (r.published) {
+//             if (node.game.settings.com) {
+//                 idEx = node.game.exhibitions[r.ex];
+//                 nPubs = node.game.nextround_reviewers[idEx][0].length;
+//                 r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
+//             }
+//             else {
+//                 r.payoff = node.game.settings.payoff;
+//             }
+//             // Update global payoff.
+//             code = channel.registry.getClient(r.player);
+//             code.bonus = code.bonus ? code.bonus + r.payoff : r.payoff;
+//         }
+//         node.say('PLAYER_RESULT', r.player, r);
+//     }
+// 
+//     console.log('dissemination');
+// }
+
+
 function dissemination() {
     var ex, author, cf, mean, player, works;
     var nextRoundReviewer, player_result;
     var i, j, k, len;
     var idEx, nPubs, s;
-    var submissionRound;
 
     // Array of all the selected works (by exhibition);
     var selected;
@@ -282,129 +403,7 @@ function dissemination() {
     selected = { A: [], B: [], C: [] };
     // Contains the individual result for every player.
     player_results = [];
-    submissionRound = this.getPreviousStep(2);
-    // Loop through exhibitions.
-    for (i = 0; i < this.last_submissions.length; i++) {
 
-        // Groups all the reviews for an artist.
-        works = this.last_submissions[i];
-
-        // Exhibition.
-        ex = this.settings.exhibitNames[i];    
-
-        // Collect all reviews and compute mean.
-        for (j = 0; j < works.length; j++) {
-            player = works[j].player;
-            if (!this.last_reviews[player]) {
-                node.err('No reviews for player: ' + player +
-                         '. This should not happen. Some results are missing.');
-                continue;
-            }
-            author = this.pl.id.get(player);
-            if (!author) {
-                node.err('No author found. This should not happen. ' +
-                         'Some results are missing.');
-                continue;
-            }
-
-            // Compute average review score.
-            mean = 0;
-            k = -1, len = this.last_reviews[player].length;
-            for ( ; ++k < len ; ) {
-                mean += this.last_reviews[player][k]
-            }
-            mean = mean / this.last_reviews[player].length;
-
-            // Cf.
-            cf = works[j].cf;
-
-            // Player is a submitter: second choice reviewer.
-            nextRoundReviewer = 1;
-
-            player_result = {
-                player: player,
-                author: author.name || player.substr(player.length -5),
-                mean: mean.toFixed(2),
-                ex: ex,
-                round: submissionRound,
-                payoff: 0 // will be updated later
-            };
-
-            // Threshold.
-            if (mean > settings.threshold) {
-                // Mark that there is at least one winner.
-                selected.winners = true;
-
-                J.mixin(player_result, {
-                    cf: cf,
-                    id: author.name,
-                    round: node.game.getCurrentGameStage().toHash('S.r'),
-                    pc: author.pc,
-                    published: true
-                });
-
-                selected[ex].push(player_result);
-
-                // Player will be first choice as a reviewer
-                // in exhibition i
-                nextRoundReviewer = 0;
-            }
-
-            // Add player to the list of next reviewers for the
-            // exhibition where he submitted / published
-            this.nextround_reviewers[i][nextRoundReviewer].push(player);
-
-            // Add results for single player
-            player_results.push(player_result);
-        }
-    }
-
-    // Dispatch exhibition results to ROOM.
-    node.say('WIN_CF', 'ROOM', selected);
-
-    // Compute individual payoffs and send them to each player.
-    i = -1, len = player_results.length;
-    for ( ; ++i < len ; ) {
-        r = player_results[i];
-
-        if (r.published) {
-            if (node.game.settings.com) {
-                idEx = node.game.exhibitions[r.ex];
-                nPubs = node.game.nextround_reviewers[idEx][0].length;
-                r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
-            }
-            else {
-                r.payoff = node.game.settings.payoff;
-            }
-            // Update global payoff.
-            code = channel.registry.getClient(r.player);
-            code.bonus = code.bonus ? code.bonus + r.payoff : r.payoff;
-        }
-        node.say('PLAYER_RESULT', r.player, r);
-    }
-
-    console.log('dissemination');
-}
-
-
-function dissemination() {
-    var ex, author, cf, mean, player, works;
-    var nextRoundReviewer, player_result;
-    var i, j, k, len;
-    var idEx, nPubs, s;
-    // var submissionRound;
-
-    // Array of all the selected works (by exhibition);
-    var selected;
-    // Results of the round (by author)
-    var player_results;
-
-    // Prepare result arrays.
-    // Contains the selected images by exhibitions.
-    selected = { A: [], B: [], C: [] };
-    // Contains the individual result for every player.
-    player_results = [];
-    // submissionRound = this.getPreviousStep(2);
     // Loop through exhibitions.
     for (i = 0; i < this.last_submissions.length; i++) {
 
@@ -453,7 +452,6 @@ function dissemination() {
                 author: author.name || player.substr(player.length -5),
                 mean: Number(mean.toFixed(2)),
                 ex: ex,
-                // round: submissionRound,
                 round: node.game.getCurrentGameStage().toHash('S.r'),
                 cf: cf,
                 id: author.name,
@@ -468,15 +466,18 @@ function dissemination() {
 
                     player_result.published = true;                    
                    
-                    player_resylts.round =
-                        
-
                     selected[ex].push(player_result);
 
                     // Player will be first choice as a reviewer
                     // in exhibition i
                     nextRoundReviewer = 0;
+
+                    
                 }
+            }
+            else {
+                // Tournament. (push anyway).
+                selected[ex].push(player_result);
             }
 
             // Add player to the list of next reviewers for the
@@ -489,7 +490,7 @@ function dissemination() {
 
         if (s.competition === 'tournament') {
             selected.winners = true;
-            selected[ex] = player_results.sort(function(a, b) {
+            selected[ex].sort(function(a, b) {
                 if (a.mean > b.mean) return -1;
                 if (b.mean > a.mean) return 1;
                 return 0;
@@ -499,8 +500,7 @@ function dissemination() {
             j = -1, len = selected[ex].length;
             for ( ; ++j < len ; ) {
                 selected[ex][j].published = true;
-            }
-
+            }            
         }
     }
 
@@ -513,13 +513,20 @@ function dissemination() {
         r = player_results[i];
 
         if (r.published) {
-            if (node.game.settings.com) {
-                idEx = node.game.exhibitions[r.ex];
-                nPubs = node.game.nextround_reviewers[idEx][0].length;
-                r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
+            s = settings['ex' + r.ex];
+            if (s.competition === 'threshold') {
+                if (node.game.settings.com) {
+                    idEx = node.game.exhibitions[r.ex];
+                    nPubs = selected[r.ex].length;
+                    r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
+                }
+                else {
+                    r.payoff = node.game.settings.payoff;
+                }
             }
+            // 'tournament'
             else {
-                r.payoff = node.game.settings.payoff;
+                r.payoff = s.reward;
             }
             // Update global payoff.
             code = channel.registry.getClient(r.player);
