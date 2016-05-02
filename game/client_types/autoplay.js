@@ -31,7 +31,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             _cb.call(this);
             if (stepObj.id === 'submission') {
                 node.game.last_cf = node.game.cf.getAllValues();
-                node.game.last_ex = 'A';
+                node.game.last_ex =
+                    node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
             }
             node.timer.randomDone();
         };
