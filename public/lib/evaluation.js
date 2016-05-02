@@ -31,12 +31,6 @@ $(document).ready(function() {
         if (msg.data.C && msg.data.C.length) makeReviewUI(msg.data.C);
     });
 
-    node.env('auto', function(){
-        node.timer.randomExec(function() {
-            node.done();
-        }, 4000);
-    });
-
     function makeReviewUI(exData) {
         var cf, display, display_container, sl, head;
         var ex, author, evaId, displayEvaId, displayContId;
@@ -112,11 +106,8 @@ $(document).ready(function() {
 
             // AUTOPLAY.
             node.env('auto', function() {
-                node.timer.randomExec(function() {
-                    $("#" + evaId).slider("value", Math.random() * 10);
-                    $("#" + diplayEvaId).val($("#" + evaId)
-                                             .slider("value"));
-                }, 2000);
+                $("#" + evaId).slider("value", Math.random() * 10);
+                $("#" + diplayEvaId).val($("#" + evaId).slider("value"));
             });
         }
     }

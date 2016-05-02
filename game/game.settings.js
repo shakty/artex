@@ -15,7 +15,7 @@ module.exports = {
     MIN_PLAYERS: 2,
 
     // Number or rounds to repeat the bidding. *
-    REPEAT: 2,
+    REPEAT: 20,
 
     // Number of coins to split. *
     COINS: 100,
@@ -81,12 +81,11 @@ module.exports = {
         instructions: 90000,
         quiz: 60000,
         creation: function() {
-            return 3000;
             if (node.player.stage.round < 2) return 80000;
             if (node.player.stage.round < 3) return 60000;
             return 50000;
         },
-        evaluation: 2000, // 20000,
+        evaluation: 20000,
         dissemination: 150000,
         questionnaire: 20000
     },

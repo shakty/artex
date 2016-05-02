@@ -34,6 +34,10 @@ span.ex-header {
     font-weight: bold;
 }
 
+span#eva-text {
+    font-size: 20px;
+}
+
 img.sliderimage {
     display: block;
     margin-left: 10%;

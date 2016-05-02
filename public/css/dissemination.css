@@ -8,6 +8,10 @@ div#container_exhibition {
     margin-top: 20px;
 }
 
+span#results {
+    font-size: 22px;
+}
+
 div#results {
     float: right;
     height: 100px;

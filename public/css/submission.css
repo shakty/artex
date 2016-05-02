@@ -66,6 +66,7 @@ table#table-decision {
 
 td#td-A, td#td-B, td#td-C {
     padding: 20px;
+    padding-bottom: 0;
     width: 300px;
     text-align: center;
     height: 50px;
@@ -76,7 +77,6 @@ td#td-A, td#td-B, td#td-C {
 table#table-decision td:last-child {
     border-right: 0;
 }
-
 
 table#table-decision input {
     width: 98%;

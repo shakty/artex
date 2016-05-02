@@ -21,49 +21,6 @@ $(document).ready(function() {
         });
     };
 
-    function initSubmitDialog() {
-        var dialog_options;
-
-        dialog_options = {
-            autoOpen: false,
-            resizable: false,
-            width: 550,
-            height: node.env.review_select ? 310 : 300,
-            modal: true,
-            zindex: 100,
-            closeOnEscape: false,
-            close: function() {
-                return false;
-            },
-        };
-
-        if (!node.game.timer.isTimeup()) {
-            dialog_options.buttons = {
-                Cancel: function() {
-                    $(this).dialog('close');
-                }
-            };
-        }
-
-        node.game.timer.gameTimer.restart({
-            milliseconds: 20000,
-            timeup: function() {
-                var ex;
-        	// Submit to the last one, if any.
-                if (node.game.last_ex) {
-                    ex = node.game.last_ex;
-                }
-                else {
-                    ex = node.game.exhibitNames[
-                        J.randomInt(node.game.nExhibits)-1];
-                }
-                node.done(ex);
-            }
-        })
-
-        $('#sub_list').dialog(dialog_options);
-    }
-
     // TODO: do we need as an emit? Can we do it inside the jQuery dialog?
     node.on('COPIED', function(f) {
         node.game.cf.draw(f);
@@ -132,19 +89,10 @@ $(document).ready(function() {
         historyDiv.appendChild(node.game.all_ex.getRoot());
     }
     else {
-        historyDiv.appendChild(
-            document.createTextNode('No past exhibitions yet.'));
+        historyDiv.innerHTML = '<em>No past exhibitions yet.</em>';
     }
 
     // Canvas tooltip.
     node.events.step.emit('canvas_tooltip');
-
-    // AUTOPLAY
-    ////////////
-//     node.env('auto', function() {
-//     	node.timer.randomExec(function() {
-//             W.getElementById('done_button_box').click();
-// 	}, 2000);
-//     });
 
 });

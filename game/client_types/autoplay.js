@@ -33,8 +33,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 node.game.last_cf = node.game.cf.getAllValues();
                 node.game.last_ex =
                     node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
+                if (node.player.stage.round < 5) node.timer.randomDone();
             }
-            node.timer.randomDone();
+            else {
+                node.timer.randomDone();
+            }
         };
         return o;
     });

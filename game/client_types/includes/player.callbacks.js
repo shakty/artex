@@ -13,7 +13,7 @@ module.exports = {
 };
 
 function init() {
-    var that, header;    
+    var that, header;
     var i, len;
 
     that = this;
@@ -28,18 +28,25 @@ function init() {
         // Uncomment to visualize the name of the stages.
         //node.game.visualStage = node.widgets.append('VisualStage', header);
 
-
         node.game.timer = node.widgets.append('VisualTimer', header);
 
         node.game.rounds = node.widgets.append('VisualRound', header, {
             displayModeNames: ['COUNT_UP_STAGES_TO_TOTAL'],
-            totStageOffset: 1
+            totStageOffset: 1,
+            title: 'Timer:'
         });
 
-        node.game.money = node.widgets.append('MoneyTalks', header, {
-            currency: 'POINTS', money: 10
-        });
 
+        if (node.game.settings.competition === 'tournament') {
+            node.game.money = node.widgets.append('MoneyTalks', header, {
+                currency: '', title: 'Points:', precision: 0
+            });
+        }
+        else {
+            node.game.money = node.widgets.append('MoneyTalks', header, {
+                currency: 'CHF', money: 10,
+            });
+        }
         node.game.donebutton = node.widgets.append('DoneButton', header, {
             text: 'Click here when you are done!'
         });
@@ -139,13 +146,13 @@ function init() {
     this.qNames = [ 'enjoy', 'competitive', 'exbeau', 'exinn', 'exfair' ];
 
     // Names of the questionnaire forms ids (additional).
-    this.qNamesExtra = [ 
+    this.qNamesExtra = [
         'creation', 'submission', 'review', 'copy',
         'specialization', 'ui', 'freecomment'
     ];
 
     // All ids of questionnaire forms.
-    this.qNamesAll = this.qNames.concat(this.qNamesExtra); 
+    this.qNamesAll = this.qNames.concat(this.qNamesExtra);
 
     // List of all past exhibitions.
     this.all_ex = new W.List({
@@ -165,9 +172,13 @@ function init() {
         stepName = node.game.getCurrentStepObj().id;
 
         // Adjust dimensions depending on the step.
-        if (stepName === 'creation' || stepName === 'submission') {
+        if (stepName === 'creation') {
             w = 100;
             h = 100;
+        }
+        else if (stepName === 'submission') {
+            w = 50;
+            h = 50;
         }
         else {
             w = 200;
@@ -280,8 +291,10 @@ function init() {
         var i, len, nTR, winners, container;
         var table, y, row, seeMore;
 
-        container = W.getElementById('ex-' + ex);
+        var IMGS_4_ROW = 4;
+        var ROWS_2_SHOW = 2;
 
+        container = W.getElementById('ex-' + ex);
         winners = node.game.winners[ex];
         len = winners.length;
         if (!len) {
@@ -293,9 +306,11 @@ function init() {
         }
 
         // Number of rows in the table.
-        nTR = (len % 2 === 0) ? Math.floor(len / 2) : Math.floor(len / 2) + 1;
-        // Update index of visible row (first row = last images);
-        node.game.subSliders[ex] = 1;
+        nTR = Math.floor(len / IMGS_4_ROW);
+        if (len % IMGS_4_ROW !== 0) nTR++;
+
+        // Pointer to last visible row (first row = last images).
+        node.game.subSliders[ex] = ROWS_2_SHOW;
 
         table = new W.Table({
             className: 'exhibition',
@@ -306,33 +321,38 @@ function init() {
             id: 'tbl-ex-' + ex,
             tr: function(tr, row) {
                 if ('number' !== typeof row) return;
-                if (row !== 0) tr.style.display = 'none';
+                if (row >= ROWS_2_SHOW) tr.style.display = 'none';
             }
         });
 
-        row = new Array(2);
+        row = new Array(IMGS_4_ROW);
         i = -1, y = -1;
         for ( ; ++i < len ; ) {
-            y = i % 2;
+            y = i % IMGS_4_ROW;
             row[y] = winners[i];
-            if (y === 1) table.addRow(row);
+            if (y === (IMGS_4_ROW-1)) {
+                table.addRow(row);
+                row = new Array(IMGS_4_ROW);
+            }
         }
-        y = i % 2;
-        if (y === 1) table.addRow([row[0]]);
+        y = i % IMGS_4_ROW;
+        if (y !== 0) table.addRow(row.splice(0, y));
 
         table.parse();
         container.appendChild(table.table);
 
-        if (len > 2) {
+        if (len > (IMGS_4_ROW * ROWS_2_SHOW)) {
             // Add last row to control visible rows (if needed).
-            seeMore = document.createElement('span');
+            seeMore = document.createElement('button');
             seeMore.innerHTML = 'See more';
-            seeMore.className = 'seemore';
+            seeMore.className = 'seemore btn btn-default';
 
             seeMore.onclick = function() {
                 var idxShow, idxHide, trShow, trHide;
-
-                idxHide = node.game.subSliders[ex];
+                // Restarting modular index.
+debugger
+                if (node.game.subSliders[ex] === 1) idxHide = nTR;
+                else idxHide = node.game.subSliders[ex]-1;
                 trHide = table.getTR((idxHide-1));
 
                 if (!trHide) {
@@ -340,7 +360,7 @@ function init() {
                     return;
                 }
 
-                if (idxHide < nTR) node.game.subSliders[ex]++;
+                if (node.game.subSliders[ex] < nTR) node.game.subSliders[ex]++;
                 else node.game.subSliders[ex] = 1;
 
                 idxShow = node.game.subSliders[ex];
@@ -360,6 +380,90 @@ function init() {
 
     };
 
+//     this.addImagesToEx = function(ex) {
+//         var i, len, nTR, winners, container;
+//         var table, y, row, seeMore;
+//
+//         container = W.getElementById('ex-' + ex);
+//
+//         winners = node.game.winners[ex];
+//         len = winners.length;
+//         if (!len) {
+//             W.getElementById('span-past-images-' + ex)
+//                 .style.display = 'none';
+//             container.innerHTML = '<span class="noimages">' +
+//                 'No past images yet</span>';
+//             return;
+//         }
+//
+//         // Number of rows in the table.
+//         nTR = (len % 2 === 0) ? Math.floor(len / 2) : Math.floor(len / 2) + 1;
+//         // Update index of visible row (first row = last images);
+//         node.game.subSliders[ex] = 1;
+//
+//         table = new W.Table({
+//             className: 'exhibition',
+//             render: {
+//                 pipeline: node.game.renderCF,
+//                 returnAt: 'first'
+//             },
+//             id: 'tbl-ex-' + ex,
+//             tr: function(tr, row) {
+//                 if ('number' !== typeof row) return;
+//                 if (row !== 0) tr.style.display = 'none';
+//             }
+//         });
+//
+//         row = new Array(2);
+//         i = -1, y = -1;
+//         for ( ; ++i < len ; ) {
+//             y = i % 2;
+//             row[y] = winners[i];
+//             if (y === 1) table.addRow(row);
+//         }
+//         y = i % 2;
+//         if (y === 1) table.addRow([row[0]]);
+//
+//         table.parse();
+//         container.appendChild(table.table);
+//
+//         if (len > 2) {
+//             // Add last row to control visible rows (if needed).
+//             seeMore = document.createElement('span');
+//             seeMore.innerHTML = 'See more';
+//             seeMore.className = 'seemore';
+//
+//             seeMore.onclick = function() {
+//                 var idxShow, idxHide, trShow, trHide;
+//
+//                 idxHide = node.game.subSliders[ex];
+//                 trHide = table.getTR((idxHide-1));
+//
+//                 if (!trHide) {
+//                     console.log('Error... trHide not found.');
+//                     return;
+//                 }
+//
+//                 if (idxHide < nTR) node.game.subSliders[ex]++;
+//                 else node.game.subSliders[ex] = 1;
+//
+//                 idxShow = node.game.subSliders[ex];
+//                 trShow = table.getTR((idxShow-1));
+//
+//                 if (!trShow) {
+//                     console.log('Error... trShow not found.');
+//                     return;
+//                 }
+//
+//                 trHide.style.display = 'none';
+//                 trShow.style.display = '';
+//
+//             };
+//             container.appendChild(seeMore);
+//         }
+//
+//     };
+
 
 //     this.makeQuestion = function(name) {
 //         if ('string' !== typeof name || name.trim() === '') {
@@ -372,7 +476,7 @@ function init() {
 //         }
 //         node.game.questionnaire[name] = { numberOfClicks: 0 };
 //     };
-// 
+//
 //     this.makeChoiceTD = function(e) {
 //         var item, name, value, td, q, oldSelected, form;
 //         e = e || window.event;
@@ -384,7 +488,7 @@ function init() {
 //             value = value[1];
 //             q = node.game.questionnaire;
 //         }
-//         else {            
+//         else {
 //             name = value[0];
 //             item = value[1];
 //             value = value[2];
@@ -393,27 +497,27 @@ function init() {
 //             name = item;
 //             if (!q[name]) q[name] = { numberOfClicks: 0 };
 //         }
-// 
+//
 //         oldSelected = q[name].oldSelected;
 //         if (oldSelected) oldSelected.className = ''
-// 
+//
 //         ++q[name].numberOfClicks;
 //         q[name].currentAnswer = value;
-// 
+//
 //         td.className = 'selected';
 //         q[name].oldSelected = td;
-// 
+//
 //         // Remove any warning/error from form on click.
 //         form = W.getElementById(name);
-//         if (form) form.style.border = '';    
-// 
+//         if (form) form.style.border = '';
+//
 //         node.game.donebutton.setText('Click here when you are done!');
-//         
+//
 //         // In case we want to add a radio button.
 //         // input = td.children[0];
 //         // input.checked = true;
 //     };
-// 
+//
 //     // Make questionnaire data structure.
 //     i = -1, len = this.qNamesAll.length;
 //     for ( ; ++i < len ; ) {
@@ -445,6 +549,7 @@ function submission() {
         this.addImagesToEx('B');
         this.addImagesToEx('C');
 
+        node.events.step.emit('canvas_tooltip');
     });
     console.log('Submission');
 }
@@ -506,15 +611,16 @@ function dissemination() {
         });
 
         node.on.data('PLAYER_RESULT', function(msg) {
+            var str;
             if (!msg.data) return;
-            var str = '';
             // Create string.
+            str = '';
             if (msg.data.published) {
                 str += 'Congratulations! You published in exhibition: ';
                 str += '<strong>' + msg.data.ex + '</strong>. ';
                 str += 'You earned <strong>' + msg.data.payoff;
                 str += ' points</strong>. ';
-                node.emit('MONEYTALKS', parseFloat(msg.data.payoff));
+                node.game.money.update(parseFloat(msg.data.payoff));
             }
             else {
                 str += 'Sorry, you got rejected by exhibition: ' +

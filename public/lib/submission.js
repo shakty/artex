@@ -8,7 +8,7 @@ $(document).ready(function() {
            node.game.subOrder[1] + '-past-images',
            node.game.subOrder[2] + '-past-images'
           ];
-    J.shuffleNodes(document.getElementById("tr-past-images"), ids);
+    J.shuffleElements(document.getElementById("tr-past-images"), ids);
     
     document.getElementById('reward-A').innerHTML = node.game.settings.exA.reward;
     document.getElementById('reward-B').innerHTML = node.game.settings.exB.reward;
