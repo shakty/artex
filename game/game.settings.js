@@ -46,6 +46,35 @@ module.exports = {
     // Number of players in each group.
     nPlayers: 9,
 
+    // competition: 'threshold' or 'tournament'.
+    //   - 'threshold' will publish all images with average review > threshold
+    //   - 'tournament' will rank all images by average review score and
+    //   -    will publish the first N (can be different by exhibition).
+
+    competition: 'tournament', 
+
+    exA: {
+        competition: 'tournament',
+        threshold : -1,
+        N: 1,
+        reward: 500
+    },
+
+    exB: {
+        competition: 'tournament',
+        threshold : -1,
+        N: 2,
+        reward: 250
+    },
+
+    exC: {
+        competition: 'tournament',
+        threshold : -1,
+        N: 5,
+        reward: 100
+    },
+
+
     // Timer values.
     timer: {
 

@@ -1,9 +1,7 @@
 /**
- * # Logic code for Ultimatum Game
- * Copyright(c) 2015 Stefano Balietti
+ * # Logic code for Artex
+ * Copyright(c) 2016 Stefano Balietti
  * MIT Licensed
- *
- * Handles bidding, and responds between two players.
  *
  * http://www.nodegame.org
  */
@@ -56,6 +54,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('submission', {
         init: function() {
+            // Three arrays of submissions by exhibition.
             this.last_submissions = [[], [], []];
             this.memory.on('insert', this.assignSubToEx);
         },
