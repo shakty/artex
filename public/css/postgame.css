@@ -6,7 +6,6 @@ div#quiz form textarea {
     border: 1px solid #CCC;
 }
 
-
 div.choicetable, div.choicetable div.panel-heading, div.choicetable div.panel-body {
     border: 0;
     padding: 0;
@@ -44,8 +43,11 @@ td.selected {
     background: #FFE !important;
 }
 
-p.freetext {
-    margin-top: 20px;
+textarea.choicetable-freetext {
+    margin: 0;
+    margin-top: 20px !important;
+    padding: 5px;
+    float: left;
 }
 
 div#question {

@@ -163,7 +163,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 values = q[name].getAllValues();
                 if (!values.choice) {
                     miss = true;
-                    W.highlight(W.getElementById(name), 'ERR');
+                    q[name].highlight();
                 }
                 else if (!miss) {
                     out[name] = values;

@@ -11,7 +11,8 @@ $(document).ready(function() {
         name = names[i];
         options = {
             tableId: name,
-            title: false
+            title: false,
+            freeText: 'Feel free to report additional relevant information'
         };
 
         if (name === 'enjoy' || name === 'competitive') {
@@ -19,6 +20,7 @@ $(document).ready(function() {
         }
         else {
             options.choices = [ 'A', 'B', 'C', [ 'Other', "Don't know" ] ];
+            options.shuffleChoices = true;
         }
 
         q[name] = node.widgets.append('ChoiceTable',
