@@ -23,7 +23,7 @@ $(document).ready(function() {
         }
 
         q[name] = node.widgets.append('ChoiceTable',
-                                      W.getElementById(name + '_answers'),
+                                      W.getElementById(name),
                                       options);
     }
 });

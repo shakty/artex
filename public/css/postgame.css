@@ -1,4 +1,4 @@
-div#quiz form textarea {
+textarea.choicetable-freetext, div#quiz form p textarea {
     width: 600px;
     height: 50px;
     margin: 5px 0 20px 0;
@@ -20,4 +20,13 @@ table#exfair td {
 
 p.freetext {
     margin-top: 30px;
+}
+
+div#quiz dl dt, div#quiz dl dd, div#quiz form p {
+    margin: 0;
+    padding-left: 20px;
+}
+
+p.question {
+    margin-top: 0;
 }
