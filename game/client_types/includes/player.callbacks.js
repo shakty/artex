@@ -14,7 +14,6 @@ module.exports = {
 
 function init() {
     var that, header;
-    var i, len;
 
     that = this;
     this.node.log('Init.');
@@ -44,7 +43,7 @@ function init() {
         }
         else {
             node.game.money = node.widgets.append('MoneyTalks', header, {
-                currency: 'CHF', money: 10,
+                currency: 'CHF', money: 10
             });
         }
         node.game.donebutton = node.widgets.append('DoneButton', header, {
@@ -151,7 +150,192 @@ function init() {
         'specialization', 'ui', 'freecomment'
     ];
 
-    // All ids of questionnaire forms.
+      
+    // Names of the questionnaire forms ids (additional).
+    this.qNamesExtraSubs = {
+        creation: [
+            {
+                id: 'random',
+                mainText: 'I was changing the image randomly'
+            },
+            {
+                id: 'similar',
+                mainText: 'I aimed at becoming more <em>similar</em> ' +
+                    'to what I saw in the previous round/s'
+            },
+            {
+                id: 'dissimilar',
+                mainText: 'I aimed at becoming more ' +
+                    '<em>dissimilar/unique</em> from ' +
+                    'what I saw in the previous round/s'
+            },
+            {
+                id: 'sim_toex',
+                mainText: 'I aimed at becoming more <em>similar</em> to ' +
+                    'the images displayed in the exhibition where I wanted ' +
+                    'to submit'
+            },
+            {
+                id: 'dis_toex',
+                mainText: 'I aimed at becoming more ' +
+                    '<em>dissimilar/unique</em> to the images' +
+                    'displayed in the exhibition where I wanted to submit'
+            }
+        ],
+        submission: [
+            {
+                id: 'random',
+                mainText: 'I chose randomly'
+            },
+            {
+                id: 'popular',
+                mainText: 'I chose the exhibition that the majority ' +
+                    'of other people was choosing as well'
+            },
+            {
+                id: 'qualityup',
+                mainText: 'I chose based on the quality of the image ' +
+                    'just created: the <em>most</em> beautiful/appealing ' +
+                    'images to the <em>most</em> competitive exhibitions ' +
+                    '(A or B).'
+            },
+            {
+                id: 'qualitydown',
+                mainText: 'I chose based on the quality of the image ' +
+                    'just created: the <em>most</em> beautiful/appealing ' +
+                    'images to the <em>least</em> competitive exhibitions ' +
+                    '(C or B).'
+            },
+            {
+                id: 'innup',
+                mainText: 'I chose based on the innovativeness of the ' +
+                    'image just created: the <em>most</em> innovative ' +
+                    'images to the <em>most</em> competitive exhibitions ' +
+                    '(A or B).'
+            },
+            {
+                id: 'inndown',
+                mainText: 'I chose based on the innovativeness of the ' +
+                    'image just created: the <em>most</em> innovative ' +
+                    'images to the <em>least</em> competitive exhibitions ' +
+                    '(C or B).'
+            },
+            {
+                id: 'fit',
+                mainText: 'I chose the exhibition where my image would ' +
+                    'fit best in terms of style'
+            },
+            {
+                id: 'reward',
+                mainText: 'I chose the exhibition based on the expected reward'
+            }
+        ],
+        review: [
+            {
+                id: 'byex',
+                mainText: 'I considered the exhibition I was reviewing for: ' +
+                    'I was expecting more for images submitted to A, a bit ' +
+                    'less for B, and even less for C'
+            },
+            {
+                id: 'like',
+                mainText: 'I gave higher scores to the images that ' +
+                    'I liked the most'
+            },
+            {
+                id: 'diverse',
+                mainText: 'I gave higher scores to images that were more' +
+                    'diverse/unique'
+            },
+            {
+                id: 'fit',
+                mainText: 'I gave higher scores to images that were fitting ' +
+                    'the style of the exhibition to which they have ' +
+                    'been submitted'
+            },
+            {
+                id: 'sameex',
+                mainText: 'I gave lower scores to images submitted ' +
+                    'to my same exhibition in general'
+            },
+            {
+                id: 'sameexA',
+                mainText: 'When I chose exhibition A, I gave lower ' +
+                    'scores to images submitted A'
+            },
+            {
+                id: 'sameexB',
+                mainText: 'When I chose exhibition B, I gave lower ' +
+                    'scores to images submitted to B'
+            },
+            {
+                id: 'sameexC',
+                mainText: 'When I chose exhibition C, I gave lower ' +
+                    'scores to images submitted to C'
+            }
+        ],
+        copy: [
+            {
+                id: 'never',
+                mainText: 'I seldom or never copied past images'                
+            },
+            {
+                id: 'liked',
+                mainText: 'I copied because I liked an image ' +
+                    'and I thought I that it could improve my style'
+            },
+            {
+                id: 'win_similar',
+                mainText: 'I copied because I thought that submitting ' +
+                    'similar image would increase my chances of winning'
+            },
+            {
+                id: 'savetime',
+                mainText: 'I copied to save time to create something else'
+            },
+            {
+                id: 'newideas',
+                mainText: 'I copied when I was running out of new ideas'
+            },
+            {
+                id: 'copy_old',
+                mainText: 'I copied when I thought that bringing back an ' +
+                    'old image would make me successful'
+            }
+        ],
+        specialization: [
+            {
+                id: 'A',
+                mainText: 'Exhibition A was very different from the others'
+            },
+            {
+                id: 'B',
+                mainText: 'Exhibition B was very different from the others'
+            },
+            {
+                id: 'C',
+                mainText: 'Exhibition C was very different from the others'
+            },
+            {
+                id: 'same',
+                mainText: 'I did not notice any significant difference ' +
+                    'across exhibitions'
+            }
+        ],
+        ui: [
+            {
+                id: 'easy',
+                mainText: 'The interface to create was immediately easy to use'
+            },
+            {
+                id: 'more_options',
+                mainText: 'I wished to have more options to express my ' +
+                    'creativity'
+            }
+        ]
+    };
+
+   // All ids of questionnaire forms.
     this.qNamesAll = this.qNames.concat(this.qNamesExtra);
 
     // List of all past exhibitions.
@@ -442,7 +626,6 @@ function init() {
 function submission() {
     W.loadFrame('submission.html', function() {
         var creaDiv, f, options;
-        var hisDiv;
 
         creaDiv = W.getElementById("creation");
         f = node.game.cf.getAllValues();
@@ -489,8 +672,6 @@ function dissemination() {
         node.game.timer.stop();
 
         node.on.data('WIN_CF', function(msg) {
-            var str, res;
-            var j, winners;
             console.log('WWWWWWWWWIN_CF');
 
             if (!msg.data) {

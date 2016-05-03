@@ -181,6 +181,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('morequestions', {
+        frame: 'morequestions2.html',
         init: function() {
             this.qAvailable = this.qNamesExtra
                 .slice(0, this.qNamesExtra.length -1);
@@ -223,9 +224,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 W.getElementById('h1title').innerHTML = title;
                 // Show new question.
                 W.show(this.qShown);
-            }
+            };
         },
-        frame: 'morequestions.html',
         cb: function() {           
             W.getElementById('onemore').onclick = function() {
                 node.game.showQuestion();
