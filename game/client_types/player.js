@@ -43,7 +43,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('quiz', {
-        frame: 'quiz2.html',
+        frame: 'quiz.html',
         timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {
@@ -165,7 +165,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('questionnaire', {       
-        frame: 'questionnaire2.html',
+        frame: 'questionnaire.html',
         done: function() {
             var name, q, miss, out, i, len, values;
             out = {};
@@ -194,7 +194,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('morequestions', {
-        frame: 'morequestions2.html',
+        frame: 'morequestions.html',
         init: function() {
             this.qAvailable = this.qNamesExtra
                 .slice(0, this.qNamesExtra.length -1);
@@ -219,16 +219,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     obj = {
                         name: this.qShown,
                         globalOrder: (this.qNamesExtra.length - len),
-                        
                     };
-
                     for (i in q[this.qShown]) {
                         if (q[this.qShown].hasOwnProperty(i)) {
                             obj[i] = q[this.qShown][i].getAllValues();
                         }
                     }
 
-                    // Storing value.
+                    // Storing value in the server.
                     node.set(obj);
 
                     W.hide(this.qShown);
@@ -249,6 +247,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 W.getElementById('h1title').innerHTML = title;
                 // Show new question.
                 W.show(this.qShown);
+                // Set the timestamp to measure when users finish the page.
+                node.timer.setTimestamp('question_loaded');
             };
         },
         cb: function() {           

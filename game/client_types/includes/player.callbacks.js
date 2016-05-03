@@ -181,7 +181,7 @@ function init() {
             {
                 id: 'dis_toex',
                 mainText: 'I aimed at becoming more ' +
-                    '<em>dissimilar/unique</em> to the images' +
+                    '<em>dissimilar/unique</em> from the images ' +
                     'displayed in the exhibition where I wanted to submit'
             }
         ],

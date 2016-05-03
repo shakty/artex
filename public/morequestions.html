@@ -8,6 +8,7 @@
 <script src="lib/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
 <!-- JQUERY UI ENDS -->
 
+<link rel='stylesheet' href='/stylesheets/nodegame.css'></link>
 <link rel="stylesheet" type="text/css" href="css/iframe.css">
 <link rel="stylesheet" type="text/css" href="css/quiz.css">
 <link rel="stylesheet" type="text/css" href="css/postgame.css">
@@ -17,7 +18,7 @@
 
     <h1 id="h1title" style="margin: 0 auto">Would you like to answer more questions?</h1>
     <br>
-    <div id="question" style="display: none">
+    <div id="question">
 
       The experiment is now over, and you can decide if you want to
       answer additional questions to help reseachers gaining a better
@@ -43,12 +44,12 @@
         </li>
       </ul>
 
-      <button type="button" class="btn btn-lg btn-success">YES, show me additional questions</button>
-      <button type="button" class="btn btn-lg btn-danger">NO, end this experiment now</button>
+      <button id="yes" type="button" class="btn btn-lg btn-success">YES, show me additional questions</button>
+      <button id="no" type="button" class="btn btn-lg btn-danger">NO, end this experiment now</button>
 
     </div>
 
-    <div id="quiz">
+    <div id="quiz" style="display: none">
 
       <form style="display: none" id="creation">
         <input id="creation_title" type="hidden" value="Creation of New Images" />
@@ -60,110 +61,10 @@
           following statements: <em>(0=min, 10=max)</em>
         </p>
         <dl id="creation_dl">
-          <dt id="creation_random_dt">
-            I was changing the image randomly
-            <table id="creation_random_table">
-              <tr>
-                <td id="creation_random_0">0</td>
-                <td id="creation_random_1">1</td>
-                <td id="creation_random_2">2</td>
-                <td id="creation_random_3">3</td>
-                <td id="creation_random_4">4</td>
-                <td id="creation_random_5">5</td>
-                <td id="creation_random_6">6</td>
-                <td id="creation_random_7">7</td>
-                <td id="creation_random_8">8</td>
-                <td id="creation_random_9">9</td>
-                <td id="creation_random_10">10</td>
-              </tr>
-            </table>
-          </dt>
 
-          <dt id="creation_similar_dt">
-            I aimed at becoming more <em>similar</em> to what I saw in
-            the previous round/s
-            <table id="creation_similar_table">
-              <tr>
-                <td id="creation_similar_0">0</td>
-                <td id="creation_similar_1">1</td>
-                <td id="creation_similar_2">2</td>
-                <td id="creation_similar_3">3</td>
-                <td id="creation_similar_4">4</td>
-                <td id="creation_similar_5">5</td>
-                <td id="creation_similar_6">6</td>
-                <td id="creation_similar_7">7</td>
-                <td id="creation_similar_8">8</td>
-                <td id="creation_similar_9">9</td>
-                <td id="creation_similar_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="creation_dissimilar_dt">
-            I aimed at becoming more <em>dissimilar/unique</em> from
-            what I saw in the previous round/s
-            <table id="creation_dissimilar_table">
-              <tr>
-                <td id="creation_dissimilar_0">0</td>
-                <td id="creation_dissimilar_1">1</td>
-                <td id="creation_dissimilar_2">2</td>
-                <td id="creation_dissimilar_3">3</td>
-                <td id="creation_dissimilar_4">4</td>
-                <td id="creation_dissimilar_5">5</td>
-                <td id="creation_dissimilar_6">6</td>
-                <td id="creation_dissimilar_7">7</td>
-                <td id="creation_dissimilar_8">8</td>
-                <td id="creation_dissimilar_9">9</td>
-                <td id="creation_dissimilar_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="creation_sim_toex_dt">
-            I aimed at becoming more <em>similar</em> to the images
-            displayed in the exhibition where I wanted to submit
-            <table id="creation_sim_toex_table">
-              <tr>
-                <td id="creation_sim_toex_0">0</td>
-                <td id="creation_sim_toex_1">1</td>
-                <td id="creation_sim_toex_2">2</td>
-                <td id="creation_sim_toex_3">3</td>
-                <td id="creation_sim_toex_4">4</td>
-                <td id="creation_sim_toex_5">5</td>
-                <td id="creation_sim_toex_6">6</td>
-                <td id="creation_sim_toex_7">7</td>
-                <td id="creation_sim_toex_8">8</td>
-                <td id="creation_sim_toex_9">9</td>
-                <td id="creation_sim_toex_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="creation_dis_toex_dt">
-            I aimed at becoming more <em>dissimilar/unique</em> to the
-            images displayed in the exhibition where I wanted to
-            submit
-            <table id="creation_dis_toex_table">
-              <tr>
-                <td id="creation_dis_toex_0">0</td>
-                <td id="creation_dis_toex_1">1</td>
-                <td id="creation_dis_toex_2">2</td>
-                <td id="creation_dis_toex_3">3</td>
-                <td id="creation_dis_toex_4">4</td>
-                <td id="creation_dis_toex_5">5</td>
-                <td id="creation_dis_toex_6">6</td>
-                <td id="creation_dis_toex_7">7</td>
-                <td id="creation_dis_toex_8">8</td>
-                <td id="creation_dis_toex_9">9</td>
-                <td id="creation_dis_toex_10">10</td>
-              </tr>
-            </table>
-
-          </dt>
         </dl>
         <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -179,175 +80,12 @@
         </p>
 
         <dl id="submission_dl">
-          <dt id="submission_random_dt">
-            I chose randomly
-            <table id="submission_random_table">
-              <tr>
-                <td id="submission_random_0">0</td>
-                <td id="submission_random_1">1</td>
-                <td id="submission_random_2">2</td>
-                <td id="submission_random_3">3</td>
-                <td id="submission_random_4">4</td>
-                <td id="submission_random_5">5</td>
-                <td id="submission_random_6">6</td>
-                <td id="submission_random_7">7</td>
-                <td id="submission_random_8">8</td>
-                <td id="submission_random_9">9</td>
-                <td id="submission_random_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_popular_dt">
-            I chose the exhibition that the majority of other people
-            was choosing as well
-            <table id="submission_popular_table">
-              <tr>
-                <td id="submission_popular_0">0</td>
-                <td id="submission_popular_1">1</td>
-                <td id="submission_popular_2">2</td>
-                <td id="submission_popular_3">3</td>
-                <td id="submission_popular_4">4</td>
-                <td id="submission_popular_5">5</td>
-                <td id="submission_popular_6">6</td>
-                <td id="submission_popular_7">7</td>
-                <td id="submission_popular_8">8</td>
-                <td id="submission_popular_9">9</td>
-                <td id="submission_popular_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_qualityup_dt">
-            I chose based on the quality of the image just created:
-            the <em>most</em> beautiful/appealing images to the <em>most</em>
-            competitive exhibitions (A or B).
-            <table id="submission_qualityup_table">
-              <tr>
-                <td id="submission_qualityup_0">0</td>
-                <td id="submission_qualityup_1">1</td>
-                <td id="submission_qualityup_2">2</td>
-                <td id="submission_qualityup_3">3</td>
-                <td id="submission_qualityup_4">4</td>
-                <td id="submission_qualityup_5">5</td>
-                <td id="submission_qualityup_6">6</td>
-                <td id="submission_qualityup_7">7</td>
-                <td id="submission_qualityup_8">8</td>
-                <td id="submission_qualityup_9">9</td>
-                <td id="submission_qualityup_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_qualitydown_dt">
-            I chose based on the quality of the image just created:
-            the <em>most</em> beautiful/appealing images to
-            the <em>least</em> competitive exhibitions (C or B).
-            <table id="submission_qualitydown_table">
-              <tr>
-                <td id="submission_qualitydown_0">0</td>
-                <td id="submission_qualitydown_1">1</td>
-                <td id="submission_qualitydown_2">2</td>
-                <td id="submission_qualitydown_3">3</td>
-                <td id="submission_qualitydown_4">4</td>
-                <td id="submission_qualitydown_5">5</td>
-                <td id="submission_qualitydown_6">6</td>
-                <td id="submission_qualitydown_7">7</td>
-                <td id="submission_qualitydown_8">8</td>
-                <td id="submission_qualitydown_9">9</td>
-                <td id="submission_qualitydown_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_innup_dt">
-            I chose based on the innovativeness of the image just
-            created: the <em>most</em> innovative images to
-            the <em>most</em> competitive exhibitions (A or B).
-
-            <table id="submission_innup_table">
-              <tr>
-                <td id="submission_innup_0">0</td>
-                <td id="submission_innup_1">1</td>
-                <td id="submission_innup_2">2</td>
-                <td id="submission_innup_3">3</td>
-                <td id="submission_innup_4">4</td>
-                <td id="submission_innup_5">5</td>
-                <td id="submission_innup_6">6</td>
-                <td id="submission_innup_7">7</td>
-                <td id="submission_innup_8">8</td>
-                <td id="submission_innup_9">9</td>
-                <td id="submission_innup_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_inndown_dt">
-            I chose based on the innovativeness of the image just
-            created: the <em>most</em> innovative images to
-            the <em>least</em> competitive exhibitions (C or B).
-
-            <table id="submission_inndown_table">
-              <tr>
-                <td id="submission_inndown_0">0</td>
-                <td id="submission_inndown_1">1</td>
-                <td id="submission_inndown_2">2</td>
-                <td id="submission_inndown_3">3</td>
-                <td id="submission_inndown_4">4</td>
-                <td id="submission_inndown_5">5</td>
-                <td id="submission_inndown_6">6</td>
-                <td id="submission_inndown_7">7</td>
-                <td id="submission_inndown_8">8</td>
-                <td id="submission_inndown_9">9</td>
-                <td id="submission_inndown_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_fit_dt">
-            I chose the exhibition where my image would fit best in
-            terms of style
-            <table id="submission_fit_table">
-              <tr>
-                <td id="submission_fit_0">0</td>
-                <td id="submission_fit_1">1</td>
-                <td id="submission_fit_2">2</td>
-                <td id="submission_fit_3">3</td>
-                <td id="submission_fit_4">4</td>
-                <td id="submission_fit_5">5</td>
-                <td id="submission_fit_6">6</td>
-                <td id="submission_fit_7">7</td>
-                <td id="submission_fit_8">8</td>
-                <td id="submission_fit_9">9</td>
-                <td id="submission_fit_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="submission_reward_dt">
-            I chose the exhibition based on the expected reward
-            <table id="submission_reward_table">
-              <tr>
-                <td id="submission_reward_0">0</td>
-                <td id="submission_reward_1">1</td>
-                <td id="submission_reward_2">2</td>
-                <td id="submission_reward_3">3</td>
-                <td id="submission_reward_4">4</td>
-                <td id="submission_reward_5">5</td>
-                <td id="submission_reward_6">6</td>
-                <td id="submission_reward_7">7</td>
-                <td id="submission_reward_8">8</td>
-                <td id="submission_reward_9">9</td>
-                <td id="submission_reward_10">10</td>
-              </tr>
-            </table>
-          </dt>
+            
 
         </dl>
 
         <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
 
       </form>
@@ -360,174 +98,13 @@
           Express your agreement with the following
           statements: <em>(0=min, 10=max)</em>
         </p>
-        
 
         <dl id="review_dl">
 
-          <dt id="review_byex_dt">
-            I considered the exhibition I was reviewing for: I was
-            expecting more for images submitted to A, a bit less for
-            B, and even less for C
-            <table id="review_byex_table">
-              <tr>
-                <td id="review_byex_0">0</td>
-                <td id="review_byex_1">1</td>
-                <td id="review_byex_2">2</td>
-                <td id="review_byex_3">3</td>
-                <td id="review_byex_4">4</td>
-                <td id="review_byex_5">5</td>
-                <td id="review_byex_6">6</td>
-                <td id="review_byex_7">7</td>
-                <td id="review_byex_8">8</td>
-                <td id="review_byex_9">9</td>
-                <td id="review_byex_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_like_dt">
-            I gave higher scores to the images that I liked the most
-            <table id="review_like_table">
-              <tr>
-                <td id="review_like_0">0</td>
-                <td id="review_like_1">1</td>
-                <td id="review_like_2">2</td>
-                <td id="review_like_3">3</td>
-                <td id="review_like_4">4</td>
-                <td id="review_like_5">5</td>
-                <td id="review_like_6">6</td>
-                <td id="review_like_7">7</td>
-                <td id="review_like_8">8</td>
-                <td id="review_like_9">9</td>
-                <td id="review_like_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_diverse_dt">
-            I gave higher scores to images that were more
-            diverse/unique
-            <table id="review_diverse_table">
-              <tr>
-                <td id="review_diverse_0">0</td>
-                <td id="review_diverse_1">1</td>
-                <td id="review_diverse_2">2</td>
-                <td id="review_diverse_3">3</td>
-                <td id="review_diverse_4">4</td>
-                <td id="review_diverse_5">5</td>
-                <td id="review_diverse_6">6</td>
-                <td id="review_diverse_7">7</td>
-                <td id="review_diverse_8">8</td>
-                <td id="review_diverse_9">9</td>
-                <td id="review_diverse_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_fit_dt">
-            I gave higher scores to images that wer fitting the style
-            of the exhibition to which they have been submitted
-            <table id="review_fit_table">
-              <tr>
-                <td id="review_fit_0">0</td>
-                <td id="review_fit_1">1</td>
-                <td id="review_fit_2">2</td>
-                <td id="review_fit_3">3</td>
-                <td id="review_fit_4">4</td>
-                <td id="review_fit_5">5</td>
-                <td id="review_fit_6">6</td>
-                <td id="review_fit_7">7</td>
-                <td id="review_fit_8">8</td>
-                <td id="review_fit_9">9</td>
-                <td id="review_fit_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_samex_dt">
-            I gave lower scores to images submitted to my same
-            exhibition in general
-            <table id="review_sameex_table">
-              <tr>
-                <td id="review_sameex_0">0</td>
-                <td id="review_sameex_1">1</td>
-                <td id="review_sameex_2">2</td>
-                <td id="review_sameex_3">3</td>
-                <td id="review_sameex_4">4</td>
-                <td id="review_sameex_5">5</td>
-                <td id="review_sameex_6">6</td>
-                <td id="review_sameex_7">7</td>
-                <td id="review_sameex_8">8</td>
-                <td id="review_sameex_9">9</td>
-                <td id="review_sameex_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_sameexA_dt">
-            When I chose exhibition A, I gave lower scores to images
-            submitted A,
-            <table id="review_sameexA_table">
-              <tr>
-                <td id="review_sameexA_0">0</td>
-                <td id="review_sameexA_1">1</td>
-                <td id="review_sameexA_2">2</td>
-                <td id="review_sameexA_3">3</td>
-                <td id="review_sameexA_4">4</td>
-                <td id="review_sameexA_5">5</td>
-                <td id="review_sameexA_6">6</td>
-                <td id="review_sameexA_7">7</td>
-                <td id="review_sameexA_8">8</td>
-                <td id="review_sameexA_9">9</td>
-                <td id="review_sameexA_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_sameexB_dt">
-            When I chose exhibition B, I gave lower scores to images
-            submitted to B
-            <table id="review_sameexB_table">
-              <tr>
-                <td id="review_sameexB_0">0</td>
-                <td id="review_sameexB_1">1</td>
-                <td id="review_sameexB_2">2</td>
-                <td id="review_sameexB_3">3</td>
-                <td id="review_sameexB_4">4</td>
-                <td id="review_sameexB_5">5</td>
-                <td id="review_sameexB_6">6</td>
-                <td id="review_sameexB_7">7</td>
-                <td id="review_sameexB_8">8</td>
-                <td id="review_sameexB_9">9</td>
-                <td id="review_sameexB_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="review_sameexC_dt">
-            When I chose exhibition C, I gave lower scores to images
-            submitted to C
-            <table id="review_sameexC_table">
-              <tr>
-                <td id="review_sameexC_0">0</td>
-                <td id="review_sameexC_1">1</td>
-                <td id="review_sameexC_2">2</td>
-                <td id="review_sameexC_3">3</td>
-                <td id="review_sameexC_4">4</td>
-                <td id="review_sameexC_5">5</td>
-                <td id="review_sameexC_6">6</td>
-                <td id="review_sameexC_7">7</td>
-                <td id="review_sameexC_8">8</td>
-                <td id="review_sameexC_9">9</td>
-                <td id="review_sameexC_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
         </dl>
         <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+          <br>
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -539,129 +116,10 @@
              with the following statements: <em>(0=min, 10=max)</em>
         </p>
 
-        <dl id="copy_dl">
+        <dl id="copy_dl"></dl>
 
-          <dt id="copy_never_dt">
-            I seldom or never copied past images
-            <table id="copy_never_table">
-              <tr>
-                <td id="copy_never_0">0</td>
-                <td id="copy_never_1">1</td>
-                <td id="copy_never_2">2</td>
-                <td id="copy_never_3">3</td>
-                <td id="copy_never_4">4</td>
-                <td id="copy_never_5">5</td>
-                <td id="copy_never_6">6</td>
-                <td id="copy_never_7">7</td>
-                <td id="copy_never_8">8</td>
-                <td id="copy_never_9">9</td>
-                <td id="copy_never_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="copy_liked_dt">
-            I copied because I liked an image and I thought I that it
-            could improve my style
-            <table id="copy_liked_table">
-              <tr>
-                <td id="copy_liked_0">0</td>
-                <td id="copy_liked_1">1</td>
-                <td id="copy_liked_2">2</td>
-                <td id="copy_liked_3">3</td>
-                <td id="copy_liked_4">4</td>
-                <td id="copy_liked_5">5</td>
-                <td id="copy_liked_6">6</td>
-                <td id="copy_liked_7">7</td>
-                <td id="copy_liked_8">8</td>
-                <td id="copy_liked_9">9</td>
-                <td id="copy_liked_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="copy_win_dt">
-            I copied because I thought that submitting a similar image
-            would increase my chances of winning
-            <table id="copy_win_table">
-              <tr>
-                <td id="copy_win_0">0</td>
-                <td id="copy_win_1">1</td>
-                <td id="copy_win_2">2</td>
-                <td id="copy_win_3">3</td>
-                <td id="copy_win_4">4</td>
-                <td id="copy_win_5">5</td>
-                <td id="copy_win_6">6</td>
-                <td id="copy_win_7">7</td>
-                <td id="copy_win_8">8</td>
-                <td id="copy_win_9">9</td>
-                <td id="copy_win_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="copy_savetime_dt">
-            I copied to save time to create something else
-            <table id="copy_savetime_table">
-              <tr>
-                <td id="copy_savetime_0">0</td>
-                <td id="copy_savetime_1">1</td>
-                <td id="copy_savetime_2">2</td>
-                <td id="copy_savetime_3">3</td>
-                <td id="copy_savetime_4">4</td>
-                <td id="copy_savetime_5">5</td>
-                <td id="copy_savetime_6">6</td>
-                <td id="copy_savetime_7">7</td>
-                <td id="copy_savetime_8">8</td>
-                <td id="copy_savetime_9">9</td>
-                <td id="copy_savetime_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="copy_newideas_dt">
-            I copied when I was running out of new ideas
-            <table id="copy_newideas_table">
-              <tr>
-                <td id="copy_newideas_0">0</td>
-                <td id="copy_newideas_1">1</td>
-                <td id="copy_newideas_2">2</td>
-                <td id="copy_newideas_3">3</td>
-                <td id="copy_newideas_4">4</td>
-                <td id="copy_newideas_5">5</td>
-                <td id="copy_newideas_6">6</td>
-                <td id="copy_newideas_7">7</td>
-                <td id="copy_newideas_8">8</td>
-                <td id="copy_newideas_9">9</td>
-                <td id="copy_newideas_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="copy_old_dt">
-            I copied when I thought that bringing back an old image
-            would make me successful
-            <table id="copy_old_table">
-              <tr>
-                <td id="copy_old_0">0</td>
-                <td id="copy_old_1">1</td>
-                <td id="copy_old_2">2</td>
-                <td id="copy_old_3">3</td>
-                <td id="copy_old_4">4</td>
-                <td id="copy_old_5">5</td>
-                <td id="copy_old_6">6</td>
-                <td id="copy_old_7">7</td>
-                <td id="copy_old_8">8</td>
-                <td id="copy_old_9">9</td>
-                <td id="copy_old_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-        </dl>
-        <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+        <p class="freetext">          
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -676,88 +134,13 @@
         </p>
 
         <dl id="specialization_dl">
-          <dt id="specialization_A_dt">
-            Exhibition A was very different from the others
-            <table id="specialization_A_table">
-              <tr>
-                <td id="specialization_A_0">0</td>
-                <td id="specialization_A_1">1</td>
-                <td id="specialization_A_2">2</td>
-                <td id="specialization_A_3">3</td>
-                <td id="specialization_A_4">4</td>
-                <td id="specialization_A_5">5</td>
-                <td id="specialization_A_6">6</td>
-                <td id="specialization_A_7">7</td>
-                <td id="specialization_A_8">8</td>
-                <td id="specialization_A_9">9</td>
-                <td id="specialization_A_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="specialization_B_dt">
-            Exhibition B was very different from the others
-            <table id="specialization_B_table">
-              <tr>
-                <td id="specialization_B_0">0</td>
-                <td id="specialization_B_1">1</td>
-                <td id="specialization_B_2">2</td>
-                <td id="specialization_B_3">3</td>
-                <td id="specialization_B_4">4</td>
-                <td id="specialization_B_5">5</td>
-                <td id="specialization_B_6">6</td>
-                <td id="specialization_B_7">7</td>
-                <td id="specialization_B_8">8</td>
-                <td id="specialization_B_9">9</td>
-                <td id="specialization_B_10">10</td>
-              </tr>
-            </table>
-
-          </dt>
-
-          <dt id="specialization_C_dt">
-            Exhibition C was very different from the others
-            <table id="specialization_C_table">
-              <tr>
-                <td id="specialization_C_0">0</td>
-                <td id="specialization_C_1">1</td>
-                <td id="specialization_C_2">2</td>
-                <td id="specialization_C_3">3</td>
-                <td id="specialization_C_4">4</td>
-                <td id="specialization_C_5">5</td>
-                <td id="specialization_C_6">6</td>
-                <td id="specialization_C_7">7</td>
-                <td id="specialization_C_8">8</td>
-                <td id="specialization_C_9">9</td>
-                <td id="specialization_C_10">10</td>
-              </tr>
-            </table>
-          </dt>
-
-          <dt id="specialization_same_dt">
-            I did not notice any significant difference across exhibitions
-            <table id="specialization_same_table">
-              <tr>
-                <td id="specialization_same_0">0</td>
-                <td id="specialization_same_1">1</td>
-                <td id="specialization_same_2">2</td>
-                <td id="specialization_same_3">3</td>
-                <td id="specialization_same_4">4</td>
-                <td id="specialization_same_5">5</td>
-                <td id="specialization_same_6">6</td>
-                <td id="specialization_same_7">7</td>
-                <td id="specialization_same_8">8</td>
-                <td id="specialization_same_9">9</td>
-                <td id="specialization_same_10">10</td>
-              </tr>
-            </table>
-          </dt>
+           
 
         </dl>
 
         <p class="freetext">
           Feel free to report additional relevant information<br>
-          <textarea id="specialization_text"></textarea>
+          <textarea id="specialization_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -772,29 +155,10 @@
         </p>
 
         <dl id="ui_dl">
-          <dt id="ui_dt">
-            The interface was immediately easy to use.
-            <table id="ui_table">
-              <tr>
-                <td id="ui_0">0</td>
-                <td id="ui_1">1</td>
-                <td id="ui_2">2</td>
-                <td id="ui_3">3</td>
-                <td id="ui_4">4</td>
-                <td id="ui_5">5</td>
-                <td id="ui_6">6</td>
-                <td id="ui_7">7</td>
-                <td id="ui_8">8</td>
-                <td id="ui_9">9</td>
-                <td id="ui_10">10</td>
-              </tr>
-            </table>
-          </dt>
 
         </dl>
-        <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="ui_text"></textarea>
+        <p class="freetext">          
+          <textarea id="ui_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 

@@ -1,6 +1,6 @@
 // Script loaded by creation.html.
 $(document).ready(function() {
-    var node, W, q, names, i, len, tmpElement;
+    var node, W, q, names, i, len, tmpElement, options;
     node = parent.node;
     W = parent.W;
     q = node.game.questionnaire;
@@ -8,11 +8,22 @@ $(document).ready(function() {
     i = -1, len = names.length;
     for ( ; ++i < len ; ) {
         name = names[i];
-        if (name !== 'enjoy' && name !== 'competitive') {
-            tmpElement = document.getElementById(name + '_tr');
-            q[name].order = W.shuffleElements(tmpElement);
+        options = {
+            tableId: name,
+            title: false,
+            freeText: 'Feel free to report additional relevant information'
+        };
+
+        if (name === 'enjoy' || name === 'competitive') {
+            options.choices = node.JSUS.seq(0,10);
         }
-        tmpElement = document.getElementById(name + '_table');
-        tmpElement.addEventListener('click', node.game.makeChoiceTD);
+        else {
+            options.choices = [ 'A', 'B', 'C', [ 'Other', "Don't know" ] ];
+            options.shuffleChoices = true;
+        }
+
+        q[name] = node.widgets.append('ChoiceTable',
+                                      W.getElementById(name),
+                                      options);
     }
 });
