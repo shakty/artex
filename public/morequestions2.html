@@ -8,10 +8,6 @@
 <script src="lib/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
 <!-- JQUERY UI ENDS -->
 
-<!-- no Escape -->
-<!-- <script src="/javascripts/noescape.js" charset="utf-8"></script> -->
-<!-- no Escape ends -->
-
 <link rel="stylesheet" type="text/css" href="css/iframe.css">
 <link rel="stylesheet" type="text/css" href="css/quiz.css">
 <link rel="stylesheet" type="text/css" href="css/postgame.css">
@@ -21,7 +17,7 @@
 
     <h1 id="h1title" style="margin: 0 auto">Would you like to answer more questions?</h1>
     <br>
-    <div id="question" style="display: none">
+    <div id="question">
 
       The experiment is now over, and you can decide if you want to
       answer additional questions to help reseachers gaining a better
@@ -52,7 +48,7 @@
 
     </div>
 
-    <div id="quiz">
+    <div id="quiz" style="display: none">
 
       <form style="display: none" id="creation">
         <input id="creation_title" type="hidden" value="Creation of New Images" />
@@ -64,39 +60,10 @@
           following statements: <em>(0=min, 10=max)</em>
         </p>
         <dl id="creation_dl">
-          <dt id="creation_random_dt">
-            I was changing the image randomly
- 
-          </dt>
 
-          <dt id="creation_similar_dt">
-            I aimed at becoming more <em>similar</em> to what I saw in
-            the previous round/s
- 
-          </dt>
-
-          <dt id="creation_dissimilar_dt">
-            I aimed at becoming more <em>dissimilar/unique</em> from
-            what I saw in the previous round/s
-
-          </dt>
-
-          <dt id="creation_sim_toex_dt">
-            I aimed at becoming more <em>similar</em> to the images
-            displayed in the exhibition where I wanted to submit
-
-          </dt>
-
-          <dt id="creation_dis_toex_dt">
-            I aimed at becoming more <em>dissimilar/unique</em> to the
-            images displayed in the exhibition where I wanted to
-            submit
-
-          </dt>
         </dl>
         <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -112,63 +79,12 @@
         </p>
 
         <dl id="submission_dl">
-          <dt id="submission_random_dt">
-            I chose randomly
-          
-          </dt>
-
-          <dt id="submission_popular_dt">
-            I chose the exhibition that the majority of other people
-            was choosing as well
-          
-          </dt>
-
-          <dt id="submission_qualityup_dt">
-            I chose based on the quality of the image just created:
-            the <em>most</em> beautiful/appealing images to the <em>most</em>
-            competitive exhibitions (A or B).
-         
-          </dt>
-
-          <dt id="submission_qualitydown_dt">
-            I chose based on the quality of the image just created:
-            the <em>most</em> beautiful/appealing images to
-            the <em>least</em> competitive exhibitions (C or B).
-        
-          </dt>
-
-          <dt id="submission_innup_dt">
-            I chose based on the innovativeness of the image just
-            created: the <em>most</em> innovative images to
-            the <em>most</em> competitive exhibitions (A or B).
-
-          
-          </dt>
-
-          <dt id="submission_inndown_dt">
-            I chose based on the innovativeness of the image just
-            created: the <em>most</em> innovative images to
-            the <em>least</em> competitive exhibitions (C or B).
-
-         
-          </dt>
-
-          <dt id="submission_fit_dt">
-            I chose the exhibition where my image would fit best in
-            terms of style
-         
-          </dt>
-
-          <dt id="submission_reward_dt">
-            I chose the exhibition based on the expected reward
-           
-          </dt>
+            
 
         </dl>
 
         <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
 
       </form>
@@ -181,62 +97,13 @@
           Express your agreement with the following
           statements: <em>(0=min, 10=max)</em>
         </p>
-        
 
         <dl id="review_dl">
 
-          <dt id="review_byex_dt">
-            I considered the exhibition I was reviewing for: I was
-            expecting more for images submitted to A, a bit less for
-            B, and even less for C
-          
-          </dt>
-
-          <dt id="review_like_dt">
-            I gave higher scores to the images that I liked the most
-         
-          </dt>
-
-          <dt id="review_diverse_dt">
-            I gave higher scores to images that were more
-            diverse/unique
-          
-          </dt>
-
-          <dt id="review_fit_dt">
-            I gave higher scores to images that wer fitting the style
-            of the exhibition to which they have been submitted
-           
-          </dt>
-
-          <dt id="review_samex_dt">
-            I gave lower scores to images submitted to my same
-            exhibition in general
-           
-          </dt>
-
-          <dt id="review_sameexA_dt">
-            When I chose exhibition A, I gave lower scores to images
-            submitted A,
-          
-          </dt>
-
-          <dt id="review_sameexB_dt">
-            When I chose exhibition B, I gave lower scores to images
-            submitted to B
-           
-          </dt>
-
-          <dt id="review_sameexC_dt">
-            When I chose exhibition C, I gave lower scores to images
-            submitted to C
-           
-          </dt>
-
         </dl>
         <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+          <br>
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -248,45 +115,10 @@
              with the following statements: <em>(0=min, 10=max)</em>
         </p>
 
-        <dl id="copy_dl">
+        <dl id="copy_dl"></dl>
 
-          <dt id="copy_never_dt">
-            I seldom or never copied past images
-        
-          </dt>
-
-          <dt id="copy_liked_dt">
-            I copied because I liked an image and I thought I that it
-            could improve my style
-        
-          </dt>
-
-          <dt id="copy_win_dt">
-            I copied because I thought that submitting a similar image
-            would increase my chances of winning
-         
-          </dt>
-
-          <dt id="copy_savetime_dt">
-            I copied to save time to create something else
-         
-          </dt>
-
-          <dt id="copy_newideas_dt">
-            I copied when I was running out of new ideas
-         
-          </dt>
-
-          <dt id="copy_old_dt">
-            I copied when I thought that bringing back an old image
-            would make me successful
-         
-          </dt>
-
-        </dl>
-        <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="enjoy_text"></textarea>
+        <p class="freetext">          
+          <textarea id="enjoy_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -301,32 +133,13 @@
         </p>
 
         <dl id="specialization_dl">
-          <dt id="specialization_A_dt">
-            Exhibition A was very different from the others
-        
-          </dt>
-
-          <dt id="specialization_B_dt">
-            Exhibition B was very different from the others
-        
-
-          </dt>
-
-          <dt id="specialization_C_dt">
-            Exhibition C was very different from the others
-          
-          </dt>
-
-          <dt id="specialization_same_dt">
-            I did not notice any significant difference across exhibitions
-         
-          </dt>
+           
 
         </dl>
 
         <p class="freetext">
           Feel free to report additional relevant information<br>
-          <textarea id="specialization_text"></textarea>
+          <textarea id="specialization_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 
@@ -341,15 +154,10 @@
         </p>
 
         <dl id="ui_dl">
-          <dt id="ui_dt">
-            The interface was immediately easy to use.
-        
-          </dt>
 
         </dl>
-        <p class="freetext">
-          Feel free to report additional relevant information<br>
-          <textarea id="ui_text"></textarea>
+        <p class="freetext">          
+          <textarea id="ui_text" placeholder="Feel free to report additional relevant information"></textarea>
         </p>
       </form>
 

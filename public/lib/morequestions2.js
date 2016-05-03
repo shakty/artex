@@ -1,23 +1,41 @@
 // Script loaded by creation.html.
 $(document).ready(function() {
     var node, W, q, names, i, len, tmpElement, tables, j, lenJ;
+    var options, choices, subqs;
+    var tableName, dt;
     node = parent.node;
     W = parent.W;
     q = node.game.questionnaire;
     W.noEscape(window);
     names = node.game.qNamesExtra;
+    choices = node.JSUS.seq(0,10);
+    // Shuffle names.
+    node.JSUS.shuffle(names);
     i = -1, len = names.length-1; // Not last one (freecomment).
     for ( ; ++i < len ; ) {
         name = names[i];
         tmpElement = document.getElementById(name + '_dl');
-        q[name].order = W.shuffleElements(tmpElement);
 
-        // Find all tables. TODO: change once tables are finals.
-        tables = $(tmpElement).find('table');
-        j = -1, lenJ = tables.length;
+        subqs = node.game.qNamesExtraSubs[name];
+        // Shuffle sub-questions within each category.
+        node.JSUS.shuffle(subqs);
+        j = -1, lenJ = subqs.length;
         for ( ; ++j < lenJ ; ) {
-            tmpElement = tables[j]; //document.getElementById(name + '_table');
-            tmpElement.addEventListener('click', node.game.makeChoiceTD);
+            tableId = name + '_' + subqs[j].id;
+            // Create a new dt element where to append the table.
+            dt = document.createElement('dt');
+            dt.id = tableId + '_dt';
+            tmpElement.appendChild(dt);
+
+            options = {
+                tableId: tableId,
+                mainText: subqs[j].mainText,
+                title: false,
+                choices: choices,
+                group: name,
+                groupOrder: j
+            };
+            q[tableId] = node.widgets.append('ChoiceTable', dt, options);
         }
     }
 });
