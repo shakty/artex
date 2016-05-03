@@ -44,3 +44,19 @@ span#insideh1 {
 .quiz_result {
     font-weight: bold;
 }
+
+table#reviewSelect td, table#rewards td{
+    width: 720px;
+    text-align: left;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+table#reviewRange td {
+    width: 240px;
+}
+
+table.choicetable {
+    margin-top: 10px;
+    font-weight: normal;
+}

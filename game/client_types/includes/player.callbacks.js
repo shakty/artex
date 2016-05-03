@@ -136,6 +136,9 @@ function init() {
         }
     };
 
+    // Quiz questions (to be filled by quiz stage).
+    this.quizzes = [];
+
     // Current rounds of evalutions (review delivered by subject).
     // For each item it contains if the slider was moved, a reference
     // to the input containing the current value, and the exhibition.

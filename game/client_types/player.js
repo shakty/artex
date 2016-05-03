@@ -47,13 +47,23 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {
-            var QUIZ, answers, isTimeup, text;
-            QUIZ = W.getFrameWindow().QUIZ;
-            answers = QUIZ.checkAnswers();
+            var i, len, answers, values, text;
+            answers = [];
+            i = -1, len = this.quizzes[i].length;
+            for ( ; ++i < len ; ) {
+                values = this.quizzes[i].getAllValues();
+                if (!values.isCorrect) {
+                    this.quizzes[i].highlight();
+                }
+                else {
+                    answers.push(values);
+                }
+            }
+
             text = 'Check Quiz! Correct: ' + answers.counterCorrect +
                 ' / ' + answers.counterQuestions;
             this.node.game.donebutton.setText(text);
-            if (answers.correct || node.game.timer.isTimeup()) {
+            if ((answers.length !== len) || node.game.timer.isTimeup()) {
                 // On Timeup there are no answers.
                 return answers;
             }

@@ -46,11 +46,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.setOnGameOver(cbs.gameover);
 
     // Extending all stages.
-    stager.setDefaultProperty('minPlayers', [
-        settings.MIN_PLAYERS,
-        cbs.notEnoughPlayers,
-        cbs.enoughPlayersAgain
-    ]);
+//     stager.setDefaultProperty('minPlayers', [
+//         settings.MIN_PLAYERS,
+//         cbs.notEnoughPlayers,
+//         cbs.enoughPlayersAgain
+//     ]);
 
     stager.extendStep('submission', {
         init: function() {
