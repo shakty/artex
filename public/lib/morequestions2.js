@@ -6,7 +6,6 @@ $(document).ready(function() {
     node = parent.node;
     W = parent.W;
     q = node.game.questionnaire;
-    W.noEscape(window);
     names = node.game.qNamesExtra;
     choices = node.JSUS.seq(0,10);
     // Shuffle names.

@@ -10,9 +10,6 @@ $(document).ready(function() {
 
     var table;
 
-    // Avoid ESC to break the connection
-    W.noEscape(window);
-
     table = new Table({ id: 'tbl_evaluation' });
 
     document.getElementById('container_evaluation').appendChild(table.table);

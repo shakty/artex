@@ -5,9 +5,6 @@ $(document).ready(function() {
     J = parent.JSUS,
     W = parent.W;
 
-
-    node.window.noEscape(window);
-
     var results, answers;
     var wrongTxt, correctTxt;
 

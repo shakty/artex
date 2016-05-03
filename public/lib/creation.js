@@ -6,8 +6,6 @@ $(document).ready(function() {
     var W = node.window;
     var GameStage = node.GameStage;
 
-    node.window.noEscape(window);
-
     function addJQuerySliders(init) {
         $('#cf_controls div.ui-slider').each(function() {
             // Read initial values from markup and remove that.

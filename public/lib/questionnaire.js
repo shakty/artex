@@ -4,7 +4,6 @@ $(document).ready(function() {
     node = parent.node;
     W = parent.W;
     q = node.game.questionnaire;
-    W.noEscape(window);
     names = node.game.qNames;
     i = -1, len = names.length;
     for ( ; ++i < len ; ) {

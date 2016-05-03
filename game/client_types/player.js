@@ -43,7 +43,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('quiz', {
-        frame: 'quiz.html',
+        frame: 'quiz2.html',
         timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {

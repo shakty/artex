@@ -4,7 +4,6 @@ $(document).ready(function() {
     node = parent.node;
     W = parent.W;
     q = node.game.questionnaire;
-    W.noEscape(window);
     names = node.game.qNamesExtra;
     i = -1, len = names.length-1; // Not last one (freecomment).
     for ( ; ++i < len ; ) {
