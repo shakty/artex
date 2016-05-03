@@ -6,7 +6,6 @@ div#quiz form textarea {
     border: 1px solid #CCC;
 }
 
-
 table#exbeau td {
     width: 150px;
 }
@@ -17,10 +16,6 @@ table#exinn td {
 
 table#exfair td {
     width: 150px;
-}
-
-div#question {
-    padding: 20px;
 }
 
 p.freetext {

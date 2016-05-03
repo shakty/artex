@@ -47,23 +47,26 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {
-            var i, len, answers, values, text;
+            var i, len, answers, values, text, spanOutcome, fail, correct;
+            fail = '<em>Try again!</em>';
+            correct = '<em>Correct!</em>';
             answers = [];
-            i = -1, len = this.quizzes[i].length;
+            i = -1, len = this.quizzes.length;
             for ( ; ++i < len ; ) {
+                spanOutcome = W.getElementById('q_' + (i+1) + '_outcome');
                 values = this.quizzes[i].getAllValues();
                 if (!values.isCorrect) {
                     this.quizzes[i].highlight();
+                    spanOutcome.innerHTML = fail;
                 }
                 else {
                     answers.push(values);
+                    spanOutcome.innerHTML = correct;
                 }
             }
-
-            text = 'Check Quiz! Correct: ' + answers.counterCorrect +
-                ' / ' + answers.counterQuestions;
+            text = 'Check Quiz! Correct: ' + answers.length + ' / ' + len;
             this.node.game.donebutton.setText(text);
-            if ((answers.length !== len) || node.game.timer.isTimeup()) {
+            if ((answers.length === len) || node.game.timer.isTimeup()) {
                 // On Timeup there are no answers.
                 return answers;
             }
@@ -199,7 +202,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
             this.showQuestion = function() {
                 var idx, q, len, title;
-                var obj, i;
+                var obj, i, fd;
+
+                // Scroll up!
+                fd = W.getFrameDocument();
+                fd.body.scrollTop = 0;
+                fd.documentElement.scrollTop = 0;
 
                 // Num. of available questions, also used to assess
                 // the order in which they are shown.

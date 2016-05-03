@@ -20,16 +20,16 @@ div#quiz {
     padding: 10px;
 }
 
-div#quiz dd {
+div#quiz dl {
+    margin: 0 auto !important;
+}
+
+div#quiz dt {
     margin-bottom: 30px;
     padding-left: 20px;
 }
 
-div#quiz dd form {
-    padding-left: 20px;
-}
-
-div#quiz dd:last-child {
+div#quiz dt:last-child {
     margin-bottom: 0;
 }
 

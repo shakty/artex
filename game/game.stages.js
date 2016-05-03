@@ -33,7 +33,7 @@ module.exports = function(stager, settings) {
     });
 
     stager.skip('instructions');
-    // stager.skip('quiz');
+    stager.skip('quiz');
     stager.skip('artex');
     // stager.skip('artex', 'creation');
     // stager.skip('artex', 'evaluation');
