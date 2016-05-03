@@ -7,16 +7,14 @@ $(document).ready(function() {
 
 
     // Creation is step 1 of stage artex.
-    var step = node.game.getCurrentGameStage().step;
+    var cancopy = node.game.getCurrentGameStage().step === 1;
     var txt, select;
 
-    // Creation.
-    if (step === 1) {
+    if (cancopy) {
         select = '#all_ex canvas';
         txt = "<span id='enlarge'>Click to enlarge, " +
             "and decide if you want to copy it.</span>";
     }
-    // Dissemination.
     else {
         select = '#container_exhibition canvas';
         txt = "<span id='enlarge'>Click to enlarge.</span>";
