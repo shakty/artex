@@ -189,6 +189,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
             this.showQuestion = function() {
                 var idx, q, len, title;
+                var obj, i;
 
                 // Num. of available questions, also used to assess
                 // the order in which they are shown.
@@ -197,14 +198,20 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Hide previous question.
                 if (this.qShown) {
                     q = node.game.questionnaire;
+                    obj = {
+                        name: this.qShown,
+                        globalOrder: (this.qNamesExtra.length - len),
+                        
+                    };
+
+                    for (i in q[this.qShown]) {
+                        if (q[this.qShown].hasOwnProperty(i)) {
+                            obj[i] = q[this.qShown][i].getAllValues();
+                        }
+                    }
 
                     // Storing value.
-                    node.set({
-                        name: this.qShown,
-                        value: q[node.game.qShown].currentAnswer,
-                        numberOfClicks: q[node.game.qShown].numberOfClicks,
-                        globalOrder: (this.qNamesExtra.length - len)
-                    });
+                    node.set(obj);
 
                     W.hide(this.qShown);
                 }
@@ -233,7 +240,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             W.getElementById('enough').onclick = function() {
                 node.done();
             };
-            this.showQuestion();
+            W.getElementById('yes').onclick = function() {
+                W.hide('question');
+                W.show('quiz');
+                node.game.showQuestion();
+            };
+            W.getElementById('no').onclick = function() {
+                node.done();
+            };
         },
         donebutton: false
     });
