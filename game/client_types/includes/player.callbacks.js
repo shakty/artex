@@ -152,7 +152,6 @@ function init() {
         'creation', 'submission', 'review', 'copy',
         'specialization', 'ui', 'freecomment'
     ];
-
       
     // Names of the questionnaire forms ids (additional).
     this.qNamesExtraSubs = {

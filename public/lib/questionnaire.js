@@ -9,7 +9,7 @@ $(document).ready(function() {
     for ( ; ++i < len ; ) {
         name = names[i];
         options = {
-            tableId: name,
+            id: name,
             title: false,
             freeText: 'Feel free to report additional relevant information'
         };
@@ -23,7 +23,7 @@ $(document).ready(function() {
         }
 
         q[name] = node.widgets.append('ChoiceTable',
-                                      W.getElementById(name),
+                                      W.getElementById(name + '_dd'),
                                       options);
     }
 });

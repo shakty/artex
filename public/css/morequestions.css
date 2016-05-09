@@ -13,5 +13,6 @@ span.mainquestion {
 }
 
 div#quiz form textarea#freecomment_text {
+    margin-top: 30px;
     height: 250px;
 }

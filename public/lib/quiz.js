@@ -49,14 +49,14 @@ $(document).ready(function() {
 
     quizzes = [
         {
-            tableId: 'reviewRange',
+            id: 'reviewRange',
             mainText: 'When reviewing a painting, on which scale can you ' +
                 'express your liking?',
             choices: [ 'From 0 to 10', 'From 1 to 5', 'From 1 to 9' ],
             correctChoice: 0,
         },
         {
-            tableId: 'reviewSelect',
+            id: 'reviewSelect',
             mainText: 'How are reviewers assigned to images and exhibitions?',
             choices: [
                 'Randomly',
@@ -69,7 +69,7 @@ $(document).ready(function() {
             orientation: 'V'
         },
         {
-            tableId: 'rewards',
+            id: 'rewards',
             mainText: 'What is the reward for displaying in an exhibition?',
             choices: [
                 'The rewards vary by exhibition: the higher the reward, ' +

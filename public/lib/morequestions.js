@@ -28,7 +28,7 @@ $(document).ready(function() {
             tmpElement.appendChild(dt);
 
             options = {
-                tableId: tableId,
+                id: tableId,
                 mainText: subqs[j].mainText,
                 title: false,
                 choices: choices,

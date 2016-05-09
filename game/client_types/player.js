@@ -218,7 +218,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     q = node.game.questionnaire;
                     obj = {
                         name: this.qShown,
-                        globalOrder: (this.qNamesExtra.length - len),
+                        globalOrder: (this.qNamesExtra.length - len) - 1,
                     };
                     for (i in q[this.qShown]) {
                         if (q[this.qShown].hasOwnProperty(i)) {
