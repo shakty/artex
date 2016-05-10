@@ -36,6 +36,42 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.setDefaultProperty('done', cbs.clearFrame);
 
+    stager.extendStep('mood', {
+        init: function() {
+            this.mood = node.widgets.get('MoodGauge', {
+                title: false
+            });
+        },
+        frame: 'mood.html',
+        done: function() {
+            var values;
+            values = this.mood.getAllValues();
+            if (values.missValues) {
+                // Do something.
+                return false;
+            }
+            return values.items;
+        }
+    });
+
+    stager.extendStep('svo', {
+        init: function() {
+            this.svo = node.widgets.get('SVOGauge', {
+                title: false
+            });
+        },
+        frame: 'svo.html',
+        done: function() {
+            var values;
+            values = this.svo.getAllValues();
+            if (values.missValues) {
+                // Do something.
+                return false;
+            }
+            return values.items;
+        }
+    });
+
     stager.extendStep('instructions', {
         minPlayers: MIN_PLAYERS,
         timer: settings.timer.instructions,

@@ -60,3 +60,60 @@ table.choicetable {
     margin-top: 10px;
     font-weight: normal;
 }
+
+/* Mood */ 
+
+div.ng_widget, div.panel-heading, div.panel-body {
+    border: 0;
+    padding: 0;
+}
+
+div#quiz div.moodgauge {
+    margin: 0 auto;
+    text-align: center;
+}
+
+div#quiz div.moodgauge span.choicetable-maintext, div#quiz div.moodgauge table.choicetable {
+    margin: 0 auto;
+    text-align: center;
+}
+
+div#quiz span.choicetable-maintext {
+    margin: 0 auto;
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+div#quiz div.moodgauge table.choicetable {
+    margin: 0 auto;
+    text-align: center;
+    border-spacing: 0 5px;
+    border-collapse: separate; 
+}
+
+table.choicetable td {
+    width: 80px !important;
+}
+
+td.choicetable-descr {
+    font-weight: bold;
+    width: 300px;
+}
+
+/* SVO */ 
+
+div#quiz div.svogauge table.choicetable {
+    margin: 0 auto;
+    text-align: center;
+    border-spacing: 0 30px;
+    border-collapse: separate; 
+}
+
+div.svogauge hr {
+    margin: 10px auto;
+}
+
+div.svogauge td.choicetable-descr hr {
+    border-color: black;
+}

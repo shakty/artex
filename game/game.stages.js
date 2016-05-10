@@ -9,6 +9,9 @@
 module.exports = function(stager, settings) {
 
     stager
+        .next('mood')
+        .next('svo')
+        .next('demographics')
         .next('instructions')
         .next('quiz')
         .repeat('artex', settings.REPEAT)
@@ -32,6 +35,7 @@ module.exports = function(stager, settings) {
         ]
     });
 
+    stager.skip('mood');
     stager.skip('instructions');
     // stager.skip('quiz');
     stager.skip('artex');
