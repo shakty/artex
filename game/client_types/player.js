@@ -45,7 +45,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'mood.html',
         done: function() {
             var values;
-            values = this.mood.getAllValues();
+            values = this.mood.getValues();
             if (values.missValues) {
                 // Do something.
                 return false;
@@ -57,14 +57,69 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('svo', {
         init: function() {
             this.svo = node.widgets.get('SVOGauge', {
-                title: false
+                title: false,
+                mainText: false
             });
         },
         frame: 'svo.html',
         done: function() {
             var values;
-            values = this.svo.getAllValues();
+            values = this.svo.getValues();
             if (values.missValues) {
+                // Do something.
+                return false;
+            }
+            return values.items;
+        }
+    });
+
+    stager.extendStep('demographics', {
+        init: function() {
+            var w;
+            w = node.widgets;
+            this.demo = w.get('ChoiceManager', {
+                id: 'demo',
+                title: false,
+                shuffleForms: true,
+                forms: [
+                    w.get('ChoiceTable', {
+                        id: 'age',
+                        mainText: 'Report your age group',
+                        choices: [
+                            '18-20', '21-30', '31-40', '41-50',
+                            '51-60', '61-70', '71+', 'Do not want to say'
+                        ],
+                        title: false
+                    }),
+                    w.get('ChoiceTable', {
+                        id: 'job',
+                        mainText: 'Does your current occupation involves ' +
+                            'regular use of artistic or creative skills? ' +
+                            'If so, please report your level of experience ' +
+                            'in years.',
+                        choices: [
+                            'No', 'Yes, 1y', 'Yes, 1-2y',
+                            'Yes, 3-5y','Yes, 5y+', 'Do not want to say'
+                        ],
+                        title: false
+                    }),
+                    w.get('ChoiceTable', {
+                        id: 'gender',
+                        mainText: 'Report your gender',
+                        choices: [
+                            'Male', 'Female', 'Other', 'Do not want to say'
+                        ],
+                        shuffleChoices: true,
+                        title: false
+                    })
+                ]
+            });
+        },
+        frame: 'demo.html',
+        done: function() {
+            var values;
+            values = this.demo.getValues();
+            if (values.missValues.length) {
                 // Do something.
                 return false;
             }
@@ -90,7 +145,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             i = -1, len = this.quizzes.length;
             for ( ; ++i < len ; ) {
                 spanOutcome = W.getElementById('q_' + (i+1) + '_outcome');
-                values = this.quizzes[i].getAllValues();
+                values = this.quizzes[i].getValues();
                 if (!values.isCorrect) {
                     this.quizzes[i].highlight();
                     spanOutcome.innerHTML = fail;
@@ -116,6 +171,30 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+   stager.extendStep('belief', {
+        init: function() {
+            this.belief = node.widgets.get('ChoiceTable', {
+                id: 'belief',
+                title: false,
+                choices: [
+                    '9<sup>th</sup>', '8<sup>th</sup>', '7<sup>th</sup>',
+                    '6<sup>th</sup>', '5<sup>th</sup>', '4<sup>th</sup>',
+                    '3<sup>rd</sup>', '2<sup>nd</sup>', '1<sup>st</sup>'
+                ]
+            });
+        },
+        frame: 'belief.html',
+        done: function() {
+            var values;
+            values = this.belief.getValues();
+            if (values.choice === null) {
+                // Do something.
+                return false;
+            }
+            return values;
+        }
+    });
+
     // Adjust to displaying rounds in main stage.
     stager.extendStage('artex', {
         init: function() {
@@ -138,7 +217,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             $(".copyorclose").dialog('close');
             $(".copyorclose").dialog('destroy');
-            node.game.last_cf = node.game.cf.getAllValues();
+            node.game.last_cf = node.game.cf.getValues();
         }
     });
 
@@ -200,16 +279,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         stepRule: 'SOLO'
     });
 
-    stager.extendStep('questionnaire', {       
+    stager.extendStep('questionnaire', {
         frame: 'questionnaire.html',
         done: function() {
             var name, q, miss, out, i, len, values;
             out = {};
             q = this.questionnaire;
             i = -1, len = this.qNames.length;
-            for ( ; ++i < len ; ) {                
+            for ( ; ++i < len ; ) {
                 name = this.qNames[i];
-                values = q[name].getAllValues();
+                values = q[name].getValues();
                 if (!values.choice) {
                     miss = true;
                     q[name].highlight();
@@ -258,7 +337,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     };
                     for (i in q[this.qShown]) {
                         if (q[this.qShown].hasOwnProperty(i)) {
-                            obj[i] = q[this.qShown][i].getAllValues();
+                            obj[i] = q[this.qShown][i].getValues();
                         }
                     }
 
@@ -287,10 +366,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 node.timer.setTimestamp('question_loaded');
             };
         },
-        cb: function() {           
+        cb: function() {
             W.getElementById('onemore').onclick = function() {
                 node.game.showQuestion();
-            };            
+            };
             W.getElementById('enough').onclick = function() {
                 node.done();
             };
@@ -343,6 +422,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Remove for live game.
     game.events = { dumpEvents: true };
+
+    game.window = setup.window;
 
     game.nodename = 'player';
 

@@ -37,6 +37,26 @@ div#quiz dt:last-child {
     font-weight: bold;
 }
 
+.important {
+    /*font-weight: bold;*/
+    font-size: 22px;
+    text-align: center;
+    padding: 5px;
+}
+
+table.choicetable {
+    margin-top: 10px;
+    font-weight: normal;
+}
+
+
+div.ng_widget, div.panel-heading, div.panel-body {
+    border: 0;
+    padding: 0;
+}
+
+/* Quiz */
+
 span#insideh1 {
     font-size: 16px;
 }
@@ -56,17 +76,7 @@ table#reviewRange td {
     width: 240px;
 }
 
-table.choicetable {
-    margin-top: 10px;
-    font-weight: normal;
-}
-
 /* Mood */ 
-
-div.ng_widget, div.panel-heading, div.panel-body {
-    border: 0;
-    padding: 0;
-}
 
 div#quiz div.moodgauge {
     margin: 0 auto;
@@ -78,11 +88,9 @@ div#quiz div.moodgauge span.choicetable-maintext, div#quiz div.moodgauge table.c
     text-align: center;
 }
 
-div#quiz span.choicetable-maintext {
-    margin: 0 auto;
-    text-align: center;
+div#quiz div.moodgauge span.choicetable-maintext {
     margin-bottom: 30px;
-    font-size: 24px;
+    font-weight: bold;
 }
 
 div#quiz div.moodgauge table.choicetable {
@@ -92,11 +100,11 @@ div#quiz div.moodgauge table.choicetable {
     border-collapse: separate; 
 }
 
-table.choicetable td {
+div.moodgauge table.choicetable td {
     width: 80px !important;
 }
 
-td.choicetable-descr {
+div.moodgauge td.choicetable-descr {
     font-weight: bold;
     width: 300px;
 }
@@ -110,6 +118,15 @@ div#quiz div.svogauge table.choicetable {
     border-collapse: separate; 
 }
 
+div#quiz div.svogauge table td {
+    width: 60px !important;
+}
+
+div#quiz div.svogauge span.choicetable-maintext {
+    margin-bottom: 10px;
+    font-size: 20px;
+}
+
 div.svogauge hr {
     margin: 10px auto;
 }
@@ -117,3 +134,25 @@ div.svogauge hr {
 div.svogauge td.choicetable-descr hr {
     border-color: black;
 }
+
+/* Demo */ 
+
+div#quiz div.choicemanager table#age td {
+    width: 330px !important;
+}
+
+div#quiz div.choicemanager table#gender td {
+    width: 330px !important;
+}
+
+div#quiz div.choicemanager table#job td {
+    width: 330px !important;
+}
+
+/* Belief */
+
+
+div#quiz table#belief td {
+    width: 330px !important;
+}
+

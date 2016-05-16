@@ -17,7 +17,8 @@ module.exports = function(settings, stages) {
 
     game.window = {
         promptOnleave: !game.debug,
-        disableRightClick: false
+        disableRightClick: false,
+        disableBackButton: true
     }
 
     return game;
