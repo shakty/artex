@@ -6,7 +6,51 @@
  * http://www.nodegame.org
  */
 
-module.exports = {
+var settings;
+var pubRules;
+
+// If your painting
+//        is displayed, you will receive <em>as many points as are
+//        awarded by your exhibition</em>
+
+pubRules = {
+
+    thresholdSame: 'All the paintings that receive an average review-score ' +
+        'greater than <em id="ng_replace_threshold"></em> are put on display ' +
+        'in the exhibition to which they are submitted.',
+
+    thresholdDifferent: 'Each exhibition has a different threshold. ' +
+        'That is: ' +
+        '<ul><li>A: average review score &gt;' +
+        '<em id="ng_replace_threshold_A"></em></li>' +
+        '<li>B: average review score &gt;' +
+        '<em id="ng_replace_threshold_B"></em></li>' +
+        '<li>C: average review score &gt;' +
+        '<em id="ng_replace_threshold_C"></em></li></ul>',
+
+    rankSame: 'The display rules are the same for all exhibitions. The top ' +
+        '<em id="ng_replace_threshold"></em> paintings of each exhibition ' +
+        'are displayed and generate <em id="ng_replace_award"></em> point for ' +
+        'the author.',
+
+    rankDifferent: 'Each exhibition displays a limited number ' +
+        'of paintings, and awards them a different number of points. ' +
+        'That is: ' +
+        '<ul><li><strong>A:</strong> displays the ' +
+        'top <em id="ng_replace_threshold_A"></em> ' +
+        'image/s and awards them with <em id="ng_replace_award_A"></em> ' +
+        'points each</li>' +
+        '<li><strong>B:</strong> displays the ' +
+        'top <em id="ng_replace_threshold_B"></em> ' +
+        'image/s and awards them with <em id="ng_replace_award_B"></em> ' +
+        'points each</li>' +
+        '<li><strong>C:</strong> displays the ' +
+        'top <em id="ng_replace_threshold_C"></em> ' +
+        'image/s and awards them with <em id="ng_replace_award_C"></em> ' +
+        'points each</li>'
+};
+
+settings = {
 
     // Session Counter start from.
     SESSION_ID: 100,
@@ -15,7 +59,7 @@ module.exports = {
     MIN_PLAYERS: 2,
 
     // Number or rounds to repeat the bidding. *
-    REPEAT: 20,
+    REPEAT: 10,
 
     // Number of coins to split. *
     COINS: 100,
@@ -55,21 +99,21 @@ module.exports = {
 
     exA: {
         competition: 'tournament',
-        threshold : -1,
+        threshold : 1,
         N: 1,
         reward: 500
     },
 
     exB: {
         competition: 'tournament',
-        threshold : -1,
+        threshold : 1,
         N: 2,
         reward: 250
     },
 
     exC: {
         competition: 'tournament',
-        threshold : -1,
+        threshold : 1,
         N: 4,
         reward: 125
     },
@@ -78,22 +122,68 @@ module.exports = {
     // Timer values.
     timer: {
 
-        instructions: 90000,
-        quiz: 60000,
+        // instructions: 90000,
+        // quiz: 60000,
         creation: function() {
             if (node.player.stage.round < 2) return 80000;
             if (node.player.stage.round < 3) return 60000;
             return 50000;
         },
         evaluation: 20000,
-        dissemination: 150000,
-        questionnaire: 20000
+        dissemination: 150000
+        // questionnaire: 20000
     },
 
     // Available treatments:
     // (there is also the "standard" treatment, using the options above)
     treatments: {
-        
+
+        rank_skew: {
+            description: "Different number of awards and rewards",
+            pubrule_text: pubRules.rankDifferent,
+            exA: {
+                competition: 'tournament',
+                N: 1,
+                reward: 500
+            },
+
+            exB: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+
+            exC: {
+                competition: 'tournament',
+                N: 4,
+                reward: 125
+            },
+            instrPage: 'instr_rank.html'
+        },
+
+        rank_same: {
+            description: "Exactly same rewards for all exhibitions",
+            pubrule_text: pubRules.rankSame,
+            exA: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+
+            exB: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+
+            exC: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+            instrPage: 'instr_rank.html'
+        },
+
         review_select_com: {
             fullName: "Competitive Select Reviewer",
             description:
@@ -135,6 +225,7 @@ module.exports = {
         }
     }
 
-    // * =  If you change this, you need to update 
-    // the instructions and quiz static files in public/
 };
+
+
+module.exports = settings;

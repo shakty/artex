@@ -10,11 +10,11 @@ module.exports = function(stager, settings) {
 
     stager
     
+        .next('instructions')
         .next('belief')
         .next('mood')
         .next('svo')
         .next('demographics')
-        .next('instructions')
         .next('quiz')
         .repeat('artex', settings.REPEAT)
         .next('final')
@@ -39,7 +39,7 @@ module.exports = function(stager, settings) {
 
     stager.skip('mood');
     // stager.skip('svo');
-    stager.skip('instructions');
+    // stager.skip('instructions');
     // stager.skip('quiz');
     stager.skip('artex');
     // stager.skip('artex', 'creation');

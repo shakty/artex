@@ -15,7 +15,7 @@ module.exports = {
     // Treatment assigned to groups.
     // If left undefined, a random treatment will be selected.
     // Use "treatment_rotate" for rotating the treatmenrs.
-    CHOSEN_TREATMENT: 'review_random_com',
+    CHOSEN_TREATMENT: 'rank_skew', // 'rank_same',
 
     ON_TIMEOUT: function(data) {
         var timeOut;
