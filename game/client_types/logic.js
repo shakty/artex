@@ -52,6 +52,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //         cbs.enoughPlayersAgain
 //     ]);
 
+    stager.extendStage('artex', {
+        pushClients: true
+    });
+
     stager.extendStep('submission', {
         init: function() {
             // Three arrays of submissions by exhibition.

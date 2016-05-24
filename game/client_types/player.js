@@ -136,13 +136,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('instructions', {
-        timer: settings.timer.instructions,
         frame: settings.instrPage
     });
 
     stager.extendStep('quiz', {
         frame: 'quiz.html',
-        timer: settings.timer.quiz,
         donebutton: { text: 'Check Quiz!' },
         done: function() {
             var i, len, answers, values, text, spanOutcome, fail, correct;
@@ -191,7 +189,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //             if (round !== 1) cb();
 //             else W.loadFrame('training.html', cb);
 //         },
-        timer: settings.timer.training,
         done: function() {
             node.game.last_cf = node.game.cf.getValues();
         }
@@ -239,7 +236,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.copies = [];
         },
         frame: 'creation.html',
-        timer: settings.timer.creation,
         done: function() {
             $(".copyorclose").dialog('close');
             $(".copyorclose").dialog('destroy');
@@ -252,8 +248,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             this.subSliders = { A: 0, B: 0, C: 0 };
         },
         cb: cbs.submission,
-        timer: settings.timer.submission,
         donebutton: false,
+        timeup: function() {
+            var J, ex;
+            J = this.node.JSUS;
+            ex = this.last_ex || this.settings.exhibitNames[J.randomInt(-1,2)];
+            this.submissionMade(ex);
+            node.done();
+        },
         done: function() {
             return {
                 ex: node.game.last_ex,
@@ -269,10 +271,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.evas = {};
         },
         frame: 'evaluation.html',
-        // cb: function() {
-        //    W.loadFrame('evaluation.html');
-        // },
-        timer: settings.timer.evaluation,
         done: function() {
             var i, out, eva;
             out = [];
@@ -294,7 +292,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('dissemination', {
         cb: cbs.dissemination,
-        timer: settings.timer.dissemination,
         done: function() {
             $(".copyorclose").dialog('close');
             $(".copyorclose").dialog('destroy');

@@ -35,7 +35,6 @@ function init() {
             title: 'Timer:'
         });
 
-
         if (node.game.settings.competition === 'tournament') {
             node.game.money = node.widgets.append('MoneyTalks', header, {
                 currency: '', title: 'Points:', precision: 0

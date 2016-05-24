@@ -118,18 +118,20 @@ settings = {
         reward: 125
     },
 
-
     // Timer values.
-    timer: {
+    TIMER: {
 
         training: 30000,
         // instructions: 90000,
         // quiz: 60000,
         creation: function() {
-            if (node.player.stage.round < 2) return 80000;
-            if (node.player.stage.round < 3) return 60000;
+            var gs;
+            gs = this.getCurrentGameStage();
+            if (gs.round < 2) return 80000;
+            if (gs.round < 3) return 60000;
             return 50000;
         },
+        submission: 20000,
         evaluation: 20000,
         dissemination: 15000
         // questionnaire: 20000
