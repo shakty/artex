@@ -9,20 +9,27 @@ $(document).ready(function() {
     Table = W.Table;
 
     var table;
+    var str;
 
+    if (node.game.settings.competition === "tournament") {
+        str = 'Paintings will be ranked by <em>average</em> evaluation, and ' +
+            'if their rank is high enough they will be put on display.';
+    }
+    else {
+        str = 'Paintings that receive an <em>average</em> evaluation greater ' +
+            'than <strong>5.00</strong> will be put on display.'
+    }
+    W.setInnerHTML('brief-explanation', str);
+    
     table = new Table({ id: 'tbl_evaluation' });
-
     document.getElementById('container_evaluation').appendChild(table.table);
 
     node.on.data('CF', function(msg) {
-
         console.log('RECEIVED CF ********************');
-
         if (!msg.data) {
             node.err('Error: No data received on CF.');
             return;
         }
-        // debugger
         if (msg.data.A && msg.data.A.length) makeReviewUI(msg.data.A);
         if (msg.data.B && msg.data.B.length) makeReviewUI(msg.data.B);
         if (msg.data.C && msg.data.C.length) makeReviewUI(msg.data.C);
@@ -82,7 +89,7 @@ $(document).ready(function() {
             head.className = 'ex-header';
 
             // Build the canvas and draws the face.
-            cf.buildHTML();
+            cf.buildCanvas();
 
             // Add Exhibition column.
             table.addColumn([head, sl, display_container, cf.getCanvas()]);

@@ -402,7 +402,7 @@ function init() {
         else {
             // Just canvas.
             cf = node.widgets.get('ChernoffFaces', cfOptions);
-            cf.buildHTML();
+            cf.buildCanvas();
             return cf.getCanvas();
         }
 
