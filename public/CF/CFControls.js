@@ -207,7 +207,7 @@ Controls.prototype.refresh = function() {
     return true;
 };
 
-Controls.prototype.getAllValues = function() {
+Controls.prototype.getValues = function() {
     var out, key, el;
     out = {};
     for (key in this.features) {    
@@ -571,13 +571,13 @@ CFControls.pinDownFeatures = function(input) {
         }       
     }
     return input;
-}       
+}
 
 CFControls.prototype.parse = function() {
     return this.list.parse();
 };
 
-CFControls.prototype.getAllValues = function() {
+CFControls.prototype.getValues = function() {
     var out = {};
     for (var key in this.features) {    
         if (this.features.hasOwnProperty(key)) {

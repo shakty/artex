@@ -97,7 +97,7 @@ function init() {
         var code, questStage, disconnectStage;
 
         console.log('Oh...somebody reconnected!', p.id);
-
+        code = channel.registry.getClient(p.id);
 
         // The stage when the client disconnected.
         questStage = node.game.questStage;
@@ -130,8 +130,6 @@ function init() {
         // Add player to player list.
         node.game.pl.add(p);
 
-        code = channel.registry.getClient(p.id);
-
 
         // Clear any message in the buffer from.
         node.remoteCommand('erase_buffer', 'ROOM');
@@ -155,8 +153,6 @@ function init() {
             });
             // The logic is also reset to the same game stage.
         }, 100);
-        // Unpause ROOM players
-        // node.remoteCommand('resume', 'ROOM');
     });
 
 
@@ -178,7 +174,6 @@ function evaluation() {
     node.env('review_random', function() {
         var faces, face, data;
         var i, j;
-
         faces = dataRound.fetch();
         // Generates a latin square array where:
         // - array-id of items to review,

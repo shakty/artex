@@ -39,7 +39,6 @@ $(document).ready(function() {
             height: 300,
             scaleX: 1,
             scaleY: 1,
-            id: false,
             change: false,
             controls: false
         };
@@ -81,6 +80,11 @@ $(document).ready(function() {
             head = document.createElement('span');
             head.innerHTML = 'Review for Exhibition: ' + ex;
             head.className = 'ex-header';
+
+            // Build the canvas and draws the face.
+            cf.buildHTML();
+
+            // Add Exhibition column.
             table.addColumn([head, sl, display_container, cf.getCanvas()]);
             table.parse();
 

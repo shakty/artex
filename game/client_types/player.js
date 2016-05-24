@@ -36,6 +36,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.setDefaultProperty('done', cbs.clearFrame);
 
+    stager.setDefaultProperty('timeup', function() { node.done(); });
+
     stager.extendStep('mood', {
         init: function() {
             this.mood = node.widgets.get('MoodGauge', {
@@ -45,7 +47,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'mood.html',
         done: function() {
             var values;
-            values = this.mood.getValues();
+            values = this.mood.getValues({ 
+                markAttempt: true,
+                highlight: true
+            });
             if (values.missValues) {
                 // Do something.
                 return false;
@@ -64,7 +69,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'svo.html',
         done: function() {
             var values;
-            values = this.svo.getValues();
+            values = this.svo.getValues({ highlight: true });
             if (values.missValues) {
                 // Do something.
                 return false;
@@ -89,7 +94,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                             '18-20', '21-30', '31-40', '41-50',
                             '51-60', '61-70', '71+', 'Do not want to say'
                         ],
-                        title: false
+                        title: false,
+                        requiredChoice: true
                     }),
                     w.get('ChoiceTable', {
                         id: 'job',
@@ -101,7 +107,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                             'No', 'Yes, 1y', 'Yes, 1-2y',
                             'Yes, 3-5y','Yes, 5y+', 'Do not want to say'
                         ],
-                        title: false
+                        title: false,
+                        requiredChoice: true
                     }),
                     w.get('ChoiceTable', {
                         id: 'gender',
@@ -110,7 +117,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                             'Male', 'Female', 'Other', 'Do not want to say'
                         ],
                         shuffleChoices: true,
-                        title: false
+                        title: false,
+                        requiredChoice: true
                     })
                 ]
             });
@@ -118,7 +126,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'demo.html',
         done: function() {
             var values;
-            values = this.demo.getValues();
+            values = this.demo.getValues({ highlight: true });
             if (values.missValues.length) {
                 // Do something.
                 return false;
@@ -128,7 +136,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('instructions', {
-        minPlayers: MIN_PLAYERS,
         timer: settings.timer.instructions,
         frame: settings.instrPage
     });
@@ -171,6 +178,25 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    stager.extendStep('training', {
+        init: function() {
+            node.game.training = [];
+        },
+        frame: 'training.html',
+//         cb: function() {
+//             var cb, round;
+//             round = node.player.stage.round;
+//             cb = function() { W.setInnerHTML('drawing-count', round); };
+//             // Load frame only on first round.
+//             if (round !== 1) cb();
+//             else W.loadFrame('training.html', cb);
+//         },
+        timer: settings.timer.training,
+        done: function() {
+            node.game.last_cf = node.game.cf.getValues();
+        }
+    });
+
    stager.extendStep('belief', {
         init: function() {
             this.belief = node.widgets.get('ChoiceTable', {
@@ -186,7 +212,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'belief.html',
         done: function() {
             var values;
-            values = this.belief.getValues();
+            values = this.belief.getValues({ highlight: true });
             if (values.choice === null) {
                 // Do something.
                 return false;

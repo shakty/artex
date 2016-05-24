@@ -27,7 +27,7 @@ function init() {
         // Uncomment to visualize the name of the stages.
         //node.game.visualStage = node.widgets.append('VisualStage', header);
 
-        node.game.timer = node.widgets.append('VisualTimer', header);
+        node.game.visualTimer = node.widgets.append('VisualTimer', header);
 
         node.game.rounds = node.widgets.append('VisualRound', header, {
             displayModeNames: ['COUNT_UP_STAGES_TO_TOTAL'],
@@ -121,7 +121,6 @@ function init() {
         td.className = 'td-selected';
         otherTd.className = '';
         otherTd2.className = '';
-
 
         this.updateSubmissionButton();
     };
@@ -375,7 +374,6 @@ function init() {
             width: w,
             height: h,
             features: cell.content.cf,
-            id: false,
             controls: false,
             onChange: false,
             title: false
@@ -404,6 +402,7 @@ function init() {
         else {
             // Just canvas.
             cf = node.widgets.get('ChernoffFaces', cfOptions);
+            cf.buildHTML();
             return cf.getCanvas();
         }
 
@@ -413,10 +412,9 @@ function init() {
         var cf, cfOptions;
         var div, buttons, f;
 
-        f = this.getAllValues();
+        f = this.getValues();
 
         cfOptions = {
-            id: false,
             width: 400,
             height: 400,
             features: f,
@@ -490,7 +488,6 @@ function init() {
                 'No past images yet</span>';
             return;
         }
-
         // Number of rows in the table.
         nTR = Math.floor(len / IMGS_4_ROW);
         if (len % IMGS_4_ROW !== 0) nTR++;
@@ -571,10 +568,9 @@ function submission() {
         var creaDiv, f, options;
 
         creaDiv = W.getElementById("creation");
-        f = node.game.cf.getAllValues();
+        f = node.game.cf.getValues();
 
         options = {
-            id: false,
             width: 200,
             height: 200,
             features: f,
@@ -612,8 +608,6 @@ function dissemination() {
 
     W.loadFrame('dissemination.html', function() {
 
-        node.game.timer.stop();
-
         node.on.data('WIN_CF', function(msg) {
             console.log('WWWWWWWWWIN_CF');
 
@@ -622,7 +616,6 @@ function dissemination() {
                 return;
             }
 
-            // debugger
             if (msg.data.winners) {
                 makeExColumn('A', msg.data.A);
                 makeExColumn('B', msg.data.B);
@@ -641,11 +634,6 @@ function dissemination() {
             this.all_ex.addDD(table);
 
             node.events.step.emit('canvas_tooltip');
-
-            node.game.timer.restart({
-                milliseconds: node.game.settings.timer.dissemination,
-                timeup: 'DONE'
-            });
         });
 
         node.on.data('PLAYER_RESULT', function(msg) {

@@ -122,6 +122,7 @@ settings = {
     // Timer values.
     timer: {
 
+        training: 30000,
         // instructions: 90000,
         // quiz: 60000,
         creation: function() {
@@ -130,7 +131,7 @@ settings = {
             return 50000;
         },
         evaluation: 20000,
-        dissemination: 150000
+        dissemination: 15000
         // questionnaire: 20000
     },
 
@@ -158,7 +159,9 @@ settings = {
                 N: 4,
                 reward: 125
             },
-            instrPage: 'instr_rank.html'
+            instrPage: 'instr_rank.html',
+            review_random: true,
+            com: true
         },
 
         rank_same: {
@@ -181,7 +184,9 @@ settings = {
                 N: 2,
                 reward: 250
             },
-            instrPage: 'instr_rank.html'
+            instrPage: 'instr_rank.html',
+            review_random: true,
+            com: true
         },
 
         review_select_com: {

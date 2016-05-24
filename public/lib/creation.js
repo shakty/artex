@@ -6,6 +6,12 @@ $(document).ready(function() {
     var W = node.window;
     var GameStage = node.GameStage;
 
+    var creationDiv;
+    var cf_options, init_cf;
+    var init_sc, cfc;
+    var historyDiv
+    var stepId;
+
     function addJQuerySliders(init) {
         $('#cf_controls div.ui-slider').each(function() {
             // Read initial values from markup and remove that.
@@ -19,18 +25,8 @@ $(document).ready(function() {
         });
     };
 
-    // TODO: do we need as an emit? Can we do it inside the jQuery dialog?
-    node.on('COPIED', function(f) {
-        node.game.cf.draw(f);
-        addJQuerySliders(CFControls.normalizeFeatures(f));
-    });
-
     // Initialize Chernoff Face
     ////////////////////////////
-
-    var creationDiv;
-    var cf_options, init_cf;
-    var init_sc, cfc;
 
     // If we play the first round we start with a random face,
     // otherwise with the last one created
@@ -58,7 +54,6 @@ $(document).ready(function() {
         features: init_sc
     });
 
-
     creationDiv = document.getElementById('creation');
 
     cf_options = {
@@ -77,20 +72,34 @@ $(document).ready(function() {
     ////////////////////////////
     addJQuerySliders(init_sc);
 
+
+    // Stop here if it is not creation.
+    stepId = node.game.getCurrentStepObj().id;
+    if (stepId !== 'creation') {
+        return;
+    }
+   
     // History of previous exhibits
     ///////////////////////////////
-
-    var historyDiv = document.getElementById('history');
+    
+    historyDiv = document.getElementById('history');
 
     if (node.game.all_ex.size() > 0) {
         node.game.all_ex.parse();
         historyDiv.appendChild(node.game.all_ex.getRoot());
+
+        // TODO: do we need as an emit?
+        // Can we do it inside the jQuery dialog?
+        node.on('COPIED', function(f) {
+            node.game.cf.draw(f);
+            addJQuerySliders(CFControls.normalizeFeatures(f));
+        });
     }
     else {
         historyDiv.innerHTML = '<em>No past exhibitions yet.</em>';
     }
 
-    // Canvas tooltip.
+    // Activate canvas tooltip.
     node.events.step.emit('canvas_tooltip');
-
+   
 });

@@ -89,6 +89,13 @@ dl#sub_list dt {
 
 /* Right Part */
 
+div#container_training {
+    margin: 0 auto;
+    border: 0;
+    padding:0;
+    background: white;
+}
+
 div#container_history {
     float: right;
     height: 530px;
