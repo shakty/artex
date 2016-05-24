@@ -381,10 +381,6 @@ function init() {
 
         if (stepName !== 'submission') {
 
-            cfOptions.onclick = function() {
-                node.game.popupCf.call(this, stepName, cell.content);
-            };
-
             // Creating HTML.
             container = document.createElement('div');
             cf = node.widgets.append('ChernoffFaces',
@@ -397,6 +393,11 @@ function init() {
                 'Score: ' + cell.content.mean
             ]);
             container.appendChild(cfDetailsTable.parse());
+
+            // Add listener on canvas.
+            cf.getCanvas().onclick = function() {
+                node.game.popupCf.call(cf, stepName, cell.content);
+            };
             return container;
         }
         else {
@@ -425,11 +426,12 @@ function init() {
 
         cf = node.widgets.get('ChernoffFaces', cfOptions);
 
-        div = $('<div class="copyorclose">');
+        cf.buildCanvas();
         $(cf.canvas).css('background', 'white');
         $(cf.canvas).css('border', '3px solid #CCC');
         $(cf.canvas).css('padding', '5px');
 
+        div = $('<div class="copyorclose">');
         div.append(cf.getCanvas());
 
         // If we are not in dissemination we can copy the image.
