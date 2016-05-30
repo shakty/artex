@@ -84,7 +84,6 @@ div#quiz div.moodgauge {
 }
 
 div#quiz div.moodgauge span.choicetable-maintext, div#quiz div.moodgauge table.choicetable {
-    margin: 0 auto;
     text-align: center;
 }
 
@@ -104,9 +103,17 @@ div.moodgauge table.choicetable td {
     width: 80px !important;
 }
 
-div.moodgauge td.choicetable-descr {
+div.moodgauge table.choicetable td.choicetable-left {
+    min-width: 260px !important;
+}
+
+div.moodgauge span.emotion {
     font-weight: bold;
-    width: 300px;
+    margin-right: 10px;
+}
+
+div.moodgauge table.choicetable td.choicetable-right {
+    width: 100px;
 }
 
 /* SVO */ 
@@ -131,7 +138,7 @@ div.svogauge hr {
     margin: 10px auto;
 }
 
-div.svogauge td.choicetable-descr hr {
+div.svogauge td.choicetable-left hr {
     border-color: black;
 }
 

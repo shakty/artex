@@ -10,8 +10,6 @@ module.exports = function(stager, settings) {
 
     stager
 
-        .repeat('artex', settings.REPEAT)
-
     // individual part
         .next('mood')
         .next('svo')
