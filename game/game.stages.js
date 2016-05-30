@@ -10,7 +10,11 @@ module.exports = function(stager, settings) {
 
     stager
 
+        .next('consent')
+        .next('intro')
+
     // individual part
+
         .next('mood')
         .next('svo')
         .next('demographics')

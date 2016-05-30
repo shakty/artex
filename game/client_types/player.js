@@ -38,6 +38,15 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.setDefaultProperty('timeup', function() { node.done(); });
 
+    stager.extendStep('consent', {
+        frame: 'consent.html',
+        donebutton: false,
+    });
+
+    stager.extendStep('intro', {
+        frame: 'intro.html'
+    });
+
     stager.extendStep('mood', {
         init: function() {
             this.mood = node.widgets.get('MoodGauge', {
