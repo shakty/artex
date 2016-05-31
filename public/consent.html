@@ -43,11 +43,6 @@
         experiment, nor will you experience any costs when participating.
         
         <br/> <br/>
-        The information you provide will help us understand
-        how groups of how individuals interact and make
-        decisions in groups.
-        
-        <br/> <br/>
         
         This experiment is anonymous. The information you provide will not be
         stored or used in any way that could reveal your personal identity.
@@ -75,10 +70,16 @@
         
         <a class="btn btn-danger" style="font-size:85%;
                                           align:center;"
-           onclick="">No, thanks let me out</a>
+           onclick="_out()">No, thanks let me out</a>
         
       </div>
       
     </div>
   </div>
 </body>
+<script type="text/javascript">
+    function _out() {
+        parent.node.say('opt_out');
+        parent.location.href = 'out.html';
+    }
+</script>
