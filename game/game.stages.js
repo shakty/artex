@@ -20,8 +20,10 @@ module.exports = function(stager, settings) {
         .next('demographics')
         .next('instructions')
         .next('quiz')
+        .next('training_intro')
         .repeat('training', 3)
-        .next('belief')
+        .next('belief')   
+        .next('finished_part1')
 
         .repeat('artex', settings.REPEAT)
         .next('final')
@@ -52,11 +54,11 @@ module.exports = function(stager, settings) {
         ]
     });
 
-//    stager.skip('mood');
-//    stager.skip('svo');
-//    stager.skip('demographics');
-//    stager.skip('instructions');
-//    stager.skip('quiz');
+    stager.skip('mood');
+    stager.skip('svo');
+    stager.skip('demographics');
+    // stager.skip('instructions');
+    stager.skip('quiz');
 //    stager.skip('training');
 //    stager.skip('belief');
 

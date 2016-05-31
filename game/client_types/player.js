@@ -34,7 +34,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Add all the stages into the stager.
 
-    stager.setDefaultProperty('done', cbs.clearFrame);
+    // stager.setDefaultProperty('done', cbs.clearFrame);
 
     stager.setDefaultProperty('timeup', function() { node.done(); });
 
@@ -189,19 +189,25 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    stager.extendStep('training_intro', {
+        frame: 'training_intro.html'
+    });
+
     stager.extendStep('training', {
         init: function() {
             node.game.training = [];
         },
         frame: 'training.html',
-//         cb: function() {
-//             var cb, round;
-//             round = node.player.stage.round;
-//             cb = function() { W.setInnerHTML('drawing-count', round); };
-//             // Load frame only on first round.
-//             if (round !== 1) cb();
-//             else W.loadFrame('training.html', cb);
-//         },
+        cb: function() {
+            // var cb;
+            var round;
+            round = node.player.stage.round;
+            W.setInnerHTML('drawing-count', round);
+            //cb = function() { W.setInnerHTML('drawing-count', round); };
+            // Load frame only on first round.
+            // if (round !== 1) cb();
+            //else W.loadFrame('training.html', cb);
+        },
         done: function() {
             node.game.last_cf = node.game.cf.getValues();
         },
@@ -233,6 +239,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             return values;
         }
     });
+
+    stager.extendStep('finished_part1', {
+        frame: 'finished_part1.html'
+    });
+
 
     // Adjust to displaying rounds in main stage.
     stager.extendStage('artex', {

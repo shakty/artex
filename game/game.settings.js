@@ -38,15 +38,15 @@ pubRules = {
         'number of points. That is: ' +
         '<ul><li><strong>Exhibition A:</strong> displays the ' +
         'top <em id="ng_replace_threshold_A"></em> ' +
-        'image/s and awards their authors with ' +
+        'painting/s and awards their authors with ' +
         '<em id="ng_replace_award_A"></em> points each</li>' +
         '<li><strong>Exhibition B:</strong> displays the ' +
         'top <em id="ng_replace_threshold_B"></em> ' +
-        'image/s and awards their authors with ' +
+        'painting/s and awards their authors with ' +
         '<em id="ng_replace_award_B"></em> points each</li>' +
         '<li><strong>Exhibition C:</strong> displays the ' +
         'top <em id="ng_replace_threshold_C"></em> ' +
-        'image/s and awards their authors with ' +
+        'painting/s and awards their authors with ' +
         '<em id="ng_replace_award_C"></em> points each</li>'
 };
 
