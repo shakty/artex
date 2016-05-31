@@ -27,7 +27,14 @@ module.exports = function(stager, settings) {
         .next('final')
 
         .gameover();
-        
+       
+    stager.extendStage('instructions', {
+        steps: [
+            'instr_text',
+            'instr_images',
+        ]
+    });
+ 
     stager.extendStage('artex', {
         steps: [
             'creation',

@@ -21,33 +21,33 @@ pubRules = {
 
     thresholdDifferent: 'Each exhibition has a different threshold. ' +
         'That is: ' +
-        '<ul><li>A: average review score &gt;' +
+        '<ul><li>Exhibition A: average review score &gt;' +
         '<em id="ng_replace_threshold_A"></em></li>' +
-        '<li>B: average review score &gt;' +
+        '<li>Exhibition B: average review score &gt;' +
         '<em id="ng_replace_threshold_B"></em></li>' +
-        '<li>C: average review score &gt;' +
+        '<li>Exhibition C: average review score &gt;' +
         '<em id="ng_replace_threshold_C"></em></li></ul>',
 
     rankSame: 'The display rules are the same for all exhibitions. The top ' +
         '<em id="ng_replace_threshold"></em> paintings of each exhibition ' +
-        'are displayed and generate <em id="ng_replace_award"></em> point for ' +
-        'the author.',
+        'are displayed and generate <em id="ng_replace_award"></em> ' +
+        'point for the author.',
 
     rankDifferent: 'Each exhibition displays a limited number ' +
-        'of paintings, and awards them a different number of points. ' +
-        'That is: ' +
-        '<ul><li><strong>A:</strong> displays the ' +
+        'of paintings, and awards their authors a different ' +
+        'number of points. That is: ' +
+        '<ul><li><strong>Exhibition A:</strong> displays the ' +
         'top <em id="ng_replace_threshold_A"></em> ' +
-        'image/s and awards them with <em id="ng_replace_award_A"></em> ' +
-        'points each</li>' +
-        '<li><strong>B:</strong> displays the ' +
+        'image/s and awards their authors with ' +
+        '<em id="ng_replace_award_A"></em> points each</li>' +
+        '<li><strong>Exhibition B:</strong> displays the ' +
         'top <em id="ng_replace_threshold_B"></em> ' +
-        'image/s and awards them with <em id="ng_replace_award_B"></em> ' +
-        'points each</li>' +
-        '<li><strong>C:</strong> displays the ' +
+        'image/s and awards their authors with ' +
+        '<em id="ng_replace_award_B"></em> points each</li>' +
+        '<li><strong>Exhibition C:</strong> displays the ' +
         'top <em id="ng_replace_threshold_C"></em> ' +
-        'image/s and awards them with <em id="ng_replace_award_C"></em> ' +
-        'points each</li>'
+        'image/s and awards their authors with ' +
+        '<em id="ng_replace_award_C"></em> points each</li>'
 };
 
 settings = {

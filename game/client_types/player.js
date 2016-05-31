@@ -144,8 +144,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
-    stager.extendStep('instructions', {
+    stager.extendStep('instr_text', {
         frame: settings.instrPage
+    });
+
+    stager.extendStep('instr_images', {
+        frame: 'instr_images.html'
     });
 
     stager.extendStep('quiz', {
@@ -200,6 +204,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //         },
         done: function() {
             node.game.last_cf = node.game.cf.getValues();
+        },
+        exit: function() {
+            node.game.visualTimer.setToZero();
         }
     });
 
