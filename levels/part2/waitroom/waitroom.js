@@ -67,22 +67,23 @@ module.exports = function(settings, waitRoom, runtimeConf) {
     function clientReconnects(p) {
         channel.sysLogger.log('Reconnection in the waiting room.', p);
 
-        node.game.pl.each(function(player) {
-            node.socket.send(node.msg.create({
-                target: 'PCONNECT',
-                data: p,
-                to: player.id
-            }));
-        });
-
-        // Send currently connected players to reconnecting one.
-        node.socket.send(node.msg.create({
-            target: 'PLIST',
-            // TODO: this sends a bit too much.
-            data: node.game.pl.db,
-            to: p.id
-        }));
-        node.game.pl.add(p);
+// TODO: check here.
+//        node.game.pl.each(function(player) {
+//            node.socket.send(node.msg.create({
+//                target: 'PCONNECT',
+//                data: p,
+//                to: player.id
+//            }));
+//        });
+//
+//        // Send currently connected players to reconnecting one.
+//        node.socket.send(node.msg.create({
+//            target: 'PLIST',
+//            // TODO: this sends a bit too much.
+//            data: node.game.pl.db,
+//            to: p.id
+//        }));
+//        node.game.pl.add(p);
         clientConnects(p);
     }
 
@@ -169,11 +170,19 @@ module.exports = function(settings, waitRoom, runtimeConf) {
         // Decide treatment.
         treatmentName = decideTreatment(settings.CHOSEN_TREATMENT);
         
-        // Create new game room.
-        gameRoom = channel.createGameRoom({
-            clients: tmpPlayerList,
-            treatmentName: treatmentName
-        });
+        if (waitRoom.gameLevel) {
+            gameRoom = channel.gameLevels[waitRoom.gameLevel].createGameRoom({
+                clients: tmpPlayerList,
+                treatmentName: treatmentName
+            });
+        }
+        else {
+            // Create new game room.
+            gameRoom = channel.createGameRoom({
+                clients: tmpPlayerList,
+                treatmentName: treatmentName
+            });
+        }
 
         // Setup and start game.
         gameRoom.setupGame();

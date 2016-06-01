@@ -27,9 +27,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var node = gameRoom.node;
 
     stager.setOnInit(function() {
-
-        console.log('aaah');
-
         node.on.data('finished_part1', function(msg) {
             console.log('moving client to part2: ', msg.from);
             channel.moveClient(msg.from, 'waiting_part2', gameRoom.name);
