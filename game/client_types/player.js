@@ -241,7 +241,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('finished_part1', {
-        frame: 'finished_part1.html'
+        frame: 'finished_part1.html',
+        cb: function() {
+            console.log('finished_part1');
+            node.say('finished_part1');
+        }
     });
 
     // We serialize the game sequence before sending it.
