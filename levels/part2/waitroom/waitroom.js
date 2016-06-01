@@ -169,19 +169,11 @@ module.exports = function(settings, waitRoom, runtimeConf) {
         // Decide treatment.
         treatmentName = decideTreatment(settings.CHOSEN_TREATMENT);
         
-        if (waitRoom.gameLevel) {
-            gameRoom = channel.gameLevels[waitRoom.gameLevel].createGameRoom({
-                clients: tmpPlayerList,
-                treatmentName: treatmentName
-            });
-        }
-        else {
-            // Create new game room.
-            gameRoom = channel.createGameRoom({
-                clients: tmpPlayerList,
-                treatmentName: treatmentName
-            });
-        }
+        // Create new game room.
+        gameRoom = channel.createGameRoom({
+            clients: tmpPlayerList,
+            treatmentName: treatmentName
+        });
 
         // Setup and start game.
         gameRoom.setupGame();

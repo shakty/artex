@@ -82,6 +82,7 @@ function init() {
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
+        debugger
         var idEx = node.game.exhibitions[i.ex];
         node.game.last_submissions[idEx].push({ player: i.player, cf: i.cf });
     };

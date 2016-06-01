@@ -8,12 +8,12 @@
 
 module.exports = function(stager, settings) {
 
-    stager
 
+    stager
         .next('consent')
         .next('intro')
 
-    // individual part
+    // Individual part.
 
         .next('mood')
         .next('svo')
@@ -23,13 +23,9 @@ module.exports = function(stager, settings) {
         .next('training_intro')
         .repeat('training', 3)
         .next('belief')   
-        .next('finished_part1')
+        .next('finished_part1');
 
-        .repeat('artex', settings.REPEAT)
-        .next('final')
 
-        .gameover();
-       
     stager.extendStage('instructions', {
         steps: [
             'instr_text',
@@ -37,22 +33,6 @@ module.exports = function(stager, settings) {
         ]
     });
  
-    stager.extendStage('artex', {
-        steps: [
-            'creation',
-            'submission',
-            'evaluation',
-            'dissemination'
-        ]
-    });
-
-    stager.extendStage('final', {
-        steps: [
-            'questionnaire',
-            'morequestions',
-            'endgame'
-        ]
-    });
 
 //    stager.skip('mood');
 //    stager.skip('svo');
@@ -61,14 +41,5 @@ module.exports = function(stager, settings) {
 //    stager.skip('quiz');
 //    stager.skip('training');
 //    stager.skip('belief');
-
-
-//     stager.skip('artex');
-//     stager.skip('artex', 'creation');
-//     stager.skip('artex', 'evaluation');
-//     stager.skip('artex', 'dissemination');
-    
-    // stager.skip('final', 'questionnaire')
-    // stager.skip('final', 'morequestions')
 
 };
