@@ -447,7 +447,7 @@ function dissemination() {
                 author: author.name || player.substr(player.length -5),
                 mean: Number(mean.toFixed(2)),
                 ex: ex,
-                round: node.game.getCurrentGameStage().toHash('S.r'),
+                round: GameStage.toHash(node.game.getCurrentGameStage(), 'S.r'),
                 cf: cf,
                 id: author.name,
                 payoff: 0 // will be updated later
