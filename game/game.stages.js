@@ -40,5 +40,4 @@ module.exports = function(stager, settings) {
     stager.skip('quiz');
     stager.skip('training');
     stager.skip('belief');
-
 };

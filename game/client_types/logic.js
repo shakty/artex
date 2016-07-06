@@ -6,6 +6,9 @@
  * http://www.nodegame.org
  */
 
+var ngc = require('nodegame-client');
+var stepRules = ngc.stepRules;
+
 // Here we export the logic function. Receives three parameters:
 // - node: the NodeGameClient object.
 // - channel: the ServerChannel object in which this logic will be running.
@@ -21,6 +24,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             channel.moveClientToGameLevel(msg.from, 'part2', gameRoom.name);
         });
     });
+
+    stager.setDefaultStepRule(stepRules.SOLO);
 
     // Here we group together the definition of the game logic.
     return {

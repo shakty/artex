@@ -45,5 +45,7 @@ module.exports = {
 //         this.bodyDiv.innerHTML = timeOut;
 //     },
 
+    EXECUTION_MODE: 'WAIT_FOR_N_PLAYERS',
+
     DISPATCH_TO_SAME_ROOM: true
 };

@@ -35,8 +35,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Add all the stages into the stager.
 
     // stager.setDefaultProperty('done', cbs.clearFrame);
-
-    stager.setDefaultProperty('timeup', function() { node.done(); });
+    stager.setDefaultStepRule(stepRules.SOLO);
 
     stager.extendStep('consent', {
         frame: 'consent.html',
