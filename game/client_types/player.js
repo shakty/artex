@@ -153,26 +153,28 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         donebutton: { text: 'Check Quiz!' },
         done: function() {
             var i, len, answers, values, text, spanOutcome, fail, correct;
+            var nCorrect;
             fail = '<em>Try again!</em>';
             correct = '<em>Correct!</em>';
-            answers = [];
+            answers = {};
             i = -1, len = this.quizzes.length;
+            nCorrect = 0;
             for ( ; ++i < len ; ) {
                 spanOutcome = W.getElementById('q_' + (i+1) + '_outcome');
-                values = this.quizzes[i].getValues();
+                values = this.quizzes[i].getValues({ highlight: true });
                 if (!values.isCorrect) {
-                    this.quizzes[i].highlight();
                     spanOutcome.innerHTML = fail;
                 }
                 else {
-                    answers.push(values);
+                    nCorrect++;
+                    answers[values.id] = values;
                     spanOutcome.innerHTML = correct;
                 }
             }
-            text = 'Check Quiz! Correct: ' + answers.length + ' / ' + len;
+            text = 'Check Quiz! Correct: ' + nCorrect + ' / ' + len;
             this.node.game.donebutton.setText(text);
-            if ((answers.length === len) || node.game.timer.isTimeup()) {
-                // On Timeup there are no answers.
+            // Either all correct or timeup.
+            if ((nCorrect === len) || node.game.timer.isTimeup()) {
                 return answers;
             }
             else {

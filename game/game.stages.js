@@ -33,10 +33,10 @@ module.exports = function(stager, settings) {
         ]
     });
  
-//     stager.skip('mood');
-//     stager.skip('svo');
-//     stager.skip('demographics');
-//     stager.skip('instructions');
+     stager.skip('mood');
+     stager.skip('svo');
+     stager.skip('demographics');
+     stager.skip('instructions');
 //     stager.skip('quiz');
 //     stager.skip('training');
 //     stager.skip('belief');
