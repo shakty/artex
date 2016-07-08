@@ -35,14 +35,14 @@ $(document).ready(function() {
         // Some features are fixed in the simplified version
         init_cf = CFControls.pinDownFeatures(init_cf);
 
-// TODO: store somewhere the initial random face.
-// 	node.set({
-//             cf0: init_cf
-//         });
+        // Store the initial random face.
+        node.set({
+            cf0: init_cf
+        });
     }
-     else {
-         init_cf = node.game.last_cf;
-     }
+    else {
+        init_cf = node.game.last_cf;
+    }
 
     // Important: set the player color.
     init_cf.color = 'black';

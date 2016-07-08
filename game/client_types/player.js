@@ -192,9 +192,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('training', {
-        init: function() {
-            node.game.training = [];
-        },
         frame: 'training.html',
         cb: function() {
             // var cb;
@@ -208,6 +205,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         done: function() {
             node.game.last_cf = node.game.cf.getValues();
+            return { cf: node.game.last_cf };
         },
         exit: function() {
             node.game.visualTimer.setToZero();
