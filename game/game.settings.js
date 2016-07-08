@@ -9,10 +9,6 @@
 var settings;
 var pubRules;
 
-// If your painting
-//        is displayed, you will receive <em>as many points as are
-//        awarded by your exhibition</em>
-
 pubRules = {
 
     thresholdSame: 'All the paintings that receive an average review-score ' +

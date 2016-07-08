@@ -135,11 +135,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             var values;
             values = this.demo.getValues({ highlight: true });
-            if (values.missValues.length) {
-                // Do something.
-                return false;
-            }
-            return values.items;
+            if (values.missValues.length) return false;            
+            return values.forms;
         }
     });
 
