@@ -194,14 +194,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('training', {
         frame: 'training.html',
         cb: function() {
-            // var cb;
             var round;
             round = node.player.stage.round;
             W.setInnerHTML('drawing-count', round);
-            //cb = function() { W.setInnerHTML('drawing-count', round); };
-            // Load frame only on first round.
-            // if (round !== 1) cb();
-            //else W.loadFrame('training.html', cb);
         },
         done: function() {
             node.game.last_cf = node.game.cf.getValues();
