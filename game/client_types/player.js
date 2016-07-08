@@ -59,10 +59,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 markAttempt: true,
                 highlight: true
             });
-            if (values.missValues) {
-                // Do something.
-                return false;
-            }
+            if (values.missValues) return false;            
             return values.items;
         }
     });
@@ -78,10 +75,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             var values;
             values = this.svo.getValues({ highlight: true });
-            if (values.missValues) {
-                // Do something.
-                return false;
-            }
+            if (values.missValues) return false;            
             return values.items;
         }
     });
@@ -223,10 +217,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             var values;
             values = this.belief.getValues({ highlight: true });
-            if (values.choice === null) {
-                // Do something.
-                return false;
-            }
+            if (values.choice === null) return false;            
             return values;
         }
     });
