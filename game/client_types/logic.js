@@ -6,6 +6,7 @@
  * http://www.nodegame.org
  */
 
+var path = require('path');
 var ngc = require('nodegame-client');
 var stepRules = ngc.stepRules;
 
@@ -19,9 +20,22 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var node = gameRoom.node;
 
     stager.setOnInit(function() {
+        // Create data dir. TODO: do it automatically?
+        var dataDir;
+        dataDir = path.resolve(channel.getGameDir(), 'data') + '/';
+
         node.on.data('finished_part1', function(msg) {
+            var db;
             console.log('moving client to part2: ', msg.from);
             channel.moveClientToGameLevel(msg.from, 'part2', gameRoom.name);
+            db = node.game.memory.player[msg.from];
+
+            db.save(dataDir + 'artex_part1.csv', {
+                headers: [ "time", "timeup", "player", "stage","timestamp" ],
+                adapter: {
+                    stage: function(row) { return row.stage.stage }
+                }
+            });
         });
     });
 
