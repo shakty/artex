@@ -33,13 +33,13 @@ module.exports = function(stager, settings) {
         ]
     });
 
-    stager.skip('consent');
-    stager.skip('intro');
-//     stager.skip('mood');
-//     stager.skip('svo');
-//     stager.skip('demographics');
-//     stager.skip('instructions');
-//     stager.skip('quiz');
+     stager.skip('consent');
+     stager.skip('intro');
+     stager.skip('mood');
+     stager.skip('svo');
+     stager.skip('demographics');
+     stager.skip('instructions');
+     stager.skip('quiz');
 //     stager.skip('training');
 //     stager.skip('belief');
 };

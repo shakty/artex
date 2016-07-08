@@ -18,7 +18,8 @@ $(document).ready(function() {
             var settings = init[this.id];
             if (settings) {
                 settings.slide = settings.change = function(e, ui) {
-                    node.emit('CF_CHANGE'); // TODO: use a param here.
+                    // TODO: here. Parameters need to change.
+                    node.emit('CF_CHANGE', this.id, ui.value);
                 };
                 $(this).slider(settings);
             }
@@ -62,7 +63,8 @@ $(document).ready(function() {
         height: 500,
         features: init_cf,
         controls: cfc,
-        title: false
+        title: false,
+        trackChanges: true
     };
     node.game.cf = node.widgets.append('ChernoffFaces',
                                        creationDiv,
