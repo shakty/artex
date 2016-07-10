@@ -18,8 +18,10 @@ $(document).ready(function() {
             var settings = init[this.id];
             if (settings) {
                 settings.slide = settings.change = function(e, ui) {
-                    // TODO: here. Parameters need to change.
-                    node.emit('CF_CHANGE', this.id, ui.value);
+                    var f;
+                    f = {};
+                    f[this.id] = ui.value;
+                    node.emit('CF_CHANGE', f);
                 };
                 $(this).slider(settings);
             }
@@ -35,11 +37,6 @@ $(document).ready(function() {
         init_cf = node.widgets.widgets.ChernoffFaces.FaceVector.random();
         // Some features are fixed in the simplified version
         init_cf = CFControls.pinDownFeatures(init_cf);
-
-        // Store the initial random face.
-        node.set({
-            cf0: init_cf
-        });
     }
     else {
         init_cf = node.game.last_cf;
@@ -47,8 +44,14 @@ $(document).ready(function() {
 
     // Important: set the player color.
     init_cf.color = 'black';
-
     init_sc = CFControls.normalizeFeatures(init_cf);
+
+    if (!node.game.last_cf) {        
+        // Store the initial random face.
+        node.set({
+            cf0: init_cf
+        });
+    }
 
     cfc = new CFControls({
         id: 'cf_controls',

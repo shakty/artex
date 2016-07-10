@@ -16,7 +16,7 @@ Controls.defaults.id = 'controls';
 
 
 Controls.name = 'Controls'
-Controls.version = '0.2';
+Controls.version = '0.3';
 Controls.description = 'Wraps a collection of user-inputs controls.'
 
 function Controls(options) {
@@ -25,7 +25,6 @@ function Controls(options) {
     this.root = null;
     
     this.listRoot = null;
-    this.fieldset = null;
     this.submit = null;
     
     this.changeEvent = this.id + '_change';

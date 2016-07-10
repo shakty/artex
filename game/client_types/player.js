@@ -193,8 +193,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             W.setInnerHTML('drawing-count', round);
         },
         done: function() {
-            node.game.last_cf = node.game.cf.getValues();
-            return { cf: node.game.last_cf };
+            var values;
+            values = node.game.cf.getValues({ changes: true });
+            node.game.last_cf = values.cf;
+            return values;
         },
         exit: function() {
             node.game.visualTimer.setToZero();
@@ -210,7 +212,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     '9<sup>th</sup>', '8<sup>th</sup>', '7<sup>th</sup>',
                     '6<sup>th</sup>', '5<sup>th</sup>', '4<sup>th</sup>',
                     '3<sup>rd</sup>', '2<sup>nd</sup>', '1<sup>st</sup>'
-                ]
+                ],
+                requiredChoice: true
             });
         },
         frame: 'belief.html',
