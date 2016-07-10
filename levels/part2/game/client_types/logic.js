@@ -80,7 +80,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         cb: cbs.dissemination
     });
-    
+
+    stager.extendStep('questionnaire', {
+        cb: function() {
+            node.game.memory.save(this.DUMP_DIR + 'artex_part2.json');
+        }
+    });
+
     stager.extendStage('final', {
         init: function() {
 
@@ -95,7 +101,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     console.log('ERROR: no code in endgame:', id);
                     return;
                 }
-
 
                 channel.registry.checkOut(id);
 

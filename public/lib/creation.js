@@ -34,7 +34,7 @@ $(document).ready(function() {
     // If we play the first round we start with a random face,
     // otherwise with the last one created
     if (!node.game.last_cf) {
-        init_cf = node.widgets.widgets.ChernoffFaces.FaceVector.random();
+        init_cf = new node.widgets.widgets.ChernoffFaces.FaceVector();
         // Some features are fixed in the simplified version
         init_cf = CFControls.pinDownFeatures(init_cf);
     }

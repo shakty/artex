@@ -23,12 +23,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // Create data dir. TODO: do it automatically?
         var dataDir, saveOptions;
         dataDir = path.resolve(channel.getGameDir(), 'data') + '/';
-        saveOptions = {
-            headers: [ "time", "timeup", "player", "stage", "timestamp" ],
-            adapter: {
-                stage: function(row) { return row.stage.stage }
-            }
-        };
+//         saveOptions = {
+//             headers: [ "time", "timeup", "player", "stage", "timestamp" ],
+//             adapter: {
+//                 stage: function(row) { return row.stage.stage }
+//             }
+//         };
         node.on.data('finished_part1', function(msg) {
             var db;
             // Move client to part2.
@@ -36,8 +36,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             channel.moveClientToGameLevel(msg.from, 'part2', gameRoom.name);
             // Save client's data.
             db = node.game.memory.player[msg.from];
-            db.save(dataDir + 'artex_part1.csv', saveOptions);
-            db.save(dataDir + 'artex_part1_b.csv');
+            // db.save(dataDir + 'artex_part1.csv', saveOptions);
+            // db.save(dataDir + 'artex_part1_b.csv');
             db.save(dataDir + 'artex_part1.json');
         });
     });

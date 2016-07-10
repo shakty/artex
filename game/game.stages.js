@@ -40,6 +40,6 @@ module.exports = function(stager, settings) {
      stager.skip('demographics');
      stager.skip('instructions');
      stager.skip('quiz');
-//     stager.skip('training');
-//     stager.skip('belief');
+     stager.skip('training');
+     stager.skip('belief');
 };

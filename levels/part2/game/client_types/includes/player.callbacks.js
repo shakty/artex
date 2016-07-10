@@ -395,7 +395,18 @@ function init() {
 
             // Add listener on canvas.
             cf.getCanvas().onclick = function() {
-                node.game.popupCf.call(cf, stepName, cell.content);
+                var data;
+                data = cell.content;
+                node.game.copies.push({
+                    action: 'click',
+                    time: node.timer.getTimeSince('step'),                    
+                    author: data.author,
+                    ex: data.ex,
+                    mean: data.mean,
+                    round: data.round,
+                    rank: cell.y
+                });
+                node.game.popupCf.call(cf, stepName, data);
             };
             return container;
         }
@@ -443,10 +454,9 @@ function init() {
                     node.emit('COPIED', f);
                     // Keep track of copying.
                     node.game.copies.push({
+                        action: 'copied',
                         time: node.timer.getTimeSince('step'),
                         author: metadata.author,
-                        ex: metadata.ex,
-                        mean: metadata.mean,
                         round: metadata.round
                     });
                     $(this).dialog("close");

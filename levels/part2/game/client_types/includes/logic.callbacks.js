@@ -39,7 +39,8 @@ var WAIT_TIME = settings.WAIT_TIME * 1000;
 function init() {
 
     // Create data dir. TODO: do it automatically?
-    DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
+    this.DUMP_DIR = DUMP_DIR = 
+        path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
 
     this.disconnectStr = 'One or more players disconnected. If they ' +
@@ -82,8 +83,8 @@ function init() {
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
-        debugger
-        var idEx = node.game.exhibitions[i.ex];
+        var idEx;
+        idEx = node.game.exhibitions[i.ex];
         node.game.last_submissions[idEx].push({ player: i.player, cf: i.cf });
     };
 
@@ -448,7 +449,7 @@ function dissemination() {
                 author: author.name || player.substr(player.length -5),
                 mean: Number(mean.toFixed(2)),
                 ex: ex,
-                round: GameStage.toHash(node.game.getCurrentGameStage(), 'S.r'),
+                round: node.game.getCurrentGameStage().round,
                 cf: cf,
                 id: author.name,
                 payoff: 0 // will be updated later
