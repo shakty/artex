@@ -568,7 +568,7 @@ function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
 
     // Dump all memory.
-    node.game.memory.save(DUMP_DIR + 'memory_all.json');
+    // node.game.memory.save(DUMP_DIR + 'memory_all.json');
 
     // TODO: fix this.
     // channel.destroyGameRoom(gameRoom.name);

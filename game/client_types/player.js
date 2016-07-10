@@ -75,8 +75,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             var values;
             values = this.svo.getValues({ highlight: true });
-            if (values.missValues) return false;            
-            return values.items;
+            if (values.missValues) return false;
+            return {
+                id: 'svo',
+                items: values.items
+            };
         }
     });
 

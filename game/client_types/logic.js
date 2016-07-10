@@ -9,6 +9,7 @@
 var path = require('path');
 var ngc = require('nodegame-client');
 var stepRules = ngc.stepRules;
+var J = ngc.JSUS;
 
 // Here we export the logic function. Receives three parameters:
 // - node: the NodeGameClient object.
@@ -40,6 +41,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             // db.save(dataDir + 'artex_part1_b.csv');
             db.save(dataDir + 'artex_part1.json');
         });
+
+        // Select a random value of svo decision.
+        node.on.data('done', function(msg) {
+            var svo;
+            if (!msg.data || !msg.data.id || msg.data.id !== 'svo') return;
+            code = channel.registry.getClient(msg.from);
+            svo = J.randomInt(0,6)-1;
+            code.svo = msg.data.items[svo].choice;
+        });
+
     });
 
     stager.setDefaultStepRule(stepRules.SOLO);

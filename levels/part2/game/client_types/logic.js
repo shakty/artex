@@ -81,19 +81,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         cb: cbs.dissemination
     });
 
-    stager.extendStep('questionnaire', {
-        cb: function() {
-            node.game.memory.save(this.DUMP_DIR + 'artex_part2.json');
-        }
-    });
-
     stager.extendStage('final', {
         init: function() {
-
+            // Save data.
+            node.game.memory.save(this.DUMP_DIR + 'artex_part2.json');
+       
             // Compute payoff.
-
             node.on.data('WIN', function(msg) {
-                var id, code;
+                var id, code, db;
                 id = msg.from;
 
                 code = channel.registry.getClient(id);
@@ -103,12 +98,18 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 }
 
                 channel.registry.checkOut(id);
-
                 node.say('WIN', id, {
-                    win: code.win,
-                    exitcode: code.ExitCode
+                    win: code.bonus,
+                    exitcode: code.ExitCode,
+                    svo: code.svo
                 });
-                
+
+                // TODO: handle SVO on the client, save bonuses.
+                // Add bonus FROM another participant.
+                // Save data.
+
+                db = node.game.memory.player[msg.from];
+                node.game.memory.save(this.DUMP_DIR + 'artex_quest.json');
             });
         },
         stepRule: 'SOLO',
