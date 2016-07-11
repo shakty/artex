@@ -62,14 +62,30 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             
             // This function is executed on the client.
             reconOptions.cb = function(options) {
-                var i, len, w;
+                var i, len, w, table;
                 this.last_cf = options.cf;
                 w = options.winners ;               
                 // Make the past exhibition list.
-                i = -1, len = (node.player.stage.round-1);
-                for ( ; ++i < len ; ) {
-                    this.makeRoundTable(w[i], (i+1));
-                }                
+
+                // On dissemination step, do 1 extra iteration and parse table.
+                if (node.player.stage.step === 4) {
+                    i = -1, len = node.player.stage.round;
+                    for ( ; ++i < len ; ) {
+                        table = this.makeRoundTable(w[i], (i+1));
+                    }
+                    // Only when DOM is ready.
+                    this.plot.tmpCache('cb', function() {
+                        W.getElementById('container_exhibition')
+                            .appendChild(table.parse());
+                        node.events.step.emit('canvas_tooltip');
+                    });
+                }
+                else {
+                    i = -1, len = (node.player.stage.round-1);
+                    for ( ; ++i < len ; ) {
+                        table = this.makeRoundTable(w[i], (i+1));
+                    }
+                }
             };
         }
     });
