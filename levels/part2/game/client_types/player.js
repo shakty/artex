@@ -233,6 +233,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('endgame', {
         init: function() {
+            node.game.visualTimer.setToZero();
             // Request data.
             node.say('WIN', 'SERVER');
             node.on.data('WIN', function(msg) {
