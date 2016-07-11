@@ -98,7 +98,10 @@ function init() {
     this.assignSubToEx = function(i) {
         var idEx;
         idEx = node.game.exhibitions[i.ex];
-        node.game.last_submissions[idEx].push({ player: i.player, cf: i.cf });
+        node.game.last_submissions[idEx].push({
+            player: i.player,
+            cf: node.game.memory.cf.get(i.player).cf
+        });
     };
 
     // Register player disconnection, and wait for him...
@@ -122,33 +125,33 @@ function evaluation() {
     dataRound = this.memory.stage[this.getPreviousStep()];
 
     node.env('review_random', function() {
-        var faces, face, data;
+        var submissions, sub, data, cf;
         var i, j;
-        faces = dataRound.fetch();
+
+        submissions = dataRound.fetch();
         // Generates a latin square array where:
         // - array-id of items to review,
         // - column are reviewers id.
-        matches = J.latinSquareNoSelf(faces.length, nReviewers);
+        matches = J.latinSquareNoSelf(submissions.length, nReviewers);
 
         // Loop across reviewers.
-        for (i = 0 ; i < faces.length; i++) {
-            data = { A: [], B: [], C: []};
+        for (i = 0 ; i < submissions.length; i++) {
+            data = { A: [], B: [], C: [] };
             // Loop across all items to review.
             for (j = 0 ; j < nReviewers ; j++) {
                 // Get item to review.
-                face = faces[matches[j][i]];
+                sub = submissions[matches[j][i]];
+                cf = node.game.memory.cf.get(sub.player);
+                cf = cf.cf || cf.cf0;
                 // Add it to an exhibition.
-                data[face.ex].push({
-                    face: face.cf,
-                    author: face.player,
-                    ex: face.ex
+                data[sub.ex].push({
+                    face: cf,
+                    author: sub.player,
+                    ex: sub.ex
                 });
             }
-
-            console.log(faces[i].player);
-
             // Send them.
-            node.say('CF', faces[i].player, data);
+            node.say('CF', submissions[i].player, data);
         }
     });
 
@@ -156,6 +159,8 @@ function evaluation() {
         var pool, elements;
         var rm, matches, data;
         var i, j, h, face;
+
+        // TODO: redo completely.
 
         pool = that.nextround_reviewers;
         elements = that.last_submissions;

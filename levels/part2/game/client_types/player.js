@@ -62,6 +62,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             $(".copyorclose").dialog('destroy');
             values = node.game.cf.getValues({ changes: true });
             node.game.last_cf = values.cf;
+            return {
+                cf: node.game.last_cf,
+                changes: node.game.cf.changes,
+                copies: node.game.copies
+            };
         }
     });
 
@@ -80,12 +85,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.done();
         },
         done: function() {
-            return {
-                ex: node.game.last_ex,
-                cf: node.game.last_cf,
-                changes: node.game.cf.changes,
-                copies: node.game.copies
-            };
+            return { ex: node.game.last_ex };
         }
     });
 
