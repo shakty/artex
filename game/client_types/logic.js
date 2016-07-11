@@ -30,6 +30,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //                 stage: function(row) { return row.stage.stage }
 //             }
 //         };
+        saveOptions = {
+            flag: 'a'
+        };
         node.on.data('finished_part1', function(msg) {
             var db;
 
@@ -44,7 +47,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             db = node.game.memory.player[msg.from];
             // db.save(dataDir + 'artex_part1.csv', saveOptions);
             // db.save(dataDir + 'artex_part1_b.csv');
-            db.save(dataDir + 'artex_part1.json');
+            db.save(dataDir + 'artex_part1.json', saveOptions);
         });
 
         // Select a random value of svo decision.

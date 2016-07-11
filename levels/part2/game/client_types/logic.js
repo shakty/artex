@@ -81,8 +81,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStage('final', {
         init: function() {
+            var saveOptions;            
+            saveOptions = { flag: 'a' };
+
             // Save data.
-            node.game.memory.save(this.DUMP_DIR + 'artex_part2.json');
+            node.game.memory.save(this.DUMP_DIR + 'artex_part2.json',
+                                  saveOptions);
        
             // Compute payoff.
             node.on.data('WIN', function(msg) {
@@ -109,7 +113,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 });
 
                 db = node.game.memory.pquest[msg.from];
-                db.save(this.DUMP_DIR + 'artex_quest.json');
+                db.save(this.DUMP_DIR + 'artex_quest.json', saveOptions);
             });
         },
         stepRule: 'SOLO'
