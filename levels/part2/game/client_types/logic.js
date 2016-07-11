@@ -92,7 +92,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             // Compute payoff.
             node.on.data('WIN', function(msg) {
                 var id, code, db, svoOwn, svoFrom;
-                var totWin, bonusStr;
+                var totWin, totWinUsd, bonusStr;
 
                 id = msg.from;
 
@@ -136,8 +136,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
                 // Saving tot bonus for player.
                 totWin = (code.bonus + svoOwn + svoFrom);
+                totWinUsd = totWin / settings.EXCHANGE_RATE;
                 bonusStr = code.AccessCode + ', ' + code.ExitCode + ', ' + 
-                    totWin + ', ' + Number(totWin).toFixed(2) + '\n';
+                    totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
                 fs.appendFile(this.DUMP_DIR + 'bonus.csv', bonusStr,
                               function(err) {
                                   if (err) {
