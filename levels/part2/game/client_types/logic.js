@@ -108,22 +108,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     svoFrom: svoFrom
                 });
 
-                // TODO: Save data.
-                debugger
-
-                db = node.game.memory.player[msg.from];
-                node.game.memory.save(this.DUMP_DIR + 'artex_quest.json');
+                db = node.game.memory.pquest[msg.from];
+                db.save(this.DUMP_DIR + 'artex_quest.json');
             });
         },
         stepRule: 'SOLO'
     });
-
-//     stager.extendStep('endgame', {
-//         syncStepping: false,
-//         cb: cbs.endgame,
-//         minPlayers: undefined,
-//         steprule: stepRules.SOLO
-//     });
 
     // Here we group together the definition of the game logic.
     return {

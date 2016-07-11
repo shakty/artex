@@ -32,9 +32,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //         };
         node.on.data('finished_part1', function(msg) {
             var db;
-            // Move client to part2.
-            console.log('moving client to part2: ', msg.from);
-            channel.moveClientToGameLevel(msg.from, 'part2', gameRoom.name);
+
+            // Move client to part2
+            // (async so that it finishes all current step operations).
+            setTimeout(function() {
+                console.log('moving client to part2: ', msg.from);
+                channel.moveClientToGameLevel(msg.from, 'part2', gameRoom.name);
+            }, 100);
+
             // Save client's data.
             db = node.game.memory.player[msg.from];
             // db.save(dataDir + 'artex_part1.csv', saveOptions);

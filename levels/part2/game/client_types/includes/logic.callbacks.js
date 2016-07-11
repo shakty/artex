@@ -83,6 +83,11 @@ function init() {
         o.treatment = gameRoom.treatmentName;
     });
 
+    // Divide all objects of stage 'final' by player.
+    this.memory.hash('pquest', function(o) {
+        if (o.stage.stage > 1) return o.player;
+    });
+
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
