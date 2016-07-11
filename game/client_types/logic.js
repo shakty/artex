@@ -61,6 +61,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     });
 
+    // When clients reconnect, they start from where they left.
+    stager.setDefaultProperty('reconnect', function(code, opts) {
+        opts.targetStep = code.stage;
+    });
+
     stager.setDefaultStepRule(stepRules.SOLO);
 
     // Here we group together the definition of the game logic.
