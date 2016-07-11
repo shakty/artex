@@ -570,8 +570,63 @@ function init() {
             };
             container.appendChild(seeMore);
         }
-
     };
+
+    this.makeRoundTable = (function() {
+        
+        function makeExColumn(table, ex, data) {
+            var winners;
+            if (!data.length) {
+                table.addColumn([' - ']);
+                return;
+            }
+            winners = data.sort(function(a, b) {
+                if (a.mean > b.mean) return -1;
+                if (b.mean > a.mean) return 1;
+                return 0;
+            });
+
+            table.addColumn(winners);
+
+            // Add to submission table.
+            node.game.winners[ex] = winners.concat(node.game.winners[ex]);
+        }
+
+        return function(winners, round) {
+            var dtHeader, table, str;
+
+            round = round || node.player.stage.round;
+
+            table = new W.Table({
+                className: 'exhibition',
+                render: {
+                    pipeline: node.game.renderCF,
+                    returnAt: 'first'
+                }
+            });
+            table.setHeader(node.game.exhibitNames);
+
+            dtHeader = 'Round: ' + round;
+            this.all_ex.addDT(dtHeader);
+
+            if (winners.winners) {
+                makeExColumn(table, 'A', winners.A);
+                makeExColumn(table, 'B', winners.B);
+                makeExColumn(table, 'C', winners.C);
+            }
+            else {
+                str = 'No painting was considered good enough ' +
+                    'to be put on display.';
+                // W.write(str, W.getElementById("container_exhibition"));
+                this.all_ex.addDD(str);
+            }
+            
+            this.all_ex.addDD(table);
+
+            return table;
+        };
+
+    })();
 }
 
 function submission() {
@@ -601,89 +656,38 @@ function submission() {
 
 function dissemination() {
 
-    var dt_header, table;
-
-    dt_header = 'Round: ' + node.player.stage.round;
-    this.all_ex.addDT(dt_header);
-
-    table = new W.Table({
-        className: 'exhibition',
-        render: {
-            pipeline: this.renderCF,
-            returnAt: 'first'
+    node.on.data('WIN_CF', function(msg) {
+        var table;
+        console.log('WWWWWWWWWIN_CF');       
+        if (!msg.data) {
+            node.err('Error: No data received on WIN_CF.');
+            return;
         }
+        table = this.makeRoundTable(msg.data, node.player.stage.round);        
+        W.getElementById('container_exhibition').appendChild(table.parse());
+        node.events.step.emit('canvas_tooltip');
     });
-    table.setHeader(this.exhibitNames);
 
-    W.loadFrame('dissemination.html', function() {
-
-        node.on.data('WIN_CF', function(msg) {
-            console.log('WWWWWWWWWIN_CF');
-
-            if (!msg.data) {
-                node.err('Error: No data received on WIN_CF.');
-                return;
-            }
-
-            if (msg.data.winners) {
-                makeExColumn('A', msg.data.A);
-                makeExColumn('B', msg.data.B);
-                makeExColumn('C', msg.data.C);
-            }
-            else {
-                str = 'No painting was considered good enough ' +
-                    'to be put on display.';
-                W.write(str, W.getElementById("container_exhibition"));
-                this.all_ex.addDD(str);
-            }
-
-            W.getElementById('container_exhibition')
-                .appendChild(table.parse());
-
-            this.all_ex.addDD(table);
-
-            node.events.step.emit('canvas_tooltip');
-        });
-
-        node.on.data('PLAYER_RESULT', function(msg) {
-            var str;
-            if (!msg.data) return;
-            // Create string.
-            str = '';
-            if (msg.data.published) {
-                str += 'Congratulations! You published in exhibition: ';
-                str += '<strong>' + msg.data.ex + '</strong>. ';
-                str += 'You earned <strong>' + msg.data.payoff;
-                str += ' points</strong>. ';
-                node.game.money.update(parseFloat(msg.data.payoff));
-            }
-            else {
-                str += 'Sorry, you got rejected by exhibition: ' +
-                    '<strong>' + msg.data.ex + '</strong>. ';
-            }
-            str += 'Your average review score was: <strong>' +
-                msg.data.mean + '</strong>.</br></br>';
-            // Assign string.
-            W.getElementById('results').innerHTML = str;
-        });
-
-        function makeExColumn(ex, data) {
-            var winners;
-            if (!data.length) {
-                table.addColumn([' - ']);
-                return;
-            }
-            winners = data.sort(function(a, b) {
-                if (a.mean > b.mean) return -1;
-                if (b.mean > a.mean) return 1;
-                return 0;
-            });
-
-            table.addColumn(winners);
-            // Add to submission table.
-            node.game.winners[ex] = winners.concat(node.game.winners[ex]);
+    node.on.data('PLAYER_RESULT', function(msg) {
+        var str;
+        if (!msg.data) return;
+        // Create string.
+        str = '';
+        if (msg.data.published) {
+            str += 'Congratulations! You published in exhibition: ';
+            str += '<strong>' + msg.data.ex + '</strong>. ';
+            str += 'You earned <strong>' + msg.data.payoff;
+            str += ' points</strong>. ';
+            node.game.money.update(parseFloat(msg.data.payoff, 10));
         }
-
+        else {
+            str += 'Sorry, you got rejected by exhibition: ' +
+                '<strong>' + msg.data.ex + '</strong>. ';
+        }
+        str += 'Your average review score was: <strong>' +
+            msg.data.mean + '</strong>.</br></br>';
+        // Assign string.
+        W.setInnerHTML('results', str);
     });
 
     console.log('Dissemination');

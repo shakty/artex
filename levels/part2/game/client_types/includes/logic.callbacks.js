@@ -77,6 +77,9 @@ function init() {
     // Flag to check if the game was terminated abnormally.
     this.gameTerminated = 0;
 
+    // List of all winners of all times (to send to reconnecting players).
+    this.winners = new Array(settings.REPEAT);
+
     // Decorate every object inserted in database with session and treatment.
     this.memory.on('insert', function(o) {
         o.session = node.nodename;
@@ -223,6 +226,7 @@ function dissemination() {
     var nextRoundReviewer, player_result;
     var i, j, k, len;
     var idEx, nPubs, s;
+    var round;
 
     // Array of all the selected works (by exhibition);
     var selected;
@@ -234,6 +238,8 @@ function dissemination() {
     selected = { A: [], B: [], C: [] };
     // Contains the individual result for every player.
     player_results = [];
+    
+    round = node.game.getCurrentGameStage().round
 
     // Loop through exhibitions.
     for (i = 0; i < this.last_submissions.length; i++) {
@@ -283,7 +289,7 @@ function dissemination() {
                 author: author.name || player.substr(player.length -5),
                 mean: Number(mean.toFixed(2)),
                 ex: ex,
-                round: node.game.getCurrentGameStage().round,
+                round: round,
                 cf: cf,
                 id: author.name,
                 payoff: 0 // will be updated later
@@ -302,8 +308,6 @@ function dissemination() {
                     // Player will be first choice as a reviewer
                     // in exhibition i
                     nextRoundReviewer = 0;
-
-                    
                 }
             }
             else {
@@ -331,7 +335,7 @@ function dissemination() {
             j = -1, len = selected[ex].length;
             for ( ; ++j < len ; ) {
                 selected[ex][j].published = true;
-            }            
+            }
         }
     }
 
@@ -370,33 +374,12 @@ function dissemination() {
         node.say('PLAYER_RESULT', r.player, r);
     }
 
+    // Keep track of all selected of all times (for recon purposes).
+    round--;
+    this.winners[round] = selected;
+
     console.log('dissemination');
 }
-
-// function endgame() {
-//     var payoffs, payoff;
-// 
-//     // Save database.
-//     node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
-// 
-//     console.log('FINAL PAYOFF PER PLAYER');
-//     console.log('***********************');
-// 
-//     // Compute final bonuses and send them to each player.
-//     payoffs = node.game.pl.map(doCheckout);
-// 
-//     // Only with Descil.
-//     // postPayoffs(payoffs);
-// 
-//     console.log('***********************');
-//     console.log('Game ended');
-// 
-//     // Write bonus file.
-//     writeBonusFile(payoffs);
-// 
-//     // TODO: do we need this? It triggers gameover.
-//     // node.done();
-// }
 
 function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');

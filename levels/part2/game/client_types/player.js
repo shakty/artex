@@ -115,6 +115,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('dissemination', {
+        frame: 'dissemination.html',
         cb: cbs.dissemination,
         done: function() {
             $(".copyorclose").dialog('close');

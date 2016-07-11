@@ -58,11 +58,18 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             cf = node.game.memory.cf.get(code.id);
             // cf0 is the initial random face.
             reconOptions.cf = cf.cf || cf.cf0;
-
-            // if (code.stage.stage === 2
+            reconOptions.winners = node.game.winners;
+            
             // This function is executed on the client.
             reconOptions.cb = function(options) {
+                var i, len, w;
                 this.last_cf = options.cf;
+                w = options.winners ;               
+                // Make the past exhibition list.
+                i = -1, len = (node.player.stage.round-1);
+                for ( ; ++i < len ; ) {
+                    this.makeRoundTable(w[i], (i+1));
+                }                
             };
         }
     });
@@ -158,6 +165,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                                       console.log('Tot win: ' + totWin);
                                   }
                               });
+
+                console.log('FINAL PAYOFF PER PLAYER');
+                console.log('***********************');
+                console.log(bonusStr);
+                console.log();
             });
         },
         stepRule: 'SOLO'
