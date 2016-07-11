@@ -238,7 +238,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.on.data('WIN', function(msg) {
                 var win, exitcode, codeErr;
                 var exitCodeInput, winInput, svoInput;
-                var svo, svoFrom, totalSvo;
+                var svo, svoFrom, totalSvo, totalWin, winUsd;
                 // Exit Code.
                 codeErr = 'ERROR (code not found)';
                 exitcode = msg.data && msg.data.exitcode || codeErr;
@@ -252,7 +252,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Total win.
                 win = msg.data && msg.data.win || 0;
                 winInput = W.getElementById('win');
-                winInput.value = win + totalSvo;
+                totalWin = win + totalSvo;
+                winUsd = totalWin / node.game.settings.EXCHANGE_RATE;
+                winInput.value = win + ' + ' + totalSvo + ' = ' + totalWin + 
+                    ' = ' + Number(winUsd).toFixed(2) + ' USD';
             });
         },
         frame: 'ended.html',

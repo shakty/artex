@@ -6,6 +6,7 @@
  * http://www.nodegame.org
  */
 
+var fs = require('fs');
 var ngc = require('nodegame-client');
 var stepRules = ngc.stepRules;
 var J = ngc.JSUS;
@@ -81,7 +82,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStage('final', {
         init: function() {
-            var saveOptions;            
+            var saveOptions;         
             saveOptions = { flag: 'a' };
 
             // Save data.
@@ -90,7 +91,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
        
             // Compute payoff.
             node.on.data('WIN', function(msg) {
-                var id, code, db, svoFrom;
+                var id, code, db, svoOwn, svoFrom;
+                var totWin, bonusStr;
+
                 id = msg.from;
 
                 code = channel.registry.getClient(id);
@@ -103,17 +106,45 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
                 // Computing SVO bonus from other player.
                 svoFrom = channel.registry
-                    .getClient(node.game.svoMatches[id]).svo[1];
+                    .getClient(node.game.svoMatches[id]).svo;
 
+                if (svoFrom) {
+                    svoFrom = svoFrom[1];
+                }
+                else {
+                    console.log('WARN: svoFrom not found. ', msg.from);
+                    svoFrom = 50;
+                }
+
+                svoOwn = code.svo;
+                if (!svoOwn) {
+                    console.log('WARN: svoFrom not found. ', msg.from);
+                    svoOwn = 100;
+                }
+
+                // Send information.
                 node.say('WIN', id, {
                     win: code.bonus,
                     exitcode: code.ExitCode,
-                    svo: code.svo[0],
+                    svo: svoOwn,
                     svoFrom: svoFrom
                 });
 
+                // Saving last stage player data.
                 db = node.game.memory.pquest[msg.from];
                 db.save(this.DUMP_DIR + 'artex_quest.json', saveOptions);
+
+                // Saving tot bonus for player.
+                totWin = (code.bonus + svoOwn + svoFrom);
+                bonusStr = code.AccessCode + ', ' + code.ExitCode + ', ' + 
+                    totWin + ', ' + Number(totWin).toFixed(2) + '\n';
+                fs.appendFile(this.DUMP_DIR + 'bonus.csv', bonusStr,
+                              function(err) {
+                                  if (err) {
+                                      console.log(err);
+                                      console.log('Tot win: ' + totWin);
+                                  }
+                              });
             });
         },
         stepRule: 'SOLO'
