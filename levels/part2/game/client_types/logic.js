@@ -54,21 +54,29 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             cbs.enoughPlayersAgain
         ],
         reconnect: function(code, reconOptions) {
-            var cf;            
+            var cf;
             cf = node.game.memory.cf.get(code.id);
             // cf0 is the initial random face.
             reconOptions.cf = cf.cf || cf.cf0;
             reconOptions.winners = node.game.winners;
-            
+
+            // If evaluation round, add reviews.
+            if (node.player.stage.step === 3) {
+                reconOptions.reviews = node.game.reviewing[code.id];
+            }
+
             // This function is executed on the client.
             reconOptions.cb = function(options) {
-                var i, len, w, table;
+                var i, len, w, table, step;
                 this.last_cf = options.cf;
-                w = options.winners ;               
+
+                w = options.winners;
+                step = node.player.stage.step;
+
                 // Make the past exhibition list.
 
                 // On dissemination step, do 1 extra iteration and parse table.
-                if (node.player.stage.step === 4) {
+                if (step === 4) {
                     i = -1, len = node.player.stage.round;
                     for ( ; ++i < len ; ) {
                         table = this.makeRoundTable(w[i], (i+1));
@@ -84,6 +92,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     i = -1, len = (node.player.stage.round-1);
                     for ( ; ++i < len ; ) {
                         table = this.makeRoundTable(w[i], (i+1));
+                    }
+                    // Evaluation.
+                    if (step === 3) {
+                        this.plot.tmpCache('reconReviews', options.reviews);
                     }
                 }
             };
@@ -103,13 +115,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('evaluation', {
         init: function() {
-            this.last_reviews = {};           
+            this.last_reviews = {};
+            this.reviewing = {};
         },
         cb: cbs.evaluation
     });
 
     stager.extendStep('dissemination', {
-        init: function() {            
+        init: function() {
             this.nextround_reviewers = [ [[], []], [[], []], [[], []] ];
         },
         cb: cbs.dissemination
@@ -117,13 +130,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStage('final', {
         init: function() {
-            var saveOptions;         
+            var saveOptions;
             saveOptions = { flag: 'a' };
 
             // Save data.
             node.game.memory.save(this.DUMP_DIR + 'artex_part2.json',
                                   saveOptions);
-       
+
             // Compute payoff.
             node.on.data('WIN', function(msg) {
                 var id, code, db, svoOwn, svoFrom;
@@ -172,7 +185,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Saving tot bonus for player.
                 totWin = (code.bonus + svoOwn + svoFrom);
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
-                bonusStr = code.AccessCode + ', ' + code.ExitCode + ', ' + 
+                bonusStr = code.AccessCode + ', ' + code.ExitCode + ', ' +
                     totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
                 fs.appendFile(this.DUMP_DIR + 'bonus.csv', bonusStr,
                               function(err) {

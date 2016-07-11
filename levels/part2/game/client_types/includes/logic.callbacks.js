@@ -63,6 +63,9 @@ function init() {
     matcher.match();
     this.svoMatches = matcher.getMatchObject();
 
+    // Object containing the last works under review by player.
+    this.reviewing = null;
+
     // Object containing the reviews received by every player.
     this.last_reviews = null;
 
@@ -153,8 +156,12 @@ function evaluation() {
                     ex: sub.ex
                 });
             }
+
             // Send them.
             node.say('CF', submissions[i].player, data);
+
+            // Store reference to resend them in case of disconnection.
+            node.game.reviewing[submissions[i].player] = data;
         }
     });
 
