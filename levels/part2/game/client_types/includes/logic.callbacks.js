@@ -88,6 +88,11 @@ function init() {
         if (o.stage.stage > 1) return o.player;
     });
 
+    // Keep last cf created by a subject.
+    this.memory.index('cf', function(o) {
+        if (o.cf || o.cf0) return o.player; 
+    });
+
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {

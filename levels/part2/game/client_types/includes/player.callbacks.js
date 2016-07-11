@@ -575,29 +575,27 @@ function init() {
 }
 
 function submission() {
-    W.loadFrame('submission.html', function() {
-        var creaDiv, f, options;
+    var creaDiv, options;
 
-        creaDiv = W.getElementById("creation");
-        f = node.game.cf.getValues();
+    creaDiv = W.getElementById('creation');
 
-        options = {
-            width: 200,
-            height: 200,
-            features: f,
-            controls: false,
-            onChange: false,
-            title: false
-        };
+    options = {
+        width: 200,
+        height: 200,
+        features: node.game.last_cf,
+        controls: false,
+        onChange: false,
+        title: false
+    };
 
-        node.widgets.append('ChernoffFaces', creaDiv, options);
+    node.widgets.append('ChernoffFaces', creaDiv, options);
 
-        this.addImagesToEx('A');
-        this.addImagesToEx('B');
-        this.addImagesToEx('C');
+    this.addImagesToEx('A');
+    this.addImagesToEx('B');
+    this.addImagesToEx('C');
 
-        node.events.step.emit('canvas_tooltip');
-    });
+    node.events.step.emit('canvas_tooltip');
+
     console.log('Submission');
 }
 

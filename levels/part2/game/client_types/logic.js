@@ -52,7 +52,19 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             settings.MIN_PLAYERS,
             cbs.notEnoughPlayers,
             cbs.enoughPlayersAgain
-        ]
+        ],
+        reconnect: function(code, reconOptions) {
+            var cf;            
+            cf = node.game.memory.cf.get(code.id);
+            // cf0 is the initial random face.
+            reconOptions.cf = cf.cf || cf.cf0;
+
+            // if (code.stage.stage === 2
+            // This function is executed on the client.
+            reconOptions.cb = function(options) {
+                this.last_cf = options.cf;
+            };
+        }
     });
 
     stager.extendStep('submission', {

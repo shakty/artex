@@ -71,6 +71,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         cb: cbs.submission,
         donebutton: false,
+        frame: 'submission.html',
         timeup: function() {
             var J, ex;
             J = this.node.JSUS;
