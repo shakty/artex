@@ -237,14 +237,22 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.say('WIN', 'SERVER');
             node.on.data('WIN', function(msg) {
                 var win, exitcode, codeErr;
-                var exitCodeInput, winInput;
+                var exitCodeInput, winInput, svoInput;
+                var svo, svoFrom, totalSvo;
+                // Exit Code.
                 codeErr = 'ERROR (code not found)';
-                win = msg.data && msg.data.win || 0;
                 exitcode = msg.data && msg.data.exitcode || codeErr;
                 exitCodeInput = W.getElementById('exitCode');
                 exitCodeInput.value = exitcode;
+                // Svo.
+                svoInput = W.getElementById('svo');
+                totalSvo = msg.data.svo + msg.data.svoFrom;
+                svoInput.value = msg.data.svo + ' + ' + msg.data.svoFrom + 
+                    ' = ' + totalSvo;
+                // Total win.
+                win = msg.data && msg.data.win || 0;
                 winInput = W.getElementById('win');
-                winInput.value = win;
+                winInput.value = win + totalSvo;
             });
         },
         frame: 'ended.html',

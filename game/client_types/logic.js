@@ -47,7 +47,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             var svo;
             if (!msg.data || !msg.data.id || msg.data.id !== 'svo') return;
             code = channel.registry.getClient(msg.from);
-            svo = J.randomInt(0,6)-1;
+            svo = '' + J.randomInt(0,6); // From 1 to 6.
             code.svo = msg.data.items[svo].choice;
         });
 

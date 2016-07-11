@@ -20,7 +20,6 @@ module.exports = {
     gameover: gameover,
     evaluation: evaluation,
     dissemination: dissemination,
-    endgame: endgame,
     notEnoughPlayers: notEnoughPlayers,
     enoughPlayersAgain: enoughPlayersAgain
 };
@@ -38,14 +37,12 @@ var WAIT_TIME = settings.WAIT_TIME * 1000;
 
 function init() {
 
+    var matcher;
+
     // Create data dir. TODO: do it automatically?
     this.DUMP_DIR = DUMP_DIR = 
         path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
-
-    this.disconnectStr = 'One or more players disconnected. If they ' +
-        'do not reconnect within ' + settings.WAIT_TIME  +
-        ' seconds the game will be terminated.';
 
     // Number of reviewers per image.
     this.reviewers = 3;
@@ -58,7 +55,13 @@ function init() {
     };
 
     // Player ids.
-    this.plids = node.game.pl.keep('id').fetch();
+    this.plids = node.game.pl.id.getAllKeys();
+
+    matcher = new ngc.Matcher();
+    matcher.generateMatches('random', node.game.pl.size());
+    matcher.setIds(this.plids);
+    matcher.match();
+    this.svoMatches = matcher.getMatchObject();
 
     // Object containing the reviews received by every player.
     this.last_reviews = null;
@@ -92,71 +95,6 @@ function init() {
     node.on.pdisconnect(function(p) {
         console.log('Disconnection in Stage: ' + node.player.stage);
     });
-
-    // Player reconnecting.
-    // Reconnections must be handled by the game developer.
-    node.on.preconnect(function(p) {
-        var code, questStage, disconnectStage;
-
-        console.log('Oh...somebody reconnected!', p.id);
-        code = channel.registry.getClient(p.id);
-
-        // The stage when the client disconnected.
-        questStage = node.game.questStage;
-        disconnectStage = p.stage;
-
-        // If we are in the last steps.
-        if (node.game.compareCurrentStep('questionnaire') >= 0) {
-
-            // Player disconnected before the questionnaire
-            if (GameStage.compare(disconnectStage, questStage) < 0) 
-
-
-            // TODO Handle last stage.
-            // node.remoteCommand('goto_step', XXXX);
-
-            if (node.game.compareCurrentStep('endgame') === 0) {
-                payoff = doCheckout(p);
-                // If player was not checkout yet, do it.
-                if (payoff) postPayoffs([payoff]);
-            }
-            return;
-        }
-
-        // Setup newly connected client.
-        gameRoom.setupClient(p.id);
-
-        // Inits the game on the reconnecting client.
-        node.remoteCommand('start', p.id, { step: false });
-
-        // Add player to player list.
-        node.game.pl.add(p);
-
-
-        // Clear any message in the buffer from.
-        node.remoteCommand('erase_buffer', 'ROOM');
-
-        // Will send all the players to current stage
-        // (also those who were there already).
-        node.game.gotoStep(node.player.stage);
-
-        // TODO: or...
-
-        setTimeout(function() {
-            // Pause the game on the reconnecting client, will be resumed later.
-            // node.remoteCommand('pause', p.id);
-            // Unpause ROOM players
-            // TODO: add it automatically if we return TRUE? It must be done
-            // both in the alias and the real event handler
-            node.game.pl.each(function(player) {
-                if (player.id !== p.id) {
-                    node.remoteCommand('resume', player.id);
-                }
-            });
-            // The logic is also reset to the same game stage.
-        }, 100);
-    });
-
 
     console.log('init');
 }
@@ -205,25 +143,28 @@ function evaluation() {
     });
 
     node.env('review_select', function() {
-        var pool = that.nextround_reviewers;
-        var elements = that.last_submissions;
+        var pool, elements;
+        var rm, matches, data;
+        var i, j, h, face;
+
+        pool = that.nextround_reviewers;
+        elements = that.last_submissions;
 
         // First round.
         if (!pool) {
             pool = J.map(elements, function(ex) { return [ex]; });
         }
 
-        var rm = new RMatcher();
+        rm = new RMatcher();
         rm.init(elements, pool);
 
-        var matches = rm.match();
+        matches = rm.match();
 
-        var data = {};
-        for (var i = 0; i < elements.length; i++) {
-            for (var j = 0; j < elements[i].length; j++) {
-
-                for (var h = 0; h < matches[i][j].length; h++) {
-                    var face = dataRound
+        data = {};
+        for (i = 0; i < elements.length; i++) {
+            for (j = 0; j < elements[i].length; j++) {
+                for (h = 0; h < matches[i][j].length; h++) {
+                    face = dataRound
                         .select('player', '=', elements[i][j]).first();
 
                     if (!data[face.value]) data[face.value] = [];
@@ -261,128 +202,6 @@ function evaluation() {
 
     console.log('evaluation');
 }
-
-// function dissemination() {
-//     var ex, author, cf, mean, player, works;
-//     var nextRoundReviewer, player_result;
-//     var i, j, k, len;
-//     var idEx, nPubs, s;
-//     var submissionRound;
-// 
-//     // Array of all the selected works (by exhibition);
-//     var selected;
-//     // Results of the round (by author)
-//     var player_results;
-// 
-//     // Prepare result arrays.
-//     // Contains the selected images by exhibitions.
-//     selected = { A: [], B: [], C: [] };
-//     // Contains the individual result for every player.
-//     player_results = [];
-//     submissionRound = this.getPreviousStep(2);
-//     // Loop through exhibitions.
-//     for (i = 0; i < this.last_submissions.length; i++) {
-// 
-//         // Groups all the reviews for an artist.
-//         works = this.last_submissions[i];
-// 
-//         // Exhibition.
-//         ex = this.settings.exhibitNames[i];    
-// 
-//         // Collect all reviews and compute mean.
-//         for (j = 0; j < works.length; j++) {
-//             player = works[j].player;
-//             if (!this.last_reviews[player]) {
-//                 node.err('No reviews for player: ' + player +
-//                          '. This should not happen. Some results are missing.');
-//                 continue;
-//             }
-//             author = this.pl.id.get(player);
-//             if (!author) {
-//                 node.err('No author found. This should not happen. ' +
-//                          'Some results are missing.');
-//                 continue;
-//             }
-// 
-//             // Compute average review score.
-//             mean = 0;
-//             k = -1, len = this.last_reviews[player].length;
-//             for ( ; ++k < len ; ) {
-//                 mean += this.last_reviews[player][k]
-//             }
-//             mean = mean / this.last_reviews[player].length;
-// 
-//             // Cf.
-//             cf = works[j].cf;
-// 
-//             // Player is a submitter: second choice reviewer.
-//             nextRoundReviewer = 1;
-// 
-//             player_result = {
-//                 player: player,
-//                 author: author.name || player.substr(player.length -5),
-//                 mean: mean.toFixed(2),
-//                 ex: ex,
-//                 round: submissionRound,
-//                 payoff: 0 // will be updated later
-//             };
-// 
-//             // Threshold.
-//             if (mean > settings.threshold) {
-//                 // Mark that there is at least one winner.
-//                 selected.winners = true;
-// 
-//                 J.mixin(player_result, {
-//                     cf: cf,
-//                     id: author.name,
-//                     round: node.game.getCurrentGameStage().toHash('S.r'),
-//                     pc: author.pc,
-//                     published: true
-//                 });
-// 
-//                 selected[ex].push(player_result);
-// 
-//                 // Player will be first choice as a reviewer
-//                 // in exhibition i
-//                 nextRoundReviewer = 0;
-//             }
-// 
-//             // Add player to the list of next reviewers for the
-//             // exhibition where he submitted / published
-//             this.nextround_reviewers[i][nextRoundReviewer].push(player);
-// 
-//             // Add results for single player
-//             player_results.push(player_result);
-//         }
-//     }
-// 
-//     // Dispatch exhibition results to ROOM.
-//     node.say('WIN_CF', 'ROOM', selected);
-// 
-//     // Compute individual payoffs and send them to each player.
-//     i = -1, len = player_results.length;
-//     for ( ; ++i < len ; ) {
-//         r = player_results[i];
-// 
-//         if (r.published) {
-//             if (node.game.settings.com) {
-//                 idEx = node.game.exhibitions[r.ex];
-//                 nPubs = node.game.nextround_reviewers[idEx][0].length;
-//                 r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
-//             }
-//             else {
-//                 r.payoff = node.game.settings.payoff;
-//             }
-//             // Update global payoff.
-//             code = channel.registry.getClient(r.player);
-//             code.bonus = code.bonus ? code.bonus + r.payoff : r.payoff;
-//         }
-//         node.say('PLAYER_RESULT', r.player, r);
-//     }
-// 
-//     console.log('dissemination');
-// }
-
 
 function dissemination() {
     var ex, author, cf, mean, player, works;
@@ -539,30 +358,30 @@ function dissemination() {
     console.log('dissemination');
 }
 
-function endgame() {
-    var payoffs, payoff;
-
-    // Save database.
-    node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
-
-    console.log('FINAL PAYOFF PER PLAYER');
-    console.log('***********************');
-
-    // Compute final bonuses and send them to each player.
-    payoffs = node.game.pl.map(doCheckout);
-
-    // Only with Descil.
-    // postPayoffs(payoffs);
-
-    console.log('***********************');
-    console.log('Game ended');
-
-    // Write bonus file.
-    writeBonusFile(payoffs);
-
-    // TODO: do we need this? It triggers gameover.
-    // node.done();
-}
+// function endgame() {
+//     var payoffs, payoff;
+// 
+//     // Save database.
+//     node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
+// 
+//     console.log('FINAL PAYOFF PER PLAYER');
+//     console.log('***********************');
+// 
+//     // Compute final bonuses and send them to each player.
+//     payoffs = node.game.pl.map(doCheckout);
+// 
+//     // Only with Descil.
+//     // postPayoffs(payoffs);
+// 
+//     console.log('***********************');
+//     console.log('Game ended');
+// 
+//     // Write bonus file.
+//     writeBonusFile(payoffs);
+// 
+//     // TODO: do we need this? It triggers gameover.
+//     // node.done();
+// }
 
 function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
@@ -575,25 +394,11 @@ function gameover() {
 }
 
 function notEnoughPlayers() {
-    if (this.countdown) return;
-    console.log('Warning: not enough players!!');
-    node.remoteCommand('pause', 'ROOM', this.disconnectStr);
-    this.countdown = setTimeout(function() {
-        console.log('Countdown fired. Going to Step: questionnaire.');
-        node.remoteCommand('erase_buffer', 'ROOM');
-        node.remoteCommand('resume', 'ROOM');
-        node.game.gameTerminated = true;
-        // if syncStepping = false
-        //node.remoteCommand('goto_step', 5);
-        node.game.gotoStep(new GameStage('questionnaire'));
-    }, WAIT_TIME);
+    node.game.gotoStep(new GameStage('final'));
 }
 
 function enoughPlayersAgain() {
     console.log('Enough players again!');
-    // Delete countdown to terminate the game.
-    clearTimeout(this.countdown);
-    this.countdown = null;
 }
 
 /**

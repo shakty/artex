@@ -45,15 +45,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Event handler registered in the init function are always valid.
     stager.setOnGameOver(cbs.gameover);
 
-    // Extending all stages.
-    stager.setDefaultProperty('minPlayers', [
-        settings.MIN_PLAYERS,
-        cbs.notEnoughPlayers,
-        cbs.enoughPlayersAgain
-    ]);
-
     stager.extendStage('artex', {
-        pushClients: true
+        pushClients: true,
+        minPlayers: [
+            settings.MIN_PLAYERS,
+            cbs.notEnoughPlayers,
+            cbs.enoughPlayersAgain
+        ]
     });
 
     stager.extendStep('submission', {
@@ -88,7 +86,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
        
             // Compute payoff.
             node.on.data('WIN', function(msg) {
-                var id, code, db;
+                var id, code, db, svoFrom;
                 id = msg.from;
 
                 code = channel.registry.getClient(id);
@@ -98,22 +96,26 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 }
 
                 channel.registry.checkOut(id);
+
+                // Computing SVO bonus from other player.
+                svoFrom = channel.registry
+                    .getClient(node.game.svoMatches[id]).svo[1];
+
                 node.say('WIN', id, {
                     win: code.bonus,
                     exitcode: code.ExitCode,
-                    svo: code.svo
+                    svo: code.svo[0],
+                    svoFrom: svoFrom
                 });
 
-                // TODO: handle SVO on the client, save bonuses.
-                // Add bonus FROM another participant.
-                // Save data.
+                // TODO: Save data.
+                debugger
 
                 db = node.game.memory.player[msg.from];
                 node.game.memory.save(this.DUMP_DIR + 'artex_quest.json');
             });
         },
-        stepRule: 'SOLO',
-        minPlayers: undefined
+        stepRule: 'SOLO'
     });
 
 //     stager.extendStep('endgame', {
