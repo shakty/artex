@@ -185,7 +185,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Saving tot bonus for player.
                 totWin = (code.bonus + svoOwn + svoFrom);
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
-                bonusStr = code.AccessCode + ', ' + code.ExitCode + ', ' +
+                bonusStr = (code.AccessCode || code.id) + ', ' + 
+                    (code.ExitCode || code.id) + ', ' +
                     totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
                 fs.appendFile(this.DUMP_DIR + 'bonus.csv', bonusStr,
                               function(err) {

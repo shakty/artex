@@ -29,15 +29,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             stepObj = this.getCurrentStepObj();
             _cb = stepObj._cb;
             _cb.call(this);
-            if (stepObj.id === 'submission') {
-                node.game.last_cf = node.game.cf.getAllValues();
-                node.game.last_ex =
-                    node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
-                if (node.player.stage.round < 5) node.timer.randomDone();
-            }
-            else {
-                node.timer.randomDone();
-            }
+            node.timer.randomDone();            
         };
         return o;
     });

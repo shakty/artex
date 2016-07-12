@@ -1,7 +1,7 @@
 window.onload = function () {
     // Configuring nodegame.
     // All these properties can get overwritten by remoteSetup from server.
-    node.setup('nodegame', {       
+    node.setup('nodegame', {
         verbosity: 10,
         window: {
             promptOnleave: false,
@@ -21,5 +21,5 @@ window.onload = function () {
         }
     });
     // Connect to channel.
-    node.connect();  
+    node.connect();
 };
