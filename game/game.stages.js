@@ -21,7 +21,7 @@ module.exports = function(stager, settings) {
         .next('instructions')
         .next('quiz')
         .next('training_intro')
-        .repeat('training', 3)
+        .repeat('training', settings.REPEAT_TRAINING)
         .next('belief')   
         .next('finished_part1');
 
@@ -33,13 +33,14 @@ module.exports = function(stager, settings) {
         ]
     });
 
-     stager.skip('consent');
-     stager.skip('intro');
-     stager.skip('mood');
-    stager.skip('svo');
-     stager.skip('demographics');
-     stager.skip('instructions');
-     stager.skip('quiz');
-     stager.skip('training');
-     stager.skip('belief');
+//     stager.skip('consent');
+//     stager.skip('intro');
+//     stager.skip('mood');
+//     stager.skip('svo');
+//     stager.skip('demographics');
+//     stager.skip('instructions');
+//     stager.skip('quiz');
+//     stager.skip('training');
+//     stager.skip('belief');
+
 };

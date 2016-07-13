@@ -54,7 +54,10 @@ settings = {
     // Minimum number of players that must be always connected.
     MIN_PLAYERS: 2,
 
-    // Number or rounds to repeat the bidding. *
+    // Number of rounds to repeat the training.
+    REPEAT_TRAINING: 1,
+
+    // Number or rounds to draw images. *
     REPEAT: 10,
 
     // Number of coins to split. *
