@@ -16,7 +16,8 @@ var path = require('path');
 module.exports = function(settings, done) {
     var nCodes, i, codes;
     var dk, confPath;
-
+    var format;
+debugger
     // Synchronous.
 
     if (settings.mode === 'auto') {
@@ -36,6 +37,58 @@ module.exports = function(settings, done) {
         return codes;
     }
     
+    if (settings.mode === 'local') {
+        if ('string' !== typeof settings.file || settings.file.trim() === '') {
+            throw new TypeError('auth.settings: settings.file must be a ' +
+                                'non-empty string when mode="local". Found: ' +
+                                settings.file);
+        }
+
+        
+
+        if (!fs.existsSync(settings.file)) {
+            throw new TypeError('auth.settings: mode="local", but ' +
+                                'settings.file specifies a non-existing ' +
+                                'file: ' + settings.file);
+        }
+
+        format = settings.file.lastIndexOf('.');
+        // If not specified format is JSON.
+        format = format < 0 ? 'json' : settings.file.substr(format+1);
+        
+        // CSV.
+        if (format === 'csv') {
+            (function() {
+                var csv, reader;
+                codes = [];
+                csv = require('ya-csv');
+                reader = csv.createCsvFileReader(settings.file, {
+                    'separator': ',',
+                    'quote': '"',
+                    'escape': '"',       
+                    'comment': '',
+                });
+                reader.addListener('data', function(data) {
+                    debugger;
+                    codes.push(data);
+                    // supposing there are so named columns in the source file
+                    // sys.puts(data.col1 + " ... " + data.col2);
+                });
+                reader.addListener('end', function(data) {
+                    debugger;
+                    done(null, codes);
+                });
+            })();
+            
+        }
+        // JSON
+        else {
+            codes = require(settings.file);
+        }
+
+        return codes;
+    }
+
     // Asynchronous.
 
     // Reads in descil-mturk configuration.
@@ -70,5 +123,7 @@ module.exports = function(settings, done) {
     else {
         done('Auth.codes: Unknown settings.');
     }
+
+
     
 };

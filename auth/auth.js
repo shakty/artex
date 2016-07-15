@@ -54,7 +54,6 @@ module.exports = function(auth, settings) {
         var cookies;
         var ids;
 
-
         // Return the id only if token was validated.
         // More checks could be done here to ensure that token is unique in ids.
         ids = channel.registry.getIds();

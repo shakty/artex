@@ -10,6 +10,7 @@ var path = require('path');
 var ngc = require('nodegame-client');
 var stepRules = ngc.stepRules;
 var J = ngc.JSUS;
+var fs = require('fs');
 
 // Here we export the logic function. Receives three parameters:
 // - node: the NodeGameClient object.
@@ -57,6 +58,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             code = channel.registry.getClient(msg.from);
             svo = '' + J.randomInt(0,6); // From 1 to 6.
             code.svo = msg.data.items[svo].choice;
+        });
+
+        
+var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';        
+//var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
+var CODE_FILE = CHANNEL_DIR  + 'codes.json';
+var CODE_FILE_BAK = CHANNEL_DIR  + '.codes.json.bak';
+
+        node.on.pconnect(function() {
+            fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
+                debugger
+                channel.registry.clients.save(CODE_FILE, function() {
+                    debugger
+                });
+            });
         });
 
     });

@@ -9,13 +9,18 @@
 
 module.exports = {
 
-    enabled: false, // [true, false] Default: TRUE.
+    enabled: true, // [true, false] Default: TRUE.
 
-    mode: 'auto', // ['remote', 'local', 'auto'] Default: 'auto'
+    mode: 'local', // ['remote', 'local', 'auto'] Default: 'auto'
+
+    getcode: true, // function that returns true or a string with the error.
+
+    file: 'codes.csv'
 
     // Must export a function that returns an array of codes synchronously
     // or asynchronously. Default: 'auth.codes.js'
-    codes: 'auth.codes.js', 
+    // codes: 'auth.codes.js',    
 
+    // Not used.
     page: 'login.htm'
 };

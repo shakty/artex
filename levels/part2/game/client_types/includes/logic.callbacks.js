@@ -13,8 +13,6 @@ var fs = require('fs');
 var path = require('path');
 var RMatcher = require('./rmatcher');
 
-var DUMP_DIR;
-
 module.exports = {
     init: init,
     gameover: gameover,
@@ -35,13 +33,19 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 var WAIT_TIME = settings.WAIT_TIME * 1000;
 
+var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';        
+var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
+var CODE_FILE = CHANNEL_DIR  + 'codes.json';
+var CODE_FILE_BAK = CHANNEL_DIR  + '.codes.json.bak';
+
+
 function init() {
 
     var matcher;
 
+    this.CHANNEL_DIR = CHANNEL_DIR;
     // Create data dir. TODO: do it automatically?
-    this.DUMP_DIR = DUMP_DIR = 
-        path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
+    this.DUMP_DIR = DUMP_DIR;
     J.mkdirSyncRecursive(DUMP_DIR, 0777);
 
     // Number of reviewers per image.
@@ -114,6 +118,14 @@ function init() {
     node.on.pdisconnect(function(p) {
         console.log('Disconnection in Stage: ' + node.player.stage);
     });
+
+    fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
+        debugger
+        channel.registry.save(CODE_FILE, function() {
+            debugger
+        });
+    });
+
 
     console.log('init');
 }
