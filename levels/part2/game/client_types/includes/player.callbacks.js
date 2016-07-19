@@ -46,7 +46,7 @@ function init() {
             });
         }
         node.game.donebutton = node.widgets.append('DoneButton', header, {
-            text: 'Click here when you are done!'
+            text: 'Continue'
         });
 
     }
@@ -150,7 +150,7 @@ function init() {
         'creation', 'submission', 'review', 'copy',
         'specialization', 'ui', 'freecomment'
     ];
-      
+
     // Names of the questionnaire forms ids (additional).
     this.qNamesExtraSubs = {
         creation: [
@@ -277,7 +277,7 @@ function init() {
         copy: [
             {
                 id: 'never',
-                mainText: 'I seldom or never copied past images'                
+                mainText: 'I seldom or never copied past images'
             },
             {
                 id: 'liked',
@@ -399,7 +399,7 @@ function init() {
                 data = cell.content;
                 node.game.copies.push({
                     action: 'click',
-                    time: node.timer.getTimeSince('step'),                    
+                    time: node.timer.getTimeSince('step'),
                     author: data.author,
                     ex: data.ex,
                     mean: data.mean,
@@ -573,7 +573,7 @@ function init() {
     };
 
     this.makeRoundTable = (function() {
-        
+
         function makeExColumn(table, ex, data) {
             var winners;
             if (!data.length) {
@@ -620,7 +620,7 @@ function init() {
                 // W.write(str, W.getElementById("container_exhibition"));
                 this.all_ex.addDD(str);
             }
-            
+
             this.all_ex.addDD(table);
 
             return table;
@@ -658,12 +658,12 @@ function dissemination() {
 
     node.on.data('WIN_CF', function(msg) {
         var table;
-        console.log('WWWWWWWWWIN_CF');       
+        console.log('WWWWWWWWWIN_CF');
         if (!msg.data) {
             node.err('Error: No data received on WIN_CF.');
             return;
         }
-        table = this.makeRoundTable(msg.data, node.player.stage.round);        
+        table = this.makeRoundTable(msg.data, node.player.stage.round);
         W.getElementById('container_exhibition').appendChild(table.parse());
         node.events.step.emit('canvas_tooltip');
     });

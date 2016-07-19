@@ -55,16 +55,17 @@
         </li>
         <li>
           <strong>Step 3: </strong>Each participant reviews 3 of the 8
-          paintings produced by the other artists.  The review is done
+          paintings produced by the other artists. The review is done
           by assigning a score on a scale from 0 to 10.
           </li>
 
         <li>
-          <strong>Step 4: </strong> The best paintings are displayed
-          in the exhibition to which they have been submitted, and
-          generate reward points for their authors. Paintings that are
-          not displayed never generate reward points. The complete
-          payoff scheme is explained below.
+          <strong>Step 4: </strong> Within each exhibition, paintings
+          are <em>ranked</em> by average review score. The best ones are
+          displayed and generate reward points for their
+          authors. Paintings that are not displayed never generate
+          reward points. The exact payoff scheme <em>vary by
+          exhibition</em> and is explained below.
 
         </li>
       </ul>
@@ -74,7 +75,39 @@
       <p>
         <h3>Exhibition displays</h3>
 
-          <span id="ng_replace_pubrule_text"></span>
+        <span id="ng_replace_pubrule_text"></span>
+
+        <table id="payoff" style="display: none">
+
+          <thead>
+            <tr>
+              <th>Exhibition</th>
+              <th>Number of Awards</th>
+              <th>Rewards Points</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td><strong>A</strong></td>
+              <td><em id="ng_replace_threshold_A"></em></td>
+              <td><em id="ng_replace_award_A"></em></td>
+            </tr>
+
+            <tr>
+              <td><strong>B</strong></td>
+              <td><em id="ng_replace_threshold_B"></em></td>
+              <td><em id="ng_replace_award_B"></em></td>
+            </tr>
+
+            <tr>
+              <td><strong>C</strong></td>
+              <td><em id="ng_replace_threshold_C"></em></td>
+              <td><em id="ng_replace_award_C"></em></td>
+            </tr>
+          </tbody>
+
+        </table>
 
       </p>
 
@@ -82,7 +115,9 @@
       <h3>Who reviews what</h3>
 
         <ul>
-          <li>At each round you will be <em>randomly</em> assigned to review 3 paintings, and you can never review your own painting.</li>
+          <li>At each round you will be <em>randomly</em> assigned to
+          review 3 paintings, and you can never review your own
+          painting.</li>
         </ul>
 
       </p>
@@ -90,9 +125,13 @@
       <p>
       <h3>Other rules</h3>
       <ul>
-         <li>You have a limited amount of time to complete each step of the game. The time left will be displayed on the screen.</li>
-         <li>At each new round, when creating a new painting, you will continue from your previous submission.</li>
-         <li>It is possible to copy paintings from the past exhibitions.</li>
+         <li>You have a limited amount of time to complete each step
+         of the game. The time left will be displayed on the
+         screen.</li>
+         <li>At each new round, when creating a new painting, you will
+         continue from your previous submission.</li>
+         <li>It is possible to copy paintings from the past
+         exhibitions.</li>
       </ul>
       </p>
 
@@ -122,13 +161,13 @@
             a = s.exA.N;
             b = s.exB.N;
             c = s.exC.N;
-
             W.setInnerHTML('ng_replace_threshold_A', a);
             W.setInnerHTML('ng_replace_threshold_B', b);
             W.setInnerHTML('ng_replace_threshold_C', c);
             W.setInnerHTML('ng_replace_award_A', s.exA.reward);
             W.setInnerHTML('ng_replace_award_B', s.exB.reward);
             W.setInnerHTML('ng_replace_award_C', s.exC.reward);
+            W.show('payoff');
         }
         else if (s.treatmentName === 'rank_same') {
             W.setInnerHTML('ng_replace_threshold', s.exA.N);

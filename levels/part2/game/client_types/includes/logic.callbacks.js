@@ -33,7 +33,7 @@ var autoplay = gameRoom.getClientType('autoplay');
 
 var WAIT_TIME = settings.WAIT_TIME * 1000;
 
-var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';        
+var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';
 var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
 var CODE_FILE = CHANNEL_DIR  + 'codes.json';
 var CODE_FILE_BAK = CHANNEL_DIR  + '.codes.json.bak';
@@ -100,7 +100,7 @@ function init() {
 
     // Keep last cf created by a subject.
     this.memory.index('cf', function(o) {
-        if (o.cf || o.cf0) return o.player; 
+        if (o.cf || o.cf0) return o.player;
     });
 
     // Function used in submission step
@@ -121,7 +121,7 @@ function init() {
 
     fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
         debugger
-        channel.registry.save(CODE_FILE, function() {
+        node.game.pl.save(CODE_FILE, function() {
             debugger
         });
     });
@@ -257,7 +257,7 @@ function dissemination() {
     selected = { A: [], B: [], C: [] };
     // Contains the individual result for every player.
     player_results = [];
-    
+
     round = node.game.getCurrentGameStage().round
 
     // Loop through exhibitions.
@@ -270,7 +270,7 @@ function dissemination() {
         if (!works.length) continue;
 
         // Exhibition.
-        ex = this.settings.exhibitNames[i];        
+        ex = this.settings.exhibitNames[i];
         // Exhibition settings.
         s = settings['ex' + ex];
 
@@ -320,8 +320,8 @@ function dissemination() {
                     // Mark that there is at least one winner.
                     selected.winners = true;
 
-                    player_result.published = true;                    
-                   
+                    player_result.published = true;
+
                     selected[ex].push(player_result);
 
                     // Player will be first choice as a reviewer

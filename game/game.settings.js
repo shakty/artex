@@ -29,21 +29,27 @@ pubRules = {
         'are displayed and generate <em id="ng_replace_award"></em> ' +
         'point for the author.',
 
-    rankDifferent: 'Each exhibition displays a limited number ' +
-        'of paintings, and awards their authors a different ' +
-        'number of points. That is: ' +
-        '<ul><li><strong>Exhibition A:</strong> displays the ' +
-        'top <em id="ng_replace_threshold_A"></em> ' +
-        'painting/s and awards their authors with ' +
-        '<em id="ng_replace_award_A"></em> points each</li>' +
-        '<li><strong>Exhibition B:</strong> displays the ' +
-        'top <em id="ng_replace_threshold_B"></em> ' +
-        'painting/s and awards their authors with ' +
-        '<em id="ng_replace_award_B"></em> points each</li>' +
-        '<li><strong>Exhibition C:</strong> displays the ' +
-        'top <em id="ng_replace_threshold_C"></em> ' +
-        'painting/s and awards their authors with ' +
-        '<em id="ng_replace_award_C"></em> points each</li>'
+    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
+        'of paintings, and awards their authors a <em>different</em> ' +
+        'number of points. That is: '
+
+//    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
+//        'of paintings, and awards their authors a <em>different</em> ' +
+//        'number of points. That is: ' +
+//        '<ul><li><strong>Exhibition A:</strong> ' +
+//        'top <em id="ng_replace_threshold_A"></em> ' +
+//        'painting/s and awards their authors ' +
+//        '<em id="ng_replace_award_A"></em> points each</li>' +
+//        '<li><strong>Exhibition B:</strong> ' +
+//        'top <em id="ng_replace_threshold_B"></em> ' +
+//        'painting/s and awards their authors ' +
+//        '<em id="ng_replace_award_B"></em> points each</li>' +
+//        '<li><strong>Exhibition C:</strong> ' +
+//        'top <em id="ng_replace_threshold_C"></em> ' +
+//        'painting/s and awards their authors ' +
+//        '<em id="ng_replace_award_C"></em> points each</li>'
+
+
 };
 
 settings = {
@@ -123,13 +129,14 @@ settings = {
         training: 3000000,
         // instructions: 90000,
         // quiz: 60000,
-        creation: function() {
-            var gs;
-            gs = this.getCurrentGameStage();
-            if (gs.round < 2) return 80000;
-            if (gs.round < 3) return 60000;
-            return 50000;
-        },
+//         creation: function() {
+//             var gs;
+//             gs = this.getCurrentGameStage();
+//             if (gs.round < 2) return 80000;
+//             if (gs.round < 3) return 60000;
+//             return 50000;
+//         },
+        creation: 50000,
         submission: 20000,
         evaluation: 20000,
         dissemination: 15000

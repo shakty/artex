@@ -45,16 +45,20 @@ h3 {
 }
 
 table#payoff {
-    margin: 5px 0 0 0;
+    margin: 20px auto;
     border: 1px solid #CCC;
     border-spacing: 0;
     border-collapse: 0;
     background: #EEE;
 }
 
-table#payoff td {
+table#payoff td, table#payoff th {
     border: 1px solid #AAA;
     padding: 2px;
     text-align: center;
-    width: 50px;
+    width: 200px;
+}
+
+table#payoff th {
+    font-weight: bold;
 }
