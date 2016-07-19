@@ -152,7 +152,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             return out;
         },
         exit: function() {
-            node.game.donebutton.setText('Click here when you are done!');
+            node.game.donebutton.setText('Continue');
         }
     });
 
@@ -250,14 +250,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Svo.
                 svoInput = W.getElementById('svo');
                 totalSvo = msg.data.svo + msg.data.svoFrom;
-                svoInput.value = msg.data.svo + ' + ' + msg.data.svoFrom + 
+                svoInput.value = msg.data.svo + ' + ' + msg.data.svoFrom +
                     ' = ' + totalSvo;
                 // Total win.
                 win = msg.data && msg.data.win || 0;
                 winInput = W.getElementById('win');
                 totalWin = win + totalSvo;
                 winUsd = totalWin / node.game.settings.EXCHANGE_RATE;
-                winInput.value = win + ' + ' + totalSvo + ' = ' + totalWin + 
+                winInput.value = win + ' + ' + totalSvo + ' = ' + totalWin +
                     ' = ' + Number(winUsd).toFixed(2) + ' USD';
             });
         },

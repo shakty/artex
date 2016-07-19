@@ -31,7 +31,7 @@ pubRules = {
 
     rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
         'of paintings, and awards their authors a <em>different</em> ' +
-        'number of points. That is: '
+        'number of reward points. That is:'
 
 //    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
 //        'of paintings, and awards their authors a <em>different</em> ' +
