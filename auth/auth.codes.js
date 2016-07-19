@@ -39,14 +39,14 @@ module.exports = function(settings, done) {
 
     if (settings.mode === 'dummy') {
 
-        nCodes = validatesNCodes(settings.nCodes);
+        nCodes = validateNCodes(settings.nCodes);
         codes = new Array(nCodes);
 
         for (i = 0 ; i < nCodes; i ++) {
             codes[i] = {
                 id: i + '',
-                ExitCode: i + '',
-                AccessCode: i + 'exit'
+                AccessCode: i + '',
+                ExitCode: i + 'exit'
             };
             // Optionally add a password field.
             if (settings.addPwd) code[i].pwd = i + '';
@@ -56,14 +56,14 @@ module.exports = function(settings, done) {
 
     if (settings.mode === 'auto') {
         keys = {};
-        nCodes = validatesNCodes(settings.nCodes);
+        nCodes = validateNCodes(settings.nCodes);
         codes = new Array(nCodes);
 
         for (i = 0 ; i < nCodes; i ++) {
             codes[i] = {
                 id: J.uniqueKey(keys, J.randomString(8, 'aA1')),
-                ExitCode: J.uniqueKey(keys, J.randomString(6, 'aA1')),
-                AccessCode: J.uniqueKey(keys, J.randomString(6, 'aA1'))
+                AccessCode: J.uniqueKey(keys, J.randomString(6, 'aA1')),
+                ExitCode: J.uniqueKey(keys, J.randomString(6, 'aA1'))
             };
             // Optionally add a password field.
             if (settings.addPwd) {
@@ -139,7 +139,7 @@ module.exports = function(settings, done) {
         }
     }
 
-    if (settings.mode === 'customCb') {
+    if (settings.mode === 'custom') {
         if ('function' !== typeof settings.customCb) {
             throw new Error('auth.settings: mode="customCb", but settings.' +
                             'customCb is not a function. Found: ' +

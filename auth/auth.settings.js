@@ -30,41 +30,101 @@ module.exports = {
      *              in settings.file (available formats: json and csv).
      *   - 'remote': fetches the authorization codes from a remote URI.
      *               Available protocol: DeSciL protocol.
-     *   - 'custom': The 'getCodesCb' property of the settings object
+     *   - 'custom': The 'customCb' property of the settings object
      *               will be executed with settings and done callback
      *               as parameters.
      *
      */
-    mode: 'local',
+    mode: 'auto',
+
+    /**
+     * ## nCodes
+     *
+     * The number of codes to create
+     *
+     * Modes: 'dummy', 'auto'
+     * Default: 100
+     */
+    // nCodes: 20
+
+    /**
+     * ## addPwd
+     *
+     * If TRUE, a password field is added to each code
+     *
+     * Modes: 'dummy', 'auto'
+     * Default: FALSE
+     */
+    // addPwd: true,
+
+    /**
+     * ## codesLength
+     *
+     * The length of generated codes
+     *
+     * Modes: 'auto'
+     * Default: { id: 8, pwd: 8, AccessCode: 6, ExitCode: 6 }
+     */
+    // codesLength: { id: 8, pwd: 8, AccessCode: 6, ExitCode: 6 },
+
+    /**
+     * ## customCb
+     *
+     * The custom callback associated to mode 'custom'
+     *
+     * Modes: 'custom'
+     */
+    // customCb: function(settings, done) { return [ ... ] },
 
     /**
      * ## inFile
      *
      * The name of the codes file inside auth/ dir or a full path to it
      *
-     * Available formast: .csv and .json. Default values tried in sequence:
-     * codes.json, code.csv.
+     * Available formast: .csv and .json.
+     *
+     * Modes: 'local'
+     * Default: 'codes.json', 'code.csv' (tried in sequence)
      */
     // inFile: 'mycodes.csv',
 
     /**
      * ## dumpCodes
      *
-     * If TRUE, all imported codes will be dumped to file
+     * If TRUE, all imported codes will be dumped to file `outFile`
      *
+     * Modes: 'dummy', 'auto', 'local', 'remote', 'custom'
      * Default: TRUE
      */
-    // dumpCodes
+    // dumpCodes: false
 
     /**
      * ## outFile
      *
      * The name of the codes dump file inside auth/ dir or a full path to it
      *
-     * Available formast: .csv and .json. Default name: codes.imported.csv
+     * Only used, if `dumpCodes` is TRUE. Available formast: .csv and .json.
+     *
+     * Modes: 'dummy', 'auto', 'local', 'remote', 'custom'
+     * Default: 'codes.imported.csv'
      */
     // outFile: 'my.imported.codes.csv',
 
+    /**
+     * ## importer
+     *
+     * Importer function processing the different import modes
+     *
+     * Must export a function that returns an array of codes synchronously
+     * or asynchronously.
+     *
+     * Modes: 'dummy', 'auto', 'local', 'remote', 'custom'
+     */
+    // codes: 'auth.codes.js',
+
+    // # Reserved words for future requirements settings.
+
+    // page: 'login.htm'
 
     /**
      * ## getcode
@@ -75,17 +135,4 @@ module.exports = {
      */
     getcode: true,
 
-    /**
-     * ## importer
-     *
-     * Importer function processing the different import modes
-     *
-     * Must export a function that returns an array of codes synchronously
-     * or asynchronously.
-     */
-    // codes: 'auth.codes.js',
-
-    // # Reserved words for future requirements settings.
-
-    // page: 'login.htm'
 };
