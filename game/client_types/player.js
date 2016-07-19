@@ -55,11 +55,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         frame: 'mood.html',
         done: function() {
             var values;
-            values = this.mood.getValues({ 
+            values = this.mood.getValues({
                 markAttempt: true,
                 highlight: true
             });
-            if (values.missValues) return false;            
+            if (values.missValues) return false;
             return values.items;
         }
     });
@@ -132,7 +132,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             var values;
             values = this.demo.getValues({ highlight: true });
-            if (values.missValues.length) return false;            
+            if (values.missValues.length) return false;
             return values.forms;
         }
     });
@@ -180,7 +180,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         exit: function() {
             // Quiz might have changed.
-            node.game.donebutton.setText('Click here when you are done!');
+            node.game.donebutton.setText('Continue');
         }
     });
 
@@ -223,7 +223,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             var values;
             values = this.belief.getValues({ highlight: true });
-            if (values.choice === null) return false;            
+            if (values.choice === null) return false;
             return values;
         }
     });

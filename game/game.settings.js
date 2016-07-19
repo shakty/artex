@@ -94,7 +94,7 @@ settings = {
     //   - 'tournament' will rank all images by average review score and
     //   -    will publish the first N (can be different by exhibition).
 
-    competition: 'tournament', 
+    competition: 'tournament',
 
     exA: {
         competition: 'tournament',
@@ -120,7 +120,7 @@ settings = {
     // Timer values.
     TIMER: {
 
-        training: 30000,
+        training: 3000000,
         // instructions: 90000,
         // quiz: 60000,
         creation: function() {
