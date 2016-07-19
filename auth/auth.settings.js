@@ -35,7 +35,7 @@ module.exports = {
      *               as parameters.
      *
      */
-    mode: 'auto',
+    mode: 'local',
 
     /**
      * ## nCodes
@@ -45,7 +45,7 @@ module.exports = {
      * Modes: 'dummy', 'auto'
      * Default: 100
      */
-    // nCodes: 20
+    nCodes: 22,
 
     /**
      * ## addPwd
@@ -86,7 +86,7 @@ module.exports = {
      * Modes: 'local'
      * Default: 'codes.json', 'code.csv' (tried in sequence)
      */
-    // inFile: 'mycodes.csv',
+    inFile: 'codes.imported.csv',
 
     /**
      * ## dumpCodes

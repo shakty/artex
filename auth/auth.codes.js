@@ -76,11 +76,11 @@ module.exports = function(settings, done) {
     if (settings.mode === 'local') {
 
         // Default paths.
-        if ('undefined' === typeof settings.file) {
-            settings.file = settings.authDir + 'codes'; // .json and .js
-            if (!fs.existsSync(settings.file)) {
-                settings.file = settings.authDir + 'codes.csv';
-                if (!fs.existsSync(settings.file)) {
+        if ('undefined' === typeof settings.inFile) {
+            settings.inFile = settings.authDir + 'codes'; // .json and .js
+            if (!fs.existsSync(settings.inFile)) {
+                settings.inFile = settings.authDir + 'codes.csv';
+                if (!fs.existsSync(settings.inFile)) {
 
                     throw new TypeError('auth.settings: mode="local", but ' +
                                         'codes.json and codes.csv not found.');
@@ -88,28 +88,28 @@ module.exports = function(settings, done) {
             }
         }
         // Custom paths.
-        else if ('string' === typeof settings.file ||
-                 settings.file.trim() === '') {
+        else if ('string' === typeof settings.inFile ||
+                 settings.inFile.trim() === '') {
 
             // Convert to absolute path.
-            if (!path.isAbsolute(settings.file)) {
-                settings.file = authDir + settings.file;
+            if (!path.isAbsolute(settings.inFile)) {
+                settings.inFile = settings.authDir + settings.inFile;
             }
 
-            if (!fs.existsSync(settings.file)) {
+            if (!fs.existsSync(settings.inFile)) {
                 throw new TypeError('auth.settings: mode="local", but ' +
-                                    'settings.file points to a non-existing ' +
-                                    'file: ' + settings.file);
+                                    'settings.inFile points to a ' +
+                                    'non-existing file: ' + settings.inFile);
             }
         }
         else {
-            throw new TypeError('auth.settings: settings.file must be a ' +
+            throw new TypeError('auth.settings: settings.inFile must be a ' +
                                 'non-empty string or undefined when ' +
-                                'mode="local". Found: ' + settings.file);
+                                'mode="local". Found: ' + settings.inFile);
         }
 
         // Get format, default JSON.
-        format = getFormat(settings.file);
+        format = getFormat(settings.inFile);
 
         // CSV.
         if (format === 'csv') {
@@ -117,7 +117,7 @@ module.exports = function(settings, done) {
                 var csv, reader;
                 codes = [];
                 csv = require('ya-csv');
-                reader = csv.createCsvFileReader(settings.file, {
+                reader = csv.createCsvFileReader(settings.inFile, {
                     separator: ',',
                     quote: '"',
                     escape: '"',
@@ -135,7 +135,7 @@ module.exports = function(settings, done) {
         }
         // JSON
         else {
-            return require(settings.file);
+            return require(settings.inFile);
         }
     }
 
