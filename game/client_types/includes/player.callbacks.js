@@ -46,7 +46,7 @@ function init() {
             });
         }
         node.game.donebutton = node.widgets.append('DoneButton', header, {
-            text: 'Click here when you are done!'
+            text: 'Continue'
         });
 
     }
@@ -150,7 +150,7 @@ function init() {
         'creation', 'submission', 'review', 'copy',
         'specialization', 'ui', 'freecomment'
     ];
-      
+
     // Names of the questionnaire forms ids (additional).
     this.qNamesExtraSubs = {
         creation: [
@@ -277,7 +277,7 @@ function init() {
         copy: [
             {
                 id: 'never',
-                mainText: 'I seldom or never copied past images'                
+                mainText: 'I seldom or never copied past images'
             },
             {
                 id: 'liked',

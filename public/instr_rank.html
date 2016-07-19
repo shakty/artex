@@ -17,7 +17,9 @@
 
     <div id="instructions">
       <img src="images/instructions/painter.jpeg" width="200px" />
-      <span id="scrolldown">Scroll the page to read the whole text. </br> Read carefully and with no hurry.</span>
+      <span id="scrolldown">Scroll the page to read the whole text.
+      Read carefully and with no hurry. </br> Your payout depends on
+      your understanding of the instructions.</span>
       <p>
         <h3>Introduction</h3>
 
@@ -45,7 +47,7 @@
         </li>
         <li>
           <strong>Step 2: </strong>Each participant chooses 1
-          exhibition to which to submit the work of art.
+          exhibition to which to submit the painting.
         </li>
         <li>
           <strong>Step 3: </strong>Each participant reviews 3 of the 8
@@ -64,12 +66,12 @@
       </ul>
 
       </p>
-      
+
       <p>
-        <h3>Exhibition displays</h3> 
-        
+        <h3>Exhibition displays</h3>
+
           <span id="ng_replace_pubrule_text"></span>
-        
+
       </p>
 
       <p>
@@ -88,10 +90,10 @@
          <li>At each new round, when creating a new painting, you will continue from your previous submission.</li>
          <li>It is possible to copy paintings from the past exhibitions.</li>
       </ul>
-      </p>   
+      </p>
 
       <h3>Continue</h3>
-      If you understood the instructions, click now the "Done Button."
+      If you understood the instructions, click now the "Continue" button.
     </div>
 
   </div>
@@ -103,7 +105,7 @@
         node = parent.node;
         W = parent.W;
         s = node.game.settings;
-        
+
         W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
 
