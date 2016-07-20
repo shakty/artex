@@ -34,8 +34,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Add all the stages into the stager.
 
-    // stager.setDefaultProperty('done', cbs.clearFrame);
-
     stager.setDefaultProperty('timeup', function() { node.done(); });
 
     // Adjust to displaying rounds in main stage.
@@ -73,6 +71,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('submission', {
         init: function() {
             this.subSliders = { A: 0, B: 0, C: 0 };
+            this.totClicksOnSubSliders = { A: 0, B: 0, C: 0 };
         },
         cb: cbs.submission,
         donebutton: false,
@@ -85,7 +84,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.done();
         },
         done: function() {
-            return { ex: node.game.last_ex };
+            return {
+                ex: node.game.last_ex,
+                seeMore: node.game.totClicksOnSubSliders
+            };
         }
     });
 
@@ -115,11 +117,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('dissemination', {
+        init: function() {
+            node.game.copies = [];
+        },
         frame: 'dissemination.html',
         cb: cbs.dissemination,
         done: function() {
             $(".copyorclose").dialog('close');
             $(".copyorclose").dialog('destroy');
+            debugger
+            return { copies: node.game.copies };
         }
     });
 

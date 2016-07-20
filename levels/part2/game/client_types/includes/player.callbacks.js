@@ -548,6 +548,10 @@ function init() {
 
             seeMore.onclick = function() {
                 var idxShow, idxHide, trShow, trHide;
+
+                // Total count.
+                node.game.totClicksOnSubSliders[ex]++;
+
                 // Restarting modular index.
                 if (node.game.subSliders[ex] === 1) idxHide = nTR;
                 else idxHide = node.game.subSliders[ex]-1;
