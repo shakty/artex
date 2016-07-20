@@ -15,7 +15,7 @@ module.exports = function(stager, settings) {
         .repeat('artex', settings.REPEAT)
         .next('final')
         .gameover();
-       
+
     // Extending steps.
 
     stager.extendStage('artex', {
@@ -35,11 +35,11 @@ module.exports = function(stager, settings) {
         ]
     });
 
-//     stager.skip('artex');
+     stager.skip('artex');
 //     stager.skip('artex', 'creation');
 //     stager.skip('artex', 'evaluation');
 //     stager.skip('artex', 'dissemination');
-    
+
     // stager.skip('final', 'questionnaire')
     // stager.skip('final', 'morequestions')
 
