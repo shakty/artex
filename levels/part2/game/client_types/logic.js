@@ -137,9 +137,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.game.memory.save(this.DUMP_DIR + 'artex_part2.json',
                                   saveOptions);
 
+            // Write bonus file headers.
+            cbs.appendToBonusFile();
             // Compute payoff.
             node.on.data('WIN', function(msg) {
-                var id, code, db, svoOwn, svoFrom;
+                var id, code, db, bonus, svoOwn, svoFrom;
                 var totWin, totWinUsd, bonusStr;
 
                 id = msg.from;
@@ -165,14 +167,19 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 }
 
                 svoOwn = code.svo;
-                if (!svoOwn) {
-                    console.log('WARN: svoFrom not found. ', msg.from);
+                if (svoOwn) {
+                    svoOwn = svoOwn[0];
+                }
+                else {
+                    console.log('WARN: svoOwn not found. ', msg.from);
                     svoOwn = 100;
                 }
 
+                bonus = code.bonus || 0;
+
                 // Send information.
                 node.say('WIN', id, {
-                    win: code.bonus,
+                    win: bonus,
                     exitcode: code.ExitCode,
                     svo: svoOwn,
                     svoFrom: svoFrom
@@ -183,19 +190,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 db.save(this.DUMP_DIR + 'artex_quest.json', saveOptions);
 
                 // Saving tot bonus for player.
-                totWin = (code.bonus + svoOwn + svoFrom);
+                totWin = (bonus + svoOwn + svoFrom);
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
-                bonusStr = (code.AccessCode || code.id) + ', ' + 
-                    (code.ExitCode || code.id) + ', ' +
+                bonusStr = '"' + (code.AccessCode || code.id) + '", "' +
+                    (code.ExitCode || code.id) + '", ' +
+                    bonus + ', ' + svoOwn  + ', ' + svoFrom  + ', ' +
                     totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
-                fs.appendFile(this.DUMP_DIR + 'bonus.csv', bonusStr,
-                              function(err) {
-                                  if (err) {
-                                      console.log(err);
-                                      console.log('Tot win: ' + totWin);
-                                  }
-                              });
-
+                cbs.appendToBonusFile(bonusStr);
                 console.log('FINAL PAYOFF PER PLAYER');
                 console.log('***********************');
                 console.log(bonusStr);

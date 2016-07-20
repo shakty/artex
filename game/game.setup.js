@@ -8,12 +8,12 @@
  */
 
 module.exports = function(settings, stages) {
-    
+
     var game = {};
 
     game.debug = settings.DEBUG;
 
-    game.verbosity = 0;
+    game.verbosity = 1000;
 
     game.window = {
         promptOnleave: !game.debug,

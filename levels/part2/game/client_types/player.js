@@ -272,14 +272,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 svoInput = W.getElementById('svo');
                 totalSvo = msg.data.svo + msg.data.svoFrom;
                 svoInput.value = msg.data.svo + ' + ' + msg.data.svoFrom +
-                    ' = ' + totalSvo;
+                    ' = ' + totalSvo + ' Points';
                 // Total win.
                 win = msg.data && msg.data.win || 0;
                 winInput = W.getElementById('win');
                 totalWin = win + totalSvo;
                 winUsd = totalWin / node.game.settings.EXCHANGE_RATE;
                 winInput.value = win + ' + ' + totalSvo + ' = ' + totalWin +
-                    ' = ' + Number(winUsd).toFixed(2) + ' USD';
+                    ' Points = ' + Number(winUsd).toFixed(2) + ' USD';
             });
         },
         frame: 'ended.html',

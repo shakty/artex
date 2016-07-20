@@ -19,7 +19,8 @@ module.exports = {
     evaluation: evaluation,
     dissemination: dissemination,
     notEnoughPlayers: notEnoughPlayers,
-    enoughPlayersAgain: enoughPlayersAgain
+    enoughPlayersAgain: enoughPlayersAgain,
+    appendToBonusFile: appendToBonusFile
 };
 
 var node = module.parent.exports.node;
@@ -120,9 +121,9 @@ function init() {
     });
 
     fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
-        debugger
+        // debugger
         node.game.pl.save(CODE_FILE, function() {
-            debugger
+            // debugger
         });
     });
 
@@ -477,4 +478,26 @@ function writeBonusFile(data) {
                         (!!!data[i].Fail ? '1' : '0') + '\n');
     }
     bonusFile.end();
+}
+
+
+// ## Helper functions.
+
+/**
+ * ### appendToBonusFile
+ *
+ * Appends a row to the bonus file (no checkings)
+ *
+ * @param {string} row Optional. The row to append, or undefined to add header
+ */
+function appendToBonusFile(row) {
+    if ('undefined' === typeof row) {
+        row = '"access","exit","bonus","svo.own","svo.from","points","usd"\n';
+    }
+    fs.appendFile(DUMP_DIR + 'bonus.csv', row, function(err) {
+        if (err) {
+            console.log(err);
+            console.log(row);
+        }
+    });
 }
