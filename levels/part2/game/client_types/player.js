@@ -230,6 +230,27 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 node.done();
             };
         },
+        done: function() {
+            var name, q, out, values, subq, i, len;
+            q = this.questionnaire;
+            i = -1, len = this.qNamesExtra.length;
+            out = new Array(len);
+            for ( ; ++i < len ; ) {
+                name = this.qNamesExtra[i];
+                values = { _group: name };
+                // All nested questions (freecomment does not have any).
+                for (subq in q[name]) {
+                    if (q[name].hasOwnProperty(subq)) {
+                        values[subq] = q[name][subq].getValues();
+                    }
+                }
+                // Free comment.
+                values.freecomment = W.getElementById(name + '_text').value;
+                // Store values.
+                out[i] = values;
+            }
+            return out;
+        },
         donebutton: false
     });
 

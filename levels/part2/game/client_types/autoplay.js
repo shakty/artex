@@ -44,18 +44,33 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
             }
             else if (stepObj.id === 'morequestions') {
+                node.on('moreq', function() {
+                    var q, subq;
+                    if (!this.finishedQ) {
+                        q = this.questionnaire[this.qShown];
+                        for (subq in q) {
+                            if (q.hasOwnProperty(subq)) {
+                                q[subq].setValues();
+                            }
+                        }
+                        W.getElementById(this.qShown + '_text').value =
+                            node.JSUS.randomString(90, '!Aa1_6');
+                        node.timer.randomExec(function() {
+                            W.getElementById('onemore').click();
+                            node.emit('moreq');
+                        });
+                        if (!this.qAvailable.length) this.finishedQ = true;
+                    }
+                    else {
+                        W.getElementById('freecomment_text').value =
+                            node.JSUS.randomString(150, '!Aa1_6');
+                        node.timer.randomDone();
+                    }
+                });
                 // Do more questions.
                 W.getElementById('yes').click();
-                // Do all subquestions in every question.
-                i = -1, len = this.qNamesExtra.length;
-                for ( ; ++i < len ; ) {
-                    for (q in this.questionnaire[this.qShown]) {
-                        if (this.questionnaire[this.qShown].hasOwnProperty(q)) {
-                            this.questionnaire[this.qShown][q].setValues();
-                        }
-                    }
-                    W.getElementById('onemore').click();
-                }
+                node.emit('moreq');
+                return;
             }
 
             node.timer.randomDone();
