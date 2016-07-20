@@ -20,7 +20,7 @@
         Scroll the page to read the whole
         text. Read carefully and with no hurry.
         <br/>
-        <strong>Important!</strong> Your payout depends on your
+        <strong>Important!</strong> Your bonus depends on your
         understanding of the instructions.
       </span>
       <br/>
@@ -35,7 +35,7 @@
 
         In Part 1 you will <strong>not</strong> interact with other players,
         and you <em>cannot</em> earn points unless esplicitely
-        mentioned in the screen. Part 1 involves three steps:
+        mentioned on the screen. Part 1 involves three steps:
 
         <ul>
           <li>
@@ -86,20 +86,16 @@
 
         <ul>
           <li>
-            a <strong>fixed baseline</strong> reward
+            a <strong>fixed reward</strong>
               of <span id="completion-fee">1</span> USD, and
           </li>
 
           <li>
-          a <strong>variable bonus</strong>
-          depending on the total number of points collected during the
-          experiment. Points will will be converted to USD with the
-          exchange rate <span id="exchange-rate">X</span> : 1.
+          a <strong>variable bonus</strong> depending on the total
+          number of points collected during the experiment. Every
+          <span id="exchange-rate">X</span> points you will earn 1 USD.
           </li>
         </ul>
-
-        The total monetary compensation for participation may vary
-        between 2 and 6 USD on average.
 
       </p>
 
@@ -115,3 +111,12 @@
 
   </div>
 </body>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var node, W, s;
+        node = parent.node;
+        W = parent.W;
+        s = node.game.settings;
+        W.setInnerHTML('exchange-rate', s.EXCHANGE_RATE);
+    });
+</script>

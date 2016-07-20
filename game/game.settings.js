@@ -64,15 +64,13 @@ settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 1,
+    REPEAT: 10,
 
     // Number of coins to split. *
     COINS: 100,
 
     // Divider ECU / DOLLARS *
-    EXCHANGE_RATE: 4000,
-
-    EXCHANGE_RATE_INSTRUCTIONS: 0.01,
+    EXCHANGE_RATE: 600,
 
     // DEBUG.
     DEBUG: true,
@@ -126,7 +124,7 @@ settings = {
     // Timer values.
     TIMER: {
 
-        training: 3000000,
+        training: 60000,
         // instructions: 90000,
         // quiz: 60000,
 //         creation: function() {
@@ -138,7 +136,11 @@ settings = {
 //         },
         creation: 50000,
         submission: 20000,
-        evaluation: 20000,
+        evaluation: function() {
+            var gs;
+            gs = this.getCurrentGameStage();
+            return gs.round < 2 ? 40000 : 20000;
+        },
         dissemination: 15000
         // questionnaire: 20000
     },

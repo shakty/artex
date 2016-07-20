@@ -54,7 +54,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                             }
                         }
                         W.getElementById(this.qShown + '_text').value =
-                            node.JSUS.randomString(90, 'Aa1_6');
+                            node.JSUS.randomString(90, 'Aa1_9');
                         node.timer.randomExec(function() {
                             W.getElementById('onemore').click();
                             node.emit('moreq');
@@ -63,7 +63,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     }
                     else {
                         W.getElementById('freecomment_text').value =
-                            node.JSUS.randomString(150, 'Aa1_6');
+                            node.JSUS.randomString(150, 'Aa1_9');
                         node.timer.randomDone();
                     }
                 });

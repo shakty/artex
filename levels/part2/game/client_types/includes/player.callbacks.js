@@ -156,30 +156,29 @@ function init() {
         creation: [
             {
                 id: 'random',
-                mainText: 'I was changing the image randomly'
+                mainText: 'I was changing the images randomly'
             },
             {
                 id: 'similar',
-                mainText: 'I aimed at becoming more <em>similar</em> ' +
+                mainText: 'I wanted to become more <em>similar</em> ' +
                     'to what I saw in the previous round/s'
             },
             {
                 id: 'dissimilar',
-                mainText: 'I aimed at becoming more ' +
-                    '<em>dissimilar/unique</em> from ' +
+                mainText: 'I wanted to become more ' +
+                    '<em>dissimilar</em> from ' +
                     'what I saw in the previous round/s'
             },
             {
                 id: 'sim_toex',
-                mainText: 'I aimed at becoming more <em>similar</em> to ' +
-                    'the images displayed in the exhibition where I wanted ' +
-                    'to submit'
+                mainText: 'I wanted to become more <em>similar</em> to ' +
+                    'the images displayed in my target exhibition'
             },
             {
                 id: 'dis_toex',
-                mainText: 'I aimed at becoming more ' +
-                    '<em>dissimilar/unique</em> from the images ' +
-                    'displayed in the exhibition where I wanted to submit'
+                mainText: 'I wanted to become more ' +
+                    '<em>dissimilar</em> from the images ' +
+                    'displayed in my target exhibition'
             }
         ],
         submission: [
@@ -189,41 +188,37 @@ function init() {
             },
             {
                 id: 'popular',
-                mainText: 'I chose the exhibition that the majority ' +
-                    'of other people was choosing as well'
+                mainText: 'I chose the exhibition that most ' +
+                    'of the other participants were choosing as well'
             },
             {
                 id: 'qualityup',
-                mainText: 'I chose based on the quality of the image ' +
-                    'just created: the <em>most</em> beautiful/appealing ' +
-                    'images to the <em>most</em> competitive exhibitions ' +
+                mainText: 'I submitted the <em>most</em> beautiful ' +
+                    'images to the <em>most</em> rewarding exhibitions ' +
                     '(A or B).'
             },
             {
                 id: 'qualitydown',
-                mainText: 'I chose based on the quality of the image ' +
-                    'just created: the <em>most</em> beautiful/appealing ' +
-                    'images to the <em>least</em> competitive exhibitions ' +
+                mainText: 'I submitted the <em>most</em> beautiful ' +
+                    'images to the <em>least</em> rewarding exhibitions ' +
                     '(C or B).'
             },
             {
                 id: 'innup',
-                mainText: 'I chose based on the innovativeness of the ' +
-                    'image just created: the <em>most</em> innovative ' +
-                    'images to the <em>most</em> competitive exhibitions ' +
+                mainText: 'I submitted the <em>most</em> innovative ' +
+                    'images to the <em>most</em> rewarding exhibitions ' +
                     '(A or B).'
             },
             {
                 id: 'inndown',
-                mainText: 'I chose based on the innovativeness of the ' +
-                    'image just created: the <em>most</em> innovative ' +
-                    'images to the <em>least</em> competitive exhibitions ' +
+                mainText: 'I submitted the <em>most</em> innovative ' +
+                    'images to the <em>least</em> rewarding exhibitions ' +
                     '(C or B).'
             },
             {
                 id: 'fit',
-                mainText: 'I chose the exhibition where my image would ' +
-                    'fit best in terms of style'
+                mainText: 'I submitted to the exhibition where my ' +
+                    'image would fit best in terms of style'
             },
             {
                 id: 'reward',
@@ -233,9 +228,8 @@ function init() {
         review: [
             {
                 id: 'byex',
-                mainText: 'I considered the exhibition I was reviewing for: ' +
-                    'I was expecting more for images submitted to A, a bit ' +
-                    'less for B, and even less for C'
+                mainText: 'I was a stricter reviewer for images ' +
+                    'submitted to A, a bit less for B, and even less for C'
             },
             {
                 id: 'like',
@@ -244,24 +238,23 @@ function init() {
             },
             {
                 id: 'diverse',
-                mainText: 'I gave higher scores to images that were more' +
-                    'diverse/unique'
+                mainText: 'I gave higher scores to images that were more ' +
+                    'innovative'
             },
             {
                 id: 'fit',
                 mainText: 'I gave higher scores to images that were fitting ' +
-                    'the style of the exhibition to which they have ' +
-                    'been submitted'
+                    'the style of the exhibition'
             },
             {
                 id: 'sameex',
                 mainText: 'I gave lower scores to images submitted ' +
-                    'to my same exhibition in general'
+                    'to my same exhibition'
             },
             {
                 id: 'sameexA',
                 mainText: 'When I chose exhibition A, I gave lower ' +
-                    'scores to images submitted A'
+                    'scores to images submitted to A'
             },
             {
                 id: 'sameexB',
@@ -286,8 +279,9 @@ function init() {
             },
             {
                 id: 'win_similar',
-                mainText: 'I copied because I thought that submitting ' +
-                    'similar image would increase my chances of winning'
+                mainText: 'I copied because I thought that submitting a ' +
+                    '<em>similar</em> image would increase my chances ' +
+                    'of winning'
             },
             {
                 id: 'savetime',
@@ -300,7 +294,7 @@ function init() {
             {
                 id: 'copy_old',
                 mainText: 'I copied when I thought that bringing back an ' +
-                    'old image would make me successful'
+                    '<em>old</em> image would make me successful'
             }
         ],
         specialization: [
@@ -325,12 +319,23 @@ function init() {
         ui: [
             {
                 id: 'easy',
-                mainText: 'The interface to create was immediately easy to use'
+                mainText: 'The interface to create images was immediately ' +
+                    'easy to use'
+            },
+            {
+                id: 'learning',
+                mainText: 'The interface to create images was at a bit hard  ' +
+                    'at the beginning, but I quickly learnt how to use it'
             },
             {
                 id: 'more_options',
-                mainText: 'I wished to have more options to express my ' +
-                    'creativity'
+                mainText: 'I wished to have <em>more</em> options to ' +
+                    'express my creativity'
+            },
+            {
+                id: 'toomany_options',
+                mainText: 'I wished to have <em>less</em> sliders to ' +
+                    'create images'
             }
         ]
     };
