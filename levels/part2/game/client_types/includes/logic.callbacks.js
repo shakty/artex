@@ -120,6 +120,7 @@ function init() {
         console.log('Disconnection in Stage: ' + node.player.stage);
     });
 
+    // Saving the codes starting this session.
     fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
         // debugger
         node.game.pl.save(CODE_FILE, function() {

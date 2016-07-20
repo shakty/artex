@@ -125,7 +125,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function() {
             $(".copyorclose").dialog('close');
             $(".copyorclose").dialog('destroy');
-            debugger
             return { copies: node.game.copies };
         }
     });

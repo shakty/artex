@@ -60,21 +60,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             code.svo = msg.data.items[svo].choice;
         });
 
-
-var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';
-//var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
-var CODE_FILE = CHANNEL_DIR  + 'codes.json';
-var CODE_FILE_BAK = CHANNEL_DIR  + '.codes.json.bak';
-
-        node.on.pconnect(function() {
-            fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
-                // debugger
-                channel.registry.clients.save(CODE_FILE, function() {
-                    // debugger
-                });
-            });
-        });
-
     });
 
     stager.setDefaultStepRule(stepRules.SOLO);
