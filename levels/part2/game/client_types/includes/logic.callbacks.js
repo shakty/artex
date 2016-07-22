@@ -9,7 +9,7 @@
 var ngc = require('nodegame-client');
 var GameStage = ngc.GameStage;
 var J = ngc.JSUS;
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var RMatcher = require('./rmatcher');
 
@@ -47,7 +47,7 @@ function init() {
     this.CHANNEL_DIR = CHANNEL_DIR;
     // Create data dir. TODO: do it automatically?
     this.DUMP_DIR = DUMP_DIR;
-    J.mkdirSyncRecursive(DUMP_DIR, 0777);
+    fs.mkdirsSync(DUMP_DIR);
 
     // Number of reviewers per image.
     this.reviewers = 3;

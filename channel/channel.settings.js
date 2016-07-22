@@ -16,7 +16,7 @@ module.exports = {
 
     // adminServer: 'artex/admin',
 
-    verbosity: 100,
+    verbosity: 1000,
 
     // If TRUE, players can invoke GET commands on admins.
     getFromAdmins: true,
@@ -26,6 +26,5 @@ module.exports = {
     accessDeniedUrl: '/artex/unauth.htm',
 
     enableReconnections: true
-            
-};
 
+};
