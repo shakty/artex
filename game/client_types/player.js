@@ -211,6 +211,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             this.belief = node.widgets.get('ChoiceTable', {
                 id: 'belief',
                 title: false,
+                left: 'worst',
+                right: 'best',
                 choices: [
                     '9<sup>th</sup>', '8<sup>th</sup>', '7<sup>th</sup>',
                     '6<sup>th</sup>', '5<sup>th</sup>', '4<sup>th</sup>',
