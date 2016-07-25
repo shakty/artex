@@ -104,7 +104,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     }),
                     w.get('ChoiceTable', {
                         id: 'job',
-                        mainText: 'Does your current occupation involves ' +
+                        mainText: 'Does your current occupation involve ' +
                             'regular use of artistic or creative skills? ' +
                             'If so, please report your level of experience ' +
                             'in years.',
