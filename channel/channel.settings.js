@@ -10,7 +10,9 @@
  */
 module.exports = {
 
-    // alias: 'game',
+    // name: 'mturk',
+
+    alias: 'mturk',
 
     // playerServer: 'artex',
 

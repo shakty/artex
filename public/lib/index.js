@@ -17,9 +17,9 @@ window.onload = function () {
         },
         socket: {
             type: 'SocketIo', // for remote connections
-            reconnect: false
+            reconnection: false
         }
     });
     // Connect to channel.
-    node.connect();
+    node.connect('/artex');
 };
