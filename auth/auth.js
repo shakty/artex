@@ -71,7 +71,14 @@ module.exports = function(auth, settings) {
     }
 
     function decorateClientObj(clientObject, info) {
-        if (info.headers) clientObject.userAgent = info.headers['user-agent'];
+        if (info.handshake.headers) {
+            clientObject.userAgent = info.handshake.headers['user-agent'];
+        }
+        if (info.query) {
+            clientObject.workerId = info.query.wid;
+            clientObject.assignmentId = info.query.aid;
+            clientObject.hitId = info.query.hid;
+        }
     }
 
     // Assigning the auth callbacks to the player server.
