@@ -71,13 +71,21 @@ module.exports = function(auth, settings) {
     }
 
     function decorateClientObj(clientObject, info) {
+        var mzlmn;
         if (info.handshake.headers) {
             clientObject.userAgent = info.handshake.headers['user-agent'];
         }
         if (info.query) {
-            clientObject.workerId = info.query.wid;
-            clientObject.assignmentId = info.query.aid;
-            clientObject.hitId = info.query.hid;
+            mzlmn = info.query.mzlmn;
+            mzlmn = decrypt(mzlmn, salt);
+            if ('object' === typeof mzlmn) {
+                clientObject.workerId = mzlmn.wid;
+                clientObject.assignmentId = info.query.aid;
+                clientObject.hitId = info.query.hid;
+            }
+            else {
+                clientObject.mzlmn = mzlmn;
+            }
         }
     }
 
@@ -85,5 +93,25 @@ module.exports = function(auth, settings) {
     // auth.authorization('player', authPlayers);
     // auth.clientIdGenerator('player', idGen);
     auth.clientObjDecorator('player', decorateClientObj);
+
+    var salt;
+    salt = 'mzlmn';
+
+    function decrypt(o, salt) {
+        var i, len;
+        o = decodeURI(o);
+        if (salt && o.indexOf(salt) !== 0) {
+            console.log('cannot be decripted: ' + o);
+            // throw new Error('object cannot be decripted');
+            return o;
+        }
+        o = o.substring(salt.length).split('');
+        i = -1, len = o.length;
+        for ( ; ++i < len ; ) {
+            if (o[i] == '{') o[i] = '}';
+            else if(o[i] == '}') o[i] = '{';
+        }
+        return JSON.parse(o.join(''));
+    }
 
 };
