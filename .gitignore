@@ -2,8 +2,6 @@ data
 
 *.seed
 *.log
-*.csv
-*.csv.bak
 *.dat
 *.out
 *.pid
