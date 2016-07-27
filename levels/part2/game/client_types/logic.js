@@ -139,6 +139,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
             // Write bonus file headers.
             cbs.appendToBonusFile();
+
+            // Save Email.
+            node.on.data('email', function(msg) {
+                var id, code;
+                id = msg.from;
+
+                code = channel.registry.getClient(id);
+                if (!code) {
+                    console.log('ERROR: no code in endgame:', id);
+                    return;
+                }
+
+                // Write bonus file headers.
+                cbs.appendToEmailFile(msg.data, code);
+            });
             // Compute payoff.
             node.on.data('WIN', function(msg) {
                 var id, code, db, bonus, svoOwn, svoFrom;
@@ -197,7 +212,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Saving tot bonus for player.
                 totWin = (bonus + svoOwn + svoFrom);
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
-                bonusStr = '"' + (code.AccessCode || code.id) + '", "' +
+                bonusStr = '"' + (code.id || code.AccessCode || 'NA') + '", "' +
                     (code.ExitCode || code.id) + '", "' +
                     (code.workerId || 'NA') + '", "' +
                     (code.hitId || 'NA') + '", "' +

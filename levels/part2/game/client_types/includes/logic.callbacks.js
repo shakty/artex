@@ -20,7 +20,8 @@ module.exports = {
     dissemination: dissemination,
     notEnoughPlayers: notEnoughPlayers,
     enoughPlayersAgain: enoughPlayersAgain,
-    appendToBonusFile: appendToBonusFile
+    appendToBonusFile: appendToBonusFile,
+    appendToEmailFile: appendToEmailFile
 };
 
 var node = module.parent.exports.node;
@@ -462,27 +463,6 @@ function doCheckout(p) {
     };
 }
 
-//function writeBonusFile(data) {
-//    var bonusFile;
-//    var i, len;
-//    // Create stream and write.
-//    bonusFile = fs.createWriteStream(DUMP_DIR + 'bonus.csv');
-//    bonusFile.on('error', function(err) {
-//        console.log('Error while saving bonus file: ', err);
-//    });
-//    bonusFile.write('access, exit, bonus, terminated\n');
-//    i = -1, len = data.length;
-//    for ( ; ++i < len ; ) {
-//        bonusFile.write(data[i].AccessCode + ',' +
-//                        (data[i].ExitCode || 'NA') + ',' +
-//                        (data[i].workerId || 'NA') + ',' +
-//                        data[i].Bonus + ',' +
-//                        (!!!data[i].Fail ? '1' : '0') + '\n');
-//    }
-//    bonusFile.end();
-//}
-
-
 // ## Helper functions.
 
 /**
@@ -498,6 +478,27 @@ function appendToBonusFile(row) {
             '"svo.own","svo.from","points","usd"\n';
     }
     fs.appendFile(DUMP_DIR + 'bonus.csv', row, function(err) {
+        if (err) {
+            console.log(err);
+            console.log(row);
+        }
+    });
+}
+
+/**
+ * ### appendToEmail
+ *
+ * Appends a row to the email file (no checkings)
+ *
+ * @param {string} email The email
+ * @param {object} code The client object from the registry
+ */
+function appendToEmailFile(email, code) {
+    var row;
+    row  = '"' + (code.id || code.AccessCode || 'NA') + '", "' +
+        (code.workerId || 'NA') + '", "' + email + '"\n';
+
+    fs.appendFile(DUMP_DIR + 'email.csv', row, function(err) {
         if (err) {
             console.log(err);
             console.log(row);

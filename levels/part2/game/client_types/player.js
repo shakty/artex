@@ -311,7 +311,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
                             b.disabled = true;
                             i.disabled = true;
-                            node.set('email', 'SERVER', email);
+                            node.say('email', 'SERVER', email);
                             b.onclick = null;
                             b.innerHTML = 'Sent!';
                             return;
