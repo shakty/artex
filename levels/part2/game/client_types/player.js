@@ -262,8 +262,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('endgame', {
         init: function() {
-	    var b;
-	    node.game.visualTimer.setToZero();
+            var b;
+            node.game.visualTimer.setToZero();
             // Request data.
             node.say('WIN', 'SERVER');
             node.on.data('WIN', function(msg) {
@@ -288,19 +288,22 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 winInput.value = win + ' + ' + totalSvo + ' = ' + totalWin +
                     ' Points = ' + Number(winUsd).toFixed(2) + ' USD';
             });
-	    b = W.getElementById('submit-email');
-	    b.onclick = function() {
-		var email;
-		email = b.value;
-		if (email.trim().length < 4 || email.indexOf('@') === -1 && email.indexOf('@') !== (email.length-1)) {
-		    b.innerHTML = 'Please correct your email and click here again.';
-		    return;
-		}
-		b.disabled = true;
-		document.getElementById('email').disabled = true;
-		node.say('email', 'SERVER', email);
-		b.onclick = null;
-	    };
+            b = W.getElementById('submit-email');
+            b.onclick = function() {
+                var email, indexAt, err;
+                email = b.value;
+                if (email.trim().length > 4) {
+                    indexAt = email.indexOf('@');
+                    if (indexAt !== -1 &&  indexAt !== (email.length-1)) {
+                        b.disabled = true;
+                        document.getElementById('email').disabled = true;
+                        node.set('email', 'SERVER', email);
+                        b.onclick = null;
+                        return;
+                    }
+                }
+                b.innerHTML = 'Check your email and click here again';
+            }
         },
         frame: 'ended.html',
         donebutton: false
