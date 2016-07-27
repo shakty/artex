@@ -14,7 +14,7 @@ module.exports = {
      *
      * If TRUE, authorization files will be imported and checked
      */
-    enabled: false, // [true, false] Default: TRUE.
+    enabled: true, // [true, false] Default: TRUE.
 
     /**
      * ## mode
@@ -35,7 +35,7 @@ module.exports = {
      *               as parameters.
      *
      */
-    mode: 'auto',
+    mode: 'local',
 
     /**
      * ## nCodes
@@ -86,7 +86,7 @@ module.exports = {
      * Modes: 'local'
      * Default: 'codes.json', 'code.csv' (tried in sequence)
      */
-    inFile: 'codes.imported.csv',
+    // inFile: 'codes.csv',
 
     /**
      * ## dumpCodes
