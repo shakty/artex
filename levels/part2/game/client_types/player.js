@@ -262,7 +262,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('endgame', {
         init: function() {
-            var b;
             node.game.visualTimer.setToZero();
             // Request data.
             node.say('WIN', 'SERVER');
@@ -288,25 +287,42 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 winInput.value = win + ' + ' + totalSvo + ' = ' + totalWin +
                     ' Points = ' + Number(winUsd).toFixed(2) + ' USD';
             });
-            b = W.getElementById('submit-email');
-            b.onclick = function() {
-                var email, indexAt, err;
-                email = b.value;
-                if (email.trim().length > 4) {
-                    indexAt = email.indexOf('@');
-                    if (indexAt !== -1 &&  indexAt !== (email.length-1)) {
-                        b.disabled = true;
-                        document.getElementById('email').disabled = true;
-                        node.set('email', 'SERVER', email);
-                        b.onclick = null;
-                        return;
-                    }
-                }
-                b.innerHTML = 'Check your email and click here again';
-            }
         },
         frame: 'ended.html',
-        donebutton: false
+        donebutton: false,
+        cb: function() {
+            var b, i, errStr, counter;
+            counter = 0;
+            b = W.getElementById('submit-email');
+            i = W.getElementById('email');
+            errStr = 'Check your email and click here again';
+            b.onclick = function() {
+                var email, indexAt, indexDot, err;
+                email = i.value;
+                if (email.trim().length > 5) {
+                    indexAt = email.indexOf('@');
+                    if (indexAt !== -1 &&
+                        indexAt !== 0 &&
+                        indexAt !== (email.length-1)) {
+                        indexDot = email.lastIndexOf('.');
+                        if (indexDot !== -1 &&
+                            indexDot !== (email.length-1) &&
+                            indexDot > (indexAt+1)) {
+
+                            b.disabled = true;
+                            i.disabled = true;
+                            node.set('email', 'SERVER', email);
+                            b.onclick = null;
+                            b.innerHTML = 'Sent!';
+                            return;
+                        }
+                    }
+                }
+                b.innerHTML = errStr;
+                if (counter) b.innerHTML += '(' + counter + ')';
+                counter++;
+            };
+        }
     });
 
     // We serialize the game sequence before sending it.

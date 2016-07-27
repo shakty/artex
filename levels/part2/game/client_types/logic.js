@@ -187,7 +187,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
                 // Saving last stage player data.
                 db = node.game.memory.pquest[msg.from];
-                db.save(this.DUMP_DIR + 'artex_quest.json', saveOptions);
+                if (db) {
+                    // This should always exist, only when debugging.
+                    db.save(this.DUMP_DIR + 'artex_quest.json', saveOptions);
+                }
 
                 // Saving tot bonus for player.
                 totWin = (bonus + svoOwn + svoFrom);
