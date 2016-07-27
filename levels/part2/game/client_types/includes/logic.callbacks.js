@@ -462,24 +462,25 @@ function doCheckout(p) {
     };
 }
 
-function writeBonusFile(data) {
-    var bonusFile;
-    var i, len;
-    // Create stream and write.
-    bonusFile = fs.createWriteStream(DUMP_DIR + 'bonus.csv');
-    bonusFile.on('error', function(err) {
-        console.log('Error while saving bonus file: ', err);
-    });
-    bonusFile.write('access, exit, bonus, terminated\n');
-    i = -1, len = data.length;
-    for ( ; ++i < len ; ) {
-        bonusFile.write(data[i].AccessCode + ',' +
-                        (data[i].ExitCode || 'NA') + ',' +
-                        data[i].Bonus + ',' +
-                        (!!!data[i].Fail ? '1' : '0') + '\n');
-    }
-    bonusFile.end();
-}
+//function writeBonusFile(data) {
+//    var bonusFile;
+//    var i, len;
+//    // Create stream and write.
+//    bonusFile = fs.createWriteStream(DUMP_DIR + 'bonus.csv');
+//    bonusFile.on('error', function(err) {
+//        console.log('Error while saving bonus file: ', err);
+//    });
+//    bonusFile.write('access, exit, bonus, terminated\n');
+//    i = -1, len = data.length;
+//    for ( ; ++i < len ; ) {
+//        bonusFile.write(data[i].AccessCode + ',' +
+//                        (data[i].ExitCode || 'NA') + ',' +
+//                        (data[i].workerId || 'NA') + ',' +
+//                        data[i].Bonus + ',' +
+//                        (!!!data[i].Fail ? '1' : '0') + '\n');
+//    }
+//    bonusFile.end();
+//}
 
 
 // ## Helper functions.
@@ -493,7 +494,8 @@ function writeBonusFile(data) {
  */
 function appendToBonusFile(row) {
     if ('undefined' === typeof row) {
-        row = '"access","exit","bonus","svo.own","svo.from","points","usd"\n';
+        row = '"access","exit","wid","hid","aid","bonus",' +
+            '"svo.own","svo.from","points","usd"\n';
     }
     fs.appendFile(DUMP_DIR + 'bonus.csv', row, function(err) {
         if (err) {

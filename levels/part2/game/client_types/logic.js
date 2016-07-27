@@ -165,6 +165,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     console.log('WARN: svoFrom not found. ', msg.from);
                     svoFrom = 50;
                 }
+                code.svoFrom = svoFrom;
 
                 svoOwn = code.svo;
                 if (svoOwn) {
@@ -174,6 +175,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     console.log('WARN: svoOwn not found. ', msg.from);
                     svoOwn = 100;
                 }
+                code.svoOwn = svoOwn;
 
                 bonus = code.bonus || 0;
 
@@ -196,7 +198,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 totWin = (bonus + svoOwn + svoFrom);
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
                 bonusStr = '"' + (code.AccessCode || code.id) + '", "' +
-                    (code.ExitCode || code.id) + '", ' +
+                    (code.ExitCode || code.id) + '", "' +
+                    (code.workerId || 'NA') + '", "' +
+                    (code.hitId || 'NA') + '", "' +
+                    (code.assignmentId || 'NA') + '", ' +
                     bonus + ', ' + svoOwn  + ', ' + svoFrom  + ', ' +
                     totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
                 cbs.appendToBonusFile(bonusStr);

@@ -19,10 +19,7 @@ module.exports = {
     init: init,
     gameover: gameover,
     evaluation: evaluation,
-    dissemination: dissemination,
-    endgame: endgame,
-    notEnoughPlayers: notEnoughPlayers,
-    enoughPlayersAgain: enoughPlayersAgain
+    dissemination: dissemination
 };
 
 var node = module.parent.exports.node;
@@ -92,68 +89,68 @@ function init() {
         console.log('Disconnection in Stage: ' + node.player.stage);
     });
 
-    // Player reconnecting.
-    // Reconnections must be handled by the game developer.
-    node.on.preconnect(function(p) {
-        var code, questStage, disconnectStage;
-
-        console.log('Oh...somebody reconnected!', p.id);
-        code = channel.registry.getClient(p.id);
-
-        // The stage when the client disconnected.
-        questStage = node.game.questStage;
-        disconnectStage = p.stage;
-
-        // If we are in the last steps.
-        if (node.game.compareCurrentStep('questionnaire') >= 0) {
-
-            // Player disconnected before the questionnaire
-            if (GameStage.compare(disconnectStage, questStage) < 0)
-
-            // TODO Handle last stage.
-            // node.remoteCommand('goto_step', XXXX);
-
-            if (node.game.compareCurrentStep('endgame') === 0) {
-                payoff = doCheckout(p);
-                // If player was not checkout yet, do it.
-                if (payoff) postPayoffs([payoff]);
-            }
-            return;
-        }
-
-        // Setup newly connected client.
-        gameRoom.setupClient(p.id);
-
-        // Inits the game on the reconnecting client.
-        node.remoteCommand('start', p.id, { step: false });
-
-        // Add player to player list.
-        node.game.pl.add(p);
-
-
-        // Clear any message in the buffer from.
-        node.remoteCommand('erase_buffer', 'ROOM');
-
-        // Will send all the players to current stage
-        // (also those who were there already).
-        node.game.gotoStep(node.player.stage);
-
-        // TODO: or...
-
-        setTimeout(function() {
-            // Pause the game on the reconnecting client, will be resumed later.
-            // node.remoteCommand('pause', p.id);
-            // Unpause ROOM players
-            // TODO: add it automatically if we return TRUE? It must be done
-            // both in the alias and the real event handler
-            node.game.pl.each(function(player) {
-                if (player.id !== p.id) {
-                    node.remoteCommand('resume', player.id);
-                }
-            });
-            // The logic is also reset to the same game stage.
-        }, 100);
-    });
+//     // Player reconnecting.
+//     // Reconnections must be handled by the game developer.
+//     node.on.preconnect(function(p) {
+//         var code, questStage, disconnectStage;
+//
+//         console.log('Oh...somebody reconnected!', p.id);
+//         code = channel.registry.getClient(p.id);
+//
+//         // The stage when the client disconnected.
+//         questStage = node.game.questStage;
+//         disconnectStage = p.stage;
+//
+//         // If we are in the last steps.
+//         if (node.game.compareCurrentStep('questionnaire') >= 0) {
+//
+//             // Player disconnected before the questionnaire
+//             if (GameStage.compare(disconnectStage, questStage) < 0)
+//
+//             // TODO Handle last stage.
+//             // node.remoteCommand('goto_step', XXXX);
+//
+//             if (node.game.compareCurrentStep('endgame') === 0) {
+//                 payoff = doCheckout(p);
+//                 // If player was not checkout yet, do it.
+//                 if (payoff) postPayoffs([payoff]);
+//             }
+//             return;
+//         }
+//
+//         // Setup newly connected client.
+//         gameRoom.setupClient(p.id);
+//
+//         // Inits the game on the reconnecting client.
+//         node.remoteCommand('start', p.id, { step: false });
+//
+//         // Add player to player list.
+//         node.game.pl.add(p);
+//
+//
+//         // Clear any message in the buffer from.
+//         node.remoteCommand('erase_buffer', 'ROOM');
+//
+//         // Will send all the players to current stage
+//         // (also those who were there already).
+//         node.game.gotoStep(node.player.stage);
+//
+//         // TODO: or...
+//
+//         setTimeout(function() {
+//             // Pause the game on the reconnecting client, will resume later.
+//             // node.remoteCommand('pause', p.id);
+//             // Unpause ROOM players
+//             // TODO: add it automatically if we return TRUE? It must be done
+//             // both in the alias and the real event handler
+//             node.game.pl.each(function(player) {
+//                 if (player.id !== p.id) {
+//                     node.remoteCommand('resume', player.id);
+//                 }
+//             });
+//             // The logic is also reset to the same game stage.
+//         }, 100);
+//     });
 
 
     console.log('init');
@@ -415,30 +412,6 @@ function dissemination() {
     console.log('dissemination');
 }
 
-function endgame() {
-    var payoffs, payoff;
-
-    // Save database.
-    node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
-
-    console.log('FINAL PAYOFF PER PLAYER');
-    console.log('***********************');
-
-    // Compute final bonuses and send them to each player.
-    payoffs = node.game.pl.map(doCheckout);
-
-    // Only with Descil.
-    // postPayoffs(payoffs);
-
-    console.log('***********************');
-    console.log('Game ended');
-
-    // Write bonus file.
-    writeBonusFile(payoffs);
-
-    // TODO: do we need this? It triggers gameover.
-    // node.done();
-}
 
 function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
@@ -450,85 +423,111 @@ function gameover() {
     // channel.destroyGameRoom(gameRoom.name);
 }
 
-function notEnoughPlayers() {
-    if (this.countdown) return;
-    console.log('Warning: not enough players!!');
-    node.remoteCommand('pause', 'ROOM', this.disconnectStr);
-    this.countdown = setTimeout(function() {
-        console.log('Countdown fired. Going to Step: questionnaire.');
-        node.remoteCommand('erase_buffer', 'ROOM');
-        node.remoteCommand('resume', 'ROOM');
-        node.game.gameTerminated = true;
-        // if syncStepping = false
-        //node.remoteCommand('goto_step', 5);
-        node.game.gotoStep(new GameStage('questionnaire'));
-    }, WAIT_TIME);
-}
 
-function enoughPlayersAgain() {
-    console.log('Enough players again!');
-    // Delete countdown to terminate the game.
-    clearTimeout(this.countdown);
-    this.countdown = null;
-}
-
-/**
- * ## doCheckout
- *
- * Checks if a player has played enough rounds, and communicates the outcome
- *
- * @param {object} p A player object with valid id
- *
- * @return {object} A payoff object as required by descil-mturk.postPayoffs.
- *   If the player has not completed enough rounds returns undefined.
- */
-function doCheckout(p) {
-    var code;
-    code = channel.registry.getClient(p.id);
-    if (code.checkout) {
-        node.remoteAlert('Hi! It looks like you have already ' +
-                         'completed this game.', p.id);
-        return;
-    }
-    // Computing payoff and USD.
-    code.checkout = true;
-
-    code.bonus = code.bonus || 0;
-    code.usd = parseFloat(
-        ((code.bonus * settings.EXCHANGE_RATE).toFixed(2)),
-        10);
-
-    // Sending info to player.
-    node.say('win', p.id, {
-        ExitCode: code.ExitCode,
-        fail: code.fail,
-        bonus: code.bonus,
-        usd: code.usd
-    });
-
-    return {
-        AccessCode: p.id,
-        Bonus: code.usd,
-        ExitCode: code.ExitCode,
-        BonusReason: 'Full bonus.'
-    };
-}
-
-function writeBonusFile(data) {
-    var bonusFile;
-    var i, len;
-    // Create stream and write.
-    bonusFile = fs.createWriteStream(DUMP_DIR + 'bonus.csv');
-    bonusFile.on('error', function(err) {
-        console.log('Error while saving bonus file: ', err);
-    });
-    bonusFile.write('access, exit, bonus, terminated\n');
-    i = -1, len = data.length;
-    for ( ; ++i < len ; ) {
-        bonusFile.write(data[i].AccessCode + ',' +
-                        (data[i].ExitCode || 'NA') + ',' +
-                        data[i].Bonus + ',' +
-                        (!!!data[i].Fail ? '1' : '0') + '\n');
-    }
-    bonusFile.end();
-}
+// function endgame() {
+//     var payoffs, payoff;
+//
+//     // Save database.
+//     node.game.memory.save(DUMP_DIR + '/data_' + node.nodename + '.json');
+//
+//     console.log('FINAL PAYOFF PER PLAYER');
+//     console.log('***********************');
+//
+//     // Compute final bonuses and send them to each player.
+//     payoffs = node.game.pl.map(doCheckout);
+//
+//     // Only with Descil.
+//     // postPayoffs(payoffs);
+//
+//     console.log('***********************');
+//     console.log('Game ended');
+//
+//     // Write bonus file.
+//     writeBonusFile(payoffs);
+//
+//     // TODO: do we need this? It triggers gameover.
+//     // node.done();
+// }
+//
+// function notEnoughPlayers() {
+//     if (this.countdown) return;
+//     console.log('Warning: not enough players!!');
+//     node.remoteCommand('pause', 'ROOM', this.disconnectStr);
+//     this.countdown = setTimeout(function() {
+//         console.log('Countdown fired. Going to Step: questionnaire.');
+//         node.remoteCommand('erase_buffer', 'ROOM');
+//         node.remoteCommand('resume', 'ROOM');
+//         node.game.gameTerminated = true;
+//         // if syncStepping = false
+//         //node.remoteCommand('goto_step', 5);
+//         node.game.gotoStep(new GameStage('questionnaire'));
+//     }, WAIT_TIME);
+// }
+//
+// function enoughPlayersAgain() {
+//     console.log('Enough players again!');
+//     // Delete countdown to terminate the game.
+//     clearTimeout(this.countdown);
+//     this.countdown = null;
+// }
+//
+// /**
+//  * ## doCheckout
+//  *
+//  * Checks if a player has played enough rounds, and communicates the outcome
+//  *
+//  * @param {object} p A player object with valid id
+//  *
+//  * @return {object} A payoff object as required by descil-mturk.postPayoffs.
+//  *   If the player has not completed enough rounds returns undefined.
+//  */
+// function doCheckout(p) {
+//     var code;
+//     code = channel.registry.getClient(p.id);
+//     if (code.checkout) {
+//         node.remoteAlert('Hi! It looks like you have already ' +
+//                          'completed this game.', p.id);
+//         return;
+//     }
+//     // Computing payoff and USD.
+//     code.checkout = true;
+//
+//     code.bonus = code.bonus || 0;
+//     code.usd = parseFloat(
+//         ((code.bonus * settings.EXCHANGE_RATE).toFixed(2)),
+//         10);
+//
+//     // Sending info to player.
+//     node.say('win', p.id, {
+//         ExitCode: code.ExitCode,
+//         fail: code.fail,
+//         bonus: code.bonus,
+//         usd: code.usd
+//     });
+//
+//     return {
+//         AccessCode: p.id,
+//         Bonus: code.usd,
+//         ExitCode: code.ExitCode,
+//         BonusReason: 'Full bonus.'
+//     };
+// }
+//
+// function writeBonusFile(data) {
+//     var bonusFile;
+//     var i, len;
+//     // Create stream and write.
+//     bonusFile = fs.createWriteStream(DUMP_DIR + 'bonus.csv');
+//     bonusFile.on('error', function(err) {
+//         console.log('Error while saving bonus file: ', err);
+//     });
+//     bonusFile.write('access, exit, bonus, terminated\n');
+//     i = -1, len = data.length;
+//     for ( ; ++i < len ; ) {
+//         bonusFile.write(data[i].AccessCode + ',' +
+//                         (data[i].ExitCode || 'NA') + ',' +
+//                         data[i].Bonus + ',' +
+//                         (!!!data[i].Fail ? '1' : '0') + '\n');
+//     }
+//     bonusFile.end();
+// }
