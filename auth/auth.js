@@ -71,20 +71,24 @@ module.exports = function(auth, settings) {
     }
 
     function decorateClientObj(clientObject, info) {
-        var mzlmn;
+        var amtData;
         if (info.handshake.headers) {
             clientObject.userAgent = info.handshake.headers['user-agent'];
         }
         if (info.query) {
-            mzlmn = info.query.mzlmn;
-            mzlmn = JSON.parse(atob(mzlmn));
-            if ('object' === typeof mzlmn) {
-                clientObject.workerId = mzlmn.wid;
-                clientObject.assignmentId = mzlmn.aid;
-                clientObject.hitId = mzlmn.hid;
+            amtData = info.query.id;
+            if (!info.query.id) {
+                console.log('no amt data!', clientObject.id);
+                return;
+            }
+            amtData = atob(info.query.id);
+            if ('object' === typeof amtData) {
+                clientObject.workerId = amtData.w;
+                clientObject.assignmentId = amtData.a;
+                clientObject.hitId = amtData.h;
             }
             else {
-                clientObject.mzlmn = mzlmn;
+                clientObject.amtData = info.query.id;
             }
         }
     }
@@ -94,7 +98,16 @@ module.exports = function(auth, settings) {
     // auth.clientIdGenerator('player', idGen);
     auth.clientObjDecorator('player', decorateClientObj);
 
+    // Decrypt base64 encoded strings.
     function atob(str) {
-        return new Buffer(str, 'base64').toString('binary');
+        str = new Buffer(str, 'base64').toString('binary');
+        try {
+            str = JSON.parse(str);
+        }
+        catch(e) {
+            console.log(e);
+            str = false;
+        }
+        return str;
     }
 };
