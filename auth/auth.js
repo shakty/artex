@@ -77,11 +77,11 @@ module.exports = function(auth, settings) {
         }
         if (info.query) {
             mzlmn = info.query.mzlmn;
-            mzlmn = decrypt(mzlmn, salt);
+            mzlmn = JSON.parse(atob(mzlmn));
             if ('object' === typeof mzlmn) {
                 clientObject.workerId = mzlmn.wid;
-                clientObject.assignmentId = info.query.aid;
-                clientObject.hitId = info.query.hid;
+                clientObject.assignmentId = mzlmn.aid;
+                clientObject.hitId = mzlmn.hid;
             }
             else {
                 clientObject.mzlmn = mzlmn;
@@ -94,24 +94,7 @@ module.exports = function(auth, settings) {
     // auth.clientIdGenerator('player', idGen);
     auth.clientObjDecorator('player', decorateClientObj);
 
-    var salt;
-    salt = 'mzlmn';
-
-    function decrypt(o, salt) {
-        var i, len;
-        o = decodeURI(o);
-        if (salt && o.indexOf(salt) !== 0) {
-            console.log('cannot be decripted: ' + o);
-            // throw new Error('object cannot be decripted');
-            return o;
-        }
-        o = o.substring(salt.length).split('');
-        i = -1, len = o.length;
-        for ( ; ++i < len ; ) {
-            if (o[i] == '{') o[i] = '}';
-            else if(o[i] == '}') o[i] = '{';
-        }
-        return JSON.parse(o.join(''));
+    function atob(str) {
+        return new Buffer(str, 'base64').toString('binary');
     }
-
 };

@@ -64,7 +64,7 @@ settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 1,
+    REPEAT: 10,
 
     // Number of coins to split. *
     COINS: 100,
@@ -73,7 +73,7 @@ settings = {
     EXCHANGE_RATE: 600,
 
     // DEBUG.
-    DEBUG: true,
+    DEBUG: false,
 
     // AUTO-PLAY.
     AUTO: false,
