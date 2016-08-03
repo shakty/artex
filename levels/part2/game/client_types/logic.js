@@ -214,9 +214,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
                 bonusStr = '"' + (code.id || code.AccessCode || 'NA') + '", "' +
                     (code.ExitCode || code.id) + '", "' +
-                    (code.workerId || 'NA') + '", "' +
-                    (code.hitId || 'NA') + '", "' +
-                    (code.assignmentId || 'NA') + '", ' +
+                    (code.WorkerId || 'NA') + '", "' +
+                    (code.HITId || 'NA') + '", "' +
+                    (code.AssignmentId || 'NA') + '", ' +
                     bonus + ', ' + svoOwn  + ', ' + svoFrom  + ', ' +
                     totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
                 cbs.appendToBonusFile(bonusStr);

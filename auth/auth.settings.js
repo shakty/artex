@@ -14,7 +14,7 @@ module.exports = {
      *
      * If TRUE, authorization files will be imported and checked
      */
-    enabled: true, // [true, false] Default: TRUE.
+    enabled: false, // [true, false] Default: TRUE.
 
     /**
      * ## mode
@@ -35,7 +35,7 @@ module.exports = {
      *               as parameters.
      *
      */
-    mode: 'local',
+    mode: 'dummy',
 
     /**
      * ## nCodes
@@ -127,12 +127,46 @@ module.exports = {
     // page: 'login.htm'
 
     /**
-     * ## getcode
+     * ## claimId
      *
-     * function that returns true or a string with the error. ??
+     * If TRUE, remote clients will be able to claim an id via POST request
      *
      * @xperimental
      */
-    getcode: true,
+    claimId: true,
 
+    /**
+     * ## claimIdValidateRequest
+     *
+     * Returns TRUE if a requester is authorized to claim an id
+     *
+     * Returns an error string describing the error otherwise.
+     *
+     * @xperimental
+     */
+    claimIdValidateRequest: function(query, headers) {
+        if ('string' !== typeof query.a ||
+            !query.a.trim().length) {
+
+            return 'missing or invalid AssignmentId';
+        }
+        if ('string' !== typeof query.h || !query.h.trim().length) {
+            return 'missing or invalid HITId';
+        }
+        // WorkerId is id, already checked.
+        return true;
+    },
+
+    /**
+     * ## claimIdPostProcess
+     *
+     * Manipulates the client object
+     *
+     * @xperimental
+     */
+    claimIdPostProcess: function(code, query, headers) {
+        code.WorkerId = query.id;
+        code.AssignmentId = query.a;
+        code.HITId = query.h;
+    }
 };

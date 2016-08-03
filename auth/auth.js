@@ -6,6 +6,7 @@
  * Sets authorizations for accessing the Ultimatum channels.
  * ---
  */
+
 module.exports = function(auth, settings) {
 
 
@@ -75,22 +76,23 @@ module.exports = function(auth, settings) {
         if (info.handshake.headers) {
             clientObject.userAgent = info.handshake.headers['user-agent'];
         }
-        if (info.query) {
-            amtData = info.query.id;
-            if (!info.query.id) {
-                console.log('no amt data!', clientObject.id);
-                return;
-            }
-            amtData = atob(info.query.id);
-            if ('object' === typeof amtData) {
-                clientObject.workerId = amtData.w;
-                clientObject.assignmentId = amtData.a;
-                clientObject.hitId = amtData.h;
-            }
-            else {
-                clientObject.amtData = info.query.id;
-            }
-        }
+
+//         if (info.query) {
+//             amtData = info.query.id;
+//             if (!info.query.id) {
+//                 console.log('no amt data!', clientObject.id);
+//                 return;
+//             }
+//             amtData = atob(info.query.id);
+//             if ('object' === typeof amtData) {
+//                 clientObject.WorkerId = amtData.w;
+//                 clientObject.AssignmentId = amtData.a;
+//                 clientObject.HitId = amtData.h;
+//             }
+//             else {
+//                 clientObject.amtData = info.query.id;
+//             }
+//         }
     }
 
     // Assigning the auth callbacks to the player server.

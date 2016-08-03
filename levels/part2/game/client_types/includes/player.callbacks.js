@@ -546,37 +546,56 @@ function init() {
             seeMore.innerHTML = 'See more';
             seeMore.className = 'seemore btn btn-default';
 
-            seeMore.onclick = function() {
-                var idxShow, idxHide, trShow, trHide;
+            seeMore.onclick = (function(toShow) {
+                return function() {
+                    var idxShow, idxHide, trShow, trHide;
 
-                // Total count.
-                node.game.totClicksOnSubSliders[ex]++;
+                    // Total count.
+                    node.game.totClicksOnSubSliders[ex]++;
 
-                // Restarting modular index.
-                if (node.game.subSliders[ex] === 1) idxHide = nTR;
-                else idxHide = node.game.subSliders[ex]-1;
-                trHide = table.getTR((idxHide-1));
+                    if (toShow) {
+                        toShow.style.display = '';
+                        toShow = null;
+                    }
 
-                if (!trHide) {
-                    console.log('Error... trHide not found.');
-                    return;
-                }
+                    // Restarting modular index.
+                    if (node.game.subSliders[ex] === 1) idxHide = nTR;
+                    else idxHide = node.game.subSliders[ex]-1;
 
-                if (node.game.subSliders[ex] < nTR) node.game.subSliders[ex]++;
-                else node.game.subSliders[ex] = 1;
+                    trHide = table.getTR((idxHide-1));
 
-                idxShow = node.game.subSliders[ex];
-                trShow = table.getTR((idxShow-1));
+                    if (!trHide) {
+                        console.log('Error... trHide not found.');
+                        return;
+                    }
 
-                if (!trShow) {
-                    console.log('Error... trShow not found.');
-                    return;
-                }
+                    trHide.style.display = 'none';
 
-                trHide.style.display = 'none';
-                trShow.style.display = '';
+                    if (node.game.subSliders[ex] < nTR) {
+                        node.game.subSliders[ex]++;
+                    }
+                    else {
+                        node.game.subSliders[ex] = 1;
+                    }
 
-            };
+                    idxShow = node.game.subSliders[ex];
+                    trShow = table.getTR((idxShow-1));
+
+                    if (!trShow) {
+                        console.log('Error... trShow not found.');
+                        return;
+                    }
+
+                    // Do not show the first row,
+                    // if we have reached the end.
+                    if (node.game.subSliders[ex] !== 1) {
+                        trShow.style.display = '';
+                    }
+                    else {
+                        toShow = trShow;
+                    }
+                };
+            })();
             container.appendChild(seeMore);
         }
     };
