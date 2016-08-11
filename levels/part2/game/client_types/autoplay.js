@@ -74,6 +74,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
             else if (stepObj.id === 'endgame') {
                 // Nothing to do here.
+                W.getElementById('email').value =
+                    node.JSUS.randomString(9, 'a') + '@' + 'a.com';
+                W.getElementById('submit-email').click();
+                node.timer.randomExec(function() {
+                    // Kill phantoms in test mode.
+                    console.log('PHANTOMJS EXITING');
+                });
                 return;
             }
 

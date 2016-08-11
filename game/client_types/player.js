@@ -37,10 +37,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // stager.setDefaultProperty('done', cbs.clearFrame);
     stager.setDefaultStepRule(stepRules.SOLO);
 
-    stager.extendStep('consent', {
-        frame: 'consent.html',
-        donebutton: false,
-    });
+//     stager.extendStep('consent', {
+//         frame: 'consent.html',
+//         donebutton: false,
+//     });
 
     stager.extendStep('intro', {
         frame: 'intro.html'
