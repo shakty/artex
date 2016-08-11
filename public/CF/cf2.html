@@ -2,20 +2,20 @@
 
 <h2>Chernoff Faces Test</h2>
 <div id="root"></div>
-<script src="http://localhost:8080/socket.io/socket.io.js"></script> 
+<script src="http://localhost:8080/socket.io/socket.io.js"></script>
 <script src="http://localhost:8080/javascripts/nodegame.js" charset="utf-8"></script>
 
 <!-- JQUERY UI STARTS -->
-<link type="text/css" href="../lib/jqueryui/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />
-<script src="../lib/jqueryui/js/jquery-1.7.2.min.js" charset="utf-8"></script>
-<script src="../lib/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
+<link type="text/css" href="../js/jqueryui/css/ui-lightness/jquery-ui-1.8.20.custom.css" rel="Stylesheet" />
+<script src="../js/jqueryui/js/jquery-1.7.2.min.js" charset="utf-8"></script>
+<script src="../js/jqueryui/js/jquery-ui-1.8.20.custom.min.js" charset="utf-8"></script>
 <!-- JQUERY UI ENDS -->
 
 <script src="./ChernoffFacesSimple.js" charset="utf-8"></script>
 <script src="./CFControls.js" charset="utf-8"></script>
 <link type="text/css" href="./css/style.css" rel="Stylesheet" />
 
-<script src="../lib/ember-0.9.7.1.min.js" charset="utf-8"></script>
+<script src="../js/ember-0.9.7.1.min.js" charset="utf-8"></script>
 
 <script type="text/x-handlebars" data-template-name="controls">
   <dl>
@@ -23,7 +23,7 @@
       <dd>Head</dd>
 </dt>
 </dl>
-    
+
 </script>
 <div id="cf_span">
 <table>
@@ -136,7 +136,7 @@
 <script>
 
 var defaults = {
-	    
+
         // Head
 
         head_scale_x: {
@@ -146,7 +146,7 @@ var defaults = {
           value: 0.5,
           label: 'Scale head horizontally'
         },
-        
+
         head_scale_y: {
           min: 0.2,
           max: 2,
@@ -154,9 +154,9 @@ var defaults = {
           value: 1,
           label: 'Scale head vertically'
         },
-        
+
         // Eye
-        
+
 
         eye_spacing: {
           min: 0,
@@ -191,7 +191,7 @@ var defaults = {
           label: 'Eyebrow angle'
         },
 
-        
+
         eye_height: {
           min: 0.1,
           max: 0.9,
@@ -199,7 +199,7 @@ var defaults = {
           value: 0.4,
           label: 'Eye and Eyebrow height'
         },
-        
+
 
         nose_length: {
           min: 0.2,
@@ -215,25 +215,25 @@ var defaults = {
           step: 1,
           value: 0,
           label: 'Mouth Shape'
-        }   
+        }
         };
 
 $(function() {
-   
+
     // setup graphic EQ
     $( "#cf_span div" ).each(function() {
       // read initial values from markup and remove that
       var settings = defaults[this.id];
       settings['animate'] = true;
-      
+
       settings.slide = function(e, ui) {
     	  node.emit('CF_CHANGE');
       };
-      
+
       //console.log(settings);
       //console.log(this.id);
       var sl = $( this ).slider(settings);
-      
+
     });
   });
 

@@ -25,6 +25,12 @@ module.exports = {
     // (defaults: "/pages/accessdenied.htm")
     accessDeniedUrl: '/artex/unauth.htm',
 
-    enableReconnections: true
+    enableReconnections: true,
+
+    // If TRUE, it will be the default channel of the server.
+    // And its static files will be served from '/'.
+    // Socket.io connection must still be established to the
+    // right endpoint.
+    defaultChannel: true
 
 };
