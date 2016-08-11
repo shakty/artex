@@ -10,7 +10,7 @@ module.exports = function(stager, settings) {
 
 
     stager
-        .next('consent')
+ //       .next('consent')
         .next('intro')
 
     // Individual part.
