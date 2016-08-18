@@ -74,8 +74,8 @@ div#container_training {
 
 div#container_history {
     float: right;
-    height: 530px;
-    width: 30%;
+    height: 705px;
+    width: 36%;
     min-width: fit-content;
     border: 0;
     padding:0;
@@ -83,7 +83,7 @@ div#container_history {
 }
 
 div#history {
-    max-height: 520px;
+    max-height: 705px;
     vertical-align: top;
     margin-bottom: 10px;
     overflow-y: auto;
@@ -165,6 +165,14 @@ table.exhibition tr {
         width: 400px;
         margin: 0 auto;
         width: 400px;
+    }
+
+    div#container_history {
+        height:  555px;
+    }
+
+    div#history {
+        height:  555px;
     }
 }
 
