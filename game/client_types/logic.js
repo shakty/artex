@@ -22,6 +22,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var node = gameRoom.node;
 
     stager.setOnInit(function() {
+
         // Create data dir. TODO: do it automatically?
         var dataDir, saveOptions;
         dataDir = path.resolve(channel.getGameDir(), 'data') + '/';
@@ -59,6 +60,22 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             svo = '' + J.randomInt(0,6); // From 1 to 6.
             code.svo = msg.data.items[svo].choice;
         });
+
+
+        // Register player disconnection, and wait for him...
+        node.on.pdisconnect(function(p) {
+            console.log('Disconnection in Stage: ' + node.player.stage);
+        });
+
+        // Logging errors from remote clients to console.
+        node.on('in.say.LOG', function(msg) {
+            if (msg.text === 'error' && msg.stage.stage) {
+                console.log('Error from client: ', msg.from);
+                console.log('Error msg: ', msg.data);
+            }
+        });
+
+        console.log('init');
 
     });
 

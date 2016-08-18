@@ -42,17 +42,15 @@ table.cf_table td div {
     border: 0;
 }
 
-canvas#cf_canvas {
-    margin: 0 auto;
-}
-
 /* Controls */
 
+
 dl#cf_controls {
-  /* height: 400px; */
   width: 220px;
   text-align: center;
-  overflow: auto;
+  /* overflow: auto; */
+  margin: 0;
+  padding: 0;
 }
 
 /* Sliders */
@@ -64,36 +62,14 @@ table.cf_table td div div {
     margin-bottom: 5px;
 }
 
-/* Submission */
-
-dl#sub_list {
-    margin: 0 auto;
-}
-
-dl#sub_list dt {
-    display: inline;
-}
-
-#sub_list button {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-}
-
-.ui-dialog-buttonset {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    background: inherit;	
-}
 
 /* Right Part */
 
 div#container_training {
-    margin: 0 auto;
     border: 0;
-    padding:0;
+    padding: 0;
     background: white;
+    margin: 0 auto;
 }
 
 div#container_history {
@@ -158,3 +134,46 @@ table.exhibition tr {
     margin: 0;
     border-bottom: 1px solid #CCC;    
 }
+
+
+/** RESPONSIVE **/
+
+@media all and (max-height: 710px) {
+
+    table.cf_table td div div {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        height: 1px;
+    }
+
+    table.cf_table td#cf_creation_td_controls {
+        padding: 0; !important
+        margin: 0;
+    }
+
+    dl#cf_controls {        
+        height: 555px;
+    }
+
+    div#container_training {
+        position: fixed;
+        top: 0;
+        right: 50px;
+        border: 0;
+        padding: 0;
+        background: white;
+        width: 400px;
+        margin: 0 auto;
+        width: 400px;
+    }
+}
+
+/*
+@media all and (max-height: 650px) {
+    .important:before {
+        display: block;
+        margin-bottom: 30px;
+        content: "You might need to scroll down to see all sliders";
+    }
+}
+*/
