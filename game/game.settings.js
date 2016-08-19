@@ -64,7 +64,7 @@ settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 12,
+    REPEAT: 1,
 
     // Number of coins to split. *
     COINS: 100,

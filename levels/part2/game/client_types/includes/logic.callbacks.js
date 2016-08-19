@@ -43,7 +43,7 @@ var CODE_FILE_BAK = CHANNEL_DIR  + '.codes.json.bak';
 
 function init() {
 
-    var matcher;
+    var i, len;
 
     this.CHANNEL_DIR = CHANNEL_DIR;
     // Create data dir. TODO: do it automatically?
@@ -63,11 +63,22 @@ function init() {
     // Player ids.
     this.plids = node.game.pl.id.getAllKeys();
 
-    matcher = new ngc.Matcher();
-    matcher.generateMatches('random', node.game.pl.size());
-    matcher.setIds(this.plids);
-    matcher.match();
-    this.svoMatches = matcher.getMatchObject();
+    // Since the number of players is odd, with the matcher one
+    // player is matched with the bot. (and it is done for 9 rounds).
+    // We just make a for loop and match players randomly with dupli
+    //     var matcher;
+    //     matcher = new ngc.Matcher();
+    //     matcher.generateMatches('roundrobin', this.plids, { rounds: 1 });
+    //     matcher.match();
+    //     this.svoMatches = matcher.getMatchObject();
+
+    this.svoMatches = {};
+
+    i = -1, len = this.plids.length;
+    for ( ; ++i < len ; ) {
+        this.svoMatches[this.plids[i]] =
+            this.plids[J.randomInt(0, this.plids.length)-1];
+    }
 
     // Object containing the last works under review by player.
     this.reviewing = null;
@@ -116,16 +127,9 @@ function init() {
         });
     };
 
-    // Register player disconnection, and wait for him...
-    node.on.pdisconnect(function(p) {
-        console.log('Disconnection in Stage: ' + node.player.stage);
-    });
-
     // Saving the codes starting this session.
     fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
-        // debugger
         node.game.pl.save(CODE_FILE, function() {
-            // debugger
         });
     });
 
