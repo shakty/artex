@@ -62,3 +62,8 @@ table#payoff td, table#payoff th {
 table#payoff th {
     font-weight: bold;
 }
+
+#game-starts-in {
+    font-size: 24px;
+    font-weight: bold;
+}

@@ -24,13 +24,11 @@ pubRules = {
         '<li>Exhibition C: average review score &gt;' +
         '<em id="ng_replace_threshold_C"></em></li></ul>',
 
-    rankSame: 'Each exhibition displays a <em>limited</em> number ' +
-        'of paintings, and awards their authors the <em>same</em>' +
-        'number of reward points. That is:'
+    rankSame: ', and awards their authors the <em>same</em> ' +
+        'number of reward points',
 
-    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
-        'of paintings, and awards their authors a <em>different</em> ' +
-        'number of reward points. That is:'
+    rankDifferent: ', and awards their authors a <em>different</em> ' +
+        'number of reward points'
 
 //    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
 //        'of paintings, and awards their authors a <em>different</em> ' +
@@ -124,6 +122,7 @@ settings = {
     TIMER: {
 
         training: 60000,
+        instr_summary: 30000,
         // instructions: 90000,
         // quiz: 60000,
 //         creation: function() {

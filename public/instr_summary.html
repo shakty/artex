@@ -16,11 +16,9 @@
     
     <h1>Instructions Summary</h1>
     <div id="instructions">            
-      
+      Game starts in <span id="game-starts-in"></span> seconds.
       <ul>
-        
-        <li>Game starts in <span id="game-starts-in">40</span> seconds</li>
-
+                
         <li>
           You are part of a community of <strong>9</strong> painters
           (including you). You will play the role of both
@@ -37,11 +35,9 @@
           paintings you have been randomly assigned to.
         </li>
        
-        <li id="ng_replace_pubrule_text">
-          'Each exhibition displays a <em>limited</em> number ' +
-          'of paintings, and awards their authors a <em>different</em> ' +
-          'number of reward points. That is:'
-        </li>
+        <li>Each exhibition displays a <em>limited</em> number of
+        paintings<span id="ng_replace_pubrule_text"></span>. That
+        is:</li>
 
       <table id="payoff">
         
@@ -82,11 +78,24 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var node, W, s;
-        var a, b, c, p, ps;
+        var a, b, c;
+        var startsIn;
         node = parent.node;
         W = parent.W;
         s = node.game.settings;
+
+        // Display time left middle of page.
+        startsIn = W.getElementById('game-starts-in');
+        startsIn.innerHTML = Math.floor(s.TIMER.instr_summary/1000);
+        node.game.visualTimer.gameTimer.addHook({
+            hook: function() {
+                startsIn.innerHTML = Math.floor(this.timeLeft/1000);
+            },
+            ctx: node.game.visualTimer.gameTimer,
+            name: 'extraTimer'
+        });
         
+        // Fill in parameters.
         W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);        
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
 
@@ -101,6 +110,5 @@
         W.setInnerHTML('ng_replace_award_C', s.exC.reward);
         W.setInnerHTML('ng_replace_threshold', s.exA.N);
         W.setInnerHTML('ng_replace_award', s.exA.reward);
-
     });
 </script>

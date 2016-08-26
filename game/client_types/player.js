@@ -259,7 +259,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     game.debug = setup.debug;
 
     // Remove for live game.
-    game.events = { dumpEvents: true };
+    // game.events = { dumpEvents: true };
 
     game.window = setup.window;
 
