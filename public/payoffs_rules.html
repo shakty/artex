@@ -1,5 +1,5 @@
 <!doctype html>
-<title>Exhibition Rules</title>
+<title>Instructions Reminder</title>
 <link rel="stylesheet" href="/lib/bootstrap/bootstrap.min.css" />
 
 <!-- JQUERY UI STARTS -->
@@ -14,10 +14,27 @@
   
   <div id="container_instructions">
     
-    <h1>Exhibitions Rules</h1>
+    <h1>Instructions Summary</h1>
     <div id="instructions">            
-      <span id="ng_replace_pubrule_text"></span>
       
+      <ul>
+        <li>
+          You are part of a community of <strong>9</strong> painters
+          (including you). You will play the role of both
+          the <em>artist</em> and the <em>art critic</em>.
+        </li>
+        <li>
+          The game is repeated <strong id="ng_replace_repeat"></strong>
+          rounds.
+        </li>
+        <li>
+          In each round you will: (i) create a new painting, (ii)
+          choose one of the 3 available exhibitions for your artwork,
+          and (iii) perform a quality review of 3 paitings.
+        </li>
+       
+        <li id="ng_replace_pubrule_text"></li>
+
       <table id="payoff">
         
         <thead>
@@ -50,7 +67,10 @@
         
       </table>
 
-      Click now <strong>"Continue"</strong> to start the game straight away!
+      
+
+        <li>Click now <strong>"Continue"</strong> to start the game straight away!</li>
+      </ul>
     </div>
   </div>
 </body>
@@ -62,8 +82,9 @@
         W = parent.W;
         s = node.game.settings;
         
-        W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);
-        
+        W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);        
+        W.setInnerHTML('ng_replace_repeat', s.REPEAT);
+
         if (s.treatmentName === 'rank_skew') {
             a = s.exA.N;
             b = s.exB.N;

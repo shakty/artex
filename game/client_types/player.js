@@ -42,9 +42,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //         donebutton: false,
 //     });
 
-//      stager.extendStep('payoffs_rules', {
-//          frame: 'payoffs_rules.html',
-//      });
+    stager.extendStep('payoffs_rules', {
+        frame: 'payoffs_rules.html',
+    });
 
     stager.extendStep('intro', {
         frame: 'intro.html'

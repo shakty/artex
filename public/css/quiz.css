@@ -144,15 +144,10 @@ div.svogauge td.choicetable-left hr {
 
 /* Demo */ 
 
-div#quiz div.choicemanager table#age td {
-    width: 330px !important;
-}
-
-div#quiz div.choicemanager table#gender td {
-    width: 330px !important;
-}
-
-div#quiz div.choicemanager table#job td {
+table#age td,
+table#gender td,
+table#job td,
+table#location td {
     width: 330px !important;
 }
 

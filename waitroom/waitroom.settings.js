@@ -19,5 +19,5 @@ module.exports = {
 
     EXECUTION_MODE: 'WAIT_FOR_N_PLAYERS',
 
-//    DISPATCH_TO_SAME_ROOM: true
+    DISPATCH_TO_SAME_ROOM: true
 };
