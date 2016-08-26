@@ -12,7 +12,7 @@ module.exports = function(stager, settings) {
 
 
     stager
-        // .next('instr_summary')
+        .next('instr_summary')
         .repeat('artex', settings.REPEAT)
         .next('final')
         .gameover();
