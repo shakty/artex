@@ -86,20 +86,17 @@
         W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);        
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
 
-        if (s.treatmentName === 'rank_skew') {
-            a = s.exA.N;
-            b = s.exB.N;
-            c = s.exC.N;
-            W.setInnerHTML('ng_replace_threshold_A', a);
-            W.setInnerHTML('ng_replace_threshold_B', b);
-            W.setInnerHTML('ng_replace_threshold_C', c);
-            W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-            W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-            W.setInnerHTML('ng_replace_award_C', s.exC.reward);
-        }
-        else if (s.treatmentName === 'rank_same') {
-            W.setInnerHTML('ng_replace_threshold', s.exA.N);
-            W.setInnerHTML('ng_replace_award', s.exA.reward);
-        }
+        a = s.exA.N;
+        b = s.exB.N;
+        c = s.exC.N;
+        W.setInnerHTML('ng_replace_threshold_A', a);
+        W.setInnerHTML('ng_replace_threshold_B', b);
+        W.setInnerHTML('ng_replace_threshold_C', c);
+        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
+        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
+        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
+        W.setInnerHTML('ng_replace_threshold', s.exA.N);
+        W.setInnerHTML('ng_replace_award', s.exA.reward);
+
     });
 </script>

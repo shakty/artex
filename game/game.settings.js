@@ -199,46 +199,47 @@ settings = {
             com: true
         },
 
-        review_select_com: {
-            fullName: "Competitive Select Reviewer",
-            description:
-                "Competition.",
-            review_select: true,
-            com: true,
-            instrPage: 'instructions_SEL_COM.html',
-            payoff: 3
-        },
+//         review_select_com: {
+//             fullName: "Competitive Select Reviewer",
+//             description:
+//                 "Competition.",
+//             review_select: true,
+//             com: true,
+//             instrPage: 'instructions_SEL_COM.html',
+//             payoff: 3
+//         },
+//
+//         review_select_coo: {
+//             fullName: "Non-Competitive Select Reviewer",
+//             description:
+//                 "No competition.",
+//             review_select: true,
+//             com: false,
+//             instrPage: 'instructions_SEL_COO.html',
+//             payoff: 2
+//         },
+//
+//         review_random_com: {
+//             fullName: "Competitive Random Reviewer",
+//             description:
+//                 "Competition.",
+//             review_random: true,
+//             com: true,
+//             instrPage: 'instructions_RND_COM.html',
+//             payoff: 3
+//         },
+//
+//         review_random_coo: {
+//             fullName: "Non-Competitive Random Reviewer",
+//             description:
+//                 "No competition.",
+//             review_random: true,
+//             com: false,
+//             instrPage: 'instructions_RND_COO.html',
+//             payoff: 2
+//         }
 
-        review_select_coo: {
-            fullName: "Non-Competitive Select Reviewer",
-            description:
-                "No competition.",
-            review_select: true,
-            com: false,
-            instrPage: 'instructions_SEL_COO.html',
-            payoff: 2
-        },
-
-        review_random_com: {
-            fullName: "Competitive Random Reviewer",
-            description:
-                "Competition.",
-            review_random: true,
-            com: true,
-            instrPage: 'instructions_RND_COM.html',
-            payoff: 3
-        },
-
-        review_random_coo: {
-            fullName: "Non-Competitive Random Reviewer",
-            description:
-                "No competition.",
-            review_random: true,
-            com: false,
-            instrPage: 'instructions_RND_COO.html',
-            payoff: 2
-        }
-    }
+     }
 
 };
 

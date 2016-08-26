@@ -69,12 +69,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
         });
 
-
-        // Register player disconnection, and wait for him...
-        node.on.pdisconnect(function(p) {
-            console.log('Disconnection in Stage: ' + node.player.stage);
-        });
-
         // Logging errors from remote clients to console.
         node.on('in.say.LOG', function(msg) {
             if (msg.text === 'error' && msg.stage.stage) {

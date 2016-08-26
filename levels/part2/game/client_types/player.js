@@ -37,7 +37,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.setDefaultProperty('timeup', function() { node.done(); });
 
     stager.extendStep('instr_summary', {
-        frame: 'instr_summary.html',
+        frame: 'instr_summary.html'
     });
 
     // Adjust to displaying rounds in main stage.
