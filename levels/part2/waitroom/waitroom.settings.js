@@ -34,7 +34,7 @@ module.exports = {
      *
      * The size of each group
      */
-    GROUP_SIZE: 9,
+    GROUP_SIZE: 3,
 
     /**
      * ## N_GAMES
@@ -80,7 +80,38 @@ module.exports = {
      *       }
      *
      */
-    CHOSEN_TREATMENT: 'rank_skew',
+    CHOSEN_TREATMENT: 'treatment_rotate'
+
+    /**
+     * ## PLAYER_SORTING
+     *
+     * Sorts the order of players before dispatching them
+     *
+     * The default sorting .
+     *
+     * This is called only if the number of connected players > GROUP_SIZE.
+     *
+     * Accepted values:
+     *
+     *   - 'timesNotSelected': (default) gives priority to players that
+     *        have not been selected by a previous call to dispatch
+     *   - undefined: rollback to default choice
+     *   - null: no sorting (players are anyway randomly shuffled).
+     *   - function: a comparator function implementing a criteria
+     *       for sorting two objects. E.g:
+     *
+     *        function timesNotSelected(a, b) {
+     *            if ((a.timesNotSelected || 0) < b.timesNotSelected) {
+     *                return -1;
+     *            }
+     *            else if ((a.timesNotSelected || 0) > b.timesNotSelected) {
+     *                return 1;
+     *            }
+     *            return 0;
+     *        }
+     */
+    PLAYER_SORTING: ;
+    },
 
     /**
      * ## DISCONNECT_IF_NOT_SELECTED (experimental)

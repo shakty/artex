@@ -42,6 +42,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 //         donebutton: false,
 //     });
 
+//      stager.extendStep('payoffs_rules', {
+//          frame: 'payoffs_rules.html',
+//      });
+
     stager.extendStep('intro', {
         frame: 'intro.html'
     });
@@ -120,6 +124,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         mainText: 'Report your gender.',
                         choices: [
                             'Male', 'Female', 'Other', 'Do not want to say'
+                        ],
+                        shuffleChoices: true,
+                        title: false,
+                        requiredChoice: true
+                    },
+                    w.get('ChoiceTable', {
+                        id: 'location',
+                        mainText: 'Report your location.',
+                        choices: [
+                            'US', 'India', 'Other', 'Do not want to say'
                         ],
                         shuffleChoices: true,
                         title: false,

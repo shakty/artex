@@ -11,6 +11,7 @@ module.exports = function(stager, settings) {
 
     stager
  //       .next('consent')
+    //.next('payoffs_rules')
         .next('intro')
 
     // Individual part.

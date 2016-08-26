@@ -52,13 +52,21 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             db.save(dataDir + 'artex_part1.json', saveOptions);
         });
 
+        // Store some values inside the
         // Select a random value of svo decision.
         node.on.data('done', function(msg) {
             var svo;
-            if (!msg.data || !msg.data.id || msg.data.id !== 'svo') return;
+            if (!msg.data) return;
             code = channel.registry.getClient(msg.from);
-            svo = '' + J.randomInt(0,6); // From 1 to 6.
-            code.svo = msg.data.items[svo].choice;
+            if (msg.data.id && msg.data.id === 'svo') {
+                svo = '' + J.randomInt(0,6); // From 1 to 6.
+                code.svo = msg.data.items[svo].choice;
+            }
+            else if (msg.data.gender) {
+                code.gender = msg.data.items.gender.choice;
+                code.location = msg.data.items.location.choice;
+                code.job = msg.data.items.job.choice;
+            }
         });
 
 

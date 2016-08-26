@@ -73,7 +73,7 @@ settings = {
     EXCHANGE_RATE: 600,
 
     // DEBUG.
-    DEBUG: false,
+    DEBUG: true,
 
     // AUTO-PLAY.
     AUTO: false,
