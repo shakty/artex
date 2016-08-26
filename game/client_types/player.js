@@ -89,7 +89,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 forms: [
                     w.get('ChoiceTable', {
                         id: 'age',
-                        mainText: 'Report your age group.',
+                        mainText: 'What is your age group?',
                         choices: [
                             '18-20', '21-30', '31-40', '41-50',
                             '51-60', '61-70', '71+', 'Do not want to say'
@@ -101,8 +101,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         id: 'job',
                         mainText: 'Does your current occupation involve ' +
                             'regular use of artistic or creative skills? ' +
-                            'If so, please report your level of experience ' +
-                            'in years.',
+                            'If so, what is your level of experience' +
+                            'in years?',
                         choices: [
                             'No', 'Yes, 1y', 'Yes, 1-2y',
                             'Yes, 3-5y','Yes, 5y+', 'Do not want to say'
@@ -112,7 +112,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     }),
                     w.get('ChoiceTable', {
                         id: 'gender',
-                        mainText: 'Report your gender.',
+                        mainText: 'What is your gender?',
                         choices: [
                             'Male', 'Female', 'Other', 'Do not want to say'
                         ],
@@ -122,7 +122,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     }),
                     w.get('ChoiceTable', {
                         id: 'location',
-                        mainText: 'Report your location.',
+                        mainText: 'What is your location?',
                         choices: [
                             'US', 'India', 'Other', 'Do not want to say'
                         ],

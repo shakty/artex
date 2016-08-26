@@ -138,7 +138,6 @@ module.exports = {
         db.importDB(pList.db);
         properties = Object.keys(db.key);
 
-
         dbIdx = 0, db2Idx = 1;
         i = -1, len = properties.length;
         for ( ; ++i < len ; ) {

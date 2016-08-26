@@ -24,10 +24,9 @@ pubRules = {
         '<li>Exhibition C: average review score &gt;' +
         '<em id="ng_replace_threshold_C"></em></li></ul>',
 
-    rankSame: 'The display rules are the same for all exhibitions. The top ' +
-        '<em id="ng_replace_threshold"></em> paintings of each exhibition ' +
-        'are displayed and generate <em id="ng_replace_award"></em> ' +
-        'point for the author.',
+    rankSame: 'Each exhibition displays a <em>limited</em> number ' +
+        'of paintings, and awards their authors the <em>same</em>' +
+        'number of reward points. That is:'
 
     rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
         'of paintings, and awards their authors a <em>different</em> ' +

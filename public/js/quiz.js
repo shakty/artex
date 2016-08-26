@@ -60,10 +60,10 @@ $(document).ready(function() {
             mainText: 'How are reviewers assigned to images and exhibitions?',
             choices: [
                 'Randomly',
-                'If I <em>submit</em> to an exhibition I become ' +
+                'If I display in an exhibition I become ' +
                     'reviewer for that exhibition in the next round',
-                'If I <em>display</em> in an exhibition I become ' +
-                    'reviewer for that exhibition in the next round'
+                'At the beginning the game I am assigned to an exhibition ' +
+                    'and I always review for that one'
             ],
             correctChoice: 0,
             orientation: 'V'
@@ -74,7 +74,7 @@ $(document).ready(function() {
                 'paintings of other participants, what happens next?',
             choices: [
                 'All paintings are displayed and the authors rewarded',
-                'All painting are ranked, the best ones are displayed ' +
+                'All paintings are ranked, the best ones are displayed ' +
                     'and generate a reward for their authors',
                 'Within each exhibition the paintings are ranked, the best ' +
                     'ones in each exhibition are displayed, and generate ' +
