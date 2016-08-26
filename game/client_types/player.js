@@ -128,7 +128,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         shuffleChoices: true,
                         title: false,
                         requiredChoice: true
-                    },
+                    }),
                     w.get('ChoiceTable', {
                         id: 'location',
                         mainText: 'Report your location.',

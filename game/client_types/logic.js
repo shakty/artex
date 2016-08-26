@@ -63,9 +63,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 code.svo = msg.data.items[svo].choice;
             }
             else if (msg.data.gender) {
-                code.gender = msg.data.items.gender.choice;
-                code.location = msg.data.items.location.choice;
-                code.job = msg.data.items.job.choice;
+                code.gender = msg.data.gender.choice;
+                code.location = msg.data.location.choice;
+                // code.job = msg.data.job.choice;
             }
         });
 

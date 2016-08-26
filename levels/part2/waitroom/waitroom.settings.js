@@ -1,6 +1,21 @@
 /**
  * Standard Waiting Room settings.
  */
+
+var NDDB = require('NDDB').NDDB;
+
+// Creates grouping db (will be reused for every grouping).
+var db;
+db =  new NDDB({update: { indexes: true } });
+db.on('insert', function(i) {
+    i.key = 'g' + i.gender + '_' + 'l' + i.location;
+});
+db.hash('key', function(i) {
+    return i.key;
+});
+
+// Exports settings.
+
 module.exports = {
 
 
@@ -80,7 +95,7 @@ module.exports = {
      *       }
      *
      */
-    CHOSEN_TREATMENT: 'treatment_rotate'
+    CHOSEN_TREATMENT: 'treatment_rotate',
 
     /**
      * ## PLAYER_SORTING
@@ -110,8 +125,56 @@ module.exports = {
      *            return 0;
      *        }
      */
-    PLAYER_SORTING: ;
+    // PLAYER_SORTING:
+
+
+    PLAYER_GROUPING: function(pList, nGroups) {
+        var groups;
+        var properties;
+        var i, len, subdb, lenSubdb;
+        var dbIdx, db2Idx;
+
+        groups = [ [], [] ];
+        db.importDB(pList.db);
+        properties = Object.keys(db.key);
+
+
+        dbIdx = 0, db2Idx = 1;
+        i = -1, len = properties.length;
+        for ( ; ++i < len ; ) {
+            subdb = db.key[properties[i]];
+            if (subdb) {
+                lenSubdb = subdb.db.length;
+                if (lenSubdb === 1) {
+                    groups[db2Idx].push(subdb.db[0]);
+                }
+                else {
+                    limit = Math.floor(lenSubdb/2);
+                    groups[dbIdx] = groups[dbIdx]
+                        .concat(subdb.db.slice(0, limit));
+                    groups[db2Idx] = groups[db2Idx]
+                        .concat(subdb.db.slice((limit)));
+                }
+
+                // Group 2 takes an extra element, if size is odd.
+                // Switch ids to rebalance.
+                if (lenSubdb % 2 === 1) {
+                    if (dbIdx === 1) {
+                        dbIdx = 0;
+                        db2Idx = 1;
+                    }
+                    else {
+                        dbIdx = 1;
+                        db2Idx = 0;
+                    }
+                }
+            }
+        }
+
+        db.clear();
+        return groups;
     },
+
 
     /**
      * ## DISCONNECT_IF_NOT_SELECTED (experimental)
