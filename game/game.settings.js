@@ -169,7 +169,7 @@ settings = {
                 N: 4,
                 reward: 125
             },
-            instrPage: 'instr_rank.html',
+            instrPage: 'instr_general.html',
             review_random: true,
             com: true
         },
@@ -194,7 +194,7 @@ settings = {
                 N: 2,
                 reward: 250
             },
-            instrPage: 'instr_rank.html',
+            instrPage: 'instr_general.html',
             review_random: true,
             com: true
         },

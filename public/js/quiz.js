@@ -70,20 +70,38 @@ $(document).ready(function() {
         },
         {
             id: 'rewards',
-            mainText: 'What is the reward for displaying in an exhibition?',
+            mainText: 'After you have created a painting, and reviewed the ' +
+                'paintings of other participants, what happens next?',
             choices: [
-                'The rewards vary by exhibition: the higher the reward, ' +
-                    'the fewer the number of awards per exhibition',
-                'All rewards are the same regardless of the exhibition',
-                'All exhibitions have the same number of awards, but ' +
-                    'of different value',
-                'The rewards vary by exhibition, but the number of awards ' +
-                    'per exhibition is the same'
+                'All paintings are displayed and the authors rewarded',
+                'All painting are ranked, the best ones are displayed ' +
+                    'and generate a reward for their authors',
+                'Within each exhibition the paintings are ranked, the best ' +
+                    'ones in each exhibition are displayed, and generate ' +
+                    'a reward for their authors',
             ],
-            correctChoice: 0,
+            correctChoice: 2,
             orientation: 'V'
         }
     ];
+
+
+// Old "rewards" question.
+//        {
+//             id: 'rewards',
+//             mainText: 'What is the reward for displaying in an exhibition?',
+//             choices: [
+//                 'The rewards vary by exhibition: the higher the reward, ' +
+//                     'the fewer the number of awards per exhibition',
+//                 'All rewards are the same regardless of the exhibition',
+//                 'All exhibitions have the same number of awards, but ' +
+//                     'of different value',
+//                 'The rewards vary by exhibition, but the number of awards ' +
+//                     'per exhibition is the same'
+//             ],
+//             correctChoice: 0,
+//             orientation: 'V'
+//         }
 
     // Append quizzes in random order.
     J.shuffle(quizzes);
