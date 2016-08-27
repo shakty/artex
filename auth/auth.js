@@ -76,6 +76,7 @@ module.exports = function(auth, settings) {
         if (info.handshake.headers) {
             clientObject.userAgent = info.handshake.headers['user-agent'];
         }
+        if (!clientObject.connectTime) clientObject.connectTime = Date.now();
 
 //         if (info.query) {
 //             amtData = info.query.id;

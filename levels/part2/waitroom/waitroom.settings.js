@@ -42,7 +42,7 @@ module.exports = {
      *
      * How many clients must connect before groups are formed
      */
-    POOL_SIZE: 2,
+    POOL_SIZE: 4,
 
     /**
      * ## GROUP_SIZE
@@ -102,8 +102,6 @@ module.exports = {
      *
      * Sorts the order of players before dispatching them
      *
-     * The default sorting .
-     *
      * This is called only if the number of connected players > GROUP_SIZE.
      *
      * Accepted values:
@@ -152,7 +150,7 @@ module.exports = {
                     groups[dbIdx] = groups[dbIdx]
                         .concat(subdb.db.slice(0, limit));
                     groups[db2Idx] = groups[db2Idx]
-                        .concat(subdb.db.slice((limit)));
+                        .concat(subdb.db.slice(limit));
                 }
 
                 // Group 2 takes an extra element, if size is odd.
