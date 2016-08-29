@@ -108,7 +108,7 @@ function init() {
 
     // Divide all objects of stage 'final' by player.
     this.memory.hash('pquest', function(o) {
-        if (o.stage.stage > 1) return o.player;
+        if (o.stage.stage > 2) return o.player;
     });
 
     // Keep last cf created by a subject.
