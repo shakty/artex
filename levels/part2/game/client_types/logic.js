@@ -46,6 +46,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // Event handler registered in the init function are always valid.
     stager.setOnGameOver(cbs.gameover);
 
+    stager.extendStep('instr_summary', {
+        pushClients: true
+    });
+
     stager.extendStage('artex', {
         pushClients: true,
         minPlayers: [
