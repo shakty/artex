@@ -14,6 +14,7 @@ module.exports = {
 
 function init() {
     var that, header;
+    var disconnectTimeout;
 
     that = this;
     this.node.log('Init.');
@@ -566,12 +567,13 @@ function init() {
 
     node.on('SOCKET_DISCONNECT', function() {
         node.socket.reconnect();
-
-        setTimeout(function() {
+        if (disconnectTimeout) clearTimeout(disconnectTimeout);
+        disconnectTimeout = setTimeout(function() {
             if (node.socket.isConnected()) return;
             alert("Disconnection detected!\n\nClose this message and " +
-                  "reload the page. You might need to use the link " +
-                  "given to you in the task description.");
+                  "reload the page. You might need close the page and " +
+                  "reopen it using the link in the task description.");
+            disconnectTimeout = null;
         }, 4000);
     });
 
