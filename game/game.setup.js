@@ -13,7 +13,7 @@ module.exports = function(settings, stages) {
 
     game.debug = settings.DEBUG;
 
-    game.verbosity = 1000;
+    game.verbosity = -1;
 
     game.window = {
         promptOnleave: !game.debug,

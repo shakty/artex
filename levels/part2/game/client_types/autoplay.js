@@ -17,7 +17,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var game, stager;
 
     game = gameRoom.getClientType('player');
+
     game.env.auto = true;
+    game.env.allowTimeup = false;
+    game.env.allowDisconnect = true;
+
     game.nodename = 'autoplay';
 
     stager = ngc.getStager(game.plot);
@@ -31,19 +35,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             stepObj = this.getCurrentStepObj();
             _cb = stepObj._cb;
             _cb.call(this);
-            if (stepObj.id === 'submission') {
-                node.game.last_ex =
-                    node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
-            }
-            else if (stepObj.id === 'questionnaire') {
-                for (q in this.questionnaire) {
-                    if (this.questionnaire.hasOwnProperty(q)) {
-                        this.questionnaire[q].setValues();
-                    }
-                }
 
-            }
-            else if (stepObj.id === 'morequestions') {
+            if (stepObj.id === 'morequestions') {
                 node.on('moreq', function() {
                     var q, subq;
                     if (!this.finishedQ) {
@@ -84,7 +77,32 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 return;
             }
 
-            node.timer.randomDone();
+            else if (stepObj.id === 'submission') {
+                node.game.last_ex =
+                    node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
+            }
+            else if (stepObj.id === 'questionnaire') {
+                for (q in this.questionnaire) {
+                    if (this.questionnaire.hasOwnProperty(q)) {
+                        this.questionnaire[q].setValues();
+                    }
+                }
+
+            }
+
+            // Allow disconnect and timeup.
+            if (node.env('allowDisconnect') && Math.random() < 0.5) {
+                node.socket.disconnect();
+                node.game.stop();
+                node.timer.randomExec(function() {
+                    node.socket.reconnect();
+                }, 4000);
+            }
+            else {
+                if (!node.env('allowTimeup') || Math.random() < 0.5) {
+                    node.timer.randomDone();
+                }
+            }
 
         };
         return o;

@@ -52,7 +52,7 @@ pubRules = {
 settings = {
 
     // Session Counter start from.
-    SESSION_ID: 100,
+    SESSION_ID: 103,
 
     // Minimum number of players that must be always connected.
     MIN_PLAYERS: 2,
@@ -61,7 +61,7 @@ settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 5,
+    REPEAT: 12,
 
     // Number of coins to split. *
     COINS: 100,
@@ -70,13 +70,7 @@ settings = {
     EXCHANGE_RATE: 600,
 
     // DEBUG.
-    DEBUG: true,
-
-    // AUTO-PLAY.
-    AUTO: false,
-
-    // AUTHORIZATION.
-    AUTH: 'NO', // MTURK, LOCAL, NO.
+    DEBUG: false,
 
     // Wait time to reconnect.
     WAIT_TIME: 5,

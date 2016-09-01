@@ -17,7 +17,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var game, stager;
 
     game = gameRoom.getClientType('player');
+
     game.env.auto = true;
+    game.env.allowTimeup = false;
+    game.env.allowDisconnect = false;
+
     game.nodename = 'autoplay';
 
     stager = ngc.getStager(game.plot);
@@ -26,31 +30,42 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         o._cb = o.cb;
         o.cb = function() {
             var i, len;
-            var _cb, stepObj;
+            var _cb, stepObj, id;
             stepObj = this.getCurrentStepObj();
             _cb = stepObj._cb;
             _cb.call(this);
-
-            if (stepObj.id === 'mood') {
+            id = stepObj.id
+            if (id === 'mood') {
                 this.mood.setValues();
             }
-            else if (stepObj.id === 'svo') {
+            else if (id === 'svo') {
                 this.svo.setValues();
             }
-            else if (stepObj.id === 'demographics') {
+            else if (id === 'demographics') {
                 this.demo.setValues();
             }
-            else if (stepObj.id === 'quiz') {
+            else if (id === 'quiz') {
                 i = -1, len = this.quizzes.length;
                 for ( ; ++i < len ; ) {
                     this.quizzes[i].setValues({ correct: true });
                 }
             }
-            else if (stepObj.id === 'belief') {
+            else if (id === 'belief') {
                 this.belief.setValues();
             }
 
-            node.timer.randomDone();
+            if (node.env('allowDisconnect') && Math.random() < 0.5) {
+                node.socket.disconnect();
+                node.game.stop();
+                node.timer.randomExec(function() {
+                    node.socket.reconnect();
+                }, 4000);
+            }
+            else {
+                if (!node.env('allowTimeup') || Math.random() < 0.5) {
+                    node.timer.randomDone();
+                }
+            }
         };
         return o;
     });
