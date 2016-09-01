@@ -20,7 +20,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     game.env.auto = true;
     game.env.allowTimeup = false;
-    game.env.allowDisconnect = true;
+    game.env.allowDisconnect = false;
 
     game.nodename = 'autoplay';
 

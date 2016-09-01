@@ -2,7 +2,7 @@ window.onload = function () {
     // Configuring nodegame.
     // All these properties can get overwritten by remoteSetup from server.
     node.setup('nodegame', {
-        verbosity: 10,
+        verbosity: -1,
         window: {
             promptOnleave: false,
             noEscape: true // Defaults TRUE
