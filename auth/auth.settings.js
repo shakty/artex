@@ -145,12 +145,11 @@ module.exports = {
      * @xperimental
      */
     claimIdValidateRequest: function(query, headers) {
-        if ('string' !== typeof query.a ||
-            !query.a.trim().length) {
+        if ('string' !== typeof query.a || query.a === '') {
 
             return 'missing or invalid AssignmentId';
         }
-        if ('string' !== typeof query.h || !query.h.trim().length) {
+        if ('string' !== typeof query.h || query.h === '') {
             return 'missing or invalid HITId';
         }
         // WorkerId is id, already checked.

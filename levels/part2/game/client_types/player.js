@@ -104,7 +104,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('evaluation', {
         init: function() {
             // Reset evaluations.
-            node.game.evas = {};
+            this.evas = {};
+            this.evasOrder = this.rndEvasOrder[this.node.JSUS.randomInt(-1, 5)];
         },
         frame: 'evaluation.html',
         done: function() {
@@ -117,7 +118,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         creator: i,
                         ex: eva.ex,
                         eva: parseFloat(eva.display.value, 10),
-                        hasChanged: !!eva.changed
+                        hasChanged: !!eva.changed,
+                        order: eva.order
                     });
                 }
             }

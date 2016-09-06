@@ -22,7 +22,7 @@ $(document).ready(function() {
     }
     W.setInnerHTML('brief-explanation', str);
 
-    function makeReviewUI(exData) {
+    function makeReviewUI(exData, idx) {
         var cf, display, display_container, sl, head;
         var ex, author, evaId, displayEvaId, displayContId;
         var jQuerySlider, labelText;
@@ -49,7 +49,7 @@ $(document).ready(function() {
             // Create Evaluation interface.
             author = data.author;
             // Create object that will store all info about this review.
-            node.game.evas[author] = {};
+            node.game.evas[author] = { order: idx + '.' + i };
 
             evaId = 'eva_' + author;
             diplayEvaId = 'display_' + author;
@@ -110,17 +110,19 @@ $(document).ready(function() {
     }
 
     function makeReviewerUI(exData) {
-
+        var ex;
         if (!exData) {
             node.err('makeReviewerUI: no data received.');
             return;
         }
-        // Append images to review to table.
-        if (exData.A && exData.A.length) makeReviewUI(exData.A);
-        if (exData.B && exData.B.length) makeReviewUI(exData.B);
-        if (exData.C && exData.C.length) makeReviewUI(exData.C);
-
-        //return table;
+        
+        // Append images to review to table in random exhibition order.
+        ex = node.game.evasOrder[0];
+        if (exData[ex] && exData[ex].length) makeReviewUI(exData[ex], 1);
+        ex = node.game.evasOrder[1];
+        if (exData[ex] && exData[ex].length) makeReviewUI(exData[ex], 2);
+        ex = node.game.evasOrder[2];
+        if (exData[ex] && exData[ex].length) makeReviewUI(exData[ex], 3);
     }
 
     reconReviews = node.game.getProperty('reconReviews');

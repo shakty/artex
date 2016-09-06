@@ -10,20 +10,20 @@
  */
 module.exports = {
 
-    alias: 'mturk',
+    // alias: 'mturk',
 
     // playerServer: 'artex',
 
     // adminServer: 'artex/admin',
 
-    verbosity: 1000,
+    verbosity: 1,
 
     // If TRUE, players can invoke GET commands on admins.
     getFromAdmins: true,
 
     // Unauthorized clients will be redirected here.
     // (defaults: "/pages/accessdenied.htm")
-    accessDeniedUrl: '/artex/unauth.htm',
+    accessDeniedUrl: '/unauth.htm',
 
     enableReconnections: true,
 

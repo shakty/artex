@@ -575,22 +575,8 @@ function init() {
                   "reopen it using the link in the task description.");
             disconnectTimeout = null;
         }, 4000);
+
     });
-
-// node.on('SOCKET_DISCONNECT', function() {
-//     alert("Disconnection detected!\n\nClose this message and " +
-//           "wait a few seconds for automatic reconnection.\n\nIf the " +
-//           "page does not refresh automatically, try to reload the page, " +
-//           "or close it and click again on the link given to you " +
-//           "in the task description.");
-//
-//     setTimeout(function() {
-//         if (!node.socket.isConnected()) {
-//             node.socket.reconnect();
-//         }
-//     }, 4000);
-// });
-
 }
 
 function submission() {

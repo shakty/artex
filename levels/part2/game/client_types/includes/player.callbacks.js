@@ -75,6 +75,16 @@ function init() {
     // Winners.
     this.winners = { A: [], B: [], C: [] };
 
+    // Exhibitions random review order.
+    this.rndEvasOrder = [
+        [ 'A', 'B', 'C' ],
+        [ 'B', 'C', 'A' ],
+        [ 'C', 'A', 'B' ],
+        [ 'C', 'B', 'A' ],
+        [ 'B', 'A', 'C' ],
+        [ 'A', 'C', 'B' ]
+    ];
+
     // Questionnaire data.
     this.questionnaire = {};
 
