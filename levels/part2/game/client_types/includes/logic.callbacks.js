@@ -119,9 +119,14 @@ function init() {
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
-        var idEx;
+        var idEx, lastSub;
         idEx = node.game.exhibitions[i.ex];
-        node.game.last_submissions[idEx].push({
+        // Might be a reconnection/disconnection.
+        if (!idEx) return;
+        lastSub = node.game.last_submissions[idEx];
+        // Might be a reconnection/disconnection.
+        if (!lastSub) return;
+        lastSub.push({
             player: i.player,
             cf: node.game.memory.cf.get(i.player).cf
         });
