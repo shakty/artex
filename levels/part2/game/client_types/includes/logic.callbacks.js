@@ -173,6 +173,12 @@ function evaluation() {
                 sub = submissions[matches[j][i]];
                 cf = node.game.memory.cf.get(sub.player);
                 cf = cf.cf || cf.cf0;
+
+                if (!data[sub.ex]) {
+                    console.log('exhibition not found. Data: ' + data);
+                    continue;
+                }
+
                 // Add it to an exhibition.
                 data[sub.ex].push({
                     face: cf,
@@ -296,9 +302,7 @@ function dissemination() {
             }
             author = this.pl.id.get(player);
             if (!author) {
-                node.err('No author found. This should not happen. ' +
-                         'Some results are missing.');
-                continue;
+                node.warn('Author notfound. Did somebody disconnected?');
             }
 
             // Compute average review score.

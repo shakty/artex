@@ -667,8 +667,31 @@ function init() {
 
     })();
 
+    var reconCounter, reconCounterTimeout, shouldRecon;
+    shouldRecon = true;
     node.on('SOCKET_DISCONNECT', function() {
-        node.socket.reconnect();
+
+        if ('number' === typeof reconCounter) reconCounter++;
+        if (shouldRecon) node.socket.reconnect();
+
+        if (!reconCounterTimeout) {
+            reconCounter = 1;
+            reconCounterTimeout = setTimeout(function() {
+                if (reconCounter > 3) {
+                    shouldRecon = false;
+                    alert('Too many disconnections in a short time. Please ' +
+                          'check the following causes:\n' +
+                          ' - Did you open other tabs to the same ' +
+                          'experiment?\n' +
+                          ' - Is your connection stable?\n' +
+                          'Automatic reconnection disabled. Please close the ' +
+                          'window and reopen it to reconnect.');
+                    if (disconnectTimeout) clearTimeout(disconnectTimeout);
+                    reconCounter = null;
+                }
+            }, 3000);
+        }
+
         if (disconnectTimeout) clearTimeout(disconnectTimeout);
         disconnectTimeout = setTimeout(function() {
             if (node.socket.isConnected()) return;
