@@ -122,10 +122,16 @@ function init() {
         var idEx, lastSub;
         idEx = node.game.exhibitions[i.ex];
         // Might be a reconnection/disconnection.
-        if (!idEx) return;
+        if ('undefined' === typeof idEx) {
+            console.log('submitted to undefined exhibition: ' + i);
+            return;
+        }
         lastSub = node.game.last_submissions[idEx];
         // Might be a reconnection/disconnection.
-        if (!lastSub) return;
+        if (!lastSub) {
+            console.log('exhibition not found: ' + idEx + ' From: ' + i.player);
+            return;
+        }
         lastSub.push({
             player: i.player,
             cf: node.game.memory.cf.get(i.player).cf
@@ -137,7 +143,6 @@ function init() {
         node.game.pl.save(CODE_FILE, function() {
         });
     });
-
 
     console.log('init');
 }
@@ -186,7 +191,6 @@ function evaluation() {
                     ex: sub.ex
                 });
             }
-
             // Send them.
             node.say('CF', submissions[i].player, data);
 
