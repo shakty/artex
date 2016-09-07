@@ -563,22 +563,7 @@ function init() {
         }
     };
 
-
-//     node.on('SOCKET_DISCONNECT', function() {
-//         node.socket.reconnect();
-//         if (disconnectTimeout) clearTimeout(disconnectTimeout);
-//         disconnectTimeout = setTimeout(function() {
-//             if (node.socket.isConnected()) return;
-//             alert("Disconnection detected!\n\nClose this message and " +
-//                   "reload the page. You might need close the page and " +
-//                   "reopen it using the link in the task description.");
-//             disconnectTimeout = null;
-//         }, 4000);
-    //     });
-
-//     var reconCounter, reconCounterTimeout;
-//     var disconnectTimeout;
-
+    var RECON_DELAY = 500;
     var MAX_RECON = 3;
     var disconnectCb = function() {
         // Cleanup.
@@ -612,34 +597,11 @@ function init() {
         }
         node.reconCounter = null;
     };
-
-    var RECON_DELAY = 500;
-
     node.on('SOCKET_DISCONNECT', function() {
-
         // Adding a property to node.
         if ('number' !== typeof node.reconCounter) {
             node.reconCounter = 1;
             setTimeout(function() { node.socket.reconnect(); }, RECON_DELAY);
-
-//             node.reconCounterTimeout = setTimeout(function() {
-//                 if (node.reconCounter >= MAX_RECON) {
-//                     if (node.disconnectTimeout) {
-//                         clearTimeout(node.disconnectTimeout);
-//                     }
-//                  alert('Too many disconnections in a short time. Please ' +
-//                           'check the following causes:\n' +
-//                           ' - Did you open other tabs to the same ' +
-//                           'experiment?\n' +
-//                           ' - Is your connection stable?\n' +
-//                      'Automatic reconnection disabled. Please close the ' +
-//                           'window and reopen it to reconnect.');
-//                     node.reconCounter = 0;
-//                     W.restoreOnleave();
-//                     W.clearPage();
-//                     if (W.areLoading === -1) W.areLoading = 1;
-//                 }
-//             }, 2000);
         }
         else if (node.reconCounter < MAX_RECON) {
             node.reconCounter++;
