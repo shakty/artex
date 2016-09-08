@@ -123,7 +123,7 @@ function init() {
         idEx = node.game.exhibitions[i.ex];
         // Might be a reconnection/disconnection.
         if ('undefined' === typeof idEx) {
-            console.log('submitted to undefined exhibition: ' + i);
+            console.log('submitted to undefined exhibition: ', i);
             return;
         }
         lastSub = node.game.last_submissions[idEx];
@@ -180,7 +180,7 @@ function evaluation() {
                 cf = cf.cf || cf.cf0;
 
                 if (!data[sub.ex]) {
-                    console.log('exhibition not found. Data: ' + data);
+                    console.log('exhibition not found. Data: ', data);
                     continue;
                 }
 
