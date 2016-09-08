@@ -491,8 +491,8 @@ function doCheckout(p) {
  */
 function appendToBonusFile(row) {
     if ('undefined' === typeof row) {
-        row = '"access","exit","wid","hid","aid","bonus",' +
-            '"svo.own","svo.from","points","usd"\n';
+        row = '"access","exit","WorkerId","hid","AssignmentId","points",' +
+            '"svo.own","svo.from","points.total","bonus","Approve","Reject"\n';
     }
     fs.appendFile(DUMP_DIR + 'bonus.csv', row, function(err) {
         if (err) {

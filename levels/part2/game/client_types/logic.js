@@ -216,13 +216,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // Saving tot bonus for player.
                 totWin = (bonus + svoOwn + svoFrom);
                 totWinUsd = totWin / settings.EXCHANGE_RATE;
-                bonusStr = '"' + (code.id || code.AccessCode || 'NA') + '", "' +
-                    (code.ExitCode || code.id) + '", "' +
-                    (code.WorkerId || 'NA') + '", "' +
-                    (code.HITId || 'NA') + '", "' +
-                    (code.AssignmentId || 'NA') + '", ' +
-                    bonus + ', ' + svoOwn  + ', ' + svoFrom  + ', ' +
-                    totWin + ', ' + Number(totWinUsd).toFixed(2) + '\n';
+                // By default Approve is marked."
+                bonusStr = '"' + (code.id || code.AccessCode || 'NA') + '","' +
+                    (code.ExitCode || code.id) + '","' +
+                    (code.WorkerId || 'NA') + '","' +
+                    (code.HITId || 'NA') + '","' +
+                    (code.AssignmentId || 'NA') + '",' +
+                    bonus + ',' + svoOwn  + ',' + svoFrom  + ',' +
+                    totWin + ',' + Number(totWinUsd).toFixed(2) + ',"x",\n';
                 cbs.appendToBonusFile(bonusStr);
                 console.log('FINAL PAYOFF PER PLAYER');
                 console.log('***********************');
