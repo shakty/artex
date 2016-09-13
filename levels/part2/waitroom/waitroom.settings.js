@@ -14,6 +14,9 @@ db.hash('key', function(i) {
     return i.key;
 });
 
+var ngamt = require('nodegame-mturk')();
+ngamt.api.connect({ getLastHITId: true });
+
 // Exports settings.
 
 module.exports = {
@@ -59,14 +62,14 @@ module.exports = {
      * If set, it will close the waiting room after N_GAMES
      * have been dispatched
      */
-    // N_GAMES: 1,
+    N_GAMES: 2,
 
     /**
      * ## MAX_WAIT_TIME
      *
      * Maximum waiting time in the waiting room
      */
-    // MAX_WAIT_TIME: 900000,
+    MAX_WAIT_TIME: 900000,
 
     /**
      * ## START_DATE
@@ -123,9 +126,22 @@ module.exports = {
      *            return 0;
      *        }
      */
-    // PLAYER_SORTING:
+    // PLAYER_SORTING: 'timesNotSelected',
 
-
+    /**
+     * ## PLAYER_GROUPING
+     *
+     * Creates groups of players to be assigned to treatments
+     *
+     * This method is alternative to "sorting" and will be invoked only
+     * if the number of connected players > GROUP_SIZE
+     *
+     * @param {PlayerList} pList The list of players to group
+     * @param {number} nGroups The number of groups requested by current
+     *   dispatch
+     *
+     * @return {array} An array of nGroups arrays of player objects
+     */
     PLAYER_GROUPING: function(pList, nGroups) {
         var groups;
         var properties;
@@ -172,9 +188,38 @@ module.exports = {
         return groups;
     },
 
+    /**
+     * ## ON_CLOSE
+     *
+     * Callback executed when the waiting room's state becomes "close"
+     */
+    ON_CLOSE: function(room) {
+        console.log('CLOSING THE ROOM!!');
+
+        // Stop giving away ids.
+        room.game.auth.claimId = false;
+
+        ngamt.modules.manageHIT.expire();
+
+        // Close the first waiting room.
+        room.channel.waitingRoom.closeRoom();
+    },
 
     /**
-     * ## DISCONNECT_IF_NOT_SELECTED (experimental)
+     * ## ON_CLOSE
+     *
+     * Callback executed when the waiting room's state becomes "open"
+     */
+    ON_OPEN: function(room) {
+        // Re-give away ids.
+        room.game.auth.claimId = true;
+
+        // Open the first waiting room.
+        room.channel.waitingRoom.openRoom();
+    },
+
+    /**
+     * ## DISCONNECT_IF_NOT_SELECTED
      *
      * Disconnect clients if not selected for a game when dispatching
      */
@@ -185,17 +230,17 @@ module.exports = {
      *
      * A callback function to be executed when wait time expires
      */
-//     ON_TIMEOUT: function(data) {
-//         var timeOut;
-//
-//         if (data.exit) {
-//             timeOut += "<br><br>Please report this exit code: " + data.exit;
-//         }
-//
-//         timeOut += "<br></h3>";
-//
-//         this.bodyDiv.innerHTML += timeOut;
-//     },
+    ON_TIMEOUT: function(data) {
+        var timeOut;
+
+        if (data.exit) {
+            timeOut += "<br><br>Please report this exit code: " + data.exit;
+        }
+
+        timeOut += "<br></h3>";
+
+        this.bodyDiv.innerHTML += timeOut;
+    },
 
     /**
      * ## ON_TIMEOUT_SERVER
@@ -204,9 +249,11 @@ module.exports = {
      *
      * The context of execution is WaitingRoom.
      */
-    // ON_TIMEOUT_SERVER: function(code) {
-    //    console.log('*** I am timed out! ', code.id);
-    // }
+    ON_TIMEOUT_SERVER: function(code) {
+       console.log('*** I am timed out! ', code.id);
+
+        // TODO: save code.
+    }
 
     /**
      * ## DISPATCH_TO_SAME_ROOM

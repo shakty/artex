@@ -35,7 +35,7 @@ module.exports = {
      *               as parameters.
      *
      */
-    mode: 'auto',
+    mode: 'local',
 
     /**
      * ## nCodes
@@ -129,9 +129,7 @@ module.exports = {
     /**
      * ## claimId
      *
-     * If TRUE, remote clients will be able to claim an id via POST request
-     *
-     * @xperimental
+     * If TRUE, remote clients will be able to claim an id via GET request
      */
     claimId: true,
 
@@ -141,8 +139,6 @@ module.exports = {
      * Returns TRUE if a requester is authorized to claim an id
      *
      * Returns an error string describing the error otherwise.
-     *
-     * @xperimental
      */
     claimIdValidateRequest: function(query, headers) {
         if ('string' !== typeof query.a || query.a === '') {
@@ -160,8 +156,6 @@ module.exports = {
      * ## claimIdPostProcess
      *
      * Manipulates the client object
-     *
-     * @xperimental
      */
     claimIdPostProcess: function(code, query, headers) {
         code.WorkerId = query.id;

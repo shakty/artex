@@ -8,8 +8,12 @@
 </style>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <section class="container" id="SurveyLink" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333; font-size: 1.1em;">
-  <div class="row col-xs-12 col-md-12"><!-- Instructions -->
-    <div class="panel panel-primary">
+  <div class="row col-xs-12 col-md-12" id="content">
+    <div id="requirements">
+      Evaluating requirements... <img src="loading.gif" height="60" />
+    </div>
+
+    <div class="panel panel-primary" style="display: none">
       <div class="panel-heading"><h2>Decision-Making Experiment: Artex</h2></div>
       
       <div class="panel-body">
@@ -237,15 +241,34 @@
         <br/>
         
       </div>
-    </div>
-    
+    </div>    
+  </div>
+  <div id="not-authorized" style="font-size: 24px">    
   </div>
 </section>
 <!-- <script type="text/javascript" src="claimcode.js" charset="utf-8"></script> -->
 <script type="text/javascript" charset="utf-8">
     $(document).ready(function() {
+        var res;
         var wid, aid, hid;
         var host;
+        
+        // From JSUS.viewportSize
+        // https://github.com/nodeGame/JSUS
+        function viewportSize(dim) {
+            var w, d, e, g, x, y;
+            if (dim && dim !== 'x' && dim !== 'y') {
+                throw new TypeError('DOM.viewportSize: dim must be "x","y" or ' +
+                                    'undefined. Found: ' + dim);
+            }
+            w = window;
+            d = document;
+            e = d.documentElement;
+            g = d.getElementsByTagName('body')[0];
+            x = w.innerWidth || e.clientWidth || g.clientWidth,
+            y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+            return !dim ? {x: x, y: y} : dim === 'x' ? x : y;
+        };
         
         function encrypt(o) {
             var i, len;
@@ -299,6 +322,22 @@
             });
         }
         
+        res = viewportSize();
+        if (res.x < 600 || res.y < 500) {
+            document.getElementById('not-authorized').innerHTML = 
+                'Unfortunately, your ' +
+                'screen resolution is too low: ' + res.x + 'x' + res.y + 
+                ' (600x500 required).<br/></br/>If you can, maximize the ' +
+                'window, or open this page from another device and try again.' +
+                '<br/><br/>' +
+                '<strong>Do not accept this HIT, otherwise you will be ' +
+                'blocked, and you will have to return it.</strong>'
+            
+            document.getElementById('requirements').style.display = 'none';
+            return;
+        }
+        document.getElementById('content').style.display = '';
+
         host = 'https://a-e-g.herokuapp.com';
         
         // Get parameters (must be on Mturk).
