@@ -14,13 +14,9 @@ db.hash('key', function(i) {
     return i.key;
 });
 
-var ngamt = require('nodegame-mturk')();
-ngamt.api.connect({ getLastHITId: true });
-
 // Exports settings.
 
 module.exports = {
-
 
     /**
      * ## EXECUTION_MODE
@@ -45,14 +41,14 @@ module.exports = {
      *
      * How many clients must connect before groups are formed
      */
-    POOL_SIZE: 18,
+    POOL_SIZE: 4,
 
     /**
      * ## GROUP_SIZE
      *
      * The size of each group
      */
-    GROUP_SIZE: 9,
+    GROUP_SIZE: 2,
 
     /**
      * ## N_GAMES
@@ -62,14 +58,14 @@ module.exports = {
      * If set, it will close the waiting room after N_GAMES
      * have been dispatched
      */
-    N_GAMES: 2,
+    N_GAMES: 4,
 
     /**
      * ## MAX_WAIT_TIME
      *
      * Maximum waiting time in the waiting room
      */
-    MAX_WAIT_TIME: 900000,
+    MAX_WAIT_TIME: 20000,
 
     /**
      * ## START_DATE
@@ -232,14 +228,11 @@ module.exports = {
      */
     ON_TIMEOUT: function(data) {
         var timeOut;
-
         if (data.exit) {
-            timeOut += "<br><br>Please report this exit code: " + data.exit;
+            timeOut = "<br><br>Please report this exit code: " + data.exit;
+            timeOut += "<br></h3>";
+            this.bodyDiv.innerHTML += timeOut;
         }
-
-        timeOut += "<br></h3>";
-
-        this.bodyDiv.innerHTML += timeOut;
     },
 
     /**
@@ -253,7 +246,20 @@ module.exports = {
        console.log('*** I am timed out! ', code.id);
 
         // TODO: save code.
-    }
+    },
+
+    /**
+     * ## ON_DISCONNECT
+     *
+     * A callback function to be executed a player disconnects
+     */
+    ON_DISCONNECT: function(room, player) {
+        var part1;
+        if (room.numberOfDispatches < 2) return;
+        part1 = room.channel.waitingRoom;
+        part1.ON_DISCONNECT(part1, player);
+    },
+
 
     /**
      * ## DISPATCH_TO_SAME_ROOM
