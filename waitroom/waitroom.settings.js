@@ -5,6 +5,7 @@
 var ngamt = require('nodegame-mturk')();
 
 var EXPIRE_LIMIT;
+var RE_EXTEND_TIME = 3600;
 var RE_EXTEND_ASS = 5;
 
 module.exports = {
@@ -27,16 +28,12 @@ module.exports = {
 
     ON_CONNECT: function(room, player) {
         var part2, totPlayers;
-        totPlayers = getTotPlayers(room);
-
-        console.log('ON_CONNECT!!');
+        totPlayers = getTotPlayers(room, 'conne');
 
         // Expire HIT if we have 20 players between the two rooms.
         if (!room.hitExpired && totPlayers >= EXPIRE_LIMIT) {
             room.hitExpired = true;
-            room.closeRoom();
-
-            console.log('ON_CONNECT!! 2');
+            room.closeRoom('afterDispatch');
 
             ngamt.modules.manageHIT.expire(function(err) {
                 if (err) {
@@ -49,20 +46,18 @@ module.exports = {
 
     ON_DISCONNECT: function(room, player) {
         var part2, totPlayers;
-        totPlayers = getTotPlayers(room);
+        totPlayers = getTotPlayers(room, 'disco');
 
-        console.log('ON_DISC!!');
 
         // Expire HIT if we have 20 players between the two rooms.
         if (room.hitExpired && totPlayers < EXPIRE_LIMIT) {
             room.hitExpired = false;
             room.openRoom();
 
-            console.log('ON_DISC!! 2');
-
             // Extend or mark as expired again.
             ngamt.modules.manageHIT.extend({
-                assignments: RE_EXTEND_ASS
+                assignments: RE_EXTEND_ASS,
+                time: RE_EXTEND_TIME
             }, function(err) {
                 if (err) {
                     // Reset
@@ -79,8 +74,7 @@ module.exports = {
         var part2;
         part2 = room.channel.gameLevels.part2.waitingRoom;
         EXPIRE_LIMIT = part2.POOL_SIZE;
-        console.log('EXPIRE_LIMIT: ' + EXPIRE_LIMIT);
-        this.hitExpired = false;
+        room.hitExpired = false;
         ngamt.api.connect({ getLastHITId: true });
     },
 
@@ -98,9 +92,13 @@ module.exports = {
  *
  * @return {number} The total number of players
  */
-function getTotPlayers(room) {
-    var part2,
+function getTotPlayers(room, action) {
+    var part2, room1, np;
     part2 = room.channel.gameLevels.part2.waitingRoom;
+    np = part2.size() + room.size();
+    room1 = room.channel.gameRooms.room1;
+    if (room1) np += room1.size();
+    console.log('NP COUnT: ',  np, action);
     if (part2.numberOfDispatches < 2) return 0;
-    return part2.size() + room.size();
+    return np;
 }

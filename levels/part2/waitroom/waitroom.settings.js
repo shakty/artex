@@ -65,7 +65,7 @@ module.exports = {
      *
      * Maximum waiting time in the waiting room
      */
-    MAX_WAIT_TIME: 20000,
+   //  MAX_WAIT_TIME: 20000,
 
     /**
      * ## START_DATE
@@ -184,35 +184,35 @@ module.exports = {
         return groups;
     },
 
-    /**
-     * ## ON_CLOSE
-     *
-     * Callback executed when the waiting room's state becomes "close"
-     */
-    ON_CLOSE: function(room) {
-        console.log('CLOSING THE ROOM!!');
-
-        // Stop giving away ids.
-        room.game.auth.claimId = false;
-
-        ngamt.modules.manageHIT.expire();
-
-        // Close the first waiting room.
-        room.channel.waitingRoom.closeRoom();
-    },
-
-    /**
-     * ## ON_CLOSE
-     *
-     * Callback executed when the waiting room's state becomes "open"
-     */
-    ON_OPEN: function(room) {
-        // Re-give away ids.
-        room.game.auth.claimId = true;
-
-        // Open the first waiting room.
-        room.channel.waitingRoom.openRoom();
-    },
+//     /**
+//      * ## ON_CLOSE
+//      *
+//      * Callback executed when the waiting room's state becomes "close"
+//      */
+//     ON_CLOSE: function(room) {
+//         console.log('CLOSING THE ROOM!!');
+//
+//         // Stop giving away ids.
+//         room.game.auth.claimId = false;
+//
+//         ngamt.modules.manageHIT.expire();
+//
+//         // Close the first waiting room.
+//         room.channel.waitingRoom.closeRoom();
+//     },
+//
+//     /**
+//      * ## ON_CLOSE
+//      *
+//      * Callback executed when the waiting room's state becomes "open"
+//      */
+//     ON_OPEN: function(room) {
+//         // Re-give away ids.
+//         room.game.auth.claimId = true;
+//
+//         // Open the first waiting room.
+//         room.channel.waitingRoom.openRoom();
+//     },
 
     /**
      * ## DISCONNECT_IF_NOT_SELECTED
@@ -259,7 +259,6 @@ module.exports = {
         part1 = room.channel.waitingRoom;
         part1.ON_DISCONNECT(part1, player);
     },
-
 
     /**
      * ## DISPATCH_TO_SAME_ROOM
