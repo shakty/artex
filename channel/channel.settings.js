@@ -27,6 +27,10 @@ module.exports = {
 
     enableReconnections: true,
 
+    // If set, resources in public/ will be cached (by the browser)
+    // for the specified duration in milliseconds.
+    cacheMaxAge: 360000,
+
     // If TRUE, it will be the default channel of the server.
     // And its static files will be served from '/'.
     // Socket.io connection must still be established to the
