@@ -597,6 +597,7 @@ function init() {
         }
         node.reconCounter = null;
     };
+
     node.on('SOCKET_DISCONNECT', function() {
         // Adding a property to node.
         if ('number' !== typeof node.reconCounter) {

@@ -2,7 +2,9 @@
  * Standard Waiting Room settings.
  */
 
-var ngamt = require('nodegame-mturk')();
+var path = require('path');
+var mturkConf = path.resolve(__dirname, '..', 'amt/mturk.conf.js');
+var ngamt = require('nodegame-mturk')( { config: mturkConf });
 
 var EXPIRE_LIMIT;
 var RE_EXTEND_TIME = 3600;
@@ -28,7 +30,7 @@ module.exports = {
 
     ON_CONNECT: function(room, player) {
         var part2, totPlayers;
-        totPlayers = getTotPlayers(room, 'conne');
+        totPlayers = getTotPlayers(room, '*****conne', player);
 
         // Expire HIT if we have 20 players between the two rooms.
         if (!room.hitExpired && totPlayers >= EXPIRE_LIMIT) {
@@ -39,6 +41,10 @@ module.exports = {
                 if (err) {
                     room.hitExpired = false;
                     room.openRoom();
+                    console.log('error exp ', totPlayers);
+                }
+                else {
+                    console.log('HIT EXPIRED ', totPlayers);
                 }
             });
         }
@@ -46,14 +52,15 @@ module.exports = {
 
     ON_DISCONNECT: function(room, player) {
         var part2, totPlayers;
-        totPlayers = getTotPlayers(room, 'disco');
-
+        if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
+            return;
+        }
+        totPlayers = getTotPlayers(room, '------disco', player);
 
         // Expire HIT if we have 20 players between the two rooms.
         if (room.hitExpired && totPlayers < EXPIRE_LIMIT) {
             room.hitExpired = false;
             room.openRoom();
-
             // Extend or mark as expired again.
             ngamt.modules.manageHIT.extend({
                 assignments: RE_EXTEND_ASS,
@@ -62,9 +69,11 @@ module.exports = {
                 if (err) {
                     // Reset
                     room.hitExpired = true;
+                    room.closeRoom();
+                    consle.log('error ext');
                 }
                 else {
-                    room.closeRoom();
+                    console.log('HIT EXTENDED ', totPlayers);
                 }
             });
         }
@@ -73,7 +82,7 @@ module.exports = {
     ON_INIT: function(room) {
         var part2;
         part2 = room.channel.gameLevels.part2.waitingRoom;
-        EXPIRE_LIMIT = part2.POOL_SIZE;
+        EXPIRE_LIMIT = part2.POOL_SIZE * 2;
         room.hitExpired = false;
         ngamt.api.connect({ getLastHITId: true });
     },
@@ -92,13 +101,18 @@ module.exports = {
  *
  * @return {number} The total number of players
  */
-function getTotPlayers(room, action) {
+
+var oldNP;
+function getTotPlayers(room, action, p) {
     var part2, room1, np;
     part2 = room.channel.gameLevels.part2.waitingRoom;
     np = part2.size() + room.size();
     room1 = room.channel.gameRooms.room1;
     if (room1) np += room1.size();
-    console.log('NP COUnT: ',  np, action);
-    if (part2.numberOfDispatches < 2) return 0;
+    np += part2.numberOfDispatches * part2.GROUP_SIZE;
+    console.log('NP COUnT: ',  np, action, room.hitExpired, p ? p.id : '');
+//     if ('undefined' === typeof oldNP) oldNP = np;
+//     else if (np > oldNP) oldNP = np;
+//     else if (np < oldNP) d ebugger;
     return np;
 }

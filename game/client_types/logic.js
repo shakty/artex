@@ -77,6 +77,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
         });
 
+        // Notify waiting room that somebody reconnect/disconnected.
+        // Might need to re-open/close the HIT.
+
+        node.on.preconnect(function(p) {
+            channel.waitingRoom.ON_CONNECT(channe.waitingRoom, p);
+        });
+
+        node.on.pdisconnect(function(p) {
+            channel.waitingRoom.ON_DISCONNECT(channel.waitingRoom, p);
+        });
+
         console.log('init');
 
     });

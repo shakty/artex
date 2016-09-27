@@ -256,8 +256,27 @@ module.exports = {
     ON_DISCONNECT: function(room, player) {
         var part1;
         if (room.numberOfDispatches < 2) return;
+        if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
+            return;
+        }
         part1 = room.channel.waitingRoom;
         part1.ON_DISCONNECT(part1, player);
+    },
+
+    /**
+     * ## ON_INIT
+     *
+     * A callback to be executed when the room is inited.
+     */
+    ON_INIT: function(room) {
+        // If someone reconnects after 2 dispatches, notify
+        // main waiting room so that the HIT can be closed (maybe).
+        room.node.on.preconnect(function(p) {
+            var part1;
+            if (room.numberOfDispatches < 2) return;
+            part1 = room.channel.waitingRoom;
+            part1.ON_CONNECT(part1, player);
+        });
     },
 
     /**
