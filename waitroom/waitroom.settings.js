@@ -29,7 +29,9 @@ module.exports = {
     EXECUTION_MODE: 'WAIT_FOR_N_PLAYERS',
 
     ON_CONNECT: function(room, player) {
-        var part2, totPlayers;
+        var part2, totPlayers, logger;
+        logger = room.channel.sysLogger;
+
         totPlayers = getTotPlayers(room, '*****conne', player);
 
         // Expire HIT if we have 20 players between the two rooms.
@@ -41,17 +43,19 @@ module.exports = {
                 if (err) {
                     room.hitExpired = false;
                     room.openRoom();
-                    console.log('error exp ', totPlayers);
+                    logger.log('error exp ' + totPlayers, 'error');
                 }
                 else {
-                    console.log('HIT EXPIRED ', totPlayers);
+                    logger.log('HIT EXPIRED ' + totPlayers, 'info');
                 }
             });
         }
     },
 
     ON_DISCONNECT: function(room, player) {
-        var part2, totPlayers;
+        var part2, totPlayers, logger;
+        logger = room.channel.sysLogger;
+
         if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
             return;
         }
@@ -70,10 +74,10 @@ module.exports = {
                     // Reset
                     room.hitExpired = true;
                     room.closeRoom();
-                    consle.log('error ext');
+                    logger.log('error ext ' + err, 'error');
                 }
                 else {
-                    console.log('HIT EXTENDED ', totPlayers);
+                    logger.log('HIT EXTENDED ' + totPlayers, 'info');
                 }
             });
         }
