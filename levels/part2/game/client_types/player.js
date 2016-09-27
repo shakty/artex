@@ -334,6 +334,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 if (counter) b.innerHTML += '(' + counter + ')';
                 counter++;
             };
+            // Remove block from leaving page.
+            W.restoreOnleave();
         }
     });
 
