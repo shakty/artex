@@ -64,6 +64,7 @@ module.exports = {
             console.log('>>>>>>>>>>>>>>>>>>>>>>>> ');
             console.log('LIMIT HIGHER ', totPlayers, EXPIRE_LIMIT);
             console.log('>>>>>>>>>>>>>>>>>>>>>>>> ');
+        }
     },
 
     ON_DISCONNECT: function(room, player) {
