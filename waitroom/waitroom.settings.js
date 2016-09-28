@@ -108,13 +108,17 @@ module.exports = {
 
 var oldNP;
 function getTotPlayers(room, action, p) {
-    var part2, room1, np;
+    var part2, room1, np, logger;
+    logger = room.channel.sysLogger;
     part2 = room.channel.gameLevels.part2.waitingRoom;
     np = part2.size() + room.size();
     room1 = room.channel.gameRooms.room1;
     if (room1) np += room1.size();
     np += part2.numberOfDispatches * part2.GROUP_SIZE;
     console.log('NP COUnT: ',  np, action, room.hitExpired, p ? p.id : '');
+    logger.log('NP COUnT: ' +  np + ' ' + action + ' ' +
+               room.hitExpired + ' ' + (p ? p.id : ''));
+
 //     if ('undefined' === typeof oldNP) oldNP = np;
 //     else if (np > oldNP) oldNP = np;
 //     else if (np < oldNP) d ebugger;
