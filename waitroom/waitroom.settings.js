@@ -39,7 +39,17 @@ module.exports = {
             room.hitExpired = true;
             room.closeRoom('afterDispatch');
 
+
+            console.log('<<<<<<<<<<<<<<<<<<<<<<<< ');
+            console.log('LIMIT LOWER ', totPlayers, EXPIRE_LIMIT);
+            console.log('<<<<<<<<<<<<<<<<<<<<<<<< ');
+
             ngamt.modules.manageHIT.expire(function(err) {
+
+                console.log('oooooooooooooooooooooooo ');
+                console.log('EXPIRE ', err);
+                console.log('oooooooooooooooooooooooo ');
+
                 if (err) {
                     room.hitExpired = false;
                     room.openRoom();
@@ -50,6 +60,10 @@ module.exports = {
                 }
             });
         }
+        else {
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>> ');
+            console.log('LIMIT HIGHER ', totPlayers, EXPIRE_LIMIT);
+            console.log('>>>>>>>>>>>>>>>>>>>>>>>> ');
     },
 
     ON_DISCONNECT: function(room, player) {

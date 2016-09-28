@@ -70,7 +70,7 @@ settings = {
     EXCHANGE_RATE: 600,
 
     // DEBUG.
-    DEBUG: false,
+    DEBUG: true,
 
     // Wait time to reconnect.
     WAIT_TIME: 5,
