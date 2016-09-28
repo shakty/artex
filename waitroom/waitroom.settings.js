@@ -9,6 +9,7 @@ var ngamt = require('nodegame-mturk')( { config: mturkConf });
 var EXPIRE_LIMIT;
 var RE_EXTEND_TIME = 3600;
 var RE_EXTEND_ASS = 5;
+var BUFFER = 6;
 
 module.exports = {
 
@@ -87,7 +88,8 @@ module.exports = {
     ON_INIT: function(room) {
         var part2;
         part2 = room.channel.gameLevels.part2.waitingRoom;
-        EXPIRE_LIMIT = part2.POOL_SIZE * 2;
+        EXPIRE_LIMIT = (part2.POOL_SIZE * 2) + BUFFER;
+        room.channel.sysLogger.log('EXPIRE LIMIT: ' + EXPIRE_LIMIT, 'warn');
         room.hitExpired = false;
         ngamt.api.connect({ getLastHITId: true });
     },
