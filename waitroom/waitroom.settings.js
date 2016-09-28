@@ -39,33 +39,16 @@ module.exports = {
             room.hitExpired = true;
             room.closeRoom('afterDispatch');
 
-
-            logger.log('<<<<<<<<<<<<<<<<<<<<<<<< ', 'error');
-            logger.log('LIMIT LOWER ' + totPlayers + ' ' + EXPIRE_LIMIT,
-                       'error');
-            logger.log('<<<<<<<<<<<<<<<<<<<<<<<< ', 'error');
-
             ngamt.modules.manageHIT.expire(function(err) {
-
-                logger.log('oooooooooooooooooooooooo ', 'error');
-                logger.log(err, 'error');
-                logger.log('oooooooooooooooooooooooo ', 'error');
-
                 if (err) {
                     room.hitExpired = false;
                     room.openRoom();
                     logger.log('error exp ' + totPlayers, 'error');
                 }
                 else {
-                    logger.log('HIT EXPIRED ' + totPlayers, 'error');
+                    logger.log('HIT EXPIRED ' + totPlayers, 'info');
                 }
             });
-        }
-        else {
-            logger.log('>>>>>>>>>>>>>>>>>>>>>>>> ', 'error');
-            logger.log('LIMIT HIGHER ' + totPlayers + ' ' + EXPIRE_LIMIT,
-                       'error');
-            logger.log('>>>>>>>>>>>>>>>>>>>>>>>> ', 'error');
         }
     },
 
@@ -91,7 +74,8 @@ module.exports = {
                     // Reset
                     room.hitExpired = true;
                     room.closeRoom();
-                    logger.log('error ext ' + err, 'error');
+                    logger.log('error extending HIT', 'error');
+                    logger.log(err, 'error');
                 }
                 else {
                     logger.log('HIT EXTENDED ' + totPlayers, 'info');
@@ -132,9 +116,8 @@ function getTotPlayers(room, action, p) {
     room1 = room.channel.gameRooms.room1;
     if (room1) np += room1.size();
     np += part2.numberOfDispatches * part2.GROUP_SIZE;
-    console.log('NP COUnT: ',  np, action, room.hitExpired, p ? p.id : '');
     logger.log('NP COUnT: ' +  np + ' ' + action + ' ' +
-               room.hitExpired + ' ' + (p ? p.id : ''), 'error');
+               room.hitExpired + ' ' + (p ? p.id : ''), 'info');
 
 //     if ('undefined' === typeof oldNP) oldNP = np;
 //     else if (np > oldNP) oldNP = np;
