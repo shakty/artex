@@ -25,10 +25,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     cacheToSave = [];
 
     stager.setOnInit(function() {
-        var saveWhoConnect;
+        var saveWhoConnected;
 
         // Create data dir. TODO: do it automatically?
-        var dataDir, saveOptions;
+        var dataDir;
         dataDir = path.resolve(channel.getGameDir(), 'data') + '/';
 
         node.on.data('finished_part1', function(msg) {
@@ -51,7 +51,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // Store some values inside the
         // Select a random value of svo decision.
         node.on.data('done', function(msg) {
-            var svo;
+            var svo, code;
             if (!msg.data) return;
             code = channel.registry.getClient(msg.from);
             if (msg.data.id && msg.data.id === 'svo') {
@@ -77,7 +77,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         // Might need to re-open/close the HIT.
 
         node.on.preconnect(function(p) {
-            channel.waitingRoom.ON_CONNECT(channe.waitingRoom, p);
+            channel.waitingRoom.ON_CONNECT(channel.waitingRoom, p);
         });
 
         node.on.pdisconnect(function(p) {
@@ -86,7 +86,11 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
         // Saves time, id and worker id of connected clients (with timeout).
         saveWhoConnected = function(p) {
-            cacheToSave.push(Date.now() + "," + p.id + "," + p.WorkerId);
+
+            cacheToSave.push(Date.now() + "," + p.id + "," +
+                             (p.WorkerId || 'NA') + "," +
+                             (p.userAgent ? '"' + p.userAgent + '"' : 'NA'));
+
             if (!timeOutSave) {
                 timeOutSave = setTimeout(function() {
                     var txt;

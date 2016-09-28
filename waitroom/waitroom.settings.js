@@ -30,7 +30,7 @@ module.exports = {
     EXECUTION_MODE: 'WAIT_FOR_N_PLAYERS',
 
     ON_CONNECT: function(room, player) {
-        var part2, totPlayers, logger;
+        var totPlayers, logger;
         logger = room.channel.sysLogger;
 
         totPlayers = getTotPlayers(room, '*****conne', player);
@@ -54,7 +54,7 @@ module.exports = {
     },
 
     ON_DISCONNECT: function(room, player) {
-        var part2, totPlayers, logger;
+        var totPlayers, logger;
         logger = room.channel.sysLogger;
 
         if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {

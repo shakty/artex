@@ -14,10 +14,8 @@ var constants = ngc.constants;
 // Export the game-creating function.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var game, MIN_PLAYERS;
-    var cbs;
+    var game, cbs;
 
-    var channel = gameRoom.channel;
     var node = gameRoom.node;
 
     // The game object to return at the end of the function.
@@ -280,7 +278,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.on.data('WIN', function(msg) {
                 var win, exitcode, codeErr;
                 var exitCodeInput, winInput, svoInput;
-                var svo, svoFrom, totalSvo, totalWin, winUsd;
+                var totalSvo, totalWin, winUsd;
                 // Exit Code.
                 codeErr = 'ERROR (code not found)';
                 exitcode = msg.data && msg.data.exitcode || codeErr;
@@ -309,7 +307,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             i = W.getElementById('email');
             errStr = 'Check your email and click here again';
             b.onclick = function() {
-                var email, indexAt, indexDot, err;
+                var email, indexAt, indexDot;
                 email = i.value;
                 if (email.trim().length > 5) {
                     indexAt = email.indexOf('@');

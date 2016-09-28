@@ -10,7 +10,6 @@
 
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var channel = gameRoom.channel;
     var node = gameRoom.node;
     var ngc =  require('nodegame-client');
 

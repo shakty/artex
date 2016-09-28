@@ -264,6 +264,7 @@ function evaluation() {
 }
 
 function dissemination() {
+    var code;
     var ex, author, cf, mean, player, works;
     var nextRoundReviewer, player_result;
     var i, j, k, len;
@@ -273,7 +274,7 @@ function dissemination() {
     // Array of all the selected works (by exhibition);
     var selected;
     // Results of the round (by author)
-    var player_results;
+    var player_results, r;
 
     // Prepare result arrays.
     // Contains the selected images by exhibitions.

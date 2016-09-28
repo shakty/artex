@@ -2,9 +2,6 @@
 $(document).ready(function() {
 
     var node = parent.node;
-    var J = node.JSUS;
-    var W = node.window;
-    var GameStage = node.GameStage;
 
     var creationDiv;
     var cf_options, init_cf;

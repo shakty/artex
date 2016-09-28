@@ -41,14 +41,14 @@ module.exports = {
      *
      * How many clients must connect before groups are formed
      */
-    POOL_SIZE: 18,
+    POOL_SIZE: 4,
 
     /**
      * ## GROUP_SIZE
      *
      * The size of each group
      */
-    GROUP_SIZE: 9,
+    GROUP_SIZE: 2,
 
     /**
      * ## N_GAMES
@@ -141,7 +141,7 @@ module.exports = {
     PLAYER_GROUPING: function(pList, nGroups) {
         var groups;
         var properties;
-        var i, len, subdb, lenSubdb;
+        var i, len, subdb, lenSubdb, limit;
         var dbIdx, db2Idx;
 
         groups = [ [], [] ];
@@ -275,7 +275,7 @@ module.exports = {
             var part1;
             if (room.numberOfDispatches < 2) return;
             part1 = room.channel.waitingRoom;
-            part1.ON_CONNECT(part1, player);
+            part1.ON_CONNECT(part1, p);
         });
     },
 

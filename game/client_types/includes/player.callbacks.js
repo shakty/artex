@@ -663,8 +663,10 @@ function dissemination() {
     table.setHeader(this.exhibitNames);
 
     W.loadFrame('dissemination.html', function() {
+        var makeExColumn;
 
         node.on.data('WIN_CF', function(msg) {
+            var str;
             console.log('WWWWWWWWWIN_CF');
 
             if (!msg.data) {
@@ -714,7 +716,7 @@ function dissemination() {
             W.getElementById('results').innerHTML = str;
         });
 
-        function makeExColumn(ex, data) {
+        makeExColumn = function(ex, data) {
             var winners;
             if (!data.length) {
                 table.addColumn([' - ']);

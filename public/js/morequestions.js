@@ -1,8 +1,8 @@
 // Script loaded by creation.html.
 $(document).ready(function() {
-    var node, W, q, names, i, len, tmpElement, tables, j, lenJ;
+    var node, W, q, name, names, i, len, tmpElement, j, lenJ;
     var options, choices, subqs;
-    var tableName, dt, id;
+    var tableId, dt, id;
     node = parent.node;
     J = parent.JSUS;
     W = parent.W;

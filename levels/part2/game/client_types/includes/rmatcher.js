@@ -2,12 +2,14 @@ module.exports = RMatcher;
 
 var J = require('nodegame-client').JSUS;
 
+var out, leftOver;
+
 function RMatcher (options) {
-    
+
     this.groups = [];
-    
+
     this.maxIteration = 10;
-    
+
     this.doneCounter = 0;
 }
 
@@ -17,7 +19,7 @@ RMatcher.prototype.init = function (elements, pools) {
         g.init(elements[i], pools[i]);
         this.addGroup(g);
     }
-    
+
     this.options = {
         elements: elements,
         pools: pools,
@@ -39,30 +41,30 @@ RMatcher.prototype.match = function() {
             //                  console.log(i);
             //                  console.log('is done immediately')
         }
-    }   
-    
+    }
+
     if (!this.allGroupsDone()) {
         this.assignLeftOvers();
     }
-    
+
     if (!this.allGroupsDone()) {
         this.switchBetweenGroups();
     }
-    
+
     return J.map(this.groups, function (g) { return g.matched; });
 };
 
 RMatcher.prototype.invertMatched = function() {
-    
+
     var tmp, elements = [], inverted = [];
     J.each(this.groups, function(g) {
         elements = elements.concat(g.elements);
-        tmp = g.invertMatched();        
+        tmp = g.invertMatched();
         for (var i = 0; i < tmp.length; i++) {
             inverted[i] = (inverted[i] || []).concat(tmp[i]);
         }
     });
-    
+
     return { elements: elements,
              inverted: inverted
            };
@@ -84,29 +86,29 @@ RMatcher.prototype.tryOtherLeftOvers = function (g) {
         leftOver = [];
         if (group.leftOver.length) {
             group.leftOver = this.groups[g].matchBatch(group.leftOver);
-            
+
             if (this.groups[g].matches.done) {
                 this.doneCounter++;
-                //                              console.log('is done with leftOver')
-                //                              console.log(g);
-                //                              console.log('is done with leftOver')
+                // console.log('is done with leftOver')
+                // console.log(g);
+                // console.log('is done with leftOver')
                 return true;
             }
         }
-        
+
     }
 };
 
 RMatcher.prototype.assignLeftOvers = function() {
     var g;
     for ( var i = 0; i < this.groups.length ; i++) {
-        g = this.groups[i]; 
+        g = this.groups[i];
         // Group is full
         if (!g.matches.done) {
             this.tryOtherLeftOvers(i);
         }
-        
-    } 
+
+    }
 };
 
 RMatcher.prototype.collectLeftOver = function() {
@@ -114,30 +116,31 @@ RMatcher.prototype.collectLeftOver = function() {
 };
 
 
-RMatcher.prototype.switchFromGroup = function (fromGroup, toGroup, fromRow, leftOvers) {
+RMatcher.prototype.switchFromGroup = function (fromGroup, toGroup, fromRow,
+                                               leftOvers) {
+
     for (var toRow = 0; toRow < fromGroup.elements.length; toRow++) {
-        
+
         for (var j = 0; j < leftOvers.length; j++) {
             for (var n = 0; n < leftOvers[j].length; n++) {
-                
+
                 var x = leftOvers[j][n]; // leftover n from group j
-                
+
                 if (fromGroup.canSwitchIn(x, toRow)) {
                     for (var h = 0 ; h < fromGroup.matched[toRow].length; h++) {
                         var switched = fromGroup.matched[toRow][h];
-                        
+
                         if (toGroup.canAdd(switched, fromRow)) {
                             fromGroup.matched[toRow][h] = x;
                             toGroup.addToRow(switched, fromRow);
                             leftOvers[j].splice(n,1);
-                            
-                            if (toGroup.matches.done) {
-                                
 
-                                //                                                              console.log('is done')
-                                //                                                              console.log(toGroup);
-                                //                                                              console.log('is done')
-                                
+                            if (toGroup.matches.done) {
+
+                                // console.log('is done')
+                                // console.log(toGroup);
+                                // console.log('is done')
+
                                 this.doneCounter++;
                             }
                             return true;
@@ -150,7 +153,7 @@ RMatcher.prototype.switchFromGroup = function (fromGroup, toGroup, fromRow, left
 };
 
 /**
- * 
+ *
  * @param {integer} g Group index
  * @param {integer} row Row index
  */
@@ -161,12 +164,12 @@ RMatcher.prototype.trySwitchingBetweenGroups = function (g, row) {
     // Tries with all, even with the same group, that is why is (g + 1)
     for (var i = (g + 1) ; i < (this.groups.length + g + 1) ; i++) {
         fromGroup = this.groups[i % this.groups.length];
-        
+
         if (this.switchFromGroup(fromGroup, toGroup, row, lo)) {
             if (toGroup.matches.done) return;
         }
     }
-    
+
     return false;
 };
 
@@ -175,7 +178,7 @@ RMatcher.prototype.trySwitchingBetweenGroups = function (g, row) {
 RMatcher.prototype.switchBetweenGroups = function() {
     var g, diff;
     for ( var i = 0; i < this.groups.length ; i++) {
-        g = this.groups[i]; 
+        g = this.groups[i];
         // Group has free elements
         if (!g.matches.done) {
             for ( var j = 0; j < g.elements.length; j++) {
@@ -190,7 +193,7 @@ RMatcher.prototype.switchBetweenGroups = function() {
                 }
             }
         }
-    } 
+    }
     return false;
 };
 
@@ -198,24 +201,24 @@ RMatcher.prototype.switchBetweenGroups = function() {
 ////////////////// GROUP
 
 function Group() {
-    
+
     this.elements = [];
     this.matched = [];
 
     this.leftOver = [];
     this.pointer = 0;
-    
+
     this.matches = {};
     this.matches.total = 0;
     this.matches.requested = 0;
     this.matches.done = false;
-    
+
     this.rowLimit = 3;
-    
+
     this.noSelf = true;
-    
+
     this.pool = [];
-    
+
     this.shuffle = true;
     this.stretch = true;
 }
@@ -223,7 +226,7 @@ function Group() {
 Group.prototype.init = function (elements, pool) {
     this.elements = elements;
     this.pool = J.clone(pool);
-    
+
     for (var i = 0; i < this.pool.length; i++) {
         if (this.stretch) {
             this.pool[i] = J.stretch(this.pool[i], this.rowLimit);
@@ -232,16 +235,16 @@ Group.prototype.init = function (elements, pool) {
             this.pool[i] = J.shuffle(this.pool[i]);
         }
     }
-    
+
     if (!elements.length) {
         this.matches.done = true;
     }
-    else {      
+    else {
         for (i = 0 ; i < elements.length ; i++) {
             this.matched[i] = [];
         }
     }
-    
+
     this.matches.requested = this.elements.length * this.rowLimit;
 };
 
@@ -250,11 +253,11 @@ Group.prototype.init = function (elements, pool) {
  * The same as canAdd, but does not consider row limit
  */
 Group.prototype.canSwitchIn = function (x, row) {
-    // Element already matched 
+    // Element already matched
     if (J.inArray(x, this.matched[row])) return false;
     // No self
     if (this.noSelf && this.elements[row] === x) return false;
-    
+
     return true;
 };
 
@@ -262,7 +265,7 @@ Group.prototype.canSwitchIn = function (x, row) {
 Group.prototype.canAdd = function (x, row) {
     // Row limit reached
     if (this.matched[row].length >= this.rowLimit) return false;
-    
+
     return this.canSwitchIn(x, row);
 };
 
@@ -271,18 +274,18 @@ Group.prototype.shouldSwitch = function (x, fromRow) {
     if (this.matched.length < 2) return false;
     //  var actualLeftOver = this.leftOver.length;
     return true;
-    
+
 };
 
 // If there is a hole, not in the last position, the algorithm fails
 Group.prototype.switchIt = function () {
-    
+
     for (var i = 0; i < this.elements.length ; i++) {
         if (this.matched[i].length < this.rowLimit) {
             this.completeRow(i);
         }
     }
-    
+
 };
 
 Group.prototype.completeRow = function (row, leftOver) {
@@ -317,7 +320,7 @@ Group.prototype.switchItInRow = function (x, toRow, fromRow) {
             return true;
         }
     }
-    
+
     return false;
 };
 
@@ -361,7 +364,7 @@ Group.prototype.match = function (pool) {
     if (!J.isArray(pool)) {
         pool = [pool];
     }
-    // Loop through the pools: elements in lower  
+    // Loop through the pools: elements in lower
     // indexes-pools have more chances to be used
     var leftOver;
     for (var i = 0 ; i < pool.length ; i++) {
@@ -370,7 +373,7 @@ Group.prototype.match = function (pool) {
             this.leftOver = this.leftOver.concat(leftOver);
         }
     }
-    
+
     if (this.shouldSwitch()) {
         this.switchIt();
     }
@@ -401,7 +404,7 @@ function getElements() {
     out.push(n.splice(0, J.randomInt(0,n.length)))
     out.push(n.splice(0, J.randomInt(0,n.length)))
     out.push(n)
-    
+
     return J.shuffle(out);
 }
 
@@ -410,20 +413,20 @@ function getElements() {
 function getPools() {
     var n = J.shuffle(numbers);
     out = [];
-    
+
     var A = n.splice(0, J.randomInt(0, (n.length / 2)));
     var B = n.splice(0, J.randomInt(0, (n.length / 2)));
     var C = n;
-    
+
     var A_pub = A.splice(0, J.randomInt(0, A.length));
     A = J.shuffle([A_pub, A]);
-    
+
     var B_pub = B.splice(0, J.randomInt(0, B.length));
     B = J.shuffle([B_pub, B]);
-    
+
     var C_pub = C.splice(0, J.randomInt(0, C.length));
     C = J.shuffle([C_pub, C]);
-    
+
     return J.shuffle([A,B,C]);
 }
 //console.log(getElements())
@@ -434,27 +437,27 @@ function getPools() {
 
 
 function simulateMatch(N) {
-    
+
     for (var i = 0 ; i < N ; i++) {
-        
+
         var rm = new RMatcher(),
         elements = getElements(),
         pools = getPools();
-        
+
         //              console.log('NN ' , numbers);
         //              console.log(elements);
         //              console.log(pools)
         rm.init(elements, pools);
-        
+
         var matched = rm.match();
-        
+
         if (!rm.allGroupsDone()) {
             console.log('ERROR')
             console.log(rm.options.elements);
             console.log(rm.options.pools);
             console.log(matched);
         }
-        
+
         for (var j = 0; j < rm.groups.length; j++) {
             var g = rm.groups[j];
             for (var h = 0; h < g.elements.length; h++) {
@@ -468,7 +471,7 @@ function simulateMatch(N) {
             }
         }
     }
-    
+
 }
 
 // simulateMatch(1000000000);
@@ -476,14 +479,14 @@ function simulateMatch(N) {
 //var myElements = [ [ 1, 5], [ 6, 9 ], [ 2, 3, 4, 7, 8 ] ];
 //var myPools = [ [ [ ], [ 1,  5, 6, 7] ], [ [4], [ 3, 9] ], [ [], [ 2, 8] ] ];
 
-//4.07A 25      
-//4.77C 25      
-//4.37B 25      
-//5.13B 25 [08 R_16]    
-//0.83A 25 [09 R_7]     
-//3.93A 25 [09 R_23]    
-//1.37A 25 [07 R_21]    
-//3.30C 25      
+//4.07A 25
+//4.77C 25
+//4.37B 25
+//5.13B 25 [08 R_16]
+//0.83A 25 [09 R_7]
+//3.93A 25 [09 R_23]
+//1.37A 25 [07 R_21]
+//3.30C 25
 //4.40B 25
 //
 //25
@@ -493,14 +496,14 @@ function simulateMatch(N) {
 //
 //// submissions in r 26
 //
-//3.73A 26 [05 R_25]    
-//2.40C 26      
-//undefinedC 26 [05 R_25]       
-//4.37C 26 [06 R_19]    
-//6.07A 26 [06 R_19]    
-//undefinedB 26 [06 R_18]       
-//4.33C 26 [05 R_25]    
-//undefinedC 26 [08 R_19]       
+//3.73A 26 [05 R_25]
+//2.40C 26
+//undefinedC 26 [05 R_25]
+//4.37C 26 [06 R_19]
+//6.07A 26 [06 R_19]
+//undefinedB 26 [06 R_18]
+//4.33C 26 [05 R_25]
+//undefinedC 26 [08 R_19]
 //4.40B 26
 //
 //
@@ -531,7 +534,8 @@ function simulateMatch(N) {
 //766044637969952000    SUB     A       1351591656253
 
 //var myElements = [ [ 3, 5 ], [ 8, 9, 1, 7, 6 ], [ 2, 4 ] ];
-//var myPools = [ [ [ 6 ], [ 9, 7 ] ], [ [], [ 8, 1, 5, 4 ] ], [ [], [ 2, 3 ] ] ];
+//var myPools = [ [ [ 6 ], [ 9, 7 ] ], [ [], [ 8, 1, 5, 4 ] ], [ [],
+// [ 2, 3 ] ] ];
 
 //var myElements = [ [ '13988427821680113598', '102698780807709949' ],
 //  [],
@@ -566,7 +570,7 @@ function simulateMatch(N) {
 //      console.log(myElements);
 //      console.log(myPools);
 //      console.log(myMatch);
-//      
+//
 //      console.log('---')
 //      J.each(myRM.groups, function(g) {
 //              console.log(g.pool);
@@ -614,5 +618,3 @@ function simulateMatch(N) {
 
 //console.log(g.elements);
 //console.log(g.matched);
-
-

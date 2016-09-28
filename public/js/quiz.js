@@ -2,13 +2,14 @@
 $(document).ready(function() {
 
     var node =  parent.node,
-    J = parent.JSUS,
-    W = parent.W;
+    J = parent.JSUS;
 
-    var results, answers;
+    var answers;
     var wrongTxt, correctTxt;
     var quizzes, opts;
     var i, len;
+
+    var root, groupOrder;
 
     wrongTxt = 'Wrong, try again';
     correctTxt = 'Correct!';

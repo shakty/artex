@@ -25,7 +25,7 @@ $(document).ready(function() {
         $(select).hover(
             function(e) {
                 var enlarge = $(txt);
-                var pos = $(this).position();
+                // var pos = $(this).position();
                 enlarge.addClass('tooltip');
                 enlarge.css({
                     "left": (5 + e.pageX) + "px",

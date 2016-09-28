@@ -10,7 +10,6 @@
 
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var channel = gameRoom.channel;
     var node = gameRoom.node;
     var ngc =  require('nodegame-client');
 
@@ -30,7 +29,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         o._cb = o.cb;
         o.cb = function() {
             var _cb, stepObj;
-            var q, i, len;
+            var q;
 
             stepObj = this.getCurrentStepObj();
             _cb = stepObj._cb;

@@ -1,6 +1,6 @@
 // Script loaded by creation.html.
 $(document).ready(function() {
-    var node, W, q, names, i, len, tmpElement, options;
+    var node, W, q, name, names, i, len, options;
     node = parent.node;
     W = parent.W;
     q = node.game.questionnaire;

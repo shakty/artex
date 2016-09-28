@@ -4,7 +4,6 @@ $(document).ready(function() {
     console.log('Evaluation');
 
     var node = parent.node,
-    JSUS = parent.JSUS,
     W = parent.W;
 
     var table, str, reconReviews;
@@ -27,7 +26,7 @@ $(document).ready(function() {
         var ex, author, evaId, displayEvaId, displayContId;
         var jQuerySlider, labelText;
         var i, len;
-        var cf_options;
+        var cf_options, data;
 
         cf_options = {
             width: 300,
@@ -52,13 +51,13 @@ $(document).ready(function() {
             node.game.evas[author] = { order: idx + '.' + i };
 
             evaId = 'eva_' + author;
-            diplayEvaId = 'display_' + author;
+            displayEvaId = 'display_' + author;
             displayContId = 'display_cont_' + author;
 
             // Add the slider to the container.
             sl = W.getDiv(evaId);
             display_container = W.getDiv(displayContId);
-            display = W.addTextInput(display_container, diplayEvaId, {
+            display = W.addTextInput(display_container, displayEvaId, {
                 disabled: "disabled",
                 className: 'curr-eva-input'
             });
@@ -98,13 +97,13 @@ $(document).ready(function() {
                     node.game.evas[author].changed = true;
                 }
             });
-            $("#" + diplayEvaId).val($("#" + evaId).slider("value"));
+            $("#" + displayEvaId).val($("#" + evaId).slider("value"));
 
 
             // AUTOPLAY.
             node.env('auto', function() {
                 $("#" + evaId).slider("value", Math.random() * 10);
-                $("#" + diplayEvaId).val($("#"+evaId).slider("value"));
+                $("#" + displayEvaId).val($("#"+evaId).slider("value"));
             });
         }
     }

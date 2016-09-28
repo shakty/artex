@@ -14,10 +14,8 @@ var constants = ngc.constants;
 // Export the game-creating function.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var game, MIN_PLAYERS;
-    var cbs;
+    var game, cbs;
 
-    var channel = gameRoom.channel;
     var node = gameRoom.node;
 
     // The game object to return at the end of the function.
