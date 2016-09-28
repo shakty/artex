@@ -58,7 +58,7 @@ module.exports = {
      * If set, it will close the waiting room after N_GAMES
      * have been dispatched
      */
-    N_GAMES: 4,
+    // N_GAMES: 4,
 
     /**
      * ## MAX_WAIT_TIME
