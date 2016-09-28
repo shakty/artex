@@ -21,20 +21,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var channel = gameRoom.channel;
     var node = gameRoom.node;
 
+    var cacheToSave, timeOutSave;
+    cacheToSave = [];
+
     stager.setOnInit(function() {
+        var saveWhoConnect;
 
         // Create data dir. TODO: do it automatically?
         var dataDir, saveOptions;
         dataDir = path.resolve(channel.getGameDir(), 'data') + '/';
-//         saveOptions = {
-//             headers: [ "time", "timeup", "player", "stage", "timestamp" ],
-//             adapter: {
-//                 stage: function(row) { return row.stage.stage }
-//             }
-//         };
-        saveOptions = {
-            flag: 'a'
-        };
+
         node.on.data('finished_part1', function(msg) {
             var db;
 
@@ -49,7 +45,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             db = node.game.memory.player[msg.from];
             // db.save(dataDir + 'artex_part1.csv', saveOptions);
             // db.save(dataDir + 'artex_part1_b.csv');
-            db.save(dataDir + 'artex_part1.json', saveOptions);
+            db.save(dataDir + 'artex_part1.json', { flag: 'a' });
         });
 
         // Store some values inside the
@@ -87,6 +83,29 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         node.on.pdisconnect(function(p) {
             channel.waitingRoom.ON_DISCONNECT(channel.waitingRoom, p);
         });
+
+        // Saves time, id and worker id of connected clients (with timeout).
+        saveWhoConnected = function(p) {
+            cacheToSave.push(Date.now() + "," + p.id + "," + p.WorkerId);
+            if (!timeOutSave) {
+                timeOutSave = setTimeout(function() {
+                    var txt;
+                    txt = cacheToSave.join("\n") + "\n";
+                    cacheToSave = [];
+                    timeOutSave = null;
+                    fs.appendFile(dataDir + 'codes.csv', txt, function(err) {
+                        if (err) {
+                            console.log(txt);
+                            console.log(err);
+                        }
+                    });
+                }, 10000);
+            }
+        }
+
+        if (node.game.pl.size()) node.game.pl.each(saveWhoConnected);
+
+        node.on.pconnect(saveWhoConnected);
 
         console.log('init');
 

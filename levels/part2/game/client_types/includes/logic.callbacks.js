@@ -37,9 +37,8 @@ var WAIT_TIME = settings.WAIT_TIME * 1000;
 
 var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';
 var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
-var CODE_FILE = CHANNEL_DIR  + 'codes.json';
-var CODE_FILE_BAK = CHANNEL_DIR  + '.codes.json.bak';
-
+var CODE_FILE = DUMP_DIR  + 'codes.json';
+var CODE_FILE_BAK = DUMP_DIR  + '.codes.json.bak';
 
 function init() {
 
@@ -139,10 +138,12 @@ function init() {
     };
 
     // Saving the codes starting this session.
-    fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
-        node.game.pl.save(CODE_FILE, function() {
-        });
-    });
+    node.game.pl.save(CODE_FILE);
+
+//    fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
+//        node.game.pl.save(CODE_FILE, function() {
+//        });
+//    });
 
     console.log('init');
 }
