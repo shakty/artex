@@ -77,7 +77,7 @@ function init() {
     i = -1, len = this.plids.length;
     for ( ; ++i < len ; ) {
         this.svoMatches[this.plids[i]] =
-            this.plids[J.randomInt(0, this.plids.length)-1];
+            this.plids[J.randomInt(-1, this.plids.length)-1];
     }
 
     // Object containing the last works under review by player.

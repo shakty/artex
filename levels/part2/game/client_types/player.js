@@ -351,7 +351,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         coo: !!settings.coo
     };
 
-    game.verbosity = setup.verbosity;
+    game.verbosity = 1000; // setup.verbosity;
     game.debug = setup.debug;
 
     // Remove for live game.

@@ -701,6 +701,12 @@ function init() {
             disconnectTimeout = null;
         }, 4000);
     });
+
+    // Save the pcount so that it is diplayed in the instructions then.
+    node.once.data('PCOUNT', function(msg) {
+        node.game.pcount = msg.data;
+        W.setInnerHTML('ng_replace_pcount', msg.data);
+    });
 }
 
 function submission() {

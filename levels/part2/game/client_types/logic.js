@@ -47,7 +47,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.setOnGameOver(cbs.gameover);
 
     stager.extendStep('instr_summary', {
-        pushClients: true
+        pushClients: true,
+        init: function() {
+            // Notify how many players are connected (might be less, if
+            // the dispatch is manual).
+            node.say('PCOUNT', 'ROOM', node.game.pl.size());
+        }
     });
 
     stager.extendStage('artex', {
