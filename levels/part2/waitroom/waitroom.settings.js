@@ -184,36 +184,6 @@ module.exports = {
         return groups;
     },
 
-//     /**
-//      * ## ON_CLOSE
-//      *
-//      * Callback executed when the waiting room's state becomes "close"
-//      */
-//     ON_CLOSE: function(room) {
-//         console.log('CLOSING THE ROOM!!');
-//
-//         // Stop giving away ids.
-//         room.game.auth.claimId = false;
-//
-//         ngamt.modules.manageHIT.expire();
-//
-//         // Close the first waiting room.
-//         room.channel.waitingRoom.closeRoom();
-//     },
-//
-//     /**
-//      * ## ON_CLOSE
-//      *
-//      * Callback executed when the waiting room's state becomes "open"
-//      */
-//     ON_OPEN: function(room) {
-//         // Re-give away ids.
-//         room.game.auth.claimId = true;
-//
-//         // Open the first waiting room.
-//         room.channel.waitingRoom.openRoom();
-//     },
-
     /**
      * ## DISCONNECT_IF_NOT_SELECTED
      *
@@ -260,7 +230,7 @@ module.exports = {
             return;
         }
         part1 = room.channel.waitingRoom;
-        part1.ON_DISCONNECT(part1, player);
+        if (!part1.part2Done) part1.ON_DISCONNECT(part1, player);
     },
 
     /**
@@ -277,6 +247,22 @@ module.exports = {
             part1 = room.channel.waitingRoom;
             part1.ON_CONNECT(part1, p);
         });
+    },
+
+    /**
+     * ## ON_INIT
+     *
+     * A callback to be executed after a dispatch call is ended
+     */
+    ON_DISPATCHED: function(room) {
+        var waitRoom;
+        if (room.numberOfDispatches >= 4) {
+            part1 = room.channel.waitingRoom;
+            if (!part1.hitExpired) {
+                part1.expireHIT();
+                part1.part2Done = true;
+            }
+        }
     },
 
     /**

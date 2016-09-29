@@ -30,34 +30,20 @@ module.exports = {
     EXECUTION_MODE: 'WAIT_FOR_N_PLAYERS',
 
     ON_CONNECT: function(room, player) {
-        var totPlayers, logger;
-        logger = room.channel.sysLogger;
+        var totPlayers;
 
         totPlayers = getTotPlayers(room, '*****conne', player);
 
         // Expire HIT if we have 20 players between the two rooms.
-        if (!room.hitExpired && totPlayers >= EXPIRE_LIMIT) {
-            room.channel.gameInfo.auth.claimId = false;
-            room.hitExpired = true;
-            room.closeRoom('afterDispatch');
-
-
-            ngamt.modules.manageHIT.expire(function(err) {
-                if (err) {
-                    room.channel.gameInfo.auth.claimId = true;
-                    room.hitExpired = false;
-                    room.openRoom();
-                    logger.log('error exp ' + totPlayers, 'error');
-                }
-                else {
-                    logger.log('HIT EXPIRED ' + totPlayers, 'info');
-                }
-            });
+        if (!room.hitExpired && (totPlayers >= EXPIRE_LIMIT)) {
+            room.expireHIT('afterDispatch');
         }
     },
 
     ON_DISCONNECT: function(room, player) {
         var totPlayers, logger;
+        if (room.part2Done) return;
+
         logger = room.channel.sysLogger;
 
         if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
@@ -67,6 +53,42 @@ module.exports = {
 
         // Expire HIT if we have 20 players between the two rooms.
         if (room.hitExpired && totPlayers < EXPIRE_LIMIT) {
+            room.unexpireHIT();
+        }
+    },
+
+    ON_INIT: function(room) {
+        var part2, logger;
+
+        logger = room.channel.sysLogger;
+        part2 = room.channel.gameLevels.part2.waitingRoom;
+
+        EXPIRE_LIMIT = (part2.POOL_SIZE * 2) + BUFFER;
+        logger.log('EXPIRE LIMIT: ' + EXPIRE_LIMIT, 'warn');
+
+        room.hitExpired = false;
+        ngamt.api.connect({ getLastHITId: true });
+
+        // Define un/expire HIT functions.
+        room.expireHIT = function(mod) {
+            room.channel.gameInfo.auth.claimId = false;
+            room.hitExpired = true;
+            room.closeRoom(mod);
+
+            ngamt.modules.manageHIT.expire(function(err) {
+                if (err) {
+                    room.channel.gameInfo.auth.claimId = true;
+                    room.hitExpired = false;
+                    room.openRoom();
+                    logger.log('error exp ', 'error');
+                }
+                else {
+                    logger.log('HIT EXPIRED ', 'info');
+                }
+            });
+        };
+
+        room.unexpireHIT = function() {
             room.hitExpired = false;
             room.channel.gameInfo.auth.claimId = true;
             room.openRoom();
@@ -84,19 +106,11 @@ module.exports = {
                     logger.log(err, 'error');
                 }
                 else {
-                    logger.log('HIT EXTENDED ' + totPlayers, 'info');
+                    logger.log('HIT EXTENDED ', 'info');
                 }
             });
-        }
-    },
+        };
 
-    ON_INIT: function(room) {
-        var part2;
-        part2 = room.channel.gameLevels.part2.waitingRoom;
-        EXPIRE_LIMIT = (part2.POOL_SIZE * 2) + BUFFER;
-        room.channel.sysLogger.log('EXPIRE LIMIT: ' + EXPIRE_LIMIT, 'warn');
-        room.hitExpired = false;
-        ngamt.api.connect({ getLastHITId: true });
     },
 
     DISPATCH_TO_SAME_ROOM: true
@@ -119,7 +133,6 @@ function getTotPlayers(room, action, p) {
     var part2, room1, np, logger;
     logger = room.channel.sysLogger;
     part2 = room.channel.gameLevels.part2.waitingRoom;
-    if (part2.numberOfDispatches >= 4) return EXPIRE_LIMIT + 1;
     np = part2.size() + room.size();
     room1 = room.channel.gameRooms.room1;
     if (room1) np += room1.size();
