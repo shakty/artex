@@ -37,11 +37,14 @@ module.exports = {
 
         // Expire HIT if we have 20 players between the two rooms.
         if (!room.hitExpired && totPlayers >= EXPIRE_LIMIT) {
+            room.channel.gameInfo.auth.claimId = false;
             room.hitExpired = true;
             room.closeRoom('afterDispatch');
 
+
             ngamt.modules.manageHIT.expire(function(err) {
                 if (err) {
+                    room.channel.gameInfo.auth.claimId = true;
                     room.hitExpired = false;
                     room.openRoom();
                     logger.log('error exp ' + totPlayers, 'error');
@@ -65,6 +68,7 @@ module.exports = {
         // Expire HIT if we have 20 players between the two rooms.
         if (room.hitExpired && totPlayers < EXPIRE_LIMIT) {
             room.hitExpired = false;
+            room.channel.gameInfo.auth.claimId = true;
             room.openRoom();
             // Extend or mark as expired again.
             ngamt.modules.manageHIT.extend({
@@ -73,6 +77,7 @@ module.exports = {
             }, function(err) {
                 if (err) {
                     // Reset
+                    room.channel.gameInfo.auth.claimId = false;
                     room.hitExpired = true;
                     room.closeRoom();
                     logger.log('error extending HIT', 'error');
@@ -114,6 +119,7 @@ function getTotPlayers(room, action, p) {
     var part2, room1, np, logger;
     logger = room.channel.sysLogger;
     part2 = room.channel.gameLevels.part2.waitingRoom;
+    if (part2.numberOfDispatches >= 4) return EXPIRE_LIMIT + 1;
     np = part2.size() + room.size();
     room1 = room.channel.gameRooms.room1;
     if (room1) np += room1.size();
