@@ -255,7 +255,7 @@ module.exports = {
      * A callback to be executed after a dispatch call is ended
      */
     ON_DISPATCHED: function(room) {
-        var waitRoom;
+        var waitRoom, part1;
         if (room.numberOfDispatches >= 4) {
             part1 = room.channel.waitingRoom;
             if (!part1.hitExpired) {
