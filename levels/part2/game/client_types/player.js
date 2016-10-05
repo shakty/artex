@@ -51,6 +51,17 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 // 'COUNT_UP_STAGES_TO_TOTAL',
                 'COUNT_UP_ROUNDS_TO_TOTAL'
             ]);
+
+            node.on('PAUSED', function() {
+                var count, timerSpan, interval;
+                timerSpan = document.getElementById('ng_pause_timer');
+                if (!timerSpan) return;
+                count = node.game.settings.WAIT_TIME -1;
+                interval = setInterval(function() {
+                    timerSpan.innerHTML = count--;
+                    if (count === 0) clearInterval(interval);
+                }, 1000);
+            });
         },
         exit: function() {
             node.game.rounds.setDisplayMode([ 'COUNT_UP_STAGES_TO_TOTAL' ]);

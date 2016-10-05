@@ -55,7 +55,7 @@ settings = {
     SESSION_ID: 103,
 
     // Minimum number of players that must be always connected.
-    MIN_PLAYERS: 2,
+    MIN_PLAYERS: 3,
 
     // Number of rounds to repeat the training.
     REPEAT_TRAINING: 1,
@@ -72,8 +72,15 @@ settings = {
     // DEBUG.
     DEBUG: true,
 
-    // Wait time to reconnect.
-    WAIT_TIME: 5,
+    // Wait time to reconnect (if updated update also text below).
+    WAIT_TIME: 30,
+
+    // Text displayed to players who are still connected.
+    WAIT_TIME_TEXT: 'One or more players disconnected. If they ' +
+        'do not reconnect within <span id="ng_pause_timer">30</span>' +
+        ' seconds the game will continue with less players. <br/> Notice: ' +
+        'players who do not reconnect at this point, may still re-join '+
+        'the game later.',
 
     // Threshold for publication.
     threshold: -1,
