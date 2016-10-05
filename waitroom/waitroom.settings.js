@@ -10,6 +10,7 @@ var EXPIRE_LIMIT;
 var RE_EXTEND_TIME = 3600;
 var RE_EXTEND_ASS = 5;
 var BUFFER = 6;
+var NDISPATCHES = 3;
 
 module.exports = {
 
@@ -34,7 +35,7 @@ module.exports = {
 
         totPlayers = getTotPlayers(room, '*****conne', player);
 
-        // Expire HIT if we have 20 players between the two rooms.
+        // Expire HIT if we have enough players between the two rooms.
         if (!room.hitExpired && (totPlayers >= EXPIRE_LIMIT)) {
             room.expireHIT('afterDispatch');
         }
@@ -51,7 +52,7 @@ module.exports = {
         }
         totPlayers = getTotPlayers(room, '------disco', player);
 
-        // Expire HIT if we have 20 players between the two rooms.
+        // Expire HIT if we have enough players between the two rooms.
         if (room.hitExpired && totPlayers < EXPIRE_LIMIT) {
             room.unexpireHIT();
         }
@@ -63,7 +64,7 @@ module.exports = {
         logger = room.channel.sysLogger;
         part2 = room.channel.gameLevels.part2.waitingRoom;
 
-        EXPIRE_LIMIT = (part2.POOL_SIZE * 2) + BUFFER;
+        EXPIRE_LIMIT = (part2.POOL_SIZE * NDISPATCHES) + BUFFER;
         logger.log('EXPIRE LIMIT: ' + EXPIRE_LIMIT, 'warn');
 
         room.hitExpired = false;
