@@ -433,7 +433,7 @@ function gameover() {
 }
 
 function notEnoughPlayers() {
-    node.game.gotoStep(new GameStage('final'));
+    // node.game.gotoStep(new GameStage('final'));
 }
 
 function enoughPlayersAgain() {

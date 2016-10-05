@@ -73,11 +73,11 @@ settings = {
     DEBUG: true,
 
     // Wait time to reconnect (if updated update also text below).
-    WAIT_TIME: 30,
+    WAIT_TIME: 20,
 
     // Text displayed to players who are still connected.
     WAIT_TIME_TEXT: 'One or more players disconnected. If they ' +
-        'do not reconnect within <span id="ng_pause_timer">30</span>' +
+        'do not reconnect within <span id="ng_pause_timer">20</span>' +
         ' seconds the game will continue with less players. <br/> Notice: ' +
         'players who do not reconnect at this point, may still re-join '+
         'the game later.',

@@ -27,6 +27,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     var channel = gameRoom.channel;
     var node = gameRoom.node;
 
+    var pushClientsOpts;
+    pushClientsOpts = {
+        offset: 12000, // Default: 5000
+        reply: 4000, // Default: 2000
+        check: 2000 // Default: 2000
+    };
+    //pushClientsOpts = true;
+
     // Increment counter.
     counter = counter ? ++counter : settings.SESSION_ID;
 
@@ -47,7 +55,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.setOnGameOver(cbs.gameover);
 
     stager.extendStep('instr_summary', {
-        pushClients: true,
+        pushClients: pushClientsOpts,
         init: function() {
             // Notify how many players are connected (might be less, if
             // the dispatch is manual).
@@ -56,7 +64,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStage('artex', {
-        pushClients: true,
+        pushClients: pushClientsOpts,
         minPlayers: [
             settings.MIN_PLAYERS,
             cbs.notEnoughPlayers,
