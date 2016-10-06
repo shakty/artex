@@ -14,6 +14,11 @@ db.hash('key', function(i) {
     return i.key;
 });
 
+// If you change this you must change also the same variable
+// in: levels/part2/waitrom/waitroom.settings.js
+var NDISPATCHES = 3;
+var NGAMES = NDISPATCHES * 2; // each dispatch 2 games.
+
 // Exports settings.
 
 module.exports = {
@@ -225,7 +230,7 @@ module.exports = {
      */
     ON_DISCONNECT: function(room, player) {
         var part1;
-        if (room.numberOfDispatches < 2) return;
+        if (room.numberOfDispatches < (NGAMES - 2)) return;
         if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
             return;
         }
@@ -243,7 +248,7 @@ module.exports = {
         // main waiting room so that the HIT can be closed (maybe).
         room.node.on.preconnect(function(p) {
             var part1;
-            if (room.numberOfDispatches < 2) return;
+            if (room.numberOfDispatches < (NGAMES - 2)) return;
             part1 = room.channel.waitingRoom;
             part1.ON_CONNECT(part1, p);
         });
@@ -256,7 +261,7 @@ module.exports = {
      */
     ON_DISPATCHED: function(room) {
         var waitRoom, part1;
-        if (room.numberOfDispatches >= 4) {
+        if (room.numberOfDispatches >= NGAMES) {
             part1 = room.channel.waitingRoom;
             if (!part1.hitExpired) {
                 part1.expireHIT();

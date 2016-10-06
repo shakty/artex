@@ -10,6 +10,9 @@ var EXPIRE_LIMIT;
 var RE_EXTEND_TIME = 3600;
 var RE_EXTEND_ASS = 5;
 var BUFFER = 6;
+
+// If you change this you must change also the same variable
+// in: levels/part2/waitrom/waitroom.settings.js
 var NDISPATCHES = 3;
 
 module.exports = {
