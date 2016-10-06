@@ -433,7 +433,42 @@ function gameover() {
 }
 
 function notEnoughPlayers() {
-    // node.game.gotoStep(new GameStage('final'));
+    var originalLen, len, minPlayersProp;
+
+    len = node.game.pl.size();
+    originalLen = len + 1;
+    minPlayersProp = node.game.getProperty('minPlayers');
+
+    node.events.stage.on('in.say.PRECONNECT', function() {
+        if (node.game.pl.size() === originalLen) {
+            // TODO: check here. [0] = 5.
+            minPlayersProp[0] = '*';
+            console.log('AGAIN: ', minPlayersProp);
+            node.game.plot.updateProperty(node.player.stage,
+                                          'minPlayers', minPlayersProp);
+            node.game.minPlayers = originalLen;
+            node.events.stage.off('restoreMinPlayers');
+        }
+    }, 'restoreMinPlayers');
+
+    // Remove listener after first disconnection.
+    node.game.plot.updateProperty(node.player.stage, 'minPlayers', null);
+
+
+//    // Update the number.
+//    if (J.isArray(minPlayersProp)) {
+//        minPlayersProp[0] = len;
+//    }
+//    else {
+//        minPlayersProp = len;
+//    }
+//
+//    node.game.plot.updateProperty(node.player.stage,
+//                                  'minPlayers', minPlayersProp);
+//
+//    node.game.minPlayers = len;
+
+    // node.game.checkPlistSize = function() { return true; };
 }
 
 function enoughPlayersAgain() {

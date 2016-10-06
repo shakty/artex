@@ -36,6 +36,8 @@ module.exports = function(stager, settings) {
         ]
     });
 
+    stager.skip('instr_summary');
+
 //     stager.skip('artex');
 //     stager.skip('artex', 'creation');
 //     stager.skip('artex', 'evaluation');

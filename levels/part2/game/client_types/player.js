@@ -59,7 +59,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 count = node.game.settings.WAIT_TIME -1;
                 interval = setInterval(function() {
                     timerSpan.innerHTML = count--;
-                    if (count === 0) clearInterval(interval);
+                    if (count === -1) {
+                        clearInterval(interval);
+                        W.waitScreen.updateText('Resuming soon...');
+                    }
                 }, 1000);
             });
         },

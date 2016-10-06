@@ -70,12 +70,38 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             cbs.notEnoughPlayers,
             cbs.enoughPlayersAgain
         ],
+        init: function() {
+            node.on.pdisconnect(function() {
+                if (node.game.pl.size() === 1) {
+                    node.game.gotoStep(new GameStage('final'));
+                }
+            });
+//            node.on.pdisconnect(function(p) {
+//                if (node.game.pl.size() === 1) return;
+//                console.log('VVVVVVVVVVVV');
+//                gameRoom.wrongNumOfPlayers.call(node.game, 'min');
+//            });
+//
+//            node.on('STEPPING', function() {
+//                var len;
+//                len = node.game.pl.size();
+//                if (len < node.game.settings.MIN_PLAYERS) {
+//                    node.game.plot.updateProperty(node.player.stage,
+//                                                  'minPlayers', [
+//                                                      len,
+//                                                      cbs.notEnoughPlayers,
+//                                                      cbs.enoughPlayersAgain
+//                                                  ]);
+//                }
+//            });
+        },
         reconnect: function(code, reconOptions) {
             var cf;
             cf = node.game.memory.cf.get(code.id);
             // cf0 is the initial random face.
             reconOptions.cf = cf.cf || cf.cf0;
             reconOptions.winners = node.game.winners;
+            reconOptions.bonus = code.bonus;
 
             // If evaluation round, add reviews.
             if (node.player.stage.step === 3) {
@@ -89,6 +115,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
                 w = options.winners;
                 step = node.player.stage.step;
+
+                // Set past earnings.
+                node.game.money.update(options.bonus);
 
                 // Make the past exhibition list.
 
