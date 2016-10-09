@@ -53,14 +53,16 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             ]);
 
             node.on('PAUSED', function() {
-                var count, timerSpan, interval;
-                timerSpan = document.getElementById('ng_pause_timer');
-                if (!timerSpan) {
-                    W.waitScreen.updateText(node.game.settings.WAIT_TIME_TEXT);
-                }
+                var count, interval;
                 count = node.game.settings.WAIT_TIME -1;
                 interval = setInterval(function() {
+                    var timerSpan;
                     if (!node.game.isPaused()) clearInterval(interval);
+                    timerSpan = document.getElementById('ng_pause_timer');
+                    if (!timerSpan) {
+                        W.waitScreen.updateText(
+                            node.game.settings.WAIT_TIME_TEXT);
+                    }
                     timerSpan.innerHTML = count--;
                     if (count === -1) {
                         clearInterval(interval);
