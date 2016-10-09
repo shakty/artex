@@ -437,41 +437,6 @@ function gameover() {
     // channel.destroyGameRoom(gameRoom.name);
 }
 
-
-// // Terminate game if only 1 player is left.
-// var minPlayersOne = [
-//     1,
-//     function() {
-//         node.game.gotoStep('final');
-//     }
-// ];
-//
-// function notEnoughPlayers() {
-//     var originalLen, len, minPlayersProp;
-//     var listenerName;
-//
-//     listenerName = 'restoreMinPlayers';
-//     len = node.game.pl.size();
-//     originalLen = len + 1;
-//     minPlayersProp = node.game.getProperty('minPlayers');
-//
-//     node.events.stage.on('in.say.PRECONNECT', function() {
-//         if (node.game.pl.size() === originalLen) {
-//             node.game.plot.updateProperty(node.player.stage,
-//                                           'minPlayers', minPlayersProp);
-//             node.game.sizeManager.minThreshold = originalLen;
-//             node.events.stage.off('in.say.PRECONNECT', listenerName);
-//         }
-//     }, listenerName);
-//
-//     // Remove listener after first disconnection.
-//     node.game.sizeManager.clear();
-//     node.game.sizeManager.setHandler('min', minPlayersOne);
-//
-//     node.game.plot.updateProperty(node.player.stage, minPlayersOne);
-// }
-
-
 function notEnoughPlayers() {
     var originalLen, len, minPlayersProp;
     var listenerName;
@@ -494,6 +459,7 @@ function notEnoughPlayers() {
     node.game.sizeManager.clear();
     node.game.plot.updateProperty(node.player.stage, 'minPlayers', null);
 }
+
 
 function enoughPlayersAgain() {
     console.log('Enough players again!');
