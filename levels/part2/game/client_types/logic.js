@@ -72,8 +72,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         ],
         init: function() {
             node.on.pdisconnect(function() {
+                var step;
                 if (node.game.pl.size() === 1) {
-                    node.game.gotoStep(new ngc.GameStage('final'));
+                    step = node.game.plot.normalizeGameStage('final');
+                    node.game.gotoStep(step);
                 }
             });
 //            node.on.pdisconnect(function(p) {
