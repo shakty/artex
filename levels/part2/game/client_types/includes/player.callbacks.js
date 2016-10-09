@@ -667,40 +667,63 @@ function init() {
 
     })();
 
-    var reconCounter, reconCounterTimeout, shouldRecon;
-    shouldRecon = true;
-    node.on('SOCKET_DISCONNECT', function() {
+    //////////////////////////////////////////////////////////////////////
+    // Equal to part1. TODO: make one, maybe move in node core.
+    //////////////////////////////////////////////////////////////////////
+    var RECON_DELAY = 500;
+    var MAX_RECON = 3;
+    var disconnectCb = function() {
+        // Cleanup.
+        if (W.areLoading !== 0) W.areLoading = 0;
 
-        if ('number' === typeof reconCounter) reconCounter++;
-        if (shouldRecon) node.socket.reconnect();
-
-        if (!reconCounterTimeout) {
-            reconCounter = 1;
-            reconCounterTimeout = setTimeout(function() {
-                if (reconCounter > 3) {
-                    shouldRecon = false;
-                    alert('Too many disconnections in a short time. Please ' +
-                          'check the following causes:\n' +
-                          ' - Did you open other tabs to the same ' +
-                          'experiment?\n' +
-                          ' - Is your connection stable?\n' +
-                          'Automatic reconnection disabled. Please close the ' +
-                          'window and reopen it to reconnect.');
-                    if (disconnectTimeout) clearTimeout(disconnectTimeout);
-                    reconCounter = null;
-                }
-            }, 3000);
+        // If still connected good!
+        if (node.socket.isConnected()) {
+            node.reconCounter = null;
+            return;
         }
 
-        if (disconnectTimeout) clearTimeout(disconnectTimeout);
-        disconnectTimeout = setTimeout(function() {
-            if (node.socket.isConnected()) return;
+        // Otherwise destroy page and inform user.
+        node.disconnectTimeout = null;
+        W.restoreOnleave();
+        W.clearPage();
+
+        if (node.reconCounter === MAX_RECON) {
+            alert('Too many disconnections in a short time. Please ' +
+                  'check the following causes:\n' +
+                  ' - Did you open other tabs to the same ' +
+                  'experiment?\n' +
+                  ' - Is your connection stable?\n' +
+                  'Automatic reconnection disabled. Please close the ' +
+                  'window and reopen it to reconnect.');
+        }
+        else {
             alert("Disconnection detected!\n\nClose this message and " +
-                  "reload the page. You might need close the page and " +
-                  "reopen it using the link in the task description.");
-            disconnectTimeout = null;
-        }, 4000);
+                  "reload the page. You might need close " +
+                  "the page and reopen it using the link in the " +
+                  "task description.");
+        }
+        node.reconCounter = null;
+    };
+
+    node.on('SOCKET_DISCONNECT', function() {
+        // Adding a property to node.
+        if ('number' !== typeof node.reconCounter) {
+            node.reconCounter = 1;
+            setTimeout(function() { node.socket.reconnect(); }, RECON_DELAY);
+        }
+        else if (node.reconCounter < MAX_RECON) {
+            node.reconCounter++;
+            setTimeout(function() { node.socket.reconnect(); }, RECON_DELAY);
+
+            if (node.disconnectTimeout) clearTimeout(node.disconnectTimeout);
+            node.disconnectTimeout = setTimeout(disconnectCb, 4000);
+        }
+        else {
+            clearTimeout(node.disconnectTimeout);
+            disconnectCb();
+        }
     });
+    ///////////////////////////////////////////////////////////////////////////
 
     // Save the pcount so that it is diplayed in the instructions then.
     node.once.data('PCOUNT', function(msg) {
