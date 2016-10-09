@@ -62,7 +62,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
             else {
                 if (!node.env('allowTimeup') || Math.random() < 0.5) {
-                    node.timer.randomDone();
+                    node.timer.randomDone(1500);
                 }
             }
         };

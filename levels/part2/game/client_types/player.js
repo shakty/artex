@@ -55,9 +55,12 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.on('PAUSED', function() {
                 var count, timerSpan, interval;
                 timerSpan = document.getElementById('ng_pause_timer');
-                if (!timerSpan) return;
+                if (!timerSpan) {
+                    W.waitScreen.updateText(node.game.settings.WAIT_TIME_TEXT);
+                }
                 count = node.game.settings.WAIT_TIME -1;
                 interval = setInterval(function() {
+                    if (!node.game.isPaused()) clearInterval(interval);
                     timerSpan.innerHTML = count--;
                     if (count === -1) {
                         clearInterval(interval);

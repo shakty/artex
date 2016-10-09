@@ -49,6 +49,10 @@ pubRules = {
 
 };
 
+// Time for players to re-connect.
+var wTime;
+wTime = 10;
+
 settings = {
 
     // Session Counter start from.
@@ -72,12 +76,13 @@ settings = {
     // DEBUG.
     DEBUG: true,
 
-    // Wait time to reconnect (if updated update also text below).
-    WAIT_TIME: 20,
+    // Time for players to re-connect.
+    WAIT_TIME: wTime,
 
     // Text displayed to players who are still connected.
     WAIT_TIME_TEXT: 'One or more players disconnected. If they ' +
-        'do not reconnect within <span id="ng_pause_timer">20</span>' +
+        'do not reconnect within <span id="ng_pause_timer">' + wTime +
+        '</span>' +
         ' seconds the game will continue with less players. <br/> Notice: ' +
         'players who do not reconnect at this point, may still re-join ' +
         'the game later.',

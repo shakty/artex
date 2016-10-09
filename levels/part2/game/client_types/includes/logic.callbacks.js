@@ -145,6 +145,11 @@ function init() {
 //        });
 //    });
 
+
+    node.on('STEPPING', function() {
+        console.log('----> minPlayers ', node.game.getProperty('minPlayers'));
+    });
+
     console.log('init');
 }
 
@@ -432,43 +437,62 @@ function gameover() {
     // channel.destroyGameRoom(gameRoom.name);
 }
 
+
+// // Terminate game if only 1 player is left.
+// var minPlayersOne = [
+//     1,
+//     function() {
+//         node.game.gotoStep('final');
+//     }
+// ];
+//
+// function notEnoughPlayers() {
+//     var originalLen, len, minPlayersProp;
+//     var listenerName;
+//
+//     listenerName = 'restoreMinPlayers';
+//     len = node.game.pl.size();
+//     originalLen = len + 1;
+//     minPlayersProp = node.game.getProperty('minPlayers');
+//
+//     node.events.stage.on('in.say.PRECONNECT', function() {
+//         if (node.game.pl.size() === originalLen) {
+//             node.game.plot.updateProperty(node.player.stage,
+//                                           'minPlayers', minPlayersProp);
+//             node.game.sizeManager.minThreshold = originalLen;
+//             node.events.stage.off('in.say.PRECONNECT', listenerName);
+//         }
+//     }, listenerName);
+//
+//     // Remove listener after first disconnection.
+//     node.game.sizeManager.clear();
+//     node.game.sizeManager.setHandler('min', minPlayersOne);
+//
+//     node.game.plot.updateProperty(node.player.stage, minPlayersOne);
+// }
+
+
 function notEnoughPlayers() {
     var originalLen, len, minPlayersProp;
+    var listenerName;
 
+    listenerName = 'restoreMinPlayers';
     len = node.game.pl.size();
     originalLen = len + 1;
     minPlayersProp = node.game.getProperty('minPlayers');
 
     node.events.stage.on('in.say.PRECONNECT', function() {
         if (node.game.pl.size() === originalLen) {
-            // TODO: check here. [0] = 5.
-            minPlayersProp[0] = '*';
-            console.log('AGAIN: ', minPlayersProp);
             node.game.plot.updateProperty(node.player.stage,
                                           'minPlayers', minPlayersProp);
-            node.game.minPlayers = originalLen;
-            node.events.stage.off('restoreMinPlayers');
+            node.game.sizeManager.minThreshold = originalLen;
+            node.events.stage.off('in.say.PRECONNECT', listenerName);
         }
-    }, 'restoreMinPlayers');
+    }, listenerName);
 
     // Remove listener after first disconnection.
+    node.game.sizeManager.clear();
     node.game.plot.updateProperty(node.player.stage, 'minPlayers', null);
-
-
-//    // Update the number.
-//    if (J.isArray(minPlayersProp)) {
-//        minPlayersProp[0] = len;
-//    }
-//    else {
-//        minPlayersProp = len;
-//    }
-//
-//    node.game.plot.updateProperty(node.player.stage,
-//                                  'minPlayers', minPlayersProp);
-//
-//    node.game.minPlayers = len;
-
-    // node.game.checkPlistSize = function() { return true; };
 }
 
 function enoughPlayersAgain() {
