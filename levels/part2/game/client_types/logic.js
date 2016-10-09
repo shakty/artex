@@ -74,28 +74,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             node.on.pdisconnect(function() {
                 var step;
                 if (node.game.pl.size() === 1) {
+                    node.remoteAlert('Unfortunately, all other players have ' +
+                                     'disconnected. You are now redirected ' +
+                                     'to the questionnaire.',
+                                     node.game.pl.first().id);
                     step = node.game.plot.normalizeGameStage('final');
                     node.game.gotoStep(step);
                 }
             });
-//            node.on.pdisconnect(function(p) {
-//                if (node.game.pl.size() === 1) return;
-//                console.log('VVVVVVVVVVVV');
-//                gameRoom.wrongNumOfPlayers.call(node.game, 'min');
-//            });
-//
-//            node.on('STEPPING', function() {
-//                var len;
-//                len = node.game.pl.size();
-//                if (len < node.game.settings.MIN_PLAYERS) {
-//                    node.game.plot.updateProperty(node.player.stage,
-//                                                  'minPlayers', [
-//                                                      len,
-//                                                      cbs.notEnoughPlayers,
-//                                                      cbs.enoughPlayersAgain
-//                                                  ]);
-//                }
-//            });
         },
         reconnect: function(code, reconOptions) {
             var cf;
