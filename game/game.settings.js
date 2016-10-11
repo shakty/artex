@@ -51,7 +51,7 @@ pubRules = {
 
 // Time for players to re-connect.
 var wTime;
-wTime = 10;
+wTime = 20;
 
 settings = {
 
