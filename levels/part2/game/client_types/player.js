@@ -62,6 +62,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     if (!timerSpan) {
                         W.waitScreen.updateText(
                             node.game.settings.WAIT_TIME_TEXT);
+                        timerSpan = document.getElementById('ng_pause_timer');
                     }
                     timerSpan.innerHTML = count--;
                     if (count === -1) {
