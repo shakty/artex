@@ -271,26 +271,28 @@ module.exports = {
     },
 
     /**
-     * ## DISPATCH_TO_SAME_ROOM
+     * ## PING_MAX_REPLY_TIME (number > 0) Optional
      *
-     * If TRUE, every new group will be added to the same game room
+     * The max number of milliseconds to wait for a reply from a PING
      *
-     * A new game room will be created for the first dispatch, and
-     * reused for all successive groups. Default, FALSE.
+     * Default: 3000
      *
-     * !Notice the game must support adding players while it is running.
-     *
-     * @see WaitingRoom.lastGameRoom
+     * @see PING_BEFORE_DISPATCH
      */
-    // DISPATCH_TO_SAME_ROOM: true
+    // PING_MAX_REPLY_TIME: 3000,
 
     /**
-     * ## logicPath
+     * ## PING_DISPATCH_ANYWAY (boolean) Optional
      *
-     * If set, a custom implementation of the wait room will be used
+     * If TRUE, dispatch continues even if disconnections occur during PING
      *
-     * @see wait.room.js (nodegame-server)
+     * At least 1 player must be connected.
+     *
+     * Default: FALSE
+     *
+     * @see PING_BEFORE_DISPATCH
+     * @see PING_MAX_REPLY_TIME
      */
-    // logicPath: 'path/to/a/wait.room.js'
+    // PING_DISPATCH_ANYWAY: false
 
 };
