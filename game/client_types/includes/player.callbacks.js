@@ -75,7 +75,7 @@ function init() {
 
     // Renders a chernoff face (plus metadata) inside a table's cell.
     this.renderCF = function(cell) {
-        var w, h;
+        var stepName, w, h;
         var cf, cfOptions;
         var container, cfDetailsTable;
         
@@ -98,91 +98,194 @@ function init() {
             features: cell.content.cf,
             controls: false,
             onChange: false,
-            title: false,
-            onclick: function() {
-                var f, cf, cfOptions;
-                var div, buttons;
+            title: false //,
+//             onclick: function() {
+//                 var f, cf, cfOptions;
+//                 var div, buttons;
+// 
+//                 f = this.getValues();
+// 
+//                 cfOptions = {
+//                     width: 400,
+//                     height: 400,
+//                     features: f,
+//                     controls: false,
+//                     onChange: false,
+//                     title: false
+//                 };
+// 
+//                 cf = node.widgets.get('ChernoffFaces', cfOptions);
+// 
+//                 div = $('<div class="copyorclose">');
+//                 $(cf.canvas).css('background', 'white');
+//                 $(cf.canvas).css('border', '3px solid #CCC');
+//                 $(cf.canvas).css('padding', '5px');
+// 
+//                 div.append(cf.getCanvas());
+// 
+//                 // If we are not in dissemination we can copy the image.
+//                 if (node.game.getCurrentStepObj().id !== 'dissemination') {
+//                     buttons = new Array(2);
+//                     buttons[0] = {
+//                         text: 'copy',
+//                         click: function() {
+//                             // Triggers the update of the image and sliders.
+//                             node.emit('COPIED', f);
+//                             // Keep track of copying.
+//                             node.game.copies.push({
+//                                 time: node.timer.getTimeSince('step'),
+//                                 author: cell.content.author,
+//                                 ex: cell.content.ex,
+//                                 mean: cell.content.mean,
+//                                 round: cell.content.round
+//                             });
+//                             $(this).dialog("close");
+//                         }
+//                     };
+//                 }
+//                 else {
+//                     buttons = new Array(1);
+//                 }
+// 
+//                 buttons[buttons.length-1] = {
+//                     text: 'Cancel',
+//                     click: function() { $(this).dialog("close"); }
+//                 };
+// 
+//                 div.dialog({
+//                     width: 460,
+//                     height: 560,
+//                     show: "blind",
+//                     hide: "explode",
+//                     buttons: buttons
+//                 });
+        }
 
-                f = this.getValues();
+        if (stepName !== 'submission') {
 
-                cfOptions = {
-                    width: 400,
-                    height: 400,
-                    features: f,
-                    controls: false,
-                    onChange: false,
-                    title: false
-                };
+            // Creating HTML.
+            container = document.createElement('div');
+            cf = node.widgets.append('ChernoffFaces',
+                                     container,
+                                     cfOptions);
 
-                cf = node.widgets.get('ChernoffFaces', cfOptions);
+            cfDetailsTable = new W.Table();
+            cfDetailsTable.addColumn([
+                'Author: ' + cell.content.author,
+                'Score: ' + cell.content.mean
+            ]);
+            container.appendChild(cfDetailsTable.parse());
 
-                div = $('<div class="copyorclose">');
-                $(cf.canvas).css('background', 'white');
-                $(cf.canvas).css('border', '3px solid #CCC');
-                $(cf.canvas).css('padding', '5px');
-
-                div.append(cf.getCanvas());
-
-                // If we are not in dissemination we can copy the image.
-                if (node.game.getCurrentStepObj().id !== 'dissemination') {
-                    buttons = new Array(2);
-                    buttons[0] = {
-                        text: 'copy',
-                        click: function() {
-                            // Triggers the update of the image and sliders.
-                            node.emit('COPIED', f);
-                            // Keep track of copying.
-                            node.game.copies.push({
-                                time: node.timer.getTimeSince('step'),
-                                author: cell.content.author,
-                                ex: cell.content.ex,
-                                mean: cell.content.mean,
-                                round: cell.content.round
-                            });
-                            $(this).dialog("close");
-                        }
-                    };
-                }
-                else {
-                    buttons = new Array(1);
-                }
-
-                buttons[buttons.length-1] = {
-                    text: 'Cancel',
-                    click: function() { $(this).dialog("close"); }
-                };
-
-                div.dialog({
-                    width: 460,
-                    height: 560,
-                    show: "blind",
-                    hide: "explode",
-                    buttons: buttons
+            // Add listener on canvas.
+            cf.getCanvas().onclick = function() {
+                var data;
+                data = cell.content;
+                node.game.copies.push({
+                    action: 'click',
+                    time: node.timer.getTimeSince('step'),
+                    author: data.author,
+                    ex: data.ex,
+                    mean: data.mean,
+                    round: data.round,
+                    rank: cell.y
                 });
-            }
+                node.game.popupCf.call(cf, stepName, data);
+            };
+            return container;
+        }
+        else {
+            // Just canvas.
+            cf = node.widgets.get('ChernoffFaces', cfOptions);
+            cf.buildCanvas();
+            return cf.getCanvas();
+        }
+
+//         // Creating HTML.
+//         container = document.createElement('div');
+// 
+//         // Just canvas.
+//         // cf = node.widgets.get('ChernoffFaces', cfOptions);
+//         // container.appendChild(cf.getCanvas());
+// 
+//         // Whole widget.
+//         cf = node.widgets.append('ChernoffFaces',
+//                                  container,
+//                                  cfOptions);
+// 
+//         cfDetailsTable = new W.Table();
+//         cfDetailsTable.addColumn([
+//             'Author: ' + cell.content.author,
+//             'Score: ' + cell.content.mean
+//         ]);
+//         container.appendChild(cfDetailsTable.parse());
+// 
+//         return container;
+
+    };
+
+
+    this.popupCf = function(stepName, metadata) {
+        var cf, cfOptions;
+        var div, buttons, f;
+
+        f = this.getValues();
+
+        cfOptions = {
+            width: 400,
+            height: 400,
+            features: f,
+            controls: false,
+            onChange: false,
+            title: false
         };
 
-        // Creating HTML.
-        container = document.createElement('div');
+        cf = node.widgets.get('ChernoffFaces', cfOptions);
 
-        // Just canvas.
-        // cf = node.widgets.get('ChernoffFaces', cfOptions);
-        // container.appendChild(cf.getCanvas());
+        cf.buildCanvas();
+        $(cf.canvas).css('background', 'white');
+        $(cf.canvas).css('border', '3px solid #CCC');
+        $(cf.canvas).css('padding', '5px');
 
-        // Whole widget.
-        cf = node.widgets.append('ChernoffFaces',
-                                 container,
-                                 cfOptions);
+        div = $('<div class="copyorclose">');
+        div.append(cf.getCanvas());
 
-        cfDetailsTable = new W.Table();
-        cfDetailsTable.addColumn([
-            'Author: ' + cell.content.author,
-            'Score: ' + cell.content.mean
-        ]);
-        container.appendChild(cfDetailsTable.parse());
+        // If we are not in dissemination we can copy the image.
+        if (stepName !== 'dissemination') {
+            buttons = new Array(2);
+            buttons[0] = {
+                text: 'copy',
+                click: function() {
+                    // Triggers the update of the image and sliders.
+                    node.emit('COPIED', f);
+                    // Keep track of copying.
+                    node.game.copies.push({
+                        action: 'copied',
+                        time: node.timer.getTimeSince('step'),
+                        author: metadata.author,
+                        round: metadata.round
+                    });
+                    $(this).dialog("close");
+                }
+            };
+        }
+        else {
+            buttons = new Array(1);
+        }
 
-        return container;
-    };
+        buttons[buttons.length-1] = {
+            text: 'Cancel',
+            click: function() { $(this).dialog("close"); }
+        };
+
+        div.dialog({
+            width: 480,
+            height: 580,
+            show: "blind",
+            hide: "explode",
+            buttons: buttons,
+            dialogClass: 'noTitleStuff'
+        });
+    };   
 }
 
 function instructions() {
