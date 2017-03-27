@@ -96,7 +96,6 @@ function init() {
             width: w,
             height: h,
             features: cell.content.cf,
-            id: false,
             controls: false,
             onChange: false,
             title: false,
@@ -107,7 +106,6 @@ function init() {
                 f = this.getValues();
 
                 cfOptions = {
-                    id: false,
                     width: 400,
                     height: 400,
                     features: f,

@@ -87,6 +87,9 @@ $(document).ready(function() {
             head = document.createElement('span');
             head.innerHTML = 'Review for Exhibition: ' + ex;
             head.className = 'ex-header';
+
+            // Build and add the canvas and draws the face.
+            cf.buildCanvas();
             table.addColumn([head, sl, display_container, cf.getCanvas()]);
             table.parse();
 
