@@ -9,7 +9,7 @@
 var ngc = require('nodegame-client');
 var GameStage = ngc.GameStage;
 var J = ngc.JSUS;
-var fs = require('fs');
+var fs = require('fs-extra');
 var path = require('path');
 var RMatcher = require('./rmatcher');
 
@@ -37,8 +37,8 @@ var autoplay = gameRoom.getClientType('autoplay');
 function init() {
 
     // Create data dir. TODO: do it automatically?
-    DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';
-    J.mkdirSyncRecursive(DUMP_DIR, 0777);
+    DUMP_DIR = path.resolve(channel.getGameDir(), 'data') + '/' + counter + '/';    
+    fs.mkdirsSync(DUMP_DIR);
 
     // Number of reviewers per image.
     this.reviewers = 3;
@@ -184,6 +184,7 @@ function evaluation() {
         }
     });
 
+    // TODO: this needs to be updated.
     node.env('review_select', function() {
         var pool = that.nextround_reviewers;
         var elements = that.last_submissions;
@@ -309,7 +310,8 @@ function dissemination() {
                 J.mixin(player_result, {
                     cf: cf,
                     id: author.name,
-                    round: node.game.getCurrentGameStage().toHash('S.r'),
+                    round: GameStage.toHash(node.game.getCurrentGameStage(),
+                                            'S.r'),
                     pc: author.pc,
                     published: true
                 });

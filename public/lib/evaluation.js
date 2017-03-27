@@ -46,7 +46,6 @@ $(document).ready(function() {
             height: 300,
             scaleX: 1,
             scaleY: 1,
-            id: false,
             change: false,
             controls: false
         };

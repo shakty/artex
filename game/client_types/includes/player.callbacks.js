@@ -104,7 +104,7 @@ function init() {
                 var f, cf, cfOptions;
                 var div, buttons;
 
-                f = this.getAllValues();
+                f = this.getValues();
 
                 cfOptions = {
                     id: false,

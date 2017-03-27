@@ -97,7 +97,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         done: function(ex) {
             // TODO: Check ex?
             $(".copyorclose").dialog('close');
-            node.game.last_cf = node.game.cf.getAllValues();
+            node.game.last_cf = node.game.cf.getValues();
             node.game.last_ex = node.game.last_ex = ex;
             return {
                 ex: ex,
