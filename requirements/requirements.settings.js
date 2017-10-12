@@ -11,7 +11,7 @@ module.exports = {
 
     enabled: true, // [false] Default: TRUE.
 
-    logicPath: './requirements.room.js',
+    // logicPath: './requirements.room.js',
 
     mode: 'auto', // 'remote', 'local' 
 
