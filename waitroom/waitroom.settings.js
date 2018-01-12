@@ -3,8 +3,8 @@
  */
 
 var path = require('path');
-var mturkConf = path.resolve(__dirname, '..', 'amt/mturk.conf.js');
-var ngamt = require('nodegame-mturk')( { config: mturkConf });
+//var mturkConf = path.resolve(__dirname, '..', 'amt/mturk.conf.js');
+//var ngamt = require('nodegame-mturk')( { config: mturkConf });
 
 var EXPIRE_LIMIT;
 var RE_EXTEND_TIME = 3600;
@@ -71,7 +71,7 @@ module.exports = {
         logger.log('EXPIRE LIMIT: ' + EXPIRE_LIMIT, 'warn');
 
         room.hitExpired = false;
-        ngamt.api.connect({ getLastHITId: true });
+        //ngamt.api.connect({ getLastHITId: true });
 
         // Define un/expire HIT functions.
         room.expireHIT = function(mod) {
@@ -79,20 +79,21 @@ module.exports = {
             room.hitExpired = true;
             room.closeRoom(mod);
 
-            ngamt.modules.manageHIT.expire(function(err) {
-                if (err) {
-                    room.channel.gameInfo.auth.claimId = true;
-                    room.hitExpired = false;
-                    room.openRoom();
-                    logger.log('error exp ', 'error');
-                }
-                else {
-                    logger.log('HIT EXPIRED ', 'info');
-                }
-            });
+            //ngamt.modules.manageHIT.expire(function(err) {
+            //    if (err) {
+            //        room.channel.gameInfo.auth.claimId = true;
+            //       room.hitExpired = false;
+            //       room.openRoom();
+            //        logger.log('error exp ', 'error');
+            //    }
+            //    else {
+            //        logger.log('HIT EXPIRED ', 'info');
+            //    }
+            //});
         };
 
         room.unexpireHIT = function() {
+            return;
             room.hitExpired = false;
             room.channel.gameInfo.auth.claimId = true;
             room.openRoom();

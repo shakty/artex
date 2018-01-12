@@ -31,13 +31,13 @@ module.exports = function(stager, settings) {
 
         stager.skip('intro');
         stager.skip('mood');
-        // stager.skip('svo');
-        // stager.skip('demographics');
+        stager.skip('svo');
+        stager.skip('demographics');
         stager.skip('instructions');
         stager.skip('quiz');
         stager.skip('training_intro');
         stager.skip('training');
-        stager.skip('belief');
+        // stager.skip('belief');
         // stager.skip('finished_part1');
 
 };
