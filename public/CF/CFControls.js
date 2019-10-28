@@ -170,7 +170,10 @@ Controls.prototype.populate = function() {
             }
             
             if (attributes.label) {
-                node.window.addLabel(container, elem, null, attributes.label);
+                node.window.add('label', container, {
+                    'for': elem.id,
+                    innerHTML: attributes.label
+                });
             }
             
             // Element added to the list

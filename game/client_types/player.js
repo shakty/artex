@@ -172,7 +172,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 }
             }
             text = 'Check Quiz! Correct: ' + nCorrect + ' / ' + len;
-            this.node.game.donebutton.setText(text);
+            this.node.game.donebutton.button.innerHTML = text;
             // Either all correct or timeup.
             if ((nCorrect === len) || node.game.timer.isTimeup()) {
                 return answers;
@@ -183,7 +183,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         exit: function() {
             // Quiz might have changed.
-            node.game.donebutton.setText('Continue');
+            node.game.donebutton.button.innerHTML = 'Continue';
         }
     });
 
