@@ -1,6 +1,6 @@
 /**
  * # Stages of the Art Exhibition Game
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
@@ -10,16 +10,16 @@ module.exports = function(stager, settings) {
 
 
     stager
-        .next('intro')
-        .next('mood')
-        .next('svo')
-        .next('demographics')
-        .next('instructions')
-        .next('quiz')
-        .next('training_intro')
+        .stage('intro')
+        .stage('mood')
+        .stage('svo')
+        .stage('demographics')
+        .stage('instructions')
+        .stage('quiz')
+        .stage('training_intro')
         .repeat('training', settings.REPEAT_TRAINING)
-        .next('belief')
-        .next('finished_part1');
+        .stage('belief')
+        .stage('finished_part1');
 
 
     stager.extendStage('instructions', {
@@ -29,12 +29,12 @@ module.exports = function(stager, settings) {
         ]
     });
 
-    stager.skip('intro');
-     stager.skip('mood');
-     stager.skip('svo');
-     stager.skip('demographics');
-     stager.skip('instructions');
-     stager.skip('quiz');
+    // stager.skip('intro');
+    // stager.skip('mood');
+    // stager.skip('svo');
+    // stager.skip('demographics');
+    // stager.skip('instructions');
+    // stager.skip('quiz');
     // stager.skip('training_intro');
     // stager.skip('training');
     // stager.skip('belief');
