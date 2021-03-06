@@ -260,7 +260,7 @@ module.exports = {
      * A callback to be executed after a dispatch call is ended
      */
     ON_DISPATCHED: function(room) {
-        var waitRoom, part1;
+        var part1;
         if (room.numberOfDispatches >= NGAMES) {
             part1 = room.channel.waitingRoom;
             if (!part1.hitExpired) {
@@ -293,6 +293,33 @@ module.exports = {
      * @see PING_BEFORE_DISPATCH
      * @see PING_MAX_REPLY_TIME
      */
-    // PING_DISPATCH_ANYWAY: false
+    // PING_DISPATCH_ANYWAY: false,
+
+  /** ### ALLOW_PLAY_WITH_BOTS
+     *
+     * Allows a player to request to start the game immediately with bots
+     *
+     * A button is added to the interface.
+     */
+    ALLOW_PLAY_WITH_BOTS: true,
+
+    /** ### ALLOW_SELECT_TREATMENT
+     *
+     * Allows a player to select the treatment for the game
+     *
+     * This option requires `ALLOW_PLAY_WITH_BOTS` to be TRUE.
+     *
+     * A button is added to the interface.
+     */
+    ALLOW_SELECT_TREATMENT: true
+
+    /**
+     * ## logClients
+     *
+     * If TRUE, all connected/disconnected clients are logged to file
+     *
+     * Default: The value in channel/channel.settings.js
+     */
+    // logClients: true,
 
 };

@@ -1,2 +1,1 @@
 # Art Exhibition Game
-
