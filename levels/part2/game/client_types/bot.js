@@ -77,9 +77,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom, node
                         });
                     }
                     node.game.evas = evas;
-                    console.log('RECEIVED CF by BOT ********************');
 
-                    console.log(evas);
+                    // console.log('RECEIVED CF by BOT ********************');
+                    // console.log(evas);
 
                     let out = new Array(3);
                     evas.forEach(function(i, idx) {

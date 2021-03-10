@@ -6,6 +6,8 @@
  * http://www.nodegame.org
  */
 
+const path = require('path');
+
 const ngc = require('nodegame-client');
 const stepRules = ngc.stepRules;
 
@@ -19,7 +21,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Import other functions used in the game.
 
-    let cbs = require(__dirname + '/includes/player.callbacks.js');
+    let cbs = require(path.join(__dirname, 'includes', 'player.callbacks.js'));
 
     // Specify init function, and extend default stages.
 

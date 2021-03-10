@@ -56,7 +56,7 @@ wTime = 20;
 settings = {
 
     // Session Counter start from.
-    SESSION_ID: 103,
+    // SESSION_ID: 100,
 
     // Minimum number of players that must be always connected.
     MIN_PLAYERS: '*',

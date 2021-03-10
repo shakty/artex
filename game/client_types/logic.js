@@ -67,14 +67,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
         });
 
-        // Logging errors from remote clients to console.
-        node.on('in.say.LOG', function(msg) {
-            if (msg.text === 'error' && msg.stage.stage) {
-                console.log('Error from client: ', msg.from);
-                console.log('Error msg: ', msg.data);
-            }
-        });
-
         // Notify waiting room that somebody reconnect/disconnected.
         // Might need to re-open/close the HIT.
 

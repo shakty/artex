@@ -23,7 +23,7 @@ $(document).ready(function() {
                 $(this).slider(settings);
             }
         });
-    };
+    }
 
     // Initialize Chernoff Face
     ////////////////////////////

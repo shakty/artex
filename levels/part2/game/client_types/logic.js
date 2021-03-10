@@ -237,7 +237,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 db = node.game.memory.pquest[msg.from];
                 if (db) {
                     // This should always exist, only when debugging.
-                    db.save(this.DUMP_DIR + 'artex_quest.json', saveOptions);
+                    db.save(path.join(this.DUMP_DIR, 'artex_quest.json'),
+                            saveOptions);
                 }
 
                 // Saving tot bonus for player.
