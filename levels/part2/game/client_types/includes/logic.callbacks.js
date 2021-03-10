@@ -27,20 +27,16 @@ var node = module.parent.exports.node;
 var channel = module.parent.exports.channel;
 var gameRoom = module.parent.exports.gameRoom;
 var settings = module.parent.exports.settings;
-var counter = module.parent.exports.counter;
+// var counter = module.parent.exports.counter;
 
-var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';
-var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
-var CODE_FILE = DUMP_DIR  + 'codes.json';
+const DUMP_DIR = gameRoom.dataDir;
+const CODE_FILE = path.join(DUMP_DIR, 'codes.json');
+const BONUS_FILE = path.join(DUMP_DIR, 'bonus.csv');
+const EMAIL_FILE = path.join(DUMP_DIR, 'email.csv')
 
 function init() {
 
     var i, len;
-
-    this.CHANNEL_DIR = CHANNEL_DIR;
-    // Create data dir. TODO: do it automatically?
-    this.DUMP_DIR = DUMP_DIR;
-    fs.mkdirsSync(DUMP_DIR);
 
     // Number of reviewers per image.
     this.reviewers = 3;
@@ -111,7 +107,6 @@ function init() {
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
-        debugger
         var idEx, lastSub;
         idEx = node.game.exhibitions[i.ex];
         // Might be a reconnection/disconnection.
@@ -139,10 +134,9 @@ function init() {
 //        });
 //    });
 
-
-    node.on('STEPPING', function() {
-        console.log('----> minPlayers ', node.game.getProperty('minPlayers'));
-    });
+    // node.on('STEPPING', function() {
+    //     console.log('----> minPlayers ', node.game.getProperty('minPlayers'));
+    // });
 
     console.log('init');
 }
@@ -281,7 +275,7 @@ function dissemination() {
     // Contains the individual result for every player.
     player_results = [];
 
-    round = node.game.getCurrentGameStage().round
+    round = node.game.getRound();
 
     // Loop through exhibitions.
     for (i = 0; i < this.last_submissions.length; i++) {
@@ -307,7 +301,7 @@ function dissemination() {
             }
             author = this.pl.id.get(player);
             if (!author) {
-                node.warn('Author notfound. Did somebody disconnected?');
+                node.warn('Author not found. Did somebody disconnected?');
             }
 
             // Compute average review score.
@@ -458,48 +452,6 @@ function enoughPlayersAgain() {
     console.log('Enough players again!');
 }
 
-/**
- * ## doCheckout
- *
- * Checks if a player has played enough rounds, and communicates the outcome
- *
- * @param {object} p A player object with valid id
- *
- * @return {object} A payoff object as required by descil-mturk.postPayoffs.
- *   If the player has not completed enough rounds returns undefined.
- */
-function doCheckout(p) {
-    var code;
-    code = channel.registry.getClient(p.id);
-    if (code.checkout) {
-        node.remoteAlert('Hi! It looks like you have already ' +
-                         'completed this game.', p.id);
-        return;
-    }
-    // Computing payoff and USD.
-    code.checkout = true;
-
-    code.bonus = code.bonus || 0;
-    code.usd = parseFloat(
-        ((code.bonus * settings.EXCHANGE_RATE).toFixed(2)),
-        10);
-
-    // Sending info to player.
-    node.say('win', p.id, {
-        ExitCode: code.ExitCode,
-        fail: code.fail,
-        bonus: code.bonus,
-        usd: code.usd
-    });
-
-    return {
-        AccessCode: p.id,
-        Bonus: code.usd,
-        ExitCode: code.ExitCode,
-        BonusReason: 'Full bonus.'
-    };
-}
-
 // ## Helper functions.
 
 /**
@@ -514,7 +466,7 @@ function appendToBonusFile(row) {
         row = '"access","exit","WorkerId","hid","AssignmentId","points",' +
             '"svo.own","svo.from","points.total","bonus","Approve","Reject"\n';
     }
-    fs.appendFile(DUMP_DIR + 'bonus.csv', row, function(err) {
+    fs.appendFile(BONUS_FILE, row, function(err) {
         if (err) {
             console.log(err);
             console.log(row);
@@ -535,7 +487,7 @@ function appendToEmailFile(email, code) {
     row  = '"' + (code.id || code.AccessCode || 'NA') + '", "' +
         (code.workerId || 'NA') + '", "' + email + '"\n';
 
-    fs.appendFile(DUMP_DIR + 'email.csv', row, function(err) {
+    fs.appendFile(EMAIL_FILE, row, function(err) {
         if (err) {
             console.log(err);
             console.log(row);

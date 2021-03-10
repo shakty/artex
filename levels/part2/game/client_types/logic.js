@@ -165,7 +165,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             saveOptions = { flag: 'a' };
 
             // Save data.
-            node.game.memory.save(path.join(this.DUMP_DIR, 'artex_part2.json'),
+            node.game.memory.save(path.join(gameRoom.dataDir,
+                                           'artex_part2.json'),
                                   saveOptions);
 
             // Write bonus file headers.
@@ -237,7 +238,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 db = node.game.memory.pquest[msg.from];
                 if (db) {
                     // This should always exist, only when debugging.
-                    db.save(path.join(this.DUMP_DIR, 'artex_quest.json'),
+                    db.save(path.join(gameRoom.dataDir, 'artex_quest.json'),
                             saveOptions);
                 }
 

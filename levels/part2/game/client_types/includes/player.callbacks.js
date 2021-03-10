@@ -17,37 +17,35 @@ function init() {
 
     this.node.log('Init.');
 
-    // Setup the header (by default on the left side).
-    if (!W.getHeader()) {
-        header = W.generateHeader();
+    // Setup the header.
 
-        // Uncomment to visualize the name of the stages.
-        //node.game.visualStage = node.widgets.append('VisualStage', header);
+    header = W.generateHeader();
 
-        node.game.visualTimer = node.widgets.append('VisualTimer', header);
+    // Uncomment to visualize the name of the stages.
+    //node.game.visualStage = node.widgets.append('VisualStage', header);
 
-        node.game.rounds = node.widgets.append('VisualRound', header, {
-            displayModeNames: ['COUNT_UP_STAGES_TO_TOTAL']
+    node.game.visualTimer = node.widgets.append('VisualTimer', header);
+
+    node.game.rounds = node.widgets.append('VisualRound', header, {
+        displayModeNames: [ 'COUNT_UP_STAGES_TO_TOTAL' ]
+    });
+
+    if (node.game.settings.competition === 'tournament') {
+        node.game.money = node.widgets.append('MoneyTalks', header, {
+            currency: '', title: 'Points:', precision: 0
         });
-
-        if (node.game.settings.competition === 'tournament') {
-            node.game.money = node.widgets.append('MoneyTalks', header, {
-                currency: '', title: 'Points:', precision: 0
-            });
-        }
-        else {
-            node.game.money = node.widgets.append('MoneyTalks', header, {
-                currency: 'CHF', money: 10
-            });
-        }
-        node.game.donebutton = node.widgets.append('DoneButton', header, {
-            text: 'Continue'
-        });
-
     }
+    else {
+        node.game.money = node.widgets.append('MoneyTalks', header, {
+            currency: 'CHF', money: 10
+        });
+    }
+    node.game.donebutton = node.widgets.append('DoneButton', header, {
+        text: 'Continue'
+    });
 
     // Add the main frame where the pages will be loaded.
-    if (!W.getFrame()) W.generateFrame();
+    W.generateFrame();
 
     // Holds references to copied images in current round.
     // Gets cleared every step.
