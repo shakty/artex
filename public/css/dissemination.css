@@ -1,8 +1,15 @@
+div#container {
+    margin: 0 auto;
+    border: 0;
+    width: 820px;
+    background: none;
+}
+
 div#container_exhibition {
     float: left;
     clear: both;
     width: 800px;
-    height: 530px;
+    height: 620px;
     overflow-y: auto;
     margin:0;
     margin-top: 20px;

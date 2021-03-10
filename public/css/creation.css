@@ -102,16 +102,16 @@ dl#all_ex dt {
     padding: 5px 3px 3px 10px;
     background: #CCC;
     color: #333;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: normal;
 }
 
 dl#all_ex dd {
     padding: 0;
     margin: 0;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: normal;
-    
+
 }
 
 dl#all_ex dt canvas {
@@ -132,7 +132,7 @@ table.exhibition tr {
     text-align: center;
     padding: 0;
     margin: 0;
-    border-bottom: 1px solid #CCC;    
+    border-bottom: 1px solid #CCC;
 }
 
 
@@ -151,7 +151,7 @@ table.exhibition tr {
         margin: 0;
     }
 
-    dl#cf_controls {        
+    dl#cf_controls {
         height: 555px;
     }
 

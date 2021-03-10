@@ -178,14 +178,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     out[name] = values;
                 }
             }
-            if (miss) {
-                this.donebutton.setText('Answer all 5 questions');
-                return false;
-            }
+            if (miss) return false;
             return out;
-        },
-        exit: function() {
-            node.game.donebutton.setText('Continue');
         }
     });
 

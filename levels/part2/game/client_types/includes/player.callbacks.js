@@ -27,8 +27,7 @@ function init() {
         node.game.visualTimer = node.widgets.append('VisualTimer', header);
 
         node.game.rounds = node.widgets.append('VisualRound', header, {
-            displayModeNames: ['COUNT_UP_STAGES_TO_TOTAL'],
-            totStageOffset: 1
+            displayModeNames: ['COUNT_UP_STAGES_TO_TOTAL']
         });
 
         if (node.game.settings.competition === 'tournament') {
