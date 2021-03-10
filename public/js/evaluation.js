@@ -58,7 +58,7 @@ $(document).ready(function() {
             sl = W.get('div', { id: evaId });
             display_container = W.get('div', { id: displayContId });
             display = W.add('input', display_container, {
-                id: 'displayEvaId',
+                id: displayEvaId,
                 type: 'text',
                 disabled: "disabled",
                 className: 'curr-eva-input'

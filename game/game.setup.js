@@ -1,6 +1,6 @@
 /**
  * # Game setup
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
@@ -9,7 +9,7 @@
 
 module.exports = function(settings, stages) {
 
-    var game = {};
+    let game = {};
 
     game.debug = settings.DEBUG;
 

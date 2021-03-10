@@ -165,7 +165,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             saveOptions = { flag: 'a' };
 
             // Save data.
-            node.game.memory.save(this.DUMP_DIR + 'artex_part2.json',
+            node.game.memory.save(path.join(this.DUMP_DIR, 'artex_part2.json'),
                                   saveOptions);
 
             // Write bonus file headers.

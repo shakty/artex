@@ -4,7 +4,7 @@
 /* Creation */
 
 div#container {
-    float: left;
+    margin: 0 auto;
     width: 960px;
 }
 
@@ -80,7 +80,8 @@ table#table-decision td:last-child {
 
 table#table-decision input {
     width: 98%;
-    height: 98%;
+    font-size: larger;
+    /* height: 98%; */
 }
 
 td#td-A:hover, td#td-B:hover, td#td-C:hover {
@@ -112,7 +113,7 @@ table.table-rules tr {
 table.table-rules td {
     padding: 2px;
     margin: 0;
-    border: 0;    
+    border: 0;
 }
 
 td.table-rules-left {
@@ -157,7 +158,7 @@ div#div-button {
 td.td-selected {
     background: #FFC;
     /* border: 1px solid #CCC; */
-    
+
 }
 
 td.td-not-selected {
@@ -182,7 +183,7 @@ table.exhibition td:hover {
 span.noimages {
     padding-top: 20px;
     font-style: italic;
-    display: block;    
+    display: block;
 }
 
 /* General */

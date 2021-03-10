@@ -17,11 +17,11 @@ const path = require('path');
 // let FaceVector = ChernoffFaces.FaceVector;
 
 
-module.exports = function(treatmentName, settings, stager, setup, gameRoom, node) {
+module.exports = function(treatmentName, settings, stager,
+                          setup, gameRoom, node) {
 
-    let logic = gameRoom.node;
-
-    let FaceVector = require(path.resolve(__dirname, 'includes', 'FaceVector.js'));
+    let FaceVector = require(path.resolve(__dirname,
+                                          'includes', 'FaceVector.js'));
 
     // let game = {
     //     env: {

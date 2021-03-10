@@ -1,5 +1,6 @@
 body {
     margin: 0px auto;
+    margin-top: 20px;
     padding: 0;
     background: #FFF;
     color: #333;
@@ -34,8 +35,8 @@ canvas {
 
 .tooltip {
     float: right;
-    position: absolute; 
-    z-index:24; 
+    position: absolute;
+    z-index:24;
     color: #000;
     background-color: #fff;
     text-decoration: none;
@@ -59,9 +60,16 @@ div#done_box button {
 
 .ui-slider {
     height: 3px;
-} 
+}
 
 .ui-slider-horizontal .ui-state-default {
     height: 20px;
     width: 10px;
+}
+
+/* V6 */
+
+.centered {
+    display: block;
+    margin: 0 auto;
 }

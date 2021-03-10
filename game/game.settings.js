@@ -138,14 +138,14 @@ settings = {
 //             if (gs.round < 3) return 60000;
 //             return 50000;
 //         },
-        creation: 50000,
-        submission: 20000,
+        creation: 500000,
+        submission: 200000,
         evaluation: function() {
             var gs;
             gs = this.getCurrentGameStage();
-            return gs.round < 2 ? 40000 : 20000;
+            return gs.round < 2 ? 400000 : 200000;
         },
-        dissemination: 15000
+        dissemination: 150000
         // questionnaire: 20000
     },
 

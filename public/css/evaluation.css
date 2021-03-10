@@ -1,9 +1,21 @@
+body {
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
 ul {
     margin: 10px;
 }
 
+div#container {
+    margin: 0 auto;
+    border: 0;
+    width: 980px;
+    background: none;
+}
+
 div#container_evaluation {
-    float: left;
+    /* float: left; */
     width: auto;
 }
 
@@ -25,6 +37,7 @@ input.curr-eva-input {
     border: 0;
     color: #f6931f;
     font-weight: bold;
+    font-size: large;
     background: white;
     width: 50px;
     text-align:center;
@@ -39,8 +52,8 @@ span#eva-text {
 }
 
 img.sliderimage {
-    display: block;
-    margin-left: 10%;
+    /* display: block; */
+    /* margin-left: 10%; */
     margin-top: 30px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
