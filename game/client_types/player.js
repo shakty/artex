@@ -1,29 +1,25 @@
 /**
  * # Player code for Artex Game
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
  */
 
-var ngc = require('nodegame-client');
-var Stager = ngc.Stager;
-var stepRules = ngc.stepRules;
-var constants = ngc.constants;
+const ngc = require('nodegame-client');
+const stepRules = ngc.stepRules;
 
 // Export the game-creating function.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var game, cbs;
-
-    var node = gameRoom.node;
+    let node = gameRoom.node;
 
     // The game object to return at the end of the function.
-    game = {};
+    let game = {};
 
     // Import other functions used in the game.
 
-    cbs = require(__dirname + '/includes/player.callbacks.js');
+    let cbs = require(__dirname + '/includes/player.callbacks.js');
 
     // Specify init function, and extend default stages.
 
@@ -42,17 +38,15 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('mood', {
         init: function() {
             this.mood = node.widgets.get('MoodGauge', {
-                title: false
+                title: false,
+                panel: false,
+                required: true
             });
         },
         frame: 'mood.html',
         done: function() {
             var values;
-            values = this.mood.getValues({
-                markAttempt: true,
-                highlight: true
-            });
-            if (values.missValues) return false;
+            values = this.mood.getValues();
             return values.items;
         }
     });
@@ -61,14 +55,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         init: function() {
             this.svo = node.widgets.get('SVOGauge', {
                 title: false,
-                mainText: false
+                mainText: false,
+                required: true
             });
         },
         frame: 'svo.html',
         done: function() {
             var values;
-            values = this.svo.getValues({ highlight: true });
-            if (values.missValues) return false;
+            values = this.svo.getValues();
             return {
                 id: 'svo',
                 items: values.items
@@ -150,7 +144,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     stager.extendStep('quiz', {
         frame: 'quiz.html',
-        donebutton: { text: 'Check Quiz!' },
+        donebutton: 'Check Quiz!',
         done: function() {
             var i, len, answers, values, text, spanOutcome, fail, correct;
             var nCorrect;
@@ -182,7 +176,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             }
         },
         exit: function() {
-            // Quiz might have changed.
+            // Quiz might have changed it.
             node.game.donebutton.button.innerHTML = 'Continue';
         }
     });

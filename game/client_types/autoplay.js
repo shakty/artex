@@ -8,14 +8,14 @@
  * http://www.nodegame.org
  */
 
-module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
+module.exports = function(treatmentName, settings, stagerPlayer,
+                          setup, gameRoom) {
 
-    var node = gameRoom.node;
-    var ngc =  require('nodegame-client');
+    const ngc =  require('nodegame-client');
 
-    var game, stager;
+    let node = gameRoom.node;
 
-    game = gameRoom.getClientType('player');
+    let game = gameRoom.getClientType('player');
 
     game.env.auto = true;
     game.env.allowTimeup = false;
@@ -23,7 +23,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     game.nodename = 'autoplay';
 
-    stager = ngc.getStager(game.plot);
+    let stager = ngc.getStager(game.plot);
 
     stager.extendAllSteps(function(o) {
         o._cb = o.cb;
@@ -56,13 +56,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             if (node.env('allowDisconnect') && Math.random() < 0.5) {
                 node.socket.disconnect();
                 node.game.stop();
-                node.timer.randomExec(function() {
+                node.timer.random(2000, 4000).exec(function() {
                     node.socket.reconnect();
-                }, 4000);
+                });
             }
             else {
                 if (!node.env('allowTimeup') || Math.random() < 0.5) {
-                    node.timer.randomDone(1500);
+                    node.timer.random(2000, 3000).done();
                 }
             }
         };

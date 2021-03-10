@@ -1,6 +1,6 @@
 /**
  * # Functions used player clients in the Art Exhibition Game
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
@@ -13,9 +13,8 @@ module.exports = {
 };
 
 function init() {
-    var that, header;
+    var header;
 
-    that = this;
     this.node.log('Init.');
 
     // Setup the header (by default on the left side).

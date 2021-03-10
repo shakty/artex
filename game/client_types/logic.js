@@ -1,16 +1,16 @@
 /**
  * # Logic code for Artex
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
  */
 
-var path = require('path');
-var ngc = require('nodegame-client');
-var stepRules = ngc.stepRules;
-var J = ngc.JSUS;
-var fs = require('fs');
+const path = require('path');
+const ngc = require('nodegame-client');
+const stepRules = ngc.stepRules;
+const J = ngc.JSUS;
+const fs = require('fs');
 
 // Here we export the logic function. Receives three parameters:
 // - node: the NodeGameClient object.
@@ -18,8 +18,8 @@ var fs = require('fs');
 // - gameRoom: the GameRoom object in which this logic will be running.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var channel = gameRoom.channel;
-    var node = gameRoom.node;
+    let channel = gameRoom.channel;
+    let node = gameRoom.node;
 
     var cacheToSave, timeOutSave;
     cacheToSave = [];
