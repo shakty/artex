@@ -23,7 +23,8 @@ module.exports = exports = {
         "W": "writable",
         "node": "writable",
         "J": "writable",
-        "JSUS": "writable"
+        "JSUS": "writable",
+        "$": "writable"
     }
 
     //
