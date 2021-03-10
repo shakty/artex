@@ -1,6 +1,6 @@
 /**
  * # Autoplay code for Art Exhibition Game
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * Handles bidding, and responds between two players automatically.
@@ -8,14 +8,13 @@
  * http://www.nodegame.org
  */
 
-module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
+module.exports = function(treatmentName, settings,
+                          stagerPlayer, setup, gameRoom) {
 
-    var node = gameRoom.node;
-    var ngc =  require('nodegame-client');
+    let node = gameRoom.node;
+    let ngc =  require('nodegame-client');
 
-    var game, stager;
-
-    game = gameRoom.getClientType('player');
+    let game = gameRoom.getClientType('player');
 
     game.env.auto = true;
     game.env.allowTimeup = false;
@@ -23,7 +22,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     game.nodename = 'autoplay';
 
-    stager = ngc.getStager(game.plot);
+    let stager = ngc.getStager(game.plot);
 
     stager.extendAllSteps(function(o) {
         o._cb = o.cb;
@@ -47,7 +46,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                         }
                         W.getElementById(this.qShown + '_text').value =
                             node.JSUS.randomString(90, 'Aa1_9');
-                        node.timer.randomExec(function() {
+                        node.timer.random.exec(function() {
                             W.getElementById('onemore').click();
                             node.emit('moreq');
                         });
@@ -56,7 +55,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     else {
                         W.getElementById('freecomment_text').value =
                             node.JSUS.randomString(150, 'Aa1_9');
-                        node.timer.randomDone();
+                        node.timer.random.done();
                     }
                 });
                 // Do more questions.
@@ -69,7 +68,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 W.getElementById('email').value =
                     node.JSUS.randomString(9, 'a') + '@' + 'a.com';
                 W.getElementById('submit-email').click();
-                node.timer.randomExec(function() {
+                node.timer.random.exec(function() {
                     // Kill phantoms in test mode.
                     console.log('PHANTOMJS EXITING');
                 });
@@ -93,13 +92,13 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             if (node.env('allowDisconnect') && Math.random() < 0.5) {
                 node.socket.disconnect();
                 node.game.stop();
-                node.timer.randomExec(function() {
+                node.timer.random(2000, 4000).exec(function() {
                     node.socket.reconnect();
-                }, 4000);
+                });
             }
             else {
                 if (!node.env('allowTimeup') || Math.random() < 0.5) {
-                    node.timer.randomDone(1500);
+                    node.timer.random(1000, 2000).done();
                 }
             }
 

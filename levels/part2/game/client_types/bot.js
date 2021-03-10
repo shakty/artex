@@ -8,34 +8,101 @@
  * http://www.nodegame.org
  */
 
-module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
+const J = require('nodegame-client').JSUS;
+const path = require('path');
 
-    var node = gameRoom.node;
-    var ngc = require('nodegame-client');
+// Does not work. The widget is looking for node and fails.
+// let wpath = J.resolveModuleDir('nodegame-widgets');
+// let ChernoffFaces = require(path.resolve(wpath, 'widgets', 'ChernoffFaces.js'));
+// let FaceVector = ChernoffFaces.FaceVector;
 
-    var game, stager;
 
-    game = gameRoom.getClientType('player');
+module.exports = function(treatmentName, settings, stager, setup, gameRoom, node) {
 
-    game.env.auto = true;
-    game.env.allowTimeup = false;
-    game.env.allowDisconnect = false;
+    let logic = gameRoom.node;
 
-    game.nodename = 'bot';
+    let FaceVector = require(path.resolve(__dirname, 'includes', 'FaceVector.js'));
 
-    stager = ngc.getStager(game.plot);
+    // let game = {
+    //     env: {
+    //         auto: false,
+    //         allowTimeup: false,
+    //         allowDisconnect: false
+    //     }
+    // };
 
     stager.extendAllSteps(function(o) {
         o.cb = function() {
 
             let id = node.game.getStepId();
+            let params;
 
-            if (stepObj.id === 'submission') {
+            if (id === 'creation') {
+                node.game.last_cf = new FaceVector();
+                params = {
+                    cf: node.game.last_cf,
+                    changes: [],
+                    copies: []
+                };
+            }
+            else if (id === 'submission') {
                 node.game.last_ex =
-                    node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
+                    node.game.settings.exhibitNames[J.randomInt(-1, 2)];
+
+                params = {
+                    ex: node.game.last_ex,
+                    seeMore: 0
+                };
+            }
+            else if (id === 'evaluation') {
+
+                // We need to wait for creators' ids from server.
+                node.game.evas = [];
+                node.on.data('CF', function(msg) {
+                    let data = msg.data;
+                    let evas = [];
+                    if (data.A && data.A.length) {
+                        data.A.forEach((item) => {
+                            evas.push({ ex: 'A', creator: item.author });
+                        });
+                    }
+                    if (data.B && data.B.length) {
+                        data.B.forEach((item) => {
+                            evas.push({ ex: 'B', creator: item.author });
+                        });
+                    }
+                    if (data.C && data.C.length) {
+                        data.C.forEach((item) => {
+                            evas.push({ ex: 'C', creator: item.author });
+                        });
+                    }
+                    node.game.evas = evas;
+                    console.log('RECEIVED CF by BOT ********************');
+
+                    console.log(evas);
+
+                    let out = new Array(3);
+                    evas.forEach(function(i, idx) {
+                        out[idx] = {
+                            creator: i.creator,
+                            ex: i.ex,
+                            eva: J.random()*10,
+                            hasChanged: true,
+                            order: idx
+                        }
+                    });
+                    node.timer.random(1500, 3000).done({
+                        reviews: out
+                    });
+                });
+            }
+            else if (id === 'dissemination') {
+                params = { copies: [] };
             }
 
-            
+            if (id !== 'evaluation') {
+                node.timer.random(1500, 3000).done(params);
+            }
 
             // Not used for now.
             // // Allow disconnect and timeup.
@@ -56,7 +123,4 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         return o;
     });
 
-    game.plot = stager.getState();
-
-    return game;
 };

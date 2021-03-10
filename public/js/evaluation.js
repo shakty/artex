@@ -55,15 +55,21 @@ $(document).ready(function() {
             displayContId = 'display_cont_' + author;
 
             // Add the slider to the container.
-            sl = W.getDiv(evaId);
-            display_container = W.getDiv(displayContId);
-            display = W.addTextInput(display_container, displayEvaId, {
+            sl = W.get('div', { id: evaId });
+            display_container = W.get('div', { id: displayContId });
+            display = W.add('input', display_container, {
+                id: 'displayEvaId',
+                type: 'text',
                 disabled: "disabled",
                 className: 'curr-eva-input'
             });
 
             labelText = 'Your current evaluation: ';
-            W.addLabel(display_container, display, null, labelText);
+            W.add('label', display_container, {
+                label: labelText,
+                'for': display,
+                // display, null,
+            });
 
             node.game.evas[author].display = display;
 
@@ -114,7 +120,7 @@ $(document).ready(function() {
             node.err('makeReviewerUI: no data received.');
             return;
         }
-        
+
         // Append images to review to table in random exhibition order.
         ex = node.game.evasOrder[0];
         if (exData[ex] && exData[ex].length) makeReviewUI(exData[ex], 1);

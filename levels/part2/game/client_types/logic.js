@@ -1,22 +1,19 @@
 /**
  * # Logic code for Artex
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
  */
 
-var fs = require('fs');
-var ngc = require('nodegame-client');
-var stepRules = ngc.stepRules;
-var J = ngc.JSUS;
+const path = require('path');
 
 // Variable registered outside of the export function
 // are shared among all instances of game logics.
-var counter = 0;
+let counter = 0;
 
 // Flag to not cache required files.
-var nocache = true;
+let nocache = true;
 
 // Here we export the logic function. Receives three parameters:
 // - node: the NodeGameClient object.
@@ -24,11 +21,10 @@ var nocache = true;
 // - gameRoom: the GameRoom object in which this logic will be running.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var channel = gameRoom.channel;
-    var node = gameRoom.node;
+    let channel = gameRoom.channel;
+    let node = gameRoom.node;
 
-    var pushClientsOpts;
-    pushClientsOpts = {
+    let pushClientsOpts = {
         offset: 12000, // Default: 5000
         reply: 4000, // Default: 2000
         check: 2000 // Default: 2000
@@ -40,7 +36,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Import other functions used in the game.
     // Some objects are shared.
-    var cbs = channel.require(__dirname + '/includes/logic.callbacks.js', {
+    let cbsPath = path.resolve(__dirname, 'includes', 'logic.callbacks.js');
+    let cbs = channel.require(cbsPath, {
         node: node,
         gameRoom: gameRoom,
         settings: settings,

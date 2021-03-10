@@ -28,8 +28,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         var saveWhoConnected;
 
         // Create data dir. TODO: do it automatically?
-        var dataDir;
-        dataDir = path.resolve(channel.getGameDir(), 'data') + '/';
+        let dataDir = path.resolve(channel.getGameDir(), 'data');
 
         node.on.data('finished_part1', function(msg) {
             var db;
@@ -45,7 +44,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             db = node.game.memory.player[msg.from];
             // db.save(dataDir + 'artex_part1.csv', saveOptions);
             // db.save(dataDir + 'artex_part1_b.csv');
-            db.save(dataDir + 'artex_part1.json', { flag: 'a' });
+            // DB does not exist if we skipped all previous stages.
+            if (db) {
+                db.save(path.join(dataDir, 'artex_part1.json'), { flag: 'a' });
+            }
         });
 
         // Store some values inside the
@@ -97,7 +99,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                     txt = cacheToSave.join("\n") + "\n";
                     cacheToSave = [];
                     timeOutSave = null;
-                    fs.appendFile(dataDir + 'codes.csv', txt, function(err) {
+                    fs.appendFile(path.join(dataDir, 'codes.csv'), txt,
+                        function(err) {
                         if (err) {
                             console.log(txt);
                             console.log(err);

@@ -1,17 +1,16 @@
 /**
  * # Functions used by logic.
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
  */
 
-var ngc = require('nodegame-client');
-var GameStage = ngc.GameStage;
-var J = ngc.JSUS;
-var fs = require('fs-extra');
-var path = require('path');
-var RMatcher = require('./rmatcher');
+const ngc = require('nodegame-client');
+const J = ngc.JSUS;
+const fs = require('fs-extra');
+const path = require('path');
+const RMatcher = require('./rmatcher');
 
 module.exports = {
     init: init,
@@ -30,15 +29,9 @@ var gameRoom = module.parent.exports.gameRoom;
 var settings = module.parent.exports.settings;
 var counter = module.parent.exports.counter;
 
-var client = gameRoom.getClientType('player');
-var autoplay = gameRoom.getClientType('autoplay');
-
-var WAIT_TIME = settings.WAIT_TIME * 1000;
-
 var CHANNEL_DIR = path.resolve(channel.getGameDir(), 'data') + '/';
 var DUMP_DIR = DUMP_DIR = CHANNEL_DIR + counter + '/';
 var CODE_FILE = DUMP_DIR  + 'codes.json';
-var CODE_FILE_BAK = DUMP_DIR  + '.codes.json.bak';
 
 function init() {
 
@@ -118,6 +111,7 @@ function init() {
     // Function used in submission step
     // for every newly inserted item in db.
     this.assignSubToEx = function(i) {
+        debugger
         var idEx, lastSub;
         idEx = node.game.exhibitions[i.ex];
         // Might be a reconnection/disconnection.
@@ -273,7 +267,7 @@ function dissemination() {
     var ex, author, cf, mean, player, works;
     var nextRoundReviewer, player_result;
     var i, j, k, len;
-    var idEx, nPubs, s;
+    var nPubs, s;
     var round;
 
     // Array of all the selected works (by exhibition);
@@ -397,7 +391,6 @@ function dissemination() {
             s = settings['ex' + r.ex];
             if (s.competition === 'threshold') {
                 if (node.game.settings.com) {
-                    idEx = node.game.exhibitions[r.ex];
                     nPubs = selected[r.ex].length;
                     r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
                 }

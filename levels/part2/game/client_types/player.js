@@ -1,29 +1,26 @@
 /**
  * # Player code for Artex Game
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
  */
 
-var ngc = require('nodegame-client');
-var Stager = ngc.Stager;
-var stepRules = ngc.stepRules;
-var constants = ngc.constants;
+const path = require('path');
 
 // Export the game-creating function.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     var game, cbs;
 
-    var node = gameRoom.node;
+    let node = gameRoom.node;
 
     // The game object to return at the end of the function.
     game = {};
 
     // Import other functions used in the game.
 
-    cbs = require(__dirname + '/includes/player.callbacks.js');
+    cbs = require(path.resolve(__dirname, 'includes', 'player.callbacks.js'));
 
     // Specify init function, and extend default stages.
 
@@ -32,7 +29,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Add all the stages into the stager.
 
-    stager.setDefaultProperty('timeup', function() { node.done(); });
+    // stager.setDefaultProperty('timeup', function() { node.done(); });
 
     stager.extendStep('instr_summary', {
         frame: 'instr_summary.html',

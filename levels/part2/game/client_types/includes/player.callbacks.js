@@ -13,17 +13,13 @@ module.exports = {
 };
 
 function init() {
-    var that, header;
-    var disconnectTimeout;
+    var header;
 
-    that = this;
     this.node.log('Init.');
 
     // Setup the header (by default on the left side).
     if (!W.getHeader()) {
         header = W.generateHeader();
-
-        W.setHeaderPosition('top');
 
         // Uncomment to visualize the name of the stages.
         //node.game.visualStage = node.widgets.append('VisualStage', header);
