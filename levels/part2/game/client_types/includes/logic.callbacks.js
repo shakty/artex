@@ -302,6 +302,7 @@ function dissemination() {
             author = this.pl.id.get(player);
             if (!author) {
                 node.warn('Author not found. Did somebody disconnected?');
+                author = {};
             }
 
             // Compute average review score.

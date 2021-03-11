@@ -205,3 +205,10 @@ span.seemore:hover {
     cursor: hand;
     text-decoration: underline;
 }
+
+
+span.smallInfo {
+    display: block;
+    font-size: smaller;
+    font-style: italic;
+}

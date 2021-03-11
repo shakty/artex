@@ -30,16 +30,10 @@ function init() {
         displayModeNames: [ 'COUNT_UP_STAGES_TO_TOTAL' ]
     });
 
-    if (node.game.settings.competition === 'tournament') {
-        node.game.money = node.widgets.append('MoneyTalks', header, {
-            currency: '', title: 'Points:', precision: 0
-        });
-    }
-    else {
-        node.game.money = node.widgets.append('MoneyTalks', header, {
-            currency: 'CHF', money: 10
-        });
-    }
+    node.game.money = node.widgets.append('MoneyTalks', header, {
+        currency: '', title: 'Points:', precision: 0
+    });
+
     node.game.donebutton = node.widgets.append('DoneButton', header, {
         text: 'Continue'
     });

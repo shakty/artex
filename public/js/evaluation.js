@@ -13,11 +13,13 @@ $(document).ready(function() {
 
     if (node.game.settings.competition === "tournament") {
         str = 'Paintings will be ranked by <em>average</em> evaluation, and ' +
-            'if their rank is high enough they will be put on display.';
+            'if their rank is high enough for the chosen exhibition they ' +
+            'will be put on display.';
     }
     else {
         str = 'Paintings that receive an <em>average</em> evaluation greater ' +
-            'than <strong>5.00</strong> will be put on display.'
+              'than the threshold for the chosen exhibition will be put ' +
+              'on display.'
     }
     W.setInnerHTML('brief-explanation', str);
 
