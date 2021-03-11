@@ -92,6 +92,9 @@ let settings = {
     // Number of players in each group.
     nPlayers: 9,
 
+    // If TRUE, players are assigned a color to begin with.
+    colors: true,
+
     // competition: 'threshold' or 'tournament'.
     //   - 'threshold' will publish all images with average review > threshold
     //   - 'tournament' will rank all images by average review score and
