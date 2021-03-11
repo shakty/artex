@@ -29,10 +29,9 @@ var gameRoom = module.parent.exports.gameRoom;
 var settings = module.parent.exports.settings;
 // var counter = module.parent.exports.counter;
 
-const DUMP_DIR = gameRoom.dataDir;
-const CODE_FILE = path.join(DUMP_DIR, 'codes.json');
-const BONUS_FILE = path.join(DUMP_DIR, 'bonus.csv');
-const EMAIL_FILE = path.join(DUMP_DIR, 'email.csv')
+const CODE_FILE = path.join(gameRoom.dataDir, 'codes.json');
+const BONUS_FILE = path.join(gameRoom.dataDir, 'bonus.csv');
+const EMAIL_FILE = path.join(gameRoom.dataDir, 'email.csv')
 
 function init() {
 
@@ -419,7 +418,7 @@ function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
 
     // Dump all memory.
-    // node.game.memory.save(DUMP_DIR + 'memory_all.json');
+    // node.game.memory.save(gameRoom.dataDir + 'memory_all.json');
 
     // TODO: fix this.
     // channel.destroyGameRoom(gameRoom.name);
