@@ -81,6 +81,7 @@
             </tbody>
 
         </table>
+        <span id="com-warning"></span>
 
       </ul>
     </div>
@@ -91,6 +92,12 @@
         var node, W, J, s;
         var a, b, c;
         var startsIn;
+
+        function makeThreshold(n) {
+            if (J.isInt(n)) n += '.0';
+            return '&gt;' + n;
+        }
+
         node = parent.node;
         J = parent.J;
         W = parent.W;
@@ -115,13 +122,6 @@
         // Fill in parameters.
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
 
-        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
-
-        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
 
         if (s.competition === 'tournament') {
             W.show('tournament-summary');
@@ -132,9 +132,6 @@
             a = s.exA.N;
             b = s.exB.N;
             c = s.exC.N;
-            W.setInnerHTML('ng_replace_threshold_A', a);
-            W.setInnerHTML('ng_replace_threshold_B', b);
-            W.setInnerHTML('ng_replace_threshold_C', c);
 
             // W.setInnerHTML('ng_replace_threshold', s.exA.N);
             // W.setInnerHTML('ng_replace_award', s.exA.reward);
@@ -146,21 +143,25 @@
             W.setInnerHTML('table-award-threshold', 'Threshold for Display');
             W.setInnerHTML('ng_replace_pubrule_text_threshold', s.pubrule_text);
 
-            a = s.exA.threshold;
-            b = s.exB.threshold;
-            c = s.exC.threshold;
+            a = makeThreshold(s.exA.threshold);
+            b = makeThreshold(s.exB.threshold);
+            c = makeThreshold(s.exC.threshold);
 
-            W.setInnerHTML('ng_replace_threshold_A', makeThreshold(a));
-            W.setInnerHTML('ng_replace_threshold_B', makeThreshold(b));
-            W.setInnerHTML('ng_replace_threshold_C', makeThreshold(c));
-            // W.setInnerHTML('ng_replace_threshold', s.exA.N);
-            // W.setInnerHTML('ng_replace_award', s.exA.reward);
+            if (s.com) {
+                W.setInnerHTML('com-warning', '<em>Note:</em> The reward ' +
+                               'in each exhibition is divided amongst all ' +
+                               'images on display.');
+            }
         }
 
-        function makeThreshold(n) {
-            if (J.isInt(n)) n += '.0';
-            return '&gt;' + n;
-        }
+        // Threshold or available slots.
+        W.setInnerHTML('ng_replace_threshold_A', a);
+        W.setInnerHTML('ng_replace_threshold_B', b);
+        W.setInnerHTML('ng_replace_threshold_C', c);
+
+        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
+        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
+        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
 
     });
 </script>
