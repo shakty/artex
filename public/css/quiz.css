@@ -76,7 +76,7 @@ table#reviewRange td {
     width: 240px;
 }
 
-/* Mood */ 
+/* Mood */
 
 div#quiz div.moodgauge {
     margin: 0 auto;
@@ -96,7 +96,7 @@ div#quiz div.moodgauge table.choicetable {
     margin: 0 auto;
     text-align: center;
     border-spacing: 0 5px;
-    border-collapse: separate; 
+    border-collapse: separate;
 }
 
 div.moodgauge table.choicetable td {
@@ -116,13 +116,13 @@ div.moodgauge table.choicetable td.choicetable-right {
     width: 100px;
 }
 
-/* SVO */ 
+/* SVO */
 
 div#quiz div.svogauge table.choicetable {
     margin: 0 auto;
     text-align: center;
     border-spacing: 0 30px;
-    border-collapse: separate; 
+    border-collapse: separate;
 }
 
 div#quiz div.svogauge table td {
@@ -142,7 +142,7 @@ div.svogauge td.choicetable-left hr {
     border-color: black;
 }
 
-/* Demo */ 
+/* Demo */
 
 table#age td,
 table#gender td,
@@ -158,3 +158,9 @@ div#quiz table#belief td {
     width: 330px !important;
 }
 
+
+/* V6 */
+
+div#quiz .moodgauge .no-panel-body {
+    border: 0;
+}

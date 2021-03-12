@@ -27,23 +27,6 @@ let pubRules = {
     rankDifferent: ' and awards their authors a <em>different</em> ' +
         'number of reward points'
 
-//    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +
-//        'of paintings, and awards their authors a <em>different</em> ' +
-//        'number of points. That is: ' +
-//        '<ul><li><strong>Exhibition A:</strong> ' +
-//        'top <em id="ng_replace_threshold_A"></em> ' +
-//        'painting/s and awards their authors ' +
-//        '<em id="ng_replace_award_A"></em> points each</li>' +
-//        '<li><strong>Exhibition B:</strong> ' +
-//        'top <em id="ng_replace_threshold_B"></em> ' +
-//        'painting/s and awards their authors ' +
-//        '<em id="ng_replace_award_B"></em> points each</li>' +
-//        '<li><strong>Exhibition C:</strong> ' +
-//        'top <em id="ng_replace_threshold_C"></em> ' +
-//        'painting/s and awards their authors ' +
-//        '<em id="ng_replace_award_C"></em> points each</li>'
-
-
 };
 
 // Time for players to re-connect.
@@ -93,7 +76,7 @@ let settings = {
     nPlayers: 9,
 
     // If TRUE, players are assigned a color to begin with.
-    colors: true,
+    colors: false,
 
     // competition: 'threshold' or 'tournament'.
     //   - 'threshold' will publish all images with average review > threshold
@@ -153,7 +136,7 @@ let settings = {
     treatments: {
 
         rank_skew: {
-            description: "Different number of awards and rewards",
+            description: "Rank tournament publishing, tiered market structure.",
             pubrule_text: pubRules.rankDifferent,
             exA: {
                 competition: 'tournament',
@@ -172,13 +155,14 @@ let settings = {
                 N: 4,
                 reward: 125
             },
+            colors: false,
             instrPage: 'instr_general.html',
             review_random: true,
             com: true
         },
 
         rank_same: {
-            description: "Exactly same rewards for all exhibitions",
+            description: "Rank tournament publishing, flat market structure.",
             pubrule_text: pubRules.rankSame,
             exA: {
                 competition: 'tournament',
@@ -197,16 +181,18 @@ let settings = {
                 N: 2,
                 reward: 250
             },
+            colors: false,
             instrPage: 'instr_general.html',
             review_random: true,
             com: true
         },
 
-        review_select_com: {
-            fullName: "Competitive Select Reviewer",
+        threshold_select_com: {
             description:
-                "Competition.",
+                "Threshold publishing, competitive, reviewers selected " +
+                "based on history of publishing and submitting",
             review_select: true,
+            colors: true,
             com: true,
             competition: 'threshold',
             instrPage: 'instructions_SEL_COM.html',
@@ -214,36 +200,37 @@ let settings = {
             payoff: 3
         },
 
-        review_select_coo: {
-            fullName: "Non-Competitive Select Reviewer",
+        threshold_select_coo: {
             description:
-                "No competition.",
+                "Threshold publishing, non competitive, reviewers selected " +
+                "based on history of publishing and submitting",
             review_select: true,
             com: false,
+            colors: true,
             competition: 'threshold',
             instrPage: 'instructions_SEL_COO.html',
             pubrule_text: pubRules.rankSame,
             payoff: 2
         },
 
-        review_random_com: {
-            fullName: "Competitive Random Reviewer",
+        threshold_random_com: {
             description:
-                "Competition.",
+                "Threshold publishing, competitive.",
             review_random: true,
             com: true,
+            colors: true,
             competition: 'threshold',
             instrPage: 'instructions_RND_COM.html',
             pubrule_text: pubRules.rankDifferent,
             payoff: 3
         },
 
-        review_random_coo: {
-            fullName: "Non-Competitive Random Reviewer",
+        threshold_random_coo: {
             description:
-                "No competition.",
+                "Threshold publishing, non competitive.",
             review_random: true,
             com: false,
+            colors: true,
             competition: 'threshold',
             instrPage: 'instructions_RND_COO.html',
             pubrule_text: pubRules.rankSame,
