@@ -87,12 +87,6 @@ function init() {
     // List of all winners of all times (to send to reconnecting players).
     this.winners = new Array(settings.REPEAT);
 
-    // Decorate every object inserted in database with session and treatment.
-    this.memory.on('insert', function(o) {
-        o.session = node.nodename;
-        o.treatment = gameRoom.treatmentName;
-    });
-
     // Divide all objects of stage 'final' by player.
     this.memory.hash('pquest', function(o) {
         if (o.stage.stage > 2) return o.player;

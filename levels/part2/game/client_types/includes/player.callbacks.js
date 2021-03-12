@@ -71,6 +71,10 @@ function init() {
         [ 'A', 'C', 'B' ]
     ];
 
+    // Default color.
+    // @see listener MYCOLOR.
+    this.mycolor = 'black';
+
     // Questionnaire data.
     this.questionnaire = {};
 
@@ -715,6 +719,11 @@ function init() {
     node.once.data('PCOUNT', function(msg) {
         node.game.pcount = msg.data;
         W.setInnerHTML('ng_replace_pcount', msg.data);
+    });
+
+    node.once.data('MYCOLOR', function(msg) {
+        // console.log('MY COLOR IS ', msg.data);
+        node.game.mycolor = msg.data;
     });
 }
 

@@ -38,7 +38,7 @@ $(document).ready(function() {
             rewardTextA = document.getElementById('reward-text-A');
             rewardTextB = document.getElementById('reward-text-B');
             rewardTextC = document.getElementById('reward-text-C');
-            competitiveSplit = '<span class="smallInfo">Displayed images split this.</span>';
+            competitiveSplit = '<span class="smallInfo">Split among displayed images.</span>';
             rewardTextA.innerHTML += competitiveSplit;
             rewardTextB.innerHTML += competitiveSplit;
             rewardTextC.innerHTML += competitiveSplit;

@@ -31,6 +31,16 @@ module.exports = function(treatmentName, settings, stager,
     //     }
     // };
 
+    stager.setOnInit(function(){
+
+        node.game.mycolor = 'black';
+
+        node.once.data('MYCOLOR', function(msg) {
+            // console.log('MY COLOR IS ', msg.data);
+            node.game.mycolor = msg.data;
+        });
+    })
+
     stager.extendAllSteps(function(o) {
         o.cb = function() {
 
@@ -38,9 +48,10 @@ module.exports = function(treatmentName, settings, stager,
             let params;
 
             if (id === 'creation') {
-                node.game.last_cf = new FaceVector();
+                node.game.lastCF = new FaceVector();
+                node.game.lastCF.color = node.game.mycolor;
                 params = {
-                    cf: node.game.last_cf,
+                    cf: node.game.lastCF,
                     changes: [],
                     copies: []
                 };

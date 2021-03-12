@@ -40,7 +40,8 @@ $(document).ready(function() {
     }
 
     // Important: set the player color.
-    init_cf.color = 'black';
+
+    init_cf.color = node.game.mycolor;
     init_sc = CFControls.normalizeFeatures(init_cf);
 
     if (!node.game.last_cf) {
@@ -93,6 +94,8 @@ $(document).ready(function() {
         // TODO: do we need as an emit?
         // Can we do it inside the jQuery dialog?
         node.on('COPIED', function(f) {
+            // Colors cannot be copied.
+            f.color = node.game.mycolor;
             node.game.cf.draw(f);
             addJQuerySliders(CFControls.normalizeFeatures(f));
         });

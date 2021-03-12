@@ -1,6 +1,6 @@
 /**
  * # Game settings: Art Exhibition Game
- * Copyright(c) 2016 Stefano Balietti
+ * Copyright(c) 2021 Stefano Balietti
  * MIT Licensed
  *
  * http://www.nodegame.org
@@ -61,7 +61,7 @@ let settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 1,
+    REPEAT: 9,
 
     // Number of coins to split. *
     COINS: 100,
@@ -127,7 +127,7 @@ let settings = {
     TIMER: {
 
         training: 60000,
-        instr_summary: 30000,
+        instr_summary: 4000,
         // instructions: 90000,
         // quiz: 60000,
 //         creation: function() {

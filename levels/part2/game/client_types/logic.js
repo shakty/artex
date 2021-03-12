@@ -6,6 +6,7 @@
  * http://www.nodegame.org
  */
 
+const J = require('nodegame-client').JSUS;
 const path = require('path');
 
 // Variable registered outside of the export function
@@ -54,9 +55,23 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('instr_summary', {
         pushClients: pushClientsOpts,
         init: function() {
+
+
             // Notify how many players are connected (might be less, if
             // the dispatch is manual).
             node.say('PCOUNT', 'ROOM', node.game.pl.size());
+
+            // Default color is black.
+            if (settings.colors) {
+                let keys = node.game.pl.id.getAllKeys();
+                keys = J.shuffle(keys);
+                // Do not send default color (black).
+                keys.slice(0, 6).forEach((id, i) => {
+                    console.log(id, i)
+                    let color = i < 3 ? 'green' : 'red';
+                    node.say('MYCOLOR', id, color);
+                });
+            }
         }
     });
 
@@ -265,7 +280,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Here we group together the definition of the game logic.
     return {
-        nodename: 'lgc' + counter,
         // Extracts, and compacts the game plot that we defined above.
         plot: stager.getState(),
         // If debug is false (default false), exception will be caught and
