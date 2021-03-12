@@ -21,10 +21,10 @@ let pubRules = {
         '<li>Exhibition C: average review score &gt;' +
         '<em id="ng_replace_threshold_C"></em></li></ul>',
 
-    rankSame: ', and awards their authors the <em>same</em> ' +
+    rankSame: ' and awards their authors the <em>same</em> ' +
         'number of reward points',
 
-    rankDifferent: ', and awards their authors a <em>different</em> ' +
+    rankDifferent: ' and awards their authors a <em>different</em> ' +
         'number of reward points'
 
 //    rankDifferent: 'Each exhibition displays a <em>limited</em> number ' +

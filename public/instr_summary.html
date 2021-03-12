@@ -41,12 +41,13 @@
 
         <li id="tournament-summary" style="display: none">
             Each exhibition displays a <em>limited</em> number of
-        paintings<span id="ng_replace_pubrule_text"></span>. That
+        paintings<span id="ng_replace_pubrule_text_tournament"></span>. That
         is:</li>
 
         <li id="threshold-summary" style="display: none">
             Each exhibition displays <em>only</em>
-        paintings with an average review score greater than a threshold<span id="ng_replace_pubrule_text"></span>.
+        paintings with an average review score greater than a
+        threshold<span id="ng_replace_pubrule_text_threshold"></span>.
         That is:</li>
 
         <table id="payoff">
@@ -112,12 +113,20 @@
         });
 
         // Fill in parameters.
-        W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
+
+        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
+        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
+        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
+
+        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
+        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
+        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
 
         if (s.competition === 'tournament') {
             W.show('tournament-summary');
 
+            W.setInnerHTML('ng_replace_pubrule_text_tournament', s.pubrule_text);
 
 
             a = s.exA.N;
@@ -126,19 +135,16 @@
             W.setInnerHTML('ng_replace_threshold_A', a);
             W.setInnerHTML('ng_replace_threshold_B', b);
             W.setInnerHTML('ng_replace_threshold_C', c);
-            W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-            W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-            W.setInnerHTML('ng_replace_award_C', s.exC.reward);
+
             // W.setInnerHTML('ng_replace_threshold', s.exA.N);
             // W.setInnerHTML('ng_replace_award', s.exA.reward);
         }
         else {
             W.show('threshold-summary');
-debugger
-            // Fill in parameters.
-            W.setInnerHTML('ng_replace_pubrule_text', s.pubrule_text);
-            W.setInnerHTML('table-award-threshold', 'Threshold for Display');
 
+            // Fill in parameters.
+            W.setInnerHTML('table-award-threshold', 'Threshold for Display');
+            W.setInnerHTML('ng_replace_pubrule_text_threshold', s.pubrule_text);
 
             a = s.exA.threshold;
             b = s.exB.threshold;
@@ -147,9 +153,6 @@ debugger
             W.setInnerHTML('ng_replace_threshold_A', makeThreshold(a));
             W.setInnerHTML('ng_replace_threshold_B', makeThreshold(b));
             W.setInnerHTML('ng_replace_threshold_C', makeThreshold(c));
-            W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-            W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-            W.setInnerHTML('ng_replace_award_C', s.exC.reward);
             // W.setInnerHTML('ng_replace_threshold', s.exA.N);
             // W.setInnerHTML('ng_replace_award', s.exA.reward);
         }
