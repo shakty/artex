@@ -56,7 +56,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         pushClients: pushClientsOpts,
         init: function() {
 
-
             // Notify how many players are connected (might be less, if
             // the dispatch is manual).
             node.say('PCOUNT', 'ROOM', node.game.pl.size());

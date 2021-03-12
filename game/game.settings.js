@@ -127,7 +127,7 @@ let settings = {
     TIMER: {
 
         training: 60000,
-        instr_summary: 4000,
+        instr_summary: 400000,
         // instructions: 90000,
         // quiz: 60000,
 //         creation: function() {
@@ -210,6 +210,7 @@ let settings = {
             com: true,
             competition: 'threshold',
             instrPage: 'instructions_SEL_COM.html',
+            pubrule_text: pubRules.rankDifferent,
             payoff: 3
         },
 
@@ -221,6 +222,7 @@ let settings = {
             com: false,
             competition: 'threshold',
             instrPage: 'instructions_SEL_COO.html',
+            pubrule_text: pubRules.rankSame,
             payoff: 2
         },
 
@@ -232,6 +234,7 @@ let settings = {
             com: true,
             competition: 'threshold',
             instrPage: 'instructions_RND_COM.html',
+            pubrule_text: pubRules.rankDifferent,
             payoff: 3
         },
 
@@ -243,6 +246,7 @@ let settings = {
             com: false,
             competition: 'threshold',
             instrPage: 'instructions_RND_COO.html',
+            pubrule_text: pubRules.rankSame,
             payoff: 2
         }
 
