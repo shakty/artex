@@ -2,11 +2,10 @@
  * Standard Waiting Room settings.
  */
 
-var NDDB = require('NDDB').NDDB;
+const NDDB = require('NDDB').NDDB;
 
 // Creates grouping db (will be reused for every grouping).
-var db;
-db =  new NDDB({update: { indexes: true } });
+let db =  new NDDB({update: { indexes: true } });
 db.on('insert', function(i) {
     i.key = 'g' + i.gender + '_' + 'l' + i.location;
 });
@@ -14,10 +13,11 @@ db.hash('key', function(i) {
     return i.key;
 });
 
+// Code for automatically expire/unexpire HIT on Amazon Mechanical Turk.
 // If you change this you must change also the same variable
-// in: levels/part2/waitrom/waitroom.settings.js
-var NDISPATCHES = 3;
-var NGAMES = NDISPATCHES * 2; // each dispatch 2 games.
+// in: waitrom/waitroom.settings.js
+// var NDISPATCHES = 3;
+// var NGAMES = NDISPATCHES * 2; // each dispatch 2 games.
 
 // Exports settings.
 
@@ -224,53 +224,6 @@ module.exports = {
     },
 
     /**
-     * ## ON_DISCONNECT
-     *
-     * A callback function to be executed a player disconnects
-     */
-    ON_DISCONNECT: function(room, player) {
-        var part1;
-        if (room.numberOfDispatches < (NGAMES - 2)) return;
-        if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
-            return;
-        }
-        part1 = room.channel.waitingRoom;
-        if (!part1.part2Done) part1.ON_DISCONNECT(part1, player);
-    },
-
-    /**
-     * ## ON_INIT
-     *
-     * A callback to be executed when the room is inited.
-     */
-    ON_INIT: function(room) {
-        // If someone reconnects after 2 dispatches, notify
-        // main waiting room so that the HIT can be closed (maybe).
-        room.node.on.preconnect(function(p) {
-            var part1;
-            if (room.numberOfDispatches < (NGAMES - 2)) return;
-            part1 = room.channel.waitingRoom;
-            part1.ON_CONNECT(part1, p);
-        });
-    },
-
-    /**
-     * ## ON_INIT
-     *
-     * A callback to be executed after a dispatch call is ended
-     */
-    ON_DISPATCHED: function(room) {
-        var part1;
-        if (room.numberOfDispatches >= NGAMES) {
-            part1 = room.channel.waitingRoom;
-            if (!part1.hitExpired) {
-                part1.expireHIT();
-                part1.part2Done = true;
-            }
-        }
-    },
-
-    /**
      * ## PING_MAX_REPLY_TIME (number > 0) Optional
      *
      * The max number of milliseconds to wait for a reply from a PING
@@ -321,5 +274,56 @@ module.exports = {
      * Default: The value in channel/channel.settings.js
      */
     // logClients: true,
+    
+
+    // Code for automatically expire/unexpire HIT on Amazon Mechanical Turk.
+
+    // /**
+    //  * ## ON_DISCONNECT
+    //  *
+    //  * A callback function to be executed a player disconnects
+    //  */
+    // ON_DISCONNECT: function(room, player) {
+    //     var part1;
+    //     if (room.numberOfDispatches < (NGAMES - 2)) return;
+    //     if (room.getDispatchState() !==
+    //         room.constructor.dispatchStates.NONE) {
+    //         return;
+    //     }
+    //     part1 = room.channel.waitingRoom;
+    //     if (!part1.part2Done) part1.ON_DISCONNECT(part1, player);
+    // },
+    //
+    // /**
+    //  * ## ON_INIT
+    //  *
+    //  * A callback to be executed when the room is inited.
+    //  */
+    // ON_INIT: function(room) {
+    //     // If someone reconnects after 2 dispatches, notify
+    //     // main waiting room so that the HIT can be closed (maybe).
+    //     room.node.on.preconnect(function(p) {
+    //         var part1;
+    //         if (room.numberOfDispatches < (NGAMES - 2)) return;
+    //         part1 = room.channel.waitingRoom;
+    //         part1.ON_CONNECT(part1, p);
+    //     });
+    // },
+    //
+    // /**
+    //  * ## ON_INIT
+    //  *
+    //  * A callback to be executed after a dispatch call is ended
+    //  */
+    // ON_DISPATCHED: function(room) {
+    //     var part1;
+    //     if (room.numberOfDispatches >= NGAMES) {
+    //         part1 = room.channel.waitingRoom;
+    //         if (!part1.hitExpired) {
+    //             part1.expireHIT();
+    //             part1.part2Done = true;
+    //         }
+    //     }
+    // },
 
 };

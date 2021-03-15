@@ -3,7 +3,7 @@
  */
 
 
-// Code for automatic expire/unexpire HIT on Amazon Mechincal Turk.
+// Code for automatic expire/unexpire HIT on Amazon Mechanical Turk.
 // const path = require('path');
 //var mturkConf = path.resolve(__dirname, '..', 'amt/mturk.conf.js');
 //var ngamt = require('nodegame-mturk')( { config: mturkConf });
@@ -37,7 +37,7 @@ module.exports = {
 
     DISPATCH_TO_SAME_ROOM: true,
 
-    // Code for automatic expire/unexpire HIT on Amazon Mechincal Turk.
+    // Code for automatic expire/unexpire HIT on Amazon Mechanical Turk.
 
 //     ON_CONNECT: function(room, player) {
 //         var totPlayers;
