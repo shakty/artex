@@ -69,6 +69,11 @@ module.exports = function(treatmentName, settings, stager,
 
                 // We need to wait for creators' ids from server.
                 node.game.evas = [];
+
+                let out = [];
+
+                // It does not always contain all the reviews to do,
+                // multiple messages can arrive in the same step.
                 node.on.data('CF', function(msg) {
                     let data = msg.data;
                     let evas = [];
@@ -92,19 +97,21 @@ module.exports = function(treatmentName, settings, stager,
                     // console.log('RECEIVED CF by BOT ********************');
                     // console.log(evas);
 
-                    let out = new Array(3);
-                    evas.forEach(function(i, idx) {
-                        out[idx] = {
+
+                    evas.forEach(function(i) {
+                        out.push({
                             creator: i.creator,
                             ex: i.ex,
                             eva: J.random()*10,
                             hasChanged: true,
-                            order: idx
-                        }
+                            order: out.length
+                        });
                     });
-                    node.timer.random(1500, 3000).done({
-                        reviews: out
-                    });
+                });
+
+                // Larger wait time because may arrive separately.
+                node.timer.random(3000, 6000).done({
+                    reviews: out
                 });
             }
             else if (id === 'dissemination') {

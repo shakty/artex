@@ -29,7 +29,7 @@ module.exports = {
     // Treatment assigned to groups.
     // If left undefined, a random treatment will be selected.
     // Use "treatment_rotate" for rotating the treatmenrs.
-    CHOSEN_TREATMENT: 'rank_skew', // 'rank_same',
+    CHOSEN_TREATMENT: 'treatment_rotate', // 'rank_same',
 
     EXECUTION_MODE: 'WAIT_FOR_N_PLAYERS',
 
@@ -45,10 +45,8 @@ module.exports = {
     },
 
     ON_DISCONNECT: function(room, player) {
-        var totPlayers, logger;
+        var totPlayers;
         if (room.part2Done) return;
-
-        logger = room.channel.sysLogger;
 
         if (room.getDispatchState() !== room.constructor.dispatchStates.NONE) {
             return;
@@ -133,7 +131,7 @@ module.exports = {
  * @return {number} The total number of players
  */
 
-var oldNP;
+// var oldNP;
 function getTotPlayers(room, action, p) {
     var part2, room1, np, logger;
     logger = room.channel.sysLogger;

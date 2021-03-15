@@ -24,6 +24,7 @@ module.exports = {
 };
 
 var node = module.parent.exports.node;
+var memory = node.game.memory;
 var channel = module.parent.exports.channel;
 var gameRoom = module.parent.exports.gameRoom;
 var settings = module.parent.exports.settings;
@@ -73,8 +74,10 @@ function init() {
     // Object containing the reviews received by every player.
     this.last_reviews = null;
 
-    // Array containing the id the players
-    // that have submitted to an exhibition.
+    // Array of arrays. Each level-1 array represents an exhibition and
+    // contains objects with the player IDs and the chernoof face submitted
+    // to an exhibition. Format:
+    // { player: "123456", cf: { ... } }
     this.last_submissions = null;
 
     // In case the review assignment is not random,
@@ -88,13 +91,18 @@ function init() {
     this.winners = new Array(settings.REPEAT);
 
     // Divide all objects of stage 'final' by player.
-    this.memory.hash('pquest', function(o) {
+    memory.hash('pquest', function(o) {
         if (o.stage.stage > 2) return o.player;
     });
 
-    // Keep last cf created by a subject.
-    this.memory.index('cf', function(o) {
+    // Keep last cf created by a player.
+    memory.index('cf', function(o) {
         if (o.cf || o.cf0) return o.player;
+    });
+
+    // Keep last submission created by a player.
+    memory.index('sub', function(o) {
+        if (node.game.isStep('submission')) return o.player;
     });
 
     // Function used in submission step
@@ -115,42 +123,32 @@ function init() {
         }
         lastSub.push({
             player: i.player,
-            cf: node.game.memory.cf.get(i.player).cf
+            cf: memory.cf.get(i.player).cf
         });
     };
 
     // Saving the codes starting this session.
     node.game.pl.save(CODE_FILE);
 
-//    fs.rename(CODE_FILE, CODE_FILE_BAK, function() {
-//        node.game.pl.save(CODE_FILE, function() {
-//        });
-//    });
-
-    // node.on('STEPPING', function() {
-    //     console.log('----> minPlayers ', node.game.getProperty('minPlayers'));
-    // });
-
     console.log('init');
 }
 
 function evaluation() {
     var that;
-    var nReviewers, matches;
-    var dataRound;
+    var nReviewers, matches, dataRound, submissions;
+
+    dataRound = memory.stage[this.getPreviousStep()];
+    submissions = dataRound.fetch();
 
     that = this;
 
     nReviewers = this.pl.size() > 3 ?
         this.reviewers : this.pl.size() > 2 ? 2 : 1;
 
-    dataRound = this.memory.stage[this.getPreviousStep()];
-
     node.env('review_random', function() {
-        var submissions, sub, data, cf;
+        var sub, data, cf;
         var i, j;
 
-        submissions = dataRound.fetch();
         // Generates a latin square array where:
         // - array-id of items to review,
         // - column are reviewers id.
@@ -163,7 +161,7 @@ function evaluation() {
             for (j = 0 ; j < nReviewers ; j++) {
                 // Get item to review.
                 sub = submissions[matches[j][i]];
-                cf = node.game.memory.cf.get(sub.player);
+                cf = memory.cf.get(sub.player);
                 cf = cf.cf || cf.cf0;
 
                 if (!data[sub.ex]) {
@@ -187,9 +185,9 @@ function evaluation() {
     });
 
     node.env('review_select', function() {
-        var pool, elements;
+        var pool, elements, pid, reviewer;
         var rm, matches, data;
-        var i, j, h, face;
+        var i, j, h, ex, sub, cf;
 
         // TODO: redo completely.
 
@@ -198,29 +196,53 @@ function evaluation() {
 
         // First round.
         if (!pool) {
-            pool = J.map(elements, function(ex) { return [ex]; });
+            pool = J.map(elements, function(item) { return [ item ]; });
         }
 
+        console.log(pool)
+
+debugger
         rm = new RMatcher();
         rm.init(elements, pool);
 
         matches = rm.match();
 
-        data = {};
         for (i = 0; i < elements.length; i++) {
             for (j = 0; j < elements[i].length; j++) {
                 for (h = 0; h < matches[i][j].length; h++) {
-                    face = dataRound
-                        .select('player', '=', elements[i][j]).first();
 
-                    if (!data[face.value]) data[face.value] = [];
+                    // The data structure is for all exhibits, even if
+                    // we send one item at a time.
+                    data = { A: [], B: [], C: [] };
 
-                    data = {
-                        face: face.CF.value,
-                        author: face.player,
-                        ex: face.value
-                    };
-                    node.say('CF', matches[i][j][h], data);
+                    // Player id (first round is an object).
+                    pid = elements[i][j];
+                    if ('object' === typeof pid) pid = pid.player;
+
+                    cf = memory.cf.get(pid);
+                    cf = cf.cf || cf.cf0;
+
+                    // It is always two items (unless there is a disconnection).
+                    sub = memory.sub.get(pid);
+                    if (!sub.ex) continue;
+                    ex = sub.ex;
+
+                    if (!data[ex]) {
+                        console.log('exhibition not found: ', sub.ex);
+                        continue;
+                    }
+
+                    // // Add it to an exhibition.
+                    data[ex].push({
+                        face: cf,
+                        author: pid,
+                        ex: ex
+                    });
+
+                    // Send one item at a time.
+                    reviewer = matches[i][j][h];
+                    if ('object' === typeof reviewer) reviewer = reviewer.player;
+                    node.say('CF', reviewer, data);
                 }
 
             }
@@ -236,10 +258,11 @@ function evaluation() {
             return;
         }
         reviews = msg.data.reviews;
-        // Loop through all the reviews of the subject,
+        // Loop through all the reviews of the player,
         // and group them by item reviewed.
         i = -1, len = reviews.length;
         for ( ; ++i < len ; ) {
+            console.log(reviews[i])
             creator = reviews[i].creator;
             if (!that.last_reviews[creator]) that.last_reviews[creator] = [];
             that.last_reviews[creator].push(reviews[i].eva);
@@ -412,7 +435,7 @@ function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
 
     // Dump all memory.
-    // node.game.memory.save(gameRoom.dataDir + 'memory_all.json');
+    // memory.save(gameRoom.dataDir + 'memory_all.json');
 
     // TODO: fix this.
     // channel.destroyGameRoom(gameRoom.name);

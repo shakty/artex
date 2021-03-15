@@ -24,6 +24,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     let channel = gameRoom.channel;
     let node = gameRoom.node;
+    let memory = node.game.memory;
 
     let pushClientsOpts = {
         offset: 12000, // Default: 5000
@@ -66,7 +67,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 keys = J.shuffle(keys);
                 // Do not send default color (black).
                 keys.slice(0, 6).forEach((id, i) => {
-                    console.log(id, i)
                     let color = i < 3 ? 'green' : 'red';
                     node.say('MYCOLOR', id, color);
                 });
@@ -96,7 +96,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         reconnect: function(code, reconOptions) {
             var cf;
-            cf = node.game.memory.cf.get(code.id);
+            cf = memory.cf.get(code.id);
             // cf0 is the initial random face.
             reconOptions.cf = cf.cf || cf.cf0;
             reconOptions.winners = node.game.winners;
@@ -151,10 +151,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         init: function() {
             // Three arrays of submissions by exhibition.
             this.last_submissions = [[], [], []];
-            this.memory.on('insert', this.assignSubToEx);
+            memory.on('insert', this.assignSubToEx);
         },
         exit: function() {
-            this.memory.off('insert', this.assignSubToEx);
+            memory.off('insert', this.assignSubToEx);
         }
     });
 
