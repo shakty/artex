@@ -1,7 +1,7 @@
 {
     "name": "artex"
   , "description": "Art Exhibition Game (peer review)"
-  , "version": "1.0.0"
+  , "version": "2.0.0"
   , "homepage": "http://nodegame.org"
   , "keywords": ["peer review", "science", "experiment", "art", "quality", "evaluation"]
   , "author": "Stefano Balietti <futur.dorko@gmail.com>"
