@@ -16,7 +16,6 @@
 
     <h1>Instructions for Part 2</h1>
     <div id="instructions">
-      Game starts in <span id="game-starts-in"></span> seconds.
       <ul>
 
         <li>
@@ -33,10 +32,21 @@
         <li>
           In each round you will: (i) create a new painting, (ii)
           choose one of the <strong>3</strong> available exhibitions
-          for your artwork, and (iii) review the <strong>3</strong>
-          paintings you have been <span id="review-rule-random">randomly</span>
-          assigned to.
-          <span
+          for your artwork, and (iii) review <strong>3</strong>
+          paintings.
+        </li>
+
+        <li id="review-random" style="display: none">
+            Paintings are assigned to reviewers <em>randomly</em>, and you can
+            never review your painting.
+        </li>
+
+        <li id="review-select" style="display: none">
+            Paintings are assigned to reviewers based on the <em>history of previous
+            submissions and displays</em>: the more submissions and the more displays
+            in one exhibition, the higher your chances to become a reviewer
+            for that exhibition in the <em>next</em> round.
+            You can never review your own painting.
         </li>
 
         <li id="tournament-summary" style="display: none">
@@ -82,8 +92,8 @@
 
         </table>
         <span id="com-warning"></span>
-
       </ul>
+      Press "Continue" for a brief understanding quiz.
     </div>
   </div>
 </body>
@@ -107,17 +117,6 @@
         if (node.game.pcount) {
             W.setInnerHTML('ng_replace_pcount', node.game.pcount);
         }
-
-        // Display time left middle of page.
-        startsIn = W.getElementById('game-starts-in');
-        startsIn.innerHTML = Math.floor(s.TIMER.instr_summary/1000);
-        node.game.visualTimer.gameTimer.addHook({
-            hook: function() {
-                startsIn.innerHTML = Math.floor(this.timeLeft/1000);
-            },
-            ctx: node.game.visualTimer.gameTimer,
-            name: 'extraTimer'
-        });
 
         // Fill in parameters.
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
@@ -154,6 +153,12 @@
             }
         }
 
+        if (s.review_select) {
+            W.show('review-select');
+        }
+        else {
+            W.show('review-random');
+        }
         // Threshold or available slots.
         W.setInnerHTML('ng_replace_threshold_A', a);
         W.setInnerHTML('ng_replace_threshold_B', b);

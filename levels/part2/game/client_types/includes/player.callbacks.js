@@ -34,7 +34,7 @@ function init() {
         currency: '', title: 'Points:', precision: 0
     });
 
-    node.game.donebutton = node.widgets.append('DoneButton', header, {
+    node.game.doneButton = node.widgets.append('DoneButton', header, {
         text: 'Continue'
     });
 
@@ -131,7 +131,7 @@ function init() {
         if (decision) {
             span = W.getElementById('span-you-chose');
             span.innerHTML = ' (Your choice: <em>' + decision + '</em>)';
-            node.game.donebutton.enable();
+            node.game.doneButton.enable();
         }
     };
 

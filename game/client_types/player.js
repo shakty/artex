@@ -142,9 +142,10 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             var s, maxWin, maxWinStr;
             s = node.game.settings;
 
+            W.setInnerHTML('n-repeat', s.REPEAT);
+
             // Threshold treatments.
-            if (s.hasOwnProperty('com')) {
-                W.setInnerHTML('n-repeat', s.REPEAT);
+            if (s.competition === "threshold") {
                 W.setInnerHTML('fixed-comp', s.fixedFee);
                 W.setInnerHTML('variable-comp', s.payoff);
 

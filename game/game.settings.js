@@ -113,7 +113,8 @@ let settings = {
     TIMER: {
 
         training: 60000,
-        instr_summary: 30000,
+        instr_summary: 60000,
+        quiz: 60000,
 //         creation: function() {
 //             var gs;
 //             gs = this.getCurrentGameStage();

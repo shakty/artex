@@ -11,16 +11,8 @@ const path = require('path');
 // Export the game-creating function.
 module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
-    var game, cbs;
-
-    let node = gameRoom.node;
-
-    // The game object to return at the end of the function.
-    game = {};
-
     // Import other functions used in the game.
-
-    cbs = require(path.resolve(__dirname, 'includes', 'player.callbacks.js'));
+    let cbs = require(path.join(__dirname, 'includes', 'player.callbacks.js'));
 
     // Specify init function, and extend default stages.
 
@@ -29,16 +21,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Add all the stages into the stager.
 
-    // stager.setDefaultProperty('timeup', function() { node.done(); });
-
     stager.extendStep('instr_summary', {
-        frame: 'instr_summary.html',
-        donebutton: false,
-        exit: function() {
-            if (this.visualTimer) {
-                this.visualTimer.gameTimer.removeHook('extraTimer');
-            }
-        }
+        frame: 'instr_summary.html'
     });
 
     stager.extendStep('quiz', {
@@ -65,7 +49,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 }
             }
             text = 'Check Quiz! Correct: ' + nCorrect + ' / ' + len;
-            this.node.game.donebutton.button.innerHTML = text;
+            node.game.doneButton.button.value = text;
             // Either all correct or timeup.
             if ((nCorrect === len) || node.game.timer.isTimeup()) {
                 return answers;
@@ -76,7 +60,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         },
         exit: function() {
             // Quiz might have changed it.
-            node.game.donebutton.button.innerHTML = 'Continue';
+            node.game.doneButton.button.value = 'Continue';
         }
     });
 
@@ -387,6 +371,9 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    // The game object to return at the end of the function.
+    let game = {};
+
     // We serialize the game sequence before sending it.
     game.plot = stager.getState();
 
@@ -403,11 +390,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     game.debug = setup.debug;
 
     // Remove for live game.
-    game.events = { dumpEvents: true };
-
-    game.window = setup.window;
-
-    game.nodename = 'player';
+    // game.events = { dumpEvents: true };
 
     return game;
 };

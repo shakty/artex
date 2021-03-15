@@ -17,7 +17,7 @@
 
     <div id="instructions">
       <span id="scrolldown">
-        Scroll the page to read the whole
+        Scroll the page to read the entire
         text. Read carefully and with no hurry.
         <br/>
         <strong>Important!</strong> Your bonus depends on your
@@ -39,16 +39,15 @@
 
         <ul>
           <li>
-            First, some basic <strong>psychological and
-            demographics</strong> characteristics will be collected.
+            First, a basic <strong>psychological and
+            demographics</strong> survey.
           </li>
           <li>
-            Secondly, the <strong>instructions</strong> of the game
-            played in Part 2 will be shown to you, followed by a short
-            understanding <strong>quiz</strong>.
+            Second, preliminary <strong>instructions</strong> of the game
+            (full details disclosed in Part 2).
           </li>
           <li>
-            Finally, you will play in <strong>practice mode</strong>
+            Third, play in <strong>practice mode</strong>
             to get familiar with the game interface.
           </li>
         </ul>
@@ -58,22 +57,26 @@
       <p>
         <h3>Part 2: Game</h3>
 
+
         In this part you will interact with <strong>other
         human</strong> participants. You might need to wait a short
         while until enough participants are connected.
+        When enough participants have connected,
+        the full details of the game will be disclosed to you,
+        followed by a brief understanding quiz.
 
         <ul>
           <li>
             The game will be repeated for a certain number
             of <strong>rounds</strong>, and in each round you will
             have a chance to <strong>earn points</strong> based on
-            your actions, and the actions of other players.
+            your actions and the actions of other players.
           </li>
           <li>
-            After the game, you will be shown
+            After the game,
             a <strong>questionnaire</strong> consisting in a short
-            compulsory part, followed by a series of optional
-            questions.
+            compulsory part and in a series of optional
+            questions will follow.
           </li>
         </ul>
 
@@ -88,20 +91,23 @@
         <h3>Payout scheme</h3>
 
         If you complete the whole experiment (Part 1 + Part 2) you will
-        receive:
+        receive rewards points:
 
         <ul>
           <li>
             a <strong>fixed reward</strong>
-              of <span id="completion-fee">1</span> USD, and
+              of <span id="completion-fee">1</span> points, and
           </li>
 
           <li>
-          a <strong>variable bonus</strong> depending on the total
-          number of points collected during the experiment. Every
-          <span id="exchange-rate">X</span> points you will earn 1 USD.
+          a <strong>variable bonus</strong> depending on your actions in
+           the experiment.
           </li>
         </ul>
+
+        Every
+       <span id="exchange-rate">X</span> point/s you will earn 1 USD.
+       </li>
 
       </p>
 
@@ -123,6 +129,7 @@
         node = parent.node;
         W = parent.W;
         s = node.game.settings;
+        W.setInnerHTML('completion-fee', s.fixedFee);
         W.setInnerHTML('exchange-rate', s.EXCHANGE_RATE);
     });
 </script>
