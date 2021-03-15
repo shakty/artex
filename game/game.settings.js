@@ -44,7 +44,7 @@ let settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 9,
+    REPEAT: 1,
 
     // Number of coins to split. *
     COINS: 100,
@@ -110,7 +110,7 @@ let settings = {
     TIMER: {
 
         training: 60000,
-        instr_summary: 4000,
+        instr_summary: 30000,
         // instructions: 90000,
         // quiz: 60000,
 //         creation: function() {
@@ -120,14 +120,14 @@ let settings = {
 //             if (gs.round < 3) return 60000;
 //             return 50000;
 //         },
-        creation: 500000,
-        submission: 200000,
+        creation: 50000,
+        submission: 20000,
         evaluation: function() {
             var gs;
             gs = this.getCurrentGameStage();
-            return gs.round < 2 ? 400000 : 200000;
+            return gs.round < 2 ? 40000 : 20000;
         },
-        dissemination: 150000
+        dissemination: 15000
         // questionnaire: 20000
     },
 

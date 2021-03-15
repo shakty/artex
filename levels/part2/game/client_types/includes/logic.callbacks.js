@@ -199,9 +199,6 @@ function evaluation() {
             pool = J.map(elements, function(item) { return [ item ]; });
         }
 
-        console.log(pool)
-
-debugger
         rm = new RMatcher();
         rm.init(elements, pool);
 
@@ -241,7 +238,9 @@ debugger
 
                     // Send one item at a time.
                     reviewer = matches[i][j][h];
-                    if ('object' === typeof reviewer) reviewer = reviewer.player;
+                    if ('object' === typeof reviewer) {
+                        reviewer = reviewer.player;
+                    }
                     node.say('CF', reviewer, data);
                 }
 
@@ -262,7 +261,6 @@ debugger
         // and group them by item reviewed.
         i = -1, len = reviews.length;
         for ( ; ++i < len ; ) {
-            console.log(reviews[i])
             creator = reviews[i].creator;
             if (!that.last_reviews[creator]) that.last_reviews[creator] = [];
             that.last_reviews[creator].push(reviews[i].eva);
@@ -433,12 +431,6 @@ function dissemination() {
 
 function gameover() {
     console.log('************** GAMEOVER ' + gameRoom.name + ' **************');
-
-    // Dump all memory.
-    // memory.save(gameRoom.dataDir + 'memory_all.json');
-
-    // TODO: fix this.
-    // channel.destroyGameRoom(gameRoom.name);
 }
 
 function notEnoughPlayers() {
