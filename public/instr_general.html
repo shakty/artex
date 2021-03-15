@@ -57,16 +57,16 @@
           <strong>Step 3: </strong>Each participant reviews 3 of the 8
           paintings produced by the other artists. The review is done
           by assigning a score on a scale from 0 to 10.
-          </li>
+         </li>
 
         <li>
-          <strong>Step 4: </strong> Within each exhibition, paintings
-          are <em>ranked</em> by average review score. The best ones
-          are displayed and generate <em>reward points</em> for their
-          authors. Paintings that are not displayed never generate
-          reward points. The exact payoff scheme will be explained to
-          you in <em>Part 2</em> of the game.
-
+            <strong>Step 4: </strong> Paintings with a "high-enough"
+            average review score are displayed
+            in the exhibition of choice and generate
+            <em>reward points</em> for their
+            authors. Paintings that are not displayed never generate
+            reward points. More details about the reward structure will be
+            available in <em>Part 2</em> of the game.
         </li>
       </ul>
 
@@ -76,9 +76,10 @@
       <h3>Who reviews what</h3>
 
         <ul>
-          <li>At each round you will be <em>randomly</em> assigned to
+          <li>At each round you will be assigned to
           review 3 paintings, and you can never review your own
-          painting.</li>
+          painting. More details about the review will be
+          available in <em>Part 2</em> of the game.</li>
         </ul>
 
       </p>
@@ -112,26 +113,5 @@
 
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
 
-        if (s.treatmentName === 'rank_skew') {
-//             p = 'painting';
-//             ps = 'paintings';
-//             a = s.exA.N === 1 ? p : s.exA.N + ' ' + ps;
-//             b = s.exB.N === 1 ? p : s.exB.N + ' ' + ps;
-//             c = s.exC.N === 1 ? p : s.exC.N + ' ' + ps;
-            a = s.exA.N;
-            b = s.exB.N;
-            c = s.exC.N;
-            W.setInnerHTML('ng_replace_threshold_A', a);
-            W.setInnerHTML('ng_replace_threshold_B', b);
-            W.setInnerHTML('ng_replace_threshold_C', c);
-            W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-            W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-            W.setInnerHTML('ng_replace_award_C', s.exC.reward);
-            W.show('payoff');
-        }
-        else if (s.treatmentName === 'rank_same') {
-            W.setInnerHTML('ng_replace_threshold', s.exA.N);
-            W.setInnerHTML('ng_replace_award', s.exA.reward);
-        }
     });
 </script>

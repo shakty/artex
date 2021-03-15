@@ -137,7 +137,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('instr_text', {
-        frame: settings.instrPage,
+        frame: 'instr_general.html',
         cb: function() {
             var s, maxWin, maxWinStr;
             s = node.game.settings;

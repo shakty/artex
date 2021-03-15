@@ -143,57 +143,55 @@ let settings = {
         // Research Policy Volume 50, Issue 4
 
 
-        // rank_skew: {
-        //     description: "Rank tournament publishing, tiered market structure.",
-        //     pubrule_text: pubRules.rankDifferent,
-        //     exA: {
-        //         competition: 'tournament',
-        //         N: 1,
-        //         reward: 500
-        //     },
-        //
-        //     exB: {
-        //         competition: 'tournament',
-        //         N: 2,
-        //         reward: 250
-        //     },
-        //
-        //     exC: {
-        //         competition: 'tournament',
-        //         N: 4,
-        //         reward: 125
-        //     },
-        //     colors: false,
-        //     instrPage: 'instr_general.html',
-        //     review_random: true,
-        //     com: true
-        // },
-        //
-        // rank_same: {
-        //     description: "Rank tournament publishing, flat market structure.",
-        //     pubrule_text: pubRules.rankSame,
-        //     exA: {
-        //         competition: 'tournament',
-        //         N: 2,
-        //         reward: 250
-        //     },
-        //
-        //     exB: {
-        //         competition: 'tournament',
-        //         N: 2,
-        //         reward: 250
-        //     },
-        //
-        //     exC: {
-        //         competition: 'tournament',
-        //         N: 2,
-        //         reward: 250
-        //     },
-        //     colors: false,
-        //     instrPage: 'instr_general.html',
-        //     review_random: true,
-        //     com: true
-        // },
+        rank_skew: {
+            description: "Rank tournament publishing, tiered market structure.",
+            pubrule_text: pubRules.rankDifferent,
+            exA: {
+                competition: 'tournament',
+                N: 1,
+                reward: 500
+            },
+
+            exB: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+
+            exC: {
+                competition: 'tournament',
+                N: 4,
+                reward: 125
+            },
+            colors: false,
+            review_random: true,
+            com: true
+        },
+
+        rank_same: {
+            description: "Rank tournament publishing, flat market structure.",
+            pubrule_text: pubRules.rankSame,
+            exA: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+
+            exB: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+
+            exC: {
+                competition: 'tournament',
+                N: 2,
+                reward: 250
+            },
+            colors: false,
+            review_random: true,
+            com: true
+        },
 
         // Treatments from:
 
@@ -210,7 +208,6 @@ let settings = {
             colors: true,
             com: true,
             competition: 'threshold',
-            instrPage: 'instructions_SEL_COM.html',
             pubrule_text: pubRules.rankDifferent,
             payoff: 3,
             EXCHANGE_RATE: 1
@@ -224,7 +221,6 @@ let settings = {
             com: false,
             colors: true,
             competition: 'threshold',
-            instrPage: 'instructions_SEL_COO.html',
             pubrule_text: pubRules.rankSame,
             payoff: 2,
             EXCHANGE_RATE: 1
@@ -237,7 +233,6 @@ let settings = {
             com: true,
             colors: true,
             competition: 'threshold',
-            instrPage: 'instructions_RND_COM.html',
             pubrule_text: pubRules.rankDifferent,
             payoff: 3,
             EXCHANGE_RATE: 1
@@ -250,7 +245,6 @@ let settings = {
             com: false,
             colors: true,
             competition: 'threshold',
-            instrPage: 'instructions_RND_COO.html',
             pubrule_text: pubRules.rankSame,
             payoff: 2,
             EXCHANGE_RATE: 1
