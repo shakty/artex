@@ -25,8 +25,7 @@ function init() {
     node.game.visualTimer = node.widgets.append('VisualTimer', header);
 
     node.game.rounds = node.widgets.append('VisualRound', header, {
-        displayModeNames: [ 'COUNT_UP_STAGES_TO_TOTAL' ],
-        // totStageOffset: 1
+        displayMode: [ 'COUNT_UP_STAGES_TO_TOTAL' ]
     });
 
     node.game.money = node.widgets.append('MoneyTalks', header, {
@@ -36,8 +35,6 @@ function init() {
     node.game.donebutton = node.widgets.append('DoneButton', header, {
         text: 'Continue'
     });
-
-
 
     // Add the main frame where the pages will be loaded.
     W.generateFrame();

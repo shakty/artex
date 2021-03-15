@@ -137,7 +137,14 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('instr_text', {
-        frame: settings.instrPage
+        frame: settings.instrPage,
+        cb: function() {
+            var s = node.game.settings;
+            W.setInnerHTML('n-repeat', s.REPEAT);
+            W.setInnerHTML('fixed-comp', s.fixed_fee);
+            // Threshold treatments.
+            if (s.com || s.coo) W.setInnerHTML('variable-comp', s.payoff);
+        }
     });
 
     stager.extendStep('instr_images', {

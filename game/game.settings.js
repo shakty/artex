@@ -78,6 +78,9 @@ let settings = {
     // If TRUE, players are assigned a color to begin with.
     colors: false,
 
+    // Number of fixed points.
+    fixed_fee: 10,
+
     // competition: 'threshold' or 'tournament'.
     //   - 'threshold' will publish all images with average review > threshold
     //   - 'tournament' will rank all images by average review score and
@@ -135,6 +138,13 @@ let settings = {
     // (there is also the "standard" treatment, using the options above)
     treatments: {
 
+        // Treatments from:
+
+        // Balietti, S. and Riedl C. (2021) "Incentives, Competition, and
+        // Inequality In markets for Creative Production"
+        // Research Policy Volume 50, Issue 4
+
+
         // rank_skew: {
         //     description: "Rank tournament publishing, tiered market structure.",
         //     pubrule_text: pubRules.rankDifferent,
@@ -187,10 +197,17 @@ let settings = {
         //     com: true
         // },
 
+        // Treatments from:
+
+        // Balietti, S., Goldstone, R.L., and Helbing, D. (2016)
+        // "Peer Review and Competition in the Art Exhibition Game
+        // Proceedings of the National Academy of Sciences (PNAS)
+        // Volume 113, Number 30 8414-8419
+
         threshold_select_com: {
             description:
                 "Threshold publishing, competitive, reviewers selected " +
-                "based on history of publishing and submitting",
+                "from past submissions",
             review_select: true,
             colors: true,
             com: true,
@@ -203,7 +220,7 @@ let settings = {
         threshold_select_coo: {
             description:
                 "Threshold publishing, non competitive, reviewers selected " +
-                "based on history of publishing and submitting",
+                "from past submissions",
             review_select: true,
             com: false,
             colors: true,
@@ -213,29 +230,29 @@ let settings = {
             payoff: 2
         },
 
-        // threshold_random_com: {
-        //     description:
-        //         "Threshold publishing, competitive.",
-        //     review_random: true,
-        //     com: true,
-        //     colors: true,
-        //     competition: 'threshold',
-        //     instrPage: 'instructions_RND_COM.html',
-        //     pubrule_text: pubRules.rankDifferent,
-        //     payoff: 3
-        // },
-        //
-        // threshold_random_coo: {
-        //     description:
-        //         "Threshold publishing, non competitive.",
-        //     review_random: true,
-        //     com: false,
-        //     colors: true,
-        //     competition: 'threshold',
-        //     instrPage: 'instructions_RND_COO.html',
-        //     pubrule_text: pubRules.rankSame,
-        //     payoff: 2
-        // }
+        threshold_random_com: {
+            description:
+                "Threshold publishing, competitive.",
+            review_random: true,
+            com: true,
+            colors: true,
+            competition: 'threshold',
+            instrPage: 'instructions_RND_COM.html',
+            pubrule_text: pubRules.rankDifferent,
+            payoff: 3
+        },
+
+        threshold_random_coo: {
+            description:
+                "Threshold publishing, non competitive.",
+            review_random: true,
+            com: false,
+            colors: true,
+            competition: 'threshold',
+            instrPage: 'instructions_RND_COO.html',
+            pubrule_text: pubRules.rankSame,
+            payoff: 2
+        }
 
      }
 
