@@ -41,6 +41,45 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
+    stager.extendStep('quiz', {
+        frame: 'quiz.html',
+        donebutton: 'Check Quiz!',
+        done: function() {
+            var i, len, answers, values, text, spanOutcome, fail, correct;
+            var nCorrect;
+            fail = '<em>Try again!</em>';
+            correct = '<em>Correct!</em>';
+            answers = {};
+            i = -1, len = this.quizzes.length;
+            nCorrect = 0;
+            for ( ; ++i < len ; ) {
+                spanOutcome = W.getElementById('q_' + (i+1) + '_outcome');
+                values = this.quizzes[i].getValues({ highlight: true });
+                if (!values.isCorrect) {
+                    spanOutcome.innerHTML = fail;
+                }
+                else {
+                    nCorrect++;
+                    answers[values.id] = values;
+                    spanOutcome.innerHTML = correct;
+                }
+            }
+            text = 'Check Quiz! Correct: ' + nCorrect + ' / ' + len;
+            this.node.game.donebutton.button.innerHTML = text;
+            // Either all correct or timeup.
+            if ((nCorrect === len) || node.game.timer.isTimeup()) {
+                return answers;
+            }
+            else {
+                return false;
+            }
+        },
+        exit: function() {
+            // Quiz might have changed it.
+            node.game.donebutton.button.innerHTML = 'Continue';
+        }
+    });
+
     // Adjust to displaying rounds in main stage.
     stager.extendStage('artex', {
         init: function() {

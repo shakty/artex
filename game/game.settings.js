@@ -114,8 +114,6 @@ let settings = {
 
         training: 60000,
         instr_summary: 30000,
-        // instructions: 90000,
-        // quiz: 60000,
 //         creation: function() {
 //             var gs;
 //             gs = this.getCurrentGameStage();
