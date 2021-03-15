@@ -1,10 +1,8 @@
 module.exports = RMatcher;
 
-var J = require('nodegame-client').JSUS;
+const J = require('nodegame-client').JSUS;
 
-var out, leftOver;
-
-function RMatcher (options) {
+function RMatcher() {
 
     this.groups = [];
 
@@ -13,9 +11,9 @@ function RMatcher (options) {
     this.doneCounter = 0;
 }
 
-RMatcher.prototype.init = function (elements, pools) {
-    for (var i = 0; i < elements.length; i++) {
-        var g = new Group();
+RMatcher.prototype.init = function(elements, pools) {
+    for (let i = 0; i < elements.length; i++) {
+        let g = new Group();
         g.init(elements[i], pools[i]);
         this.addGroup(g);
     }
@@ -26,14 +24,14 @@ RMatcher.prototype.init = function (elements, pools) {
     };
 };
 
-RMatcher.prototype.addGroup = function (group) {
+RMatcher.prototype.addGroup = function(group) {
     if (!group) return;
     this.groups.push(group);
 };
 
 RMatcher.prototype.match = function() {
     // Do first match
-    for (var i = 0; i < this.groups.length ; i++) {
+    for (let i = 0; i < this.groups.length ; i++) {
         this.groups[i].match();
         if (this.groups[i].matches.done) {
             this.doneCounter++;
@@ -51,7 +49,7 @@ RMatcher.prototype.match = function() {
         this.switchBetweenGroups();
     }
 
-    return J.map(this.groups, function (g) { return g.matched; });
+    return J.map(this.groups, function(g) { return g.matched; });
 };
 
 RMatcher.prototype.invertMatched = function() {
@@ -60,7 +58,7 @@ RMatcher.prototype.invertMatched = function() {
     J.each(this.groups, function(g) {
         elements = elements.concat(g.elements);
         tmp = g.invertMatched();
-        for (var i = 0; i < tmp.length; i++) {
+        for (let i = 0; i < tmp.length; i++) {
             inverted[i] = (inverted[i] || []).concat(tmp[i]);
         }
     });
@@ -75,15 +73,14 @@ RMatcher.prototype.allGroupsDone = function() {
     return this.doneCounter === this.groups.length;
 };
 
-RMatcher.prototype.tryOtherLeftOvers = function (g) {
+RMatcher.prototype.tryOtherLeftOvers = function(g) {
     var group, groupId;
     var order = J.seq(0, (this.groups.length-1));
     order = J.shuffle(order);
-    for (var i = 0 ; i < order.length ; i++) {
+    for (let i = 0 ; i < order.length ; i++) {
         groupId = order[i];
         if (groupId === g) continue;
         group = this.groups[groupId];
-        leftOver = [];
         if (group.leftOver.length) {
             group.leftOver = this.groups[g].matchBatch(group.leftOver);
 
@@ -101,7 +98,7 @@ RMatcher.prototype.tryOtherLeftOvers = function (g) {
 
 RMatcher.prototype.assignLeftOvers = function() {
     var g;
-    for ( var i = 0; i < this.groups.length ; i++) {
+    for ( let i = 0; i < this.groups.length ; i++) {
         g = this.groups[i];
         // Group is full
         if (!g.matches.done) {
@@ -116,18 +113,18 @@ RMatcher.prototype.collectLeftOver = function() {
 };
 
 
-RMatcher.prototype.switchFromGroup = function (fromGroup, toGroup, fromRow,
+RMatcher.prototype.switchFromGroup = function(fromGroup, toGroup, fromRow,
                                                leftOvers) {
 
-    for (var toRow = 0; toRow < fromGroup.elements.length; toRow++) {
+    for (let toRow = 0; toRow < fromGroup.elements.length; toRow++) {
 
-        for (var j = 0; j < leftOvers.length; j++) {
-            for (var n = 0; n < leftOvers[j].length; n++) {
+        for (let j = 0; j < leftOvers.length; j++) {
+            for (let n = 0; n < leftOvers[j].length; n++) {
 
-                var x = leftOvers[j][n]; // leftover n from group j
+                let x = leftOvers[j][n]; // leftover n from group j
 
                 if (fromGroup.canSwitchIn(x, toRow)) {
-                    for (var h = 0 ; h < fromGroup.matched[toRow].length; h++) {
+                    for (let h = 0 ; h < fromGroup.matched[toRow].length; h++) {
                         var switched = fromGroup.matched[toRow][h];
 
                         if (toGroup.canAdd(switched, fromRow)) {
@@ -157,13 +154,12 @@ RMatcher.prototype.switchFromGroup = function (fromGroup, toGroup, fromRow,
  * @param {integer} g Group index
  * @param {integer} row Row index
  */
-RMatcher.prototype.trySwitchingBetweenGroups = function (g, row) {
-    var lo = this.collectLeftOver();
-    var toGroup = this.groups[g];
-    var fromGroup;
+RMatcher.prototype.trySwitchingBetweenGroups = function(g, row) {
+    let lo = this.collectLeftOver();
+    let toGroup = this.groups[g];
     // Tries with all, even with the same group, that is why is (g + 1)
-    for (var i = (g + 1) ; i < (this.groups.length + g + 1) ; i++) {
-        fromGroup = this.groups[i % this.groups.length];
+    for (let i = (g + 1) ; i < (this.groups.length + g + 1) ; i++) {
+        let fromGroup = this.groups[i % this.groups.length];
 
         if (this.switchFromGroup(fromGroup, toGroup, row, lo)) {
             if (toGroup.matches.done) return;
@@ -176,13 +172,12 @@ RMatcher.prototype.trySwitchingBetweenGroups = function (g, row) {
 
 
 RMatcher.prototype.switchBetweenGroups = function() {
-    var g, diff;
-    for ( var i = 0; i < this.groups.length ; i++) {
-        g = this.groups[i];
+    for (let i = 0; i < this.groups.length ; i++) {
+        let g = this.groups[i];
         // Group has free elements
         if (!g.matches.done) {
             for ( var j = 0; j < g.elements.length; j++) {
-                diff = g.rowLimit - g.matched[j].length;
+                let diff = g.rowLimit - g.matched[j].length;
                 if (diff) {
                     for (var h = 0 ; h < diff; h++) {
                         this.trySwitchingBetweenGroups(i, j);
@@ -223,11 +218,11 @@ function Group() {
     this.stretch = true;
 }
 
-Group.prototype.init = function (elements, pool) {
+Group.prototype.init = function(elements, pool) {
     this.elements = elements;
     this.pool = J.clone(pool);
 
-    for (var i = 0; i < this.pool.length; i++) {
+    for (let i = 0; i < this.pool.length; i++) {
         if (this.stretch) {
             this.pool[i] = J.stretch(this.pool[i], this.rowLimit);
         }
@@ -240,7 +235,7 @@ Group.prototype.init = function (elements, pool) {
         this.matches.done = true;
     }
     else {
-        for (i = 0 ; i < elements.length ; i++) {
+        for (let i = 0 ; i < elements.length ; i++) {
             this.matched[i] = [];
         }
     }
@@ -252,7 +247,7 @@ Group.prototype.init = function (elements, pool) {
 /**
  * The same as canAdd, but does not consider row limit
  */
-Group.prototype.canSwitchIn = function (x, row) {
+Group.prototype.canSwitchIn = function(x, row) {
     // Element already matched
     if (J.inArray(x, this.matched[row])) return false;
     // No self
@@ -262,14 +257,14 @@ Group.prototype.canSwitchIn = function (x, row) {
 };
 
 
-Group.prototype.canAdd = function (x, row) {
+Group.prototype.canAdd = function(x, row) {
     // Row limit reached
     if (this.matched[row].length >= this.rowLimit) return false;
 
     return this.canSwitchIn(x, row);
 };
 
-Group.prototype.shouldSwitch = function (x, fromRow) {
+Group.prototype.shouldSwitch = function() {
     if (!this.leftOver.length) return false;
     if (this.matched.length < 2) return false;
     //  var actualLeftOver = this.leftOver.length;
@@ -278,9 +273,8 @@ Group.prototype.shouldSwitch = function (x, fromRow) {
 };
 
 // If there is a hole, not in the last position, the algorithm fails
-Group.prototype.switchIt = function () {
-
-    for (var i = 0; i < this.elements.length ; i++) {
+Group.prototype.switchIt = function() {
+    for (let i = 0; i < this.elements.length ; i++) {
         if (this.matched[i].length < this.rowLimit) {
             this.completeRow(i);
         }
@@ -288,10 +282,10 @@ Group.prototype.switchIt = function () {
 
 };
 
-Group.prototype.completeRow = function (row, leftOver) {
+Group.prototype.completeRow = function(row, leftOver) {
     leftOver = leftOver || this.leftOver;
     var clone = leftOver.slice(0);
-    for (var i = 0 ; i < clone.length; i++) {
+    for (let i = 0 ; i < clone.length; i++) {
         for (var j = 0 ; j < this.elements.length; j++) {
             if (this.switchItInRow(clone[i], j, row)){
                 leftOver.splice(i,1);
@@ -304,7 +298,7 @@ Group.prototype.completeRow = function (row, leftOver) {
 };
 
 
-Group.prototype.switchItInRow = function (x, toRow, fromRow) {
+Group.prototype.switchItInRow = function(x, toRow, fromRow) {
     if (!this.canSwitchIn(x, toRow)) {
         //console.log('cannot switch ' + x + ' ' + toRow)
         return false;
@@ -312,8 +306,8 @@ Group.prototype.switchItInRow = function (x, toRow, fromRow) {
     //console.log('can switch: ' + x + ' ' + toRow + ' from ' + fromRow)
     // Check if we can insert any of the element of the 'toRow'
     // inside the 'toRow'
-    for (var i = 0 ; i < this.matched[toRow].length; i++) {
-        var switched = this.matched[toRow][i];
+    for (let i = 0 ; i < this.matched[toRow].length; i++) {
+        let switched = this.matched[toRow][i];
         if (this.canAdd(switched, fromRow)) {
             this.matched[toRow][i] = x;
             this.addToRow(switched, fromRow);
@@ -333,7 +327,8 @@ Group.prototype.addToRow = function(x, row) {
 };
 
 Group.prototype.addIt = function(x) {
-    var counter = 0, added = false;
+    let counter = 0;
+    let added = false;
     while (counter < this.elements.length && !added) {
         if (this.canAdd(x, this.pointer)) {
             this.addToRow(x, this.pointer);
@@ -346,9 +341,9 @@ Group.prototype.addIt = function(x) {
 };
 
 
-Group.prototype.matchBatch = function (pool) {
-    var leftOver = [];
-    for (var i = 0 ; i < pool.length ; i++) {
+Group.prototype.matchBatch = function(pool) {
+    let leftOver = [];
+    for (let i = 0 ; i < pool.length ; i++) {
         if (this.matches.done || !this.addIt(pool[i])) {
             // if we could not add it as a match, it becomes leftover
             leftOver.push(pool[i]);
@@ -357,18 +352,16 @@ Group.prototype.matchBatch = function (pool) {
     return leftOver;
 };
 
-Group.prototype.match = function (pool) {
+Group.prototype.match = function(pool) {
     pool = pool || this.pool;
     //  console.log('matching pool');
     //  console.log(pool)
-    if (!J.isArray(pool)) {
-        pool = [pool];
-    }
+    if (!J.isArray(pool)) pool = [pool];
+
     // Loop through the pools: elements in lower
     // indexes-pools have more chances to be used
-    var leftOver;
-    for (var i = 0 ; i < pool.length ; i++) {
-        leftOver = this.matchBatch(pool[i]);
+    for (let i = 0 ; i < pool.length ; i++) {
+        let leftOver = this.matchBatch(pool[i]);
         if (leftOver.length) {
             this.leftOver = this.leftOver.concat(leftOver);
         }
@@ -379,7 +372,7 @@ Group.prototype.match = function (pool) {
     }
 };
 
-Group.prototype.updatePointer = function () {
+Group.prototype.updatePointer = function() {
     this.pointer = (this.pointer + 1) % this.elements.length;
 };
 
@@ -391,7 +384,7 @@ Group.prototype.summary = function() {
     console.log('matched: ', this.matched);
 };
 
-Group.prototype.invertMatched = function () {
+Group.prototype.invertMatched = function() {
     return J.transpose(this.matched);
 }
 
@@ -412,7 +405,6 @@ function getElements() {
 
 function getPools() {
     var n = J.shuffle(numbers);
-    out = [];
 
     var A = n.splice(0, J.randomInt(0, (n.length / 2)));
     var B = n.splice(0, J.randomInt(0, (n.length / 2)));
@@ -438,7 +430,7 @@ function getPools() {
 
 function simulateMatch(N) {
 
-    for (var i = 0 ; i < N ; i++) {
+    for (let i = 0 ; i < N ; i++) {
 
         var rm = new RMatcher(),
         elements = getElements(),
