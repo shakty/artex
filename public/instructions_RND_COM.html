@@ -68,7 +68,7 @@
        <p>
       <h3>Payoff calculation</h3>
       <ul>
-        <li>You will receive a fixed monetary compensation of <strong>10</strong> points, plus
+        <li>You will receive a fixed monetary compensation of <strong id="fixed=comp">10</strong> points, plus
             a variable amount based on your performance in the game.</li>
         <li>If one of your painting is published you will receive a sum equal to <strong>(3 / N)</strong> points, where N is the number of artists who published with you in the <strong>same</strong> exhibition.
         <table id="payoff">
@@ -81,7 +81,9 @@
         </table>
         </li>
         <li>If your painting is not published you will receive <strong>0</strong> points.</li>
-        <li>The maximum amount of money you can win is 30*3 + 10 = <strong>100</strong> points.</li>
+        <li>The maximum amount of money you can win is <span id="max-win">30*3 + 10 = <strong>100</strong></span> points.</li>
+
+        <li>At the end of the game, points are converted into USD at the rate 1 USD = <span id="conversion-rate">1</span> point/s.</li>
 
       </ul>
       </p>

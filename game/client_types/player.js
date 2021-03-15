@@ -139,11 +139,23 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     stager.extendStep('instr_text', {
         frame: settings.instrPage,
         cb: function() {
-            var s = node.game.settings;
-            W.setInnerHTML('n-repeat', s.REPEAT);
-            W.setInnerHTML('fixed-comp', s.fixed_fee);
+            var s, maxWin, maxWinStr;
+            s = node.game.settings;
+
             // Threshold treatments.
-            if (s.com || s.coo) W.setInnerHTML('variable-comp', s.payoff);
+            if (s.hasOwnProperty('com')) {
+                W.setInnerHTML('n-repeat', s.REPEAT);
+                W.setInnerHTML('fixed-comp', s.fixedFee);
+                W.setInnerHTML('variable-comp', s.payoff);
+
+                // Max Win.
+                maxWin = (s.REPEAT * s.payoff) + s.fixedFee;
+                maxWinStr = s.REPEAT + '*' + s.payoff + '+' + s.fixedFee +
+                            ' = <strong>' + maxWin + '</strong>';
+                W.setInnerHTML('max-win', maxWinStr);
+
+                W.setInnerHTML('conversion-rate', s.EXCHANGE_RATE);
+            }
         }
     });
 

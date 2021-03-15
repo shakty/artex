@@ -79,7 +79,7 @@ let settings = {
     colors: false,
 
     // Number of fixed points.
-    fixed_fee: 10,
+    fixedFee: 10,
 
     // competition: 'threshold' or 'tournament'.
     //   - 'threshold' will publish all images with average review > threshold
@@ -214,7 +214,8 @@ let settings = {
             competition: 'threshold',
             instrPage: 'instructions_SEL_COM.html',
             pubrule_text: pubRules.rankDifferent,
-            payoff: 3
+            payoff: 3,
+            EXCHANGE_RATE: 1
         },
 
         threshold_select_coo: {
@@ -227,7 +228,8 @@ let settings = {
             competition: 'threshold',
             instrPage: 'instructions_SEL_COO.html',
             pubrule_text: pubRules.rankSame,
-            payoff: 2
+            payoff: 2,
+            EXCHANGE_RATE: 1
         },
 
         threshold_random_com: {
@@ -239,7 +241,8 @@ let settings = {
             competition: 'threshold',
             instrPage: 'instructions_RND_COM.html',
             pubrule_text: pubRules.rankDifferent,
-            payoff: 3
+            payoff: 3,
+            EXCHANGE_RATE: 1
         },
 
         threshold_random_coo: {
@@ -251,7 +254,8 @@ let settings = {
             competition: 'threshold',
             instrPage: 'instructions_RND_COO.html',
             pubrule_text: pubRules.rankSame,
-            payoff: 2
+            payoff: 2,
+            EXCHANGE_RATE: 1
         }
 
      }

@@ -16,7 +16,7 @@ div#container_instructions {
 
 div#instructions {
     margin: 0 auto;
-    width: 800px;
+    /* width: 800px; */
     text-align: left;
     padding: 15px;
 }
