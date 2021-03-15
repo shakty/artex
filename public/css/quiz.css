@@ -65,7 +65,10 @@ span#insideh1 {
     font-weight: bold;
 }
 
-table#reviewSelect td, table#rewards td {
+table#reviewSelect td,
+table#rewards td,
+table#payoff td
+ {
     width: 720px;
     text-align: left;
     padding-left: 15px;

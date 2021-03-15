@@ -4,49 +4,12 @@ $(document).ready(function() {
     var node =  parent.node,
     J = parent.JSUS;
 
-    var answers;
-    var wrongTxt, correctTxt;
     var quizzes, opts;
-    var i, len;
+    var i, len, s;
 
-    var root, groupOrder;
+    var root, groupOrder, correctChoice;
 
-    wrongTxt = 'Wrong, try again';
-    correctTxt = 'Correct!';
-
-    node.env('com', function() {
-        node.env('review_select', function() {
-            answers = {
-                coocom: 3,
-                reviewSelect: 2,
-                reviewRange: 0
-            };
-        });
-        node.env('review_random', function() {
-            answers = {
-                coocom: 3,
-                reviewSelect: 3,
-                reviewRange: 0
-            };
-        });
-    });
-
-    node.env('coo', function() {
-        node.env('review_select', function() {
-            answers = {
-                coocom: 2,
-                reviewSelect: 2,
-                reviewRange: 0
-            };
-        });
-        node.env('review_random', function() {
-            answers = {
-                coocom: 2,
-                reviewSelect: 3,
-                reviewRange: 0
-            };
-        });
-    });
+    s = node.game.settings;
 
     quizzes = [
         {
@@ -61,48 +24,49 @@ $(document).ready(function() {
             mainText: 'How are reviewers assigned to images and exhibitions?',
             choices: [
                 'Randomly',
-                'If I display in an exhibition I become ' +
-                    'reviewer for that exhibition in the next round',
+                'If I submit or display in an exhibition I am more likely to ' +
+                    'become a reviewer for that exhibition in the next round',
                 'At the beginning the game I am assigned to an exhibition ' +
                     'and I always review for that one'
             ],
-            correctChoice: 0,
+            correctChoice: s.review_select ? 1 : 0,
             orientation: 'V'
         },
         {
             id: 'rewards',
             mainText: 'After you have created a painting, and reviewed the ' +
-                'paintings of other participants, what happens next?',
+            'paintings of other participants, what happens next?',
             choices: [
-                'All paintings are displayed and the authors rewarded',
-                'All paintings are ranked, the best ones are displayed ' +
-                    'and generate a reward for their authors',
-                'Within each exhibition the paintings are ranked, the best ' +
-                    'ones in each exhibition are displayed, and generate ' +
-                    'a reward for their authors',
+                'All paintings are displayed with their review score',
+                'Paintings are ranked globally and the best ones are displayed',
+                'Paintings are ranked within each exhibition, the best ' +
+                    'ones in each exhibition are displayed',
+                'Painting with a review score higher than the ' +
+                    'threshold are put on display',
+
             ],
-            correctChoice: 2,
+            correctChoice: s.competition === 'threshold' ? 3 : 2,
+            orientation: 'V'
+        },
+        {
+            id: 'payoff',
+            mainText: 'What is the payoff for those with a painting on display?',
+            choices: [
+                'The payoff is the same for all',
+                'The payoff depends on the exhibition of choice',
+                'The payoff varies depending on how many others have ' +
+                    'a painting on display in the same exhibition'
+            ],
             orientation: 'V'
         }
     ];
 
-
-// Old "rewards" question.
-//        {
-//             id: 'rewards',
-//             mainText: 'What is the reward for displaying in an exhibition?',
-//             choices: [
-//                 'The rewards vary by exhibition: the higher the reward, ' +
-//                     'the fewer the number of awards per exhibition',
-//                 'All rewards are the same regardless of the exhibition',
-//                 'All exhibitions have the same number of awards, but ' +
-//                     'of different value',
-//                 'The rewards vary by exhibition, but the number of awards ' +
-//                     'per exhibition is the same'
-//             ],
-//             correctChoice: 0,
-//             orientation: 'V'
-//         }
+    // Settings correct choice for the payoff question.
+    if (s.competition === 'threshold') correctChoice = s.com ? 2 : 0;
+    else correctChoice = 1;
+    quizzes[3].correctChoice = correctChoice;
+    // Make sure quizzes order is correct.
+    if (quizzes[3].id !== 'payoff') alert('Something is wrong');
 
     // Append quizzes in random order.
     J.shuffle(quizzes);
