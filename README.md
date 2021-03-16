@@ -1,10 +1,10 @@
 # Art Exhibition Game
 
-Source code for the [nodeGame] game Art Exbition Game, as in the following academic publications:
+Source code for the [nodeGame] game Art Exbition Game, as in the following academic papers:
 
 1- Balietti, S. and Riedl C. (2021) ["Incentives, competition, and inequality in markets for creative production"](https://www.sciencedirect.com/science/article/pii/S0048733321000160?dgcid=author), Research Policy Volume 50, Issue 4
 
-2- Balietti, S., Goldstone, R.L., and Helbing, D. (2016) "[Peer Review and Competition in the Art Exhibition Game](https://www.pnas.org/content/113/30/8414)", Proceedings of the National Academy of Sciences (PNAS) Volume 113, Number 30 8414-8419
+2- Balietti, S., Goldstone, R.L., and Helbing, D. (2016) "[Peer Review and Competition in the Art Exhibition Game](https://www.pnas.org/content/113/30/8414)", Proceedings of the National Academy of Sciences (PNAS) Volume 113, Number 30, pp. 8414-8419
 
 Numbers
 
@@ -30,7 +30,7 @@ In file `game/game.settings.js` 6 treatments are available:
 
 ## Notes
 
-Current codebase is ported to nodeGame version 6 from previous version. It is _not_ the exact code used in either paper. In particular, a notable difference from paper 2 is that creation and submissions are in two separate steps, instead of in the same step with a popup window. Moreover, in paper 2 there was no pre-game survey, only a small demographics survey at the end of the experiment. Finally, actual payoff values are different.
+Current codebase is ported to nodeGame version 6 from previous versions. It is _not_ the exact code used in either paper. In particular, a notable difference from paper 2 is that creation and submissions are in two separate steps, instead of in the same step with a popup window. Moreover, in paper 2 there was no pre-game survey, only a small demographics survey at the end of the experiment. Finally, actual payoff values are different.
 
 ## Links
 
