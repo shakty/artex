@@ -27,14 +27,16 @@ module.exports = function(treatmentName, settings,
     stager.extendAllSteps(function(o) {
         o._cb = o.cb;
         o.cb = function() {
-            var _cb, stepObj;
-            var q;
+            var _cb, stepObj, id;
+            var q, i, len;
 
             stepObj = this.getCurrentStepObj();
             _cb = stepObj._cb;
             _cb.call(this);
 
-            if (stepObj.id === 'morequestions') {
+            id = stepObj.id;
+
+            if (id === 'morequestions') {
                 node.on('moreq', function() {
                     var q, subq;
                     if (!this.finishedQ) {
@@ -63,7 +65,7 @@ module.exports = function(treatmentName, settings,
                 node.emit('moreq');
                 return;
             }
-            else if (stepObj.id === 'endgame') {
+            else if (id === 'endgame') {
                 // Nothing to do here.
                 W.getElementById('email').value =
                     node.JSUS.randomString(9, 'a') + '@' + 'a.com';
@@ -75,11 +77,17 @@ module.exports = function(treatmentName, settings,
                 return;
             }
 
-            else if (stepObj.id === 'submission') {
+            else if (id === 'submission') {
                 node.game.last_ex =
                     node.game.settings.exhibitNames[node.JSUS.randomInt(-1, 2)];
             }
-            else if (stepObj.id === 'questionnaire') {
+            else if (id === 'quiz') {
+                i = -1, len = this.quizzes.length;
+                for ( ; ++i < len ; ) {
+                    this.quizzes[i].setValues({ correct: true });
+                }
+            }
+            else if (id === 'questionnaire') {
                 for (q in this.questionnaire) {
                     if (this.questionnaire.hasOwnProperty(q)) {
                         this.questionnaire[q].setValues();

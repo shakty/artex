@@ -37,7 +37,7 @@ let settings = {
     REPEAT_TRAINING: 1,
 
     // Number or rounds to draw images. *
-    REPEAT: 9,
+    REPEAT: 3,
 
     // Number of coins to split. *
     COINS: 100,
@@ -117,7 +117,7 @@ let settings = {
         //     return 50000;
         // },
         creation: 50000,
-        submission: 20000,
+        submission: 2000000,
         evaluation: function() {
             var round;
             round = this.getRound();

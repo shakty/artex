@@ -28,12 +28,11 @@ module.exports = function(treatmentName, settings, stagerPlayer,
     stager.extendAllSteps(function(o) {
         o._cb = o.cb;
         o.cb = function() {
-            var i, len;
             var _cb, stepObj, id;
             stepObj = this.getCurrentStepObj();
             _cb = stepObj._cb;
             _cb.call(this);
-            id = stepObj.id
+            id = stepObj.id;
             if (id === 'mood') {
                 this.mood.setValues();
             }
@@ -42,12 +41,6 @@ module.exports = function(treatmentName, settings, stagerPlayer,
             }
             else if (id === 'demographics') {
                 this.demo.setValues();
-            }
-            else if (id === 'quiz') {
-                i = -1, len = this.quizzes.length;
-                for ( ; ++i < len ; ) {
-                    this.quizzes[i].setValues({ correct: true });
-                }
             }
             else if (id === 'belief') {
                 this.belief.setValues();

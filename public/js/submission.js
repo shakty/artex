@@ -24,7 +24,8 @@ $(document).ready(function() {
     valueRuleA = document.getElementById('available-A');
     valueRuleB = document.getElementById('available-B');
     valueRuleC = document.getElementById('available-C');
-    if (settings.treatmentName === 'tournament') {
+
+    if (settings.competition === 'tournament') {
         ruleA.innerHTML = 'Available rewards';
         ruleB.innerHTML = 'Available rewards';
         ruleC.innerHTML = 'Available rewards';
@@ -34,20 +35,29 @@ $(document).ready(function() {
     }
     // Threshold.
     else {
+        ruleA.innerHTML = 'Review threshold';
+        ruleB.innerHTML = 'Review threshold';
+        ruleC.innerHTML = 'Review threshold';
+
+        valueRuleA.innerHTML = settings.exA.threshold;
+        valueRuleB.innerHTML = settings.exB.threshold;
+        valueRuleC.innerHTML = settings.exC.threshold;
+
         if (settings.com) {
             rewardTextA = document.getElementById('reward-text-A');
             rewardTextB = document.getElementById('reward-text-B');
             rewardTextC = document.getElementById('reward-text-C');
-            competitiveSplit = '<span class="smallInfo">Split among displayed images.</span>';
+            competitiveSplit = '<span class="smallInfo">N = displayed images.</span>';
             rewardTextA.innerHTML += competitiveSplit;
             rewardTextB.innerHTML += competitiveSplit;
             rewardTextC.innerHTML += competitiveSplit;
+
+            document.getElementById('reward-A').innerHTML += ' / N';
+            document.getElementById('reward-B').innerHTML += ' / N';
+            document.getElementById('reward-C').innerHTML += ' / N';
+
         }
-        ruleA.innerHTML = 'Review threshold';
-        ruleB.innerHTML = 'Review threshold';
-        ruleC.innerHTML = 'Review threshold';
-        valueRuleA.innerHTML = settings.exA.threshold;
-        valueRuleB.innerHTML = settings.exB.threshold;
-        valueRuleC.innerHTML = settings.exC.threshold;
+
+
     }
 });

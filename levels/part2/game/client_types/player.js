@@ -198,12 +198,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
             this.showQuestion = function() {
                 var idx, q, len, title;
-                var obj, i, fd;
-
-                // Scroll up!
-                fd = W.getFrameDocument();
-                fd.body.scrollTop = 0;
-                fd.documentElement.scrollTop = 0;
+                var obj, i;
 
                 // Num. of available questions, also used to assess
                 // the order in which they are shown.

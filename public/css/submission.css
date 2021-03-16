@@ -100,6 +100,7 @@ table.table-rules {
     margin-top: 15px !important;
     border: 0;
     text-align: right;
+    width: 100%;
 }
 
 table.table-rules tr {
@@ -117,8 +118,13 @@ table.table-rules td {
 }
 
 td.table-rules-left {
-    width: 90%;
+    /* width: 90%; */
     text-align: left;
+}
+
+table.table-rules tr td:last-child {
+    float: right;
+    text-align: right;
 }
 
 /* Exhibition List */

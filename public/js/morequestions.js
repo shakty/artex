@@ -1,11 +1,10 @@
 // Script loaded by creation.html.
 $(document).ready(function() {
-    var node, W, q, name, names, i, len, tmpElement, j, lenJ;
+    var node, q, name, names, i, len, tmpElement, j, lenJ;
     var options, choices, subqs;
     var tableId, dt, id;
     node = parent.node;
     J = parent.JSUS;
-    W = parent.W;
     q = node.game.questionnaire;
     // Names are not shuffled, but they are randomly displayed.
     names = node.game.qNamesExtra;
