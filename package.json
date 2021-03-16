@@ -1,6 +1,6 @@
 {
     "name": "artex"
-  , "description": "Art Exhibition Game (peer review)"
+  , "description": "Art Exhibition Game (peer review). Requires high resolution."
   , "version": "2.0.0"
   , "homepage": "http://nodegame.org"
   , "keywords": ["peer review", "science", "experiment", "art", "quality", "evaluation"]
