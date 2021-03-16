@@ -63,7 +63,7 @@ $(document).ready(function() {
 
     // Settings correct choice for the payoff question.
     if (s.competition === 'threshold') correctChoice = s.com ? 2 : 0;
-    else correctChoice = 1;
+    else s.treatmentName === 'rank_skew' ? correctChoice = 1 : 0;
     quizzes[3].correctChoice = correctChoice;
     // Make sure quizzes order is correct.
     if (quizzes[3].id !== 'payoff') alert('Something is wrong');

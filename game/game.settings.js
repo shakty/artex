@@ -8,18 +8,11 @@
 
 let pubRules = {
 
-    thresholdSame: 'All the paintings that receive an average review-score ' +
-        'greater than <em id="ng_replace_threshold"></em> are put on display ' +
-        'in the exhibition to which they are submitted.',
+    thresholdCoo: ' and awards their authors the <em>same</em> ' +
+        'number of reward points',
 
-    thresholdDifferent: 'Each exhibition has a different threshold. ' +
-        'That is: ' +
-        '<ul><li>Exhibition A: average review score &gt;' +
-        '<em id="ng_replace_threshold_A"></em></li>' +
-        '<li>Exhibition B: average review score &gt;' +
-        '<em id="ng_replace_threshold_B"></em></li>' +
-        '<li>Exhibition C: average review score &gt;' +
-        '<em id="ng_replace_threshold_C"></em></li></ul>',
+    thresholdCom: ' and awards their authors a <em>variable</em> ' +
+        'number of reward points',
 
     rankSame: ' and awards their authors the <em>same</em> ' +
         'number of reward points',
@@ -115,19 +108,20 @@ let settings = {
         training: 60000,
         instr_summary: 60000,
         quiz: 60000,
-//         creation: function() {
-//             var gs;
-//             gs = this.getCurrentGameStage();
-//             if (gs.round < 2) return 80000;
-//             if (gs.round < 3) return 60000;
-//             return 50000;
-//         },
+        // Variable timer, more time in earlier rounds.
+        // creation: function() {
+        //     var round;
+        //     round = this.getRound();
+        //     if (round < 2) return 80000;
+        //     if (round < 3) return 60000;
+        //     return 50000;
+        // },
         creation: 50000,
         submission: 20000,
         evaluation: function() {
-            var gs;
-            gs = this.getCurrentGameStage();
-            return gs.round < 2 ? 40000 : 20000;
+            var round;
+            round = this.getRound();
+            return round < 2 ? 40000 : 20000;
         },
         dissemination: 15000
         // questionnaire: 20000
@@ -204,26 +198,54 @@ let settings = {
         threshold_select_com: {
             description:
                 "Threshold publishing, competitive, reviewers selected " +
-                "from past submissions",
+                "from past submissions.",
             review_select: true,
             colors: true,
             com: true,
             competition: 'threshold',
-            pubrule_text: pubRules.rankDifferent,
+            pubrule_text: pubRules.thresholdCom,
             payoff: 3,
+            exA: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exB: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exC: {
+                competition: 'threshold',
+                reward: 250
+            },
             EXCHANGE_RATE: 1
         },
 
         threshold_select_coo: {
             description:
                 "Threshold publishing, non competitive, reviewers selected " +
-                "from past submissions",
+                "from past submissions.",
             review_select: true,
             com: false,
             colors: true,
             competition: 'threshold',
-            pubrule_text: pubRules.rankSame,
+            pubrule_text:  pubRules.thresholdCoo,
             payoff: 2,
+            exA: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exB: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exC: {
+                competition: 'threshold',
+                reward: 250
+            },
             EXCHANGE_RATE: 1
         },
 
@@ -234,10 +256,24 @@ let settings = {
             com: true,
             colors: true,
             competition: 'threshold',
-            pubrule_text: pubRules.rankDifferent,
+            pubrule_text:  pubRules.thresholdCom,
             payoff: 3,
+            exA: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exB: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exC: {
+                competition: 'threshold',
+                reward: 250
+            },
             EXCHANGE_RATE: 1
-        },
+                },
 
         threshold_random_coo: {
             description:
@@ -246,8 +282,22 @@ let settings = {
             com: false,
             colors: true,
             competition: 'threshold',
-            pubrule_text: pubRules.rankSame,
+            pubrule_text:  pubRules.thresholdCoo,
             payoff: 2,
+            exA: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exB: {
+                competition: 'threshold',
+                reward: 250
+            },
+
+            exC: {
+                competition: 'threshold',
+                reward: 250
+            },
             EXCHANGE_RATE: 1
         }
 

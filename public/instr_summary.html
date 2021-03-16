@@ -16,8 +16,8 @@
 
     <h1>Instructions for Part 2</h1>
     <div id="instructions">
+      <strong>Summary</strong>
       <ul>
-
         <li>
           You are part of a community
           of <strong id="ng_replace_pcount"><em>(still counting... wait
@@ -33,19 +33,23 @@
           In each round you will: (i) create a new painting, (ii)
           choose one of the <strong>3</strong> available exhibitions
           for your artwork, and (iii) review <strong>3</strong>
-          paintings.
+          paintings on a scale 0-10.
         </li>
+    </ul>
+
+    <strong>Reviews and Rewards</strong>
+
+     <ul>
 
         <li id="review-random" style="display: none">
             Paintings are assigned to reviewers <em>randomly</em>, and you can
-            never review your painting.
+            never review your own painting.
         </li>
 
         <li id="review-select" style="display: none">
-            Paintings are assigned to reviewers based on the <em>history of previous
-            submissions and displays</em>: the more submissions and the more displays
-            in one exhibition, the higher your chances to become a reviewer
-            for that exhibition in the <em>next</em> round.
+            When you choose one exhibition, you increase your chances to become
+            a reviewer for that exhibition in the <em>next</em> round;
+            if your painting goes on display, your chances will be even higher.
             You can never review your own painting.
         </li>
 
@@ -55,9 +59,9 @@
         is:</li>
 
         <li id="threshold-summary" style="display: none">
-            Each exhibition displays <em>only</em>
+            Each exhibition <em>only</em> displays
         paintings with an average review score greater than a
-        threshold<span id="ng_replace_pubrule_text_threshold"></span>.
+        <em>threshold</em><span id="ng_replace_pubrule_text_threshold"></span>.
         That is:</li>
 
         <table id="payoff">
@@ -91,8 +95,17 @@
             </tbody>
 
         </table>
-        <span id="com-warning"></span>
-      </ul>
+
+
+        <li id="threshold_com" style="display: none">
+            The reward for a display is divided by <em>N</em>, the total number
+            of artists who get a painting on display in the <em>same</em> exhibition.
+        </li>
+
+        <li>At the end of the game, points are converted into USD at the rate 1 USD = <span id="conversion-rate">1</span> point/s.</li>
+
+        </ul>
+
       Press "Continue" for a brief understanding quiz.
     </div>
   </div>
@@ -100,8 +113,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var node, W, J, s;
-        var a, b, c;
-        var startsIn;
+        var a, b, c, aReward, bReward, cReward;
 
         function makeThreshold(n) {
             if (J.isInt(n)) n += '.0';
@@ -121,6 +133,9 @@
         // Fill in parameters.
         W.setInnerHTML('ng_replace_repeat', s.REPEAT);
 
+        aReward = s.exA.reward;
+        bReward = s.exB.reward;
+        cReward = s.exC.reward;
 
         if (s.competition === 'tournament') {
             W.show('tournament-summary');
@@ -147,9 +162,12 @@
             c = makeThreshold(s.exC.threshold);
 
             if (s.com) {
-                W.setInnerHTML('com-warning', '<em>Note:</em> The reward ' +
-                               'in each exhibition is divided amongst all ' +
-                               'images on display.');
+
+                aReward += ' / N';
+                bReward += ' / N';
+                cReward += ' / N';
+
+                W.show('threshold_com');
             }
         }
 
@@ -164,9 +182,13 @@
         W.setInnerHTML('ng_replace_threshold_B', b);
         W.setInnerHTML('ng_replace_threshold_C', c);
 
-        W.setInnerHTML('ng_replace_award_A', s.exA.reward);
-        W.setInnerHTML('ng_replace_award_B', s.exB.reward);
-        W.setInnerHTML('ng_replace_award_C', s.exC.reward);
+        a += '/N';
+        b += '/N';
+        c += '/N';
+
+        W.setInnerHTML('ng_replace_award_A', aReward);
+        W.setInnerHTML('ng_replace_award_B', bReward);
+        W.setInnerHTML('ng_replace_award_C', cReward);
 
     });
 </script>

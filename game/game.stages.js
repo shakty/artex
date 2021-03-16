@@ -15,7 +15,6 @@ module.exports = function(stager, settings) {
         .stage('svo')
         .stage('demographics')
         .stage('instructions')
-        // .stage('quiz')
         .stage('training_intro')
         .repeat('training', settings.REPEAT_TRAINING)
         .stage('belief')
