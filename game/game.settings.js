@@ -72,7 +72,7 @@ let settings = {
     colors: false,
 
     // Number of fixed points.
-    fixedFee: 10,
+    fixedFee: 100,
 
     // competition: 'threshold' or 'tournament'.
     //   - 'threshold' will publish all images with average review > threshold
@@ -218,8 +218,7 @@ let settings = {
             exC: {
                 competition: 'threshold',
                 reward: 250
-            },
-            EXCHANGE_RATE: 1
+            }
         },
 
         threshold_select_coo: {
@@ -245,8 +244,7 @@ let settings = {
             exC: {
                 competition: 'threshold',
                 reward: 250
-            },
-            EXCHANGE_RATE: 1
+            }
         },
 
         threshold_random_com: {
@@ -257,7 +255,6 @@ let settings = {
             colors: true,
             competition: 'threshold',
             pubrule_text:  pubRules.thresholdCom,
-            payoff: 3,
             exA: {
                 competition: 'threshold',
                 reward: 250
@@ -271,9 +268,8 @@ let settings = {
             exC: {
                 competition: 'threshold',
                 reward: 250
-            },
-            EXCHANGE_RATE: 1
-                },
+            }
+        },
 
         threshold_random_coo: {
             description:
@@ -283,7 +279,6 @@ let settings = {
             colors: true,
             competition: 'threshold',
             pubrule_text:  pubRules.thresholdCoo,
-            payoff: 2,
             exA: {
                 competition: 'threshold',
                 reward: 250
@@ -297,8 +292,7 @@ let settings = {
             exC: {
                 competition: 'threshold',
                 reward: 250
-            },
-            EXCHANGE_RATE: 1
+            }
         }
 
      }

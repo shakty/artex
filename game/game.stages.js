@@ -28,11 +28,11 @@ module.exports = function(stager, settings) {
         ]
     });
 
-    stager.skip('intro');
+    // stager.skip('intro');
     stager.skip('mood');
     stager.skip('svo');
     stager.skip('demographics');
-    stager.skip('instructions');
+    // stager.skip('instructions');
     stager.skip('training_intro');
     stager.skip('training');
     stager.skip('belief');

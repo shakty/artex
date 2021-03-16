@@ -31,7 +31,7 @@ function init() {
     });
 
     node.game.money = node.widgets.append('MoneyTalks', header, {
-        currency: '', title: 'Points:', precision: 0
+        currency: '', title: 'Points:', precision: 1
     });
 
     node.game.doneButton = node.widgets.append('DoneButton', header, {

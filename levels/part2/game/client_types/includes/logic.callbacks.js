@@ -401,10 +401,11 @@ function dissemination() {
             if (s.competition === 'threshold') {
                 if (node.game.settings.com) {
                     nPubs = selected[r.ex].length;
-                    r.payoff = (node.game.settings.payoff / nPubs).toFixed(2);
+
+                    r.payoff = (s.reward / nPubs).toFixed(2);
                 }
                 else {
-                    r.payoff = node.game.settings.payoff;
+                    r.payoff = s.reward;
                 }
             }
             // 'tournament'
