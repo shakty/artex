@@ -117,7 +117,7 @@ let settings = {
         //     return 50000;
         // },
         creation: 50000,
-        submission: 2000000,
+        submission: 20000,
         evaluation: function() {
             var round;
             round = this.getRound();

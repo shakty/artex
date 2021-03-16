@@ -179,9 +179,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
             saveOptions = { flag: 'a' };
 
             // Save data.
-            node.game.memory.save(path.join(gameRoom.dataDir,
-                                           'artex_part2.json'),
-                                  saveOptions);
+            node.game.memory.save('artex_part2.json', saveOptions);
 
             // Write bonus file headers.
             cbs.appendToBonusFile();
@@ -252,8 +250,7 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 db = node.game.memory.pquest[msg.from];
                 if (db) {
                     // This should always exist, only when debugging.
-                    db.save(path.join(gameRoom.dataDir, 'artex_quest.json'),
-                            saveOptions);
+                    db.save('artex_quest.json', saveOptions);
                 }
 
                 // Saving tot bonus for player.

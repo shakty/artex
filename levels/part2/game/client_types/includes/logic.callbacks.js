@@ -402,7 +402,7 @@ function dissemination() {
                 if (node.game.settings.com) {
                     nPubs = selected[r.ex].length;
 
-                    r.payoff = (s.reward / nPubs).toFixed(2);
+                    r.payoff = Number((s.reward / nPubs).toFixed(2));
                 }
                 else {
                     r.payoff = s.reward;
