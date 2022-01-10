@@ -33,10 +33,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     // stager.setDefaultProperty('done', cbs.clearFrame);
     stager.setDefaultStepRule(stepRules.SOLO);
 
-    stager.extendStep('intro', {
-        frame: 'intro.html'
-    });
-
     stager.extendStep('mood', {
         init: function() {
             this.mood = node.widgets.get('MoodGauge', {
@@ -45,7 +41,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 required: true
             });
         },
-        frame: 'mood.html',
         done: function() {
             var values;
             values = this.mood.getValues();
@@ -61,7 +56,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 required: true
             });
         },
-        frame: 'svo.html',
         done: function() {
             var values;
             values = this.svo.getValues();
@@ -160,16 +154,8 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
         }
     });
 
-    stager.extendStep('instr_images', {
-        frame: 'instr_images.html'
-    });
-
-    stager.extendStep('training_intro', {
-        frame: 'training_intro.html'
-    });
 
     stager.extendStep('training', {
-        frame: 'training.html',
         cb: function() {
             var round;
             round = node.player.stage.round;
@@ -201,7 +187,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
                 requiredChoice: true
             });
         },
-        frame: 'belief.html',
         done: function() {
             var values;
             values = this.belief.getValues({ highlight: true });
@@ -211,7 +196,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
     });
 
     stager.extendStep('finished_part1', {
-        frame: 'finished_part1.html',
         done: function() {
             console.log('finished_part1');
             node.say('finished_part1');
@@ -235,10 +219,6 @@ module.exports = function(treatmentName, settings, stager, setup, gameRoom) {
 
     // Remove for live game.
     // game.events = { dumpEvents: true };
-
-    game.window = setup.window;
-
-    game.nodename = 'player';
 
     return game;
 };

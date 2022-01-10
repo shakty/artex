@@ -73,3 +73,9 @@ div#done_box button {
     display: block;
     margin: 0 auto;
 }
+
+/* V7 */
+
+.errbox {
+    border: 0px !important;
+}

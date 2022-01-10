@@ -255,6 +255,7 @@ let settings = {
             colors: true,
             competition: 'threshold',
             pubrule_text:  pubRules.thresholdCom,
+            payoff: 3,
             exA: {
                 competition: 'threshold',
                 reward: 250
@@ -279,6 +280,7 @@ let settings = {
             colors: true,
             competition: 'threshold',
             pubrule_text:  pubRules.thresholdCoo,
+            payoff: 2,
             exA: {
                 competition: 'threshold',
                 reward: 250
