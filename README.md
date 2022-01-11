@@ -6,7 +6,6 @@ Source code for the [nodeGame](https://nodegame.org) game Art Exbition Game, as 
 
 2- Balietti, S., Goldstone, R.L., and Helbing, D. (2016) "[Peer Review and Competition in the Art Exhibition Game](https://www.pnas.org/content/113/30/8414)", Proceedings of the National Academy of Sciences (PNAS) Volume 113, Number 30, pp. 8414-8419
 
-Numbers
 
 ## Installation
 
