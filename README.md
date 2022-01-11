@@ -1,6 +1,6 @@
 # Art Exhibition Game
 
-Source code for the [nodeGame] game Art Exbition Game, as in the following academic papers:
+Source code for the [nodeGame](https://nodegame.org) game Art Exbition Game, as in the following academic papers:
 
 1- Balietti, S. and Riedl C. (2021) ["Incentives, competition, and inequality in markets for creative production"](https://www.sciencedirect.com/science/article/pii/S0048733321000160?dgcid=author), Research Policy Volume 50, Issue 4
 
